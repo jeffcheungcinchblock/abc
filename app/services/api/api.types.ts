@@ -1,7 +1,11 @@
 import { GeneralApiProblem } from "./api-problem"
-import { Character } from "../../models/character/character"
 
 export interface User {
+  id: number
+  name: string
+}
+
+export interface Character {
   id: number
   name: string
 }

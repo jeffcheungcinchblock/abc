@@ -10169,21 +10169,6 @@ mkdirp@^0.5.1, mkdirp@^0.5.3, mkdirp@~0.5.1:
   dependencies:
     minimist "^1.2.6"
 
-mobx-react-lite@3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/mobx-react-lite/-/mobx-react-lite-3.2.0.tgz#331d7365a6b053378dfe9c087315b4e41c5df69f"
-  integrity sha512-q5+UHIqYCOpBoFm/PElDuOhbcatvTllgRp3M1s+Hp5j0Z6XNgDbgqxawJ0ZAUEyKM8X1zs70PCuhAIzX1f4Q/g==
-
-mobx-state-tree@5.0.1:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/mobx-state-tree/-/mobx-state-tree-5.0.1.tgz#d495725fe11075d8fde8f02ab65db6736b44e014"
-  integrity sha512-XZafwF1sJe6sp8L1kgf9Tz0SLo/UPf2pxsonnHaBQNsqbebw+0GC+IT3WxPEIe0/aQ73q4nY4SRgW1uyfd1KRA==
-
-mobx@6.1.8:
-  version "6.1.8"
-  resolved "https://registry.yarnpkg.com/mobx/-/mobx-6.1.8.tgz#5d03cb76d8f7694dd82bfb2578d886945b66450d"
-  integrity sha512-U4yCvUeh6yKXRwFxm2lyJjXPVekOEar/R8ZKWAXem/3fthJqYflViawfjDAUh7lZEvbKqljC3NT/pSaUKpE+gg==
-
 moment@^2.19.3:
   version "2.29.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.1.tgz#b2be769fa31940be9eeea6469c075e35006fa3d3"
@@ -12215,13 +12200,6 @@ reactotron-core-client@2.8.9:
   version "2.8.9"
   resolved "https://registry.yarnpkg.com/reactotron-core-client/-/reactotron-core-client-2.8.9.tgz#79b96c69c017a036129a7cbce2ce6b3729995cfc"
   integrity sha512-IAfNEst/VrWC4b5kOWkHLV0xCwM5n3Pd8q59ueotg1Tql81HnhCeHW1/lCPaaNh2B3/Eh3rAXuiM3yYWvdU36g==
-
-reactotron-mst@3.1.4:
-  version "3.1.4"
-  resolved "https://registry.yarnpkg.com/reactotron-mst/-/reactotron-mst-3.1.4.tgz#d1f1169c4f8eb04e448ddbc089969cf9e0f6c3b7"
-  integrity sha512-dRFMcWbGpXKx7o6mWfHNyh+JwLh5kaOwhlX478K+Tc/e+8OeUO9ku56PqkcrMZh005ntIcvDjBgj3mq4la1J6A==
-  dependencies:
-    ramda "^0.25.0"
 
 reactotron-react-js@^3.3.7:
   version "3.3.7"

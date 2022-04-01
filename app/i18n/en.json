@@ -10,7 +10,8 @@
   "welcomeScreen": {
     "poweredBy": "POWERED BY IGNITE",
     "readyForLaunch": "Ready for launch.",
-    "continue": "CONTINUE"
+    "continue": "CONTINUE",
+    "waitlist": "WAITLIST"
   },
   "demoScreen": {
     "howTo": "HOW TO",

@@ -1,6 +1,5 @@
 import * as React from "react"
 import { StyleProp, TextStyle, View, ViewStyle } from "react-native"
-import { observer } from "mobx-react-lite"
 import { color, typography } from "../../theme"
 import { Text } from "../text/text"
 
@@ -24,7 +23,7 @@ export interface <%= props.pascalCaseName %>Props {
 /**
  * Describe your component here
  */
-export const <%= props.pascalCaseName %> = observer(function <%= props.pascalCaseName %>(props: <%= props.pascalCaseName %>Props) {
+export const <%= props.pascalCaseName %> = function <%= props.pascalCaseName %>(props: <%= props.pascalCaseName %>Props) {
   const { style } = props
   const styles = Object.assign({}, CONTAINER, style)
 
@@ -33,4 +32,4 @@ export const <%= props.pascalCaseName %> = observer(function <%= props.pascalCas
       <Text style={TEXT}>Hello</Text>
     </View>
   )
-})
+}

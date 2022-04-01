@@ -1,10 +1,8 @@
-import React, { useEffect, FC } from "react"
+import React, { FC } from "react"
 import { FlatList, TextStyle, View, ViewStyle, ImageStyle } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
-import { observer } from "mobx-react-lite"
 import { Header, Screen, Text, AutoImage as Image, GradientBackground } from "../../components"
 import { color, spacing } from "../../theme"
-import { useStores } from "../../models"
 import { NavigatorParamList } from "../../navigators"
 
 const FULL: ViewStyle = {
@@ -42,20 +40,9 @@ const FLAT_LIST: ViewStyle = {
   paddingHorizontal: spacing[4],
 }
 
-export const DemoListScreen: FC<StackScreenProps<NavigatorParamList, "demoList">> = observer(
+export const DemoListScreen: FC<StackScreenProps<NavigatorParamList, "demoList">> = 
   ({ navigation }) => {
     const goBack = () => navigation.goBack()
-
-    const { characterStore } = useStores()
-    const { characters } = characterStore
-
-    useEffect(() => {
-      async function fetchData() {
-        await characterStore.getCharacters()
-      }
-
-      fetchData()
-    }, [])
 
     return (
       <View testID="DemoListScreen" style={FULL}>
@@ -70,7 +57,7 @@ export const DemoListScreen: FC<StackScreenProps<NavigatorParamList, "demoList">
           />
           <FlatList
             contentContainerStyle={FLAT_LIST}
-            data={[...characters]}
+            data={[]}
             keyExtractor={(item) => String(item.id)}
             renderItem={({ item }) => (
               <View style={LIST_CONTAINER}>
@@ -84,5 +71,4 @@ export const DemoListScreen: FC<StackScreenProps<NavigatorParamList, "demoList">
         </Screen>
       </View>
     )
-  },
-)
+  }

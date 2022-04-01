@@ -1,7 +1,6 @@
 import React, { FC } from "react"
 import { ImageStyle, Platform, TextStyle, View, ViewStyle } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
-import { observer } from "mobx-react-lite"
 import {
   BulletItem,
   Button,
@@ -93,7 +92,7 @@ const platformCommand = Platform.select({
   android: "Cmd/Ctrl + M",
 })
 
-export const DemoScreen: FC<StackScreenProps<NavigatorParamList, "demo">> = observer(
+export const DemoScreen: FC<StackScreenProps<NavigatorParamList, "demo">> =
   ({ navigation }) => {
     const goBack = () => navigation.goBack()
 
@@ -178,5 +177,4 @@ export const DemoScreen: FC<StackScreenProps<NavigatorParamList, "demo">> = obse
         </Screen>
       </View>
     )
-  },
-)
+  }
