@@ -5,7 +5,13 @@ import { PersistGate } from 'redux-persist/lib/integration/react'
 import { store, persistor } from '@/Store'
 import ApplicationNavigator from '@/Navigators/Application'
 import './Translations'
+import { LogBox } from 'react-native';
+import WalletConnectProvider from '@walletconnect/react-native-dapp';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
+LogBox.ignoreLogs([
+  "[react-native-gesture-handler] Seems like you\'re using an old API with gesture components, check out new Gestures system!",
+]);
 const App = () => (
   <Provider store={store}>
     {/**
@@ -15,6 +21,7 @@ const App = () => (
      * for example `loading={<SplashScreen />}`.
      * @see https://github.com/rt2zz/redux-persist/blob/master/docs/PersistGate.md
      */}
+     
     <PersistGate loading={null} persistor={persistor}>
       <ApplicationNavigator />
     </PersistGate>

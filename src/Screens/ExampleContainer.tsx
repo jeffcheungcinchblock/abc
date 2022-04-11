@@ -7,17 +7,38 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native'
-import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Brand } from '@/Components'
 import { useTheme } from '@/Hooks'
 import { useLazyFetchOneQuery } from '@/Services/modules/users'
 import { changeTheme, ThemeState } from '@/Store/Theme'
+import { login, logout } from '@/Store/Users/actions'
+import { UserState } from '@/Store/Users/reducer'
+
+
+import {
+  CognitoUserPool,
+  CognitoUser,
+  AuthenticationDetails,
+  CognitoAccessToken,
+  CognitoIdToken,
+  CognitoRefreshToken,
+  CognitoUserSession,
+
+} from 'amazon-cognito-identity-js';
+import { shallowEqual, useDispatch, useSelector } from "react-redux"
+import { config } from '@/Utils/constants'
+import EncryptedStorage from 'react-native-encrypted-storage'
+
 
 const ExampleContainer = () => {
   const { t } = useTranslation()
   const { Common, Fonts, Gutters, Layout } = useTheme()
   const dispatch = useDispatch()
+
+  const { isLogin, username } = useSelector(
+    (state: { user: UserState }) => state.user
+  )
 
   const [userId, setUserId] = useState('9')
   const [
@@ -33,6 +54,11 @@ const ExampleContainer = () => {
     dispatch(changeTheme({ theme, darkMode }))
   }
 
+  const onAutoPress = async() => {
+    await EncryptedStorage.removeItem("user_session_info")
+    dispatch(logout())
+  }
+
   return (
     <ScrollView
       style={Layout.fill}
@@ -42,9 +68,10 @@ const ExampleContainer = () => {
         Gutters.smallHPadding,
       ]}
     >
+
+
       <View style={[[Layout.colCenter, Gutters.smallHPadding]]}>
         <Brand />
-        {(isLoading || isFetching) && <ActivityIndicator />}
         {!isSuccess ? (
           <Text style={Fonts.textRegular}>{error}</Text>
         ) : (
@@ -53,6 +80,8 @@ const ExampleContainer = () => {
           </Text>
         )}
       </View>
+
+      
       <View
         style={[
           Layout.row,
@@ -79,7 +108,7 @@ const ExampleContainer = () => {
 
       <TouchableOpacity
         style={[Common.button.rounded, Gutters.regularBMargin]}
-        onPress={() => onChangeTheme({ darkMode: null })}
+        onPress={onAutoPress}
       >
         <Text style={Fonts.textRegular}>Auto</Text>
       </TouchableOpacity>

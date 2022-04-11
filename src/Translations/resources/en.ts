@@ -1,4 +1,10 @@
 export default {
+  tabBarLabels: {
+    home: "Home",
+    marketplace: "MarketPlace",
+    social: "Social",
+    breeding: "Breeding"
+  },
   welcome: 'Welcome to React Native DragonDappRN by TheCodingMachine',
   actions: {
     continue: 'Continue',
@@ -8,5 +14,11 @@ export default {
     labels: {
       userId: 'Enter a user id',
     },
+  },
+  signInScreen: {
+    screenTitle: "Sign In"
+  },
+  signUpScreen: {
+    screenTitle: "Sign Up"
   },
 }

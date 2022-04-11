@@ -16,6 +16,8 @@ import { setupListeners } from '@reduxjs/toolkit/query'
 import { api } from '@/Services/api'
 import * as modules from '@/Services/modules'
 import theme from './Theme'
+import userReducer from '@/Store/Users/reducer'
+
 
 const reducers = combineReducers({
   theme,
@@ -26,6 +28,9 @@ const reducers = combineReducers({
     }),
     {},
   ),
+  user: userReducer,
+  // new reducers to be added here
+
 })
 
 const persistConfig = {
@@ -59,3 +64,7 @@ const persistor = persistStore(store)
 setupListeners(store.dispatch)
 
 export { store, persistor }
+
+export type RootState = ReturnType<typeof store.getState>
+// Inferred type: {users: UsersState}
+export type AppDispatch = typeof store.dispatch
