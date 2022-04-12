@@ -4,7 +4,7 @@ module.exports = {
   },
   root: true,
   extends: ['@react-native-community'],
-  plugins: ['jest'],
+  plugins: ['jest','prettier'],
   rules: {
     semi: ['error', 'never'],
     'object-curly-spacing': ['error', 'always'],
