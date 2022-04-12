@@ -6,4 +6,6 @@ export abstract class GeneralHealthKit {
   abstract GetCaloriesBurned(startDate: Date, endDate: Date): Promise<number>
   abstract GetHeartRates(startDate: Date, endDate: Date): Promise<any[]>
   abstract GetWorkoutSession(startDate: Date, endDate: Date): Promise<any[]>
+  abstract StartSessionListener(setState: Function, setDist:Function): void
+  abstract StopSessionListener(): void
 }

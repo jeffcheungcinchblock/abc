@@ -104,4 +104,7 @@ export class IOSHealthKit extends GeneralHealthKit {
   GetWorkoutSession(startDate: Date, endDate: Date) {
     return new Promise<[]>(resolve => resolve([]))
   }
+  StartSessionListener() {
+    return new Promise<boolean>(resolve => resolve(true))
+  }
 }

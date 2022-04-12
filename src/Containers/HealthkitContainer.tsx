@@ -30,7 +30,9 @@ const HealthkitContainer = () => {
   const [workout, setWorkout] = useState({})
   const isIOS = Platform.OS === 'ios'
   const health_kit = isIOS ? new IOSHealthKit() : new GoogleFitKit()
-  health_kit
+
+  useEffect(() => {
+    health_kit
     .InitHealthKitPermission()
     .then(val => {
       console.log(val)
@@ -39,6 +41,8 @@ const HealthkitContainer = () => {
       console.error(err)
     })
   console.log('isIOS', isIOS)
+  }, [])
+
   const UpdateHealthData = async () => {
     UpdateSteps()
     UpdateDistances()
@@ -90,6 +94,15 @@ const HealthkitContainer = () => {
       })
   }
 
+  const StartSessionListener = () => {
+    setDist(0)
+    setStep(0)
+    health_kit.StartSessionListener(setStep,setDist)
+  }
+  const StopSessionListener = () => {
+    health_kit.StopSessionListener()
+  }
+
   return (
     <ScrollView
       style={Layout.fill}
@@ -116,10 +129,27 @@ const HealthkitContainer = () => {
         style={[Common.button.rounded, Gutters.regularBMargin]}
         onPress={UpdateHealthData}
       >
+
+
         <Text style={Fonts.textRegular}>Update Health Data</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={[Common.button.rounded, Gutters.regularBMargin]}
+        onPress={()=>StartSessionListener()}
+       >
+          <Text style={Fonts.textRegular}>Work</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[Common.button.rounded, Gutters.regularBMargin]}
+        onPress={StopSessionListener}
+       >
+          <Text style={Fonts.textRegular}>End Workk</Text>
       </TouchableOpacity>
       <Text>Steps : {step}</Text>
       <Text>Distance : {dist}</Text>
+
+
       {/* <Text>HeartRate : {heartRate}</Text>
             <Text>Workout : {workout}</Text> */}
     </ScrollView>

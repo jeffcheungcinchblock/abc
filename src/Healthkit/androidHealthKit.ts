@@ -1,6 +1,8 @@
 // import { resolveConfig } from 'prettier'
+// import { CALLBACK_TYPE } from 'react-native-gesture-handler/lib/typescript/handlers/gestures/gesture'
 import GoogleFit, { Scopes } from 'react-native-google-fit'
 import { GeneralHealthKit } from './generalHealthKit'
+import { check, request,RESULTS, PERMISSIONS } from 'react-native-permissions'
 
 const options = {
   scopes: [
@@ -145,4 +147,56 @@ export class GoogleFitKit extends GeneralHealthKit {
         })
     })
   }
+
+  endLoading(){
+    console.log('start recording')
+  }
+
+
+
+//   countStep(){
+//     let step = 0
+//     GoogleFit.observeSteps(async function(result:any,isError){
+//       // console.log('isError',isError)
+//       step = step + result.steps
+// }
+//       )
+//   }
+
+
+
+  StartSessionListener(setStep:Function, setDist:Function) {
+    console.log('check')
+    check(PERMISSIONS.ANDROID.ACTIVITY_RECOGNITION).then((result)=>{
+    if (result === RESULTS.DENIED){
+        request(PERMISSIONS.ANDROID.ACTIVITY_RECOGNITION).then((res)=>{
+         console.log(res)
+        })
+      }
+      if (result === RESULTS.GRANTED){
+        console.log('Granted')
+      }
+    })
+
+    GoogleFit.startRecording(function(result){
+      let step = 0
+      if (result.recording === true){
+        console.log('start record distance')
+      GoogleFit.observeSteps(function(res:any,isError){
+        if (isError){
+          console.log(isError)
+        }
+
+        step = step + res.steps
+        setStep(step)
+      })
+    }
+    }, ['distance'])
+  }
+
+  StopSessionListener(){
+    GoogleFit.unsubscribeListeners()
+  }
+
+
 }
