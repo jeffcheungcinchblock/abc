@@ -1,11 +1,16 @@
-import AppleHealthKit, { HealthValue, HealthKitPermissions } from "react-native-health"
-import { GeneralHealthKit } from "./generalHealthKit"
+import AppleHealthKit, { HealthValue, HealthKitPermissions, HealthObserver } from "react-native-health"
+import { GeneralHealthKit } from './generalHealthKit';
+import { NativeAppEventEmitter, NativeEventEmitter, NativeModules } from 'react-native';
+import appleHealthKit from "react-native-health"
 
 const permissions = {
     permissions: {
         read: [
             AppleHealthKit.Constants.Permissions.Steps,
             AppleHealthKit.Constants.Permissions.DistanceWalkingRunning,
+            AppleHealthKit.Constants.Permissions.HeartRate,
+            AppleHealthKit.Constants.Observers.Walking,
+            AppleHealthKit.Constants.Observers.HeartRate
         ],
         write: [AppleHealthKit.Constants.Permissions.Steps],
     },
@@ -31,7 +36,6 @@ export class IOSHealthKit extends GeneralHealthKit {
     GetAuthorizeStatus() {
         return new Promise<boolean>((resolve) => {
             AppleHealthKit.getAuthStatus(permissions, (err, results) => {
-                console.log(err, results)
                 resolve(true)
             })
         })
@@ -89,7 +93,6 @@ export class IOSHealthKit extends GeneralHealthKit {
                     if (err) {
                         return
                     }
-                    console.log(results)
                     resolve(results)
                 },
             )
@@ -97,5 +100,18 @@ export class IOSHealthKit extends GeneralHealthKit {
     }
     GetWorkoutSession(startDate: Date, endDate: Date) {
         return new Promise<[]>(resolve => resolve([]))
+    }
+    StartWorkoutSession() {
+        console.log('Starts')
+        NativeAppEventEmitter.addListener('healthKit:HeartRate:setup:success', () => console.log('set up success'))
+        NativeAppEventEmitter.addListener('healthKit:HeartRate:setup:failure', () => console.log('set up failure'))
+        NativeAppEventEmitter.addListener('healthKit:HeartRate:new', () => console.log('new'))
+        NativeAppEventEmitter.addListener('healthKit:HeartRate:failure', () => console.log('failure'))
+        // console.log(NativeModules, NativeModules.RCTAppleHealthKit)
+        // const nee = new NativeEventEmitter(NativeModules.RCTAppleHealthKit)
+        // nee.addListener('healthKit:HeartRate:setup:success', callback)
+        // nee.addListener('healthKit:HeartRate:new', callback)
+        // nee.addListener('healthKit:HeartRate:setup:failure', callback)
+        // nee.addListener('healthKit:HeartRate:failure', callback)
     }
 }

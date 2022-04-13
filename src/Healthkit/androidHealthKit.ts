@@ -14,11 +14,13 @@ const options = {
     ],
 }
 export class GoogleFitKit extends GeneralHealthKit {
+    StartWorkoutSession() {
+        throw new Error("Method not implemented.")
+    }
     InitHealthKitPermission() {
         return new Promise<boolean>((resolve) => {
             GoogleFit.authorize(options)
                 .then((authResult: any) => {
-                    console.log(authResult)
                     if (authResult.success) {
                         resolve(true)
                     } else {

@@ -21,7 +21,6 @@ import Buttons from '@/Theme/components/Buttons'
 
 const HealthkitContainer = () => {
     const { Common, Fonts, Gutters, Layout, Images, Colors } = useTheme()
-    console.log('hihihi')
     const [step, setStep] = useState(-1)
     const [dist, setDist] = useState(-1)
     const [calories, setCalories] = useState(-1)
@@ -30,15 +29,24 @@ const HealthkitContainer = () => {
     const [workout, setWorkout] = useState({})
     const isIOS = Platform.OS === "ios"
     const health_kit = isIOS ? new IOSHealthKit() : new GoogleFitKit()
-    health_kit.InitHealthKitPermission()
-        .then(val => {
-            console.log(val)
+    health_kit.GetAuthorizeStatus()
+        .then(isAuthorize => {
+            if (!isAuthorize) {
+            }
         })
         .catch(err => {
             console.error(err)
         })
-    console.log('isIOS', isIOS)
+    health_kit.InitHealthKitPermission()
+        .then(val => {
+            console.log('InitHealthKitPermission', val)
+        })
+        .catch(err => {
+            console.error(err)
+        })
+    // console.log('isIOS', isIOS)
     const UpdateHealthData = async () => {
+        console.log('call Update')
         UpdateSteps()
         UpdateDistances()
         UpdateCalories()
@@ -92,6 +100,12 @@ const HealthkitContainer = () => {
                 onPress={UpdateHealthData}
             >
                 <Text style={Fonts.textRegular}>Update Health Data</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={[Common.button.rounded, Gutters.regularBMargin]}
+                onPress={health_kit.StartWorkoutSession}
+            >
+                <Text style={Fonts.textRegular}>Start Workout Session</Text>
             </TouchableOpacity>
             <Text>Steps : {step}</Text>
             <Text>Distance : {dist}</Text>
