@@ -16,6 +16,7 @@ const options = {
   ],
 }
 export class GoogleFitKit extends GeneralHealthKit {
+<<<<<<< HEAD
   InitHealthKitPermission() {
     return new Promise<boolean>(resolve => {
       GoogleFit.authorize(options)
@@ -27,6 +28,25 @@ export class GoogleFitKit extends GeneralHealthKit {
             console.log(authResult.message)
             resolve(false)
           }
+=======
+    StartWorkoutSession() {
+        throw new Error("Method not implemented.")
+    }
+    InitHealthKitPermission() {
+        return new Promise<boolean>((resolve) => {
+            GoogleFit.authorize(options)
+                .then((authResult: any) => {
+                    if (authResult.success) {
+                        resolve(true)
+                    } else {
+                        console.log(authResult.message)
+                        resolve(false)
+                    }
+                })
+                .catch(() => {
+                    resolve(false)
+                })
+>>>>>>> 7ee512ad0b0a21eb6725f381fb130542e4fcc1c6
         })
         .catch(() => {
           resolve(false)

@@ -6522,10 +6522,10 @@
   dependencies:
     "moment" "2.29.1"
 
-"react-native-health@^1.12.0":
-  "integrity" "sha512-2iLmFy+jyqIhuOKOR3U/MYmdhMDoFDYf1ploblgG2ufDsnAWLd7FMO9D6OMQvzwXtd9VQvoAfsjb5UicsqY8Yw=="
-  "resolved" "https://registry.npmjs.org/react-native-health/-/react-native-health-1.12.0.tgz"
-  "version" "1.12.0"
+"react-native-health@1.10.0":
+  "integrity" "sha512-qfrxiErQ8x9P7f7VAOHpiafxpmQw5bYFWAXScu2Wu/Aj/xwB1eSOCVRmmVZqSFQ35+KYuMee/qOqkkLnQx3rGQ=="
+  "resolved" "https://registry.npmjs.org/react-native-health/-/react-native-health-1.10.0.tgz"
+  "version" "1.10.0"
   dependencies:
     "@expo/config-plugins" "^2.0.0"
 
