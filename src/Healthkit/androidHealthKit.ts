@@ -2,7 +2,7 @@
 // import { CALLBACK_TYPE } from 'react-native-gesture-handler/lib/typescript/handlers/gestures/gesture'
 import GoogleFit, { Scopes } from 'react-native-google-fit'
 import { GeneralHealthKit } from './generalHealthKit'
-import { check, request,RESULTS, PERMISSIONS } from 'react-native-permissions'
+import  { check, request,RESULTS, PERMISSIONS } from 'react-native-permissions'
 
 const options = {
   scopes: [
@@ -16,43 +16,23 @@ const options = {
   ],
 }
 export class GoogleFitKit extends GeneralHealthKit {
-<<<<<<< HEAD
-  InitHealthKitPermission() {
-    return new Promise<boolean>(resolve => {
-      GoogleFit.authorize(options)
-        .then((authResult: any) => {
-          console.log(authResult)
-          if (authResult.success) {
-            resolve(true)
-          } else {
-            console.log(authResult.message)
-            resolve(false)
-          }
-=======
-    StartWorkoutSession() {
-        throw new Error("Method not implemented.")
-    }
-    InitHealthKitPermission() {
-        return new Promise<boolean>((resolve) => {
-            GoogleFit.authorize(options)
-                .then((authResult: any) => {
-                    if (authResult.success) {
-                        resolve(true)
-                    } else {
-                        console.log(authResult.message)
-                        resolve(false)
-                    }
-                })
-                .catch(() => {
-                    resolve(false)
-                })
->>>>>>> 7ee512ad0b0a21eb6725f381fb130542e4fcc1c6
+
+InitHealthKitPermission() {
+console.log('init, permission')
+return new Promise<boolean>((resolve) => {
+GoogleFit.authorize(options).then((authResult: any) => {
+      if (authResult.success) {
+        resolve(true)
+      } else {
+        console.log(authResult.message)
+        resolve(false)
+      }
+      }).catch(() => {
+        resolve(false)
         })
-        .catch(() => {
-          resolve(false)
-        })
-    })
-  }
+})
+}
+
 
   GetAuthorizeStatus() {
     return new Promise<boolean>(resolve => {
@@ -168,25 +148,9 @@ export class GoogleFitKit extends GeneralHealthKit {
     })
   }
 
-  endLoading(){
-    console.log('start recording')
-  }
 
+  StartWorkoutSession(startDate:any, setStep:Function, setDist:Function) {
 
-
-//   countStep(){
-//     let step = 0
-//     GoogleFit.observeSteps(async function(result:any,isError){
-//       // console.log('isError',isError)
-//       step = step + result.steps
-// }
-//       )
-//   }
-
-
-
-  StartSessionListener(setStep:Function, setDist:Function) {
-    console.log('check')
     check(PERMISSIONS.ANDROID.ACTIVITY_RECOGNITION).then((result)=>{
     if (result === RESULTS.DENIED){
         request(PERMISSIONS.ANDROID.ACTIVITY_RECOGNITION).then((res)=>{
@@ -198,24 +162,48 @@ export class GoogleFitKit extends GeneralHealthKit {
       }
     })
 
-    GoogleFit.startRecording(function(result){
-      let step = 0
-      if (result.recording === true){
-        console.log('start record distance')
-      GoogleFit.observeSteps(function(res:any,isError){
-        if (isError){
-          console.log(isError)
-        }
 
-        step = step + res.steps
-        setStep(step)
-      })
-    }
-    }, ['distance'])
+
+    GoogleFit.checkIsAuthorized()
+      .then(() => {
+        if (!GoogleFit.isAuthorized){
+          return this.InitHealthKitPermission()
+        }}).then(()=>{
+          GoogleFit.startRecording(function(result){
+            console.log(result)
+            let step = 0
+            if (result.recording === true){
+              console.log('start record distance')
+            GoogleFit.observeSteps(function(res:any,isError){
+              if (isError){
+                console.log(isError)
+              }
+              const distOption = {
+                startDate: startDate.toISOString(),
+                endDate : new Date().toISOString(),
+              }
+
+              step = step + res.steps
+              if (step > 10){
+                console.log('backgound')
+              }
+            GoogleFit.getDailyDistanceSamples(distOption).then((dist:any)=>{
+              console.log('dist',dist.distance)
+              setDist(dist[0].distance)
+              setStep(step)
+
+            })
+            })
+          }
+          },['distance'])
+        })
+
+
   }
 
-  StopSessionListener(){
+  StopWorkoutSession(){
     GoogleFit.unsubscribeListeners()
+    console.log('end')
   }
 
 
