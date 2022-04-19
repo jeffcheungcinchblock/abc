@@ -1,10 +1,10 @@
 
 export enum RouteTabs {
-        breeding = "breeding",
-        home = "home",
-        social = "social",
-        marketplace = "marketplace"
-    
+    breeding = "breeding",
+    home = "home",
+    social = "social",
+    marketplace = "marketplace"
+
 }
 
 
@@ -21,12 +21,15 @@ export enum RouteStacks {
     homeReferral = "homeReferral",
 
     breedingMain = "breedingMain",
-    
+
 
     socialMain = "socialMain",
 
 
     marketplaceMain = "marketplaceMain",
+    
+    // drawer
+    setting = "setting"
 
 }
 

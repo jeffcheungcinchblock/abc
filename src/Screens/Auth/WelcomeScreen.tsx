@@ -105,6 +105,8 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
                 Layout.fill,
                 Layout.colCenter,
                 Gutters.smallHPadding,
+                {
+                }
             ]}
         >
             <View style={{
@@ -117,7 +119,7 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
                 <Text>Welcome</Text>
 
                 <TouchableOpacity onPress={onSignInPress}>
-                    <Text>Sign in</Text>
+                    <Text style={{color: "#fff"}}>Sign in</Text>
                 </TouchableOpacity>
             </View>
 

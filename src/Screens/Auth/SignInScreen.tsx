@@ -286,7 +286,7 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
 
             <View style={[Layout.fullWidth, Layout.center]}>
                 <TouchableOpacity style={[Layout.fullWidth, Layout.center]} onPress={onSignUpPress}>
-                    <Text>Sign up</Text>
+                    <Text style={{color:"#fff"}}>Sign up</Text>
                 </TouchableOpacity>
             </View>
 
