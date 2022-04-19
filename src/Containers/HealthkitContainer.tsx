@@ -34,6 +34,10 @@ const HealthkitContainer = () => {
     const [workout, setWorkout] = useState({})
     const [latitude, setLatitude] = useState<number|null>(null)
     const [longitude, setLongitude] = useState<number|null>(null)
+
+    const latRef = useRef(latitude)
+    const lngRef = useRef(longitude)
+    const distRef = useRef(dist)
     const [events, setEvents] = React.useState<any[]>([])
 
     const isIOS = Platform.OS === 'ios'
@@ -41,11 +45,10 @@ const HealthkitContainer = () => {
 
     const [enabled, setEnabled] = React.useState(false)
 
-    const distance = (lat1: number, lon1: number) => {
-      console.log(latitude, longitude ,'latitude')
-      if (!latitude || !longitude) {return 0}
-      let lon2 = longitude
-      let lat2 = latitude
+    const distance = (lat1: number, lon1: number, lat2:number , lon2:number) => {
+      if (!lat1 || !lon1 || !lat2 || !lon2) {
+        return 0
+      }
       lon1 =  lon1 * Math.PI / 180
       lon2 = lon2 * Math.PI / 180
       lat1 = lat1 * Math.PI / 180
@@ -64,23 +67,30 @@ const HealthkitContainer = () => {
       let r = 6371
 
       // calculate the result
-      return (c * r)
+      return (c * r * 1000)
     }
 
 
+  useEffect(() => { latRef.current = latitude })
+  useEffect(()=>{ lngRef.current = longitude})
+  useEffect(()=>{distRef.current = dist})
   useEffect(() => {
     console.log('start init background geo')
     /// 1.  Subscribe to events.
     const onLocation:Subscription = BackgroundGeolocation.onLocation((location) => {
       console.log('[event] location', location)
-      console.log(latitude, longitude)
+      console.log(latRef.current,lngRef.current, location.coords.latitude, location.coords.longitude )
       setLatitude(location.coords.latitude)
       setLongitude(location.coords.longitude)
+      console.log('old dist', distRef.current)
+      const newDist = distance(latRef.current, lngRef.current, location.coords.latitude, location.coords.longitude)
+      console.log('new dist ', newDist)
+      setDist(distRef.current + newDist)
     })
 
     BackgroundGeolocation.ready({
       desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
-      distanceFilter: 5,
+      distanceFilter: 1,
       stopTimeout: 5,
       debug: true, // <-- enable this hear sounds for background-geolocation life-cycle.
       logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
