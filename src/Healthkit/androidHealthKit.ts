@@ -3,6 +3,7 @@
 import GoogleFit, { Scopes } from 'react-native-google-fit'
 import { GeneralHealthKit } from './generalHealthKit'
 import  { check, request,RESULTS, PERMISSIONS } from 'react-native-permissions'
+import Geolocation from 'react-native-geolocation-service'
 
 const options = {
   scopes: [
@@ -150,7 +151,6 @@ GoogleFit.authorize(options).then((authResult: any) => {
 
 
   StartWorkoutSession(startDate:any, setStep:Function, setDist:Function) {
-
     check(PERMISSIONS.ANDROID.ACTIVITY_RECOGNITION).then((result)=>{
     if (result === RESULTS.DENIED){
         request(PERMISSIONS.ANDROID.ACTIVITY_RECOGNITION).then((res)=>{
@@ -161,8 +161,6 @@ GoogleFit.authorize(options).then((authResult: any) => {
         console.log('Granted')
       }
     })
-
-
 
     GoogleFit.checkIsAuthorized()
       .then(() => {
@@ -206,5 +204,30 @@ GoogleFit.authorize(options).then((authResult: any) => {
     console.log('end')
   }
 
+  StartListenDistance(setLatitude ,setLongitude) {
+    const successCallback = (distance:any) => {
+      console.log('success')
+      console.log(distance.coords)
+      setLatitude(distance.coords.latitude)
+      setLongitude(distance.coords.longitude)
+    }
+    const errorCallBack = (error:any)=>{
+      console.log('error',error)
+    }
+    check(PERMISSIONS.ANDROID.ACCESS_BACKGROUND_LOCATION).then((result)=>{
+      if (result === RESULTS.DENIED){
+          request(PERMISSIONS.ANDROID.ACCESS_BACKGROUND_LOCATION).then((res)=>{
+           console.log('permission',res)
+          })
+        }
+        if (result === RESULTS.GRANTED){
+          console.log('Granted')
+          const options = { enableHighAccuracy: true,
+            distanceFilter :1 }
+          Geolocation.watchPosition(successCallback,errorCallBack,options)
+
+        }
+      })
+  }
 
 }

@@ -9,4 +9,6 @@ export abstract class GeneralHealthKit {
 
     abstract StartWorkoutSession(startDate: Date , setStep?:Function, setDist?:Function ): any
     abstract StopWorkoutSession(): any
+
+    abstract StartListenDistance(setLatitude:Function, setLongitude:Function): any
 }

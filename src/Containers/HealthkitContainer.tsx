@@ -27,6 +27,8 @@ const HealthkitContainer = () => {
     // const [isAuthorize, setIsAuthorize] = useState(false)
     const [heartRate, setHeartRate] = useState({})
     const [workout, setWorkout] = useState({})
+    const [latitude, setLatitude] = useState()
+    const [longitude, setLongitude] = useState()
     const isIOS = Platform.OS === 'ios'
     const health_kit = isIOS ? new IOSHealthKit() : new GoogleFitKit()
 
@@ -124,6 +126,9 @@ const HealthkitContainer = () => {
   const StopSessionListener = () => {
     health_kit.StopWorkoutSession()
   }
+  const StartListenDistance = () => {
+    health_kit.StartListenDistance(setLatitude, setLongitude)
+    }
 
   return (
     <ScrollView
@@ -168,8 +173,16 @@ const HealthkitContainer = () => {
        >
           <Text style={Fonts.textRegular}>End Workk</Text>
       </TouchableOpacity>
+      <TouchableOpacity
+        style={[Common.button.rounded, Gutters.regularBMargin]}
+        onPress={StartListenDistance}
+       >
+          <Text style={Fonts.textRegular}>Listen Workk</Text>
+      </TouchableOpacity>
       <Text>Steps : {step}</Text>
       <Text>Distance : {dist}</Text>
+      <Text>Latitude : {latitude}</Text>
+      <Text>Longitude : {longitude}</Text>
 
 
       {/* <Text>HeartRate : {heartRate}</Text>

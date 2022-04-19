@@ -103,7 +103,6 @@ export class IOSHealthKit extends GeneralHealthKit {
     StartWorkoutSession() {
       throw new Error('Not implemented')
 
-        console.log('Starts')
         NativeAppEventEmitter.addListener('healthKit:HeartRate:setup:success', () => console.log('set up success'))
         NativeAppEventEmitter.addListener('healthKit:HeartRate:setup:failure', () => console.log('set up failure'))
         NativeAppEventEmitter.addListener('healthKit:HeartRate:new', () => console.log('new'))
@@ -117,6 +116,10 @@ export class IOSHealthKit extends GeneralHealthKit {
 
     }
     StopWorkoutSession() {
+        throw new Error('Not implemented')
+    }
+
+    StartListenDistance(setLatitude: Function, setLongitude: Function) {
         throw new Error('Not implemented')
     }
 }
