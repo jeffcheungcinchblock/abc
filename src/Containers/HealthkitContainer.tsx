@@ -45,37 +45,58 @@ const HealthkitContainer = () => {
 
     const [enabled, setEnabled] = React.useState(false)
 
+    // const ios_ready_config = {
+    //     locationAuthorizationRequest : 'WhenInUse',
+    //     desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
+    //     distanceFilter: 1,
+    //     stopTimeout: 5,
+    //     debug: true, // <-- enable this hear sounds for background-geolocation life-cycle.
+    //     logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
+    //     stopOnTerminate: false,   // <-- Allow the b
+    // }
+    // const android_ready_condig = {
+    //     desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
+    //         distanceFilter: 1,
+    //         stopTimeout: 5,
+    //         debug: true, // <-- enable this hear sounds for background-geolocation life-cycle.
+    //         logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
+    //         stopOnTerminate: false,   // <-- Allow the b
+    // }
+
     useEffect(() => {
         console.log('start init background geo')
         /// 1.  Subscribe to events.
         const onLocation: Subscription = BackgroundGeolocation.onLocation((location) => {
             console.log('[event] location', location)
-            console.log('speed', location.coords.speed)
-            if (location.coords.speed && location.coords.speed > 0 && location.coords.speed < 10 && location.is_moving === true) {
-                console.log('old dist', distRef.current)
-                BackgroundGeolocation.getOdometer().then((odometer) => {
-                    console.log('[event] odometer', odometer)
-                    setDist(odometer)
-                })
-            } else {
-                console.log('not moving')
-            }
+            // if (location.coords.speed && location.coords.speed > 0 && location.coords.speed < 10 && location.is_moving === true) {
+                // console.log('old dist', distRef.current)
+            BackgroundGeolocation.getOdometer().then((odometer) => {
+                console.log('[event] odometer', odometer)
+                setDist(odometer)
+            })
+            setLatitude(location.coords.latitude)
+            setLongitude(location.coords.longitude)
         })
-
-        BackgroundGeolocation.ready({
+        const onMotionChange: Subscription = BackgroundGeolocation.onMotionChange((event) => {console.log('[event] motionchange', event)})
+            BackgroundGeolocation.ready({
+            locationAuthorizationRequest : 'WhenInUse',
             desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
-            distanceFilter: 1,
+            distanceFilter: 10,
             stopTimeout: 5,
+            isMoving: true,
             debug: true, // <-- enable this hear sounds for background-geolocation life-cycle.
             logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
             stopOnTerminate: false,   // <-- Allow the b
         }).then(() => {
-            BackgroundGeolocation.setOdometer(0).then(() => {
-                console.log('odometer set to 0')
+                BackgroundGeolocation.setOdometer(0).then(() => {
+                    console.log('odometer set to 0')
+                })
             })
-        })
+
+
         return () => {
             onLocation.remove()
+            onMotionChange.remove()
         }
     }, [])
 
