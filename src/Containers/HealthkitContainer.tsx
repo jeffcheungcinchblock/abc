@@ -45,47 +45,21 @@ const HealthkitContainer = () => {
 
     const [enabled, setEnabled] = React.useState(false)
 
-    const distance = (lat1: number, lon1: number, lat2:number , lon2:number) => {
-      if (!lat1 || !lon1 || !lat2 || !lon2) {
-        return 0
-      }
-      lon1 =  lon1 * Math.PI / 180
-      lon2 = lon2 * Math.PI / 180
-      lat1 = lat1 * Math.PI / 180
-      lat2 = lat2 * Math.PI / 180
-      // Haversine formula
-      let dlon = lon2 - lon1
-      let dlat = lat2 - lat1
-      let a = Math.pow(Math.sin(dlat / 2), 2)
-      + Math.cos(lat1) * Math.cos(lat2)
-      * Math.pow(Math.sin(dlon / 2),2)
-
-      let c = 2 * Math.asin(Math.sqrt(a))
-
-      // Radius of earth in kilometers. Use 3956
-      // for miles
-      let r = 6371
-
-      // calculate the result
-      return (c * r * 1000)
-    }
-
-
-  useEffect(() => { latRef.current = latitude })
-  useEffect(()=>{ lngRef.current = longitude})
-  useEffect(()=>{distRef.current = dist})
   useEffect(() => {
     console.log('start init background geo')
     /// 1.  Subscribe to events.
     const onLocation:Subscription = BackgroundGeolocation.onLocation((location) => {
       console.log('[event] location', location)
-      console.log(latRef.current,lngRef.current, location.coords.latitude, location.coords.longitude )
-      setLatitude(location.coords.latitude)
-      setLongitude(location.coords.longitude)
-      console.log('old dist', distRef.current)
-      const newDist = distance(latRef.current, lngRef.current, location.coords.latitude, location.coords.longitude)
-      console.log('new dist ', newDist)
-      setDist(distRef.current + newDist)
+      console.log('speed', location.coords.speed )
+      if (location.coords.speed && location.coords.speed > 0 && location.coords.speed < 10 && location.is_moving === true){
+        console.log('old dist', distRef.current)
+        BackgroundGeolocation.getOdometer().then((odometer)=>{
+          console.log('[event] odometer', odometer)
+          setDist(odometer)
+        })
+      } else {
+        console.log('not moving')
+      }
     })
 
     BackgroundGeolocation.ready({
@@ -95,6 +69,10 @@ const HealthkitContainer = () => {
       debug: true, // <-- enable this hear sounds for background-geolocation life-cycle.
       logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
       stopOnTerminate: false,   // <-- Allow the b
+    }).then(()=>{
+      BackgroundGeolocation.setOdometer(0).then(()=>{
+        console.log('odometer set to 0')
+      })
     })
     return () => {
       onLocation.remove()
