@@ -42,7 +42,13 @@
 	<key>NSHealthUpdateUsageDescription</key>
 	<string>Share workout data with other apps.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>Share Location When In Use</string>
+	<key>NSLocationUsageDescription</key>
+	<string>Share Location When In Use</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Share Location When In Use</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Share Location When In Use</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
