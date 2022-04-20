@@ -291,7 +291,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = XW59ML4D46;
+						DevelopmentTeam = FN33UR9X45;
 						LastSwiftMigration = 1330;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
@@ -659,7 +659,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = DragonDappRN/DragonDappRN.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = XW59ML4D46;
+				DEVELOPMENT_TEAM = FN33UR9X45;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = DragonDappRN/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -668,7 +668,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.examp.DragonDappRN;
+				PRODUCT_BUNDLE_IDENTIFIER = "fit-evo-dev";
 				PRODUCT_NAME = DragonDappRN;
 				SWIFT_OBJC_BRIDGING_HEADER = "DragonDappRN-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -685,7 +685,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = DragonDappRN/DragonDappRN.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = XW59ML4D46;
+				DEVELOPMENT_TEAM = FN33UR9X45;
 				INFOPLIST_FILE = DragonDappRN/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -693,7 +693,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.examp.DragonDappRN;
+				PRODUCT_BUNDLE_IDENTIFIER = "fit-evo-dev";
 				PRODUCT_NAME = DragonDappRN;
 				SWIFT_OBJC_BRIDGING_HEADER = "DragonDappRN-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -835,6 +835,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -895,6 +896,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
