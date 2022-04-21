@@ -1,107 +1,98 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect,useReducer } from 'react'
 import {
     View,
-    ActivityIndicator,
     Text,
-    TextInput,
     TouchableOpacity,
     ScrollView,
     Platform,
 } from 'react-native'
-import { useDispatch } from 'react-redux'
-import { useTranslation } from 'react-i18next'
-import { Brand } from '@/Components'
+
 import { useTheme } from '@/Hooks'
-import { useLazyFetchOneQuery } from '@/Services/modules/users'
-import { changeTheme, ThemeState } from '@/Store/Theme'
+
 import { Image } from 'react-native'
 import { IOSHealthKit } from '../Healthkit/iosHealthKit'
 import { GoogleFitKit } from '../Healthkit/androidHealthKit'
-import Buttons from '@/Theme/components/Buttons'
 import BackgroundGeolocation, {
-    Location,
     Subscription,
 } from 'react-native-background-geolocation'
+import { getDistanceBetweenTwoPoints } from '@/Healthkit/utils'
+
+const initialState:any = { latitude:null, longitude:null, dist:0 }
+
+
+function reducer(state:any, action:any) {
+    console.log('state',state)
+    console.log('action',action)
+    switch (action.type) {
+      case 'move':
+          const dist = getDistanceBetweenTwoPoints(state.latitude,state.longitude,action.latitude,action.longitude)
+        return { latitude : action.latitude, longitude :action.longitude, dist : state.dist + dist }
+      default:
+        throw new Error()
+    }
+}
+
 
 
 const HealthkitContainer = () => {
-    const { Common, Fonts, Gutters, Layout, Images, Colors } = useTheme()
+    const { Common, Fonts, Gutters, Layout, Images } = useTheme()
     const [step, setStep] = useState(-1)
-    const [dist, setDist] = useState(-1)
     const [calories, setCalories] = useState(-1)
     // const [isAuthorize, setIsAuthorize] = useState(false)
     const [heartRate, setHeartRate] = useState({})
     const [workout, setWorkout] = useState({})
-    const [latitude, setLatitude] = useState<number | null>(null)
-    const [longitude, setLongitude] = useState<number | null>(null)
-
-    const latRef = useRef(latitude)
-    const lngRef = useRef(longitude)
-    const distRef = useRef(dist)
-    const [events, setEvents] = React.useState<any[]>([])
-
+    const [log, setLog] = useState('')
     const isIOS = Platform.OS === 'ios'
     const health_kit = isIOS ? new IOSHealthKit() : new GoogleFitKit()
-
     const [enabled, setEnabled] = React.useState(false)
 
-    // const ios_ready_config = {
-    //     locationAuthorizationRequest : 'WhenInUse',
-    //     desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
-    //     distanceFilter: 1,
-    //     stopTimeout: 5,
-    //     debug: true, // <-- enable this hear sounds for background-geolocation life-cycle.
-    //     logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
-    //     stopOnTerminate: false,   // <-- Allow the b
-    // }
-    // const android_ready_condig = {
-    //     desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
-    //         distanceFilter: 1,
-    //         stopTimeout: 5,
-    //         debug: true, // <-- enable this hear sounds for background-geolocation life-cycle.
-    //         logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
-    //         stopOnTerminate: false,   // <-- Allow the b
-    // }
+    const [state, dispatch] = useReducer(reducer, initialState)
 
     useEffect(() => {
         console.log('start init background geo')
-        /// 1.  Subscribe to events.
         const onLocation: Subscription = BackgroundGeolocation.onLocation((location) => {
+            setLog(log + '\n' + JSON.stringify(location))
             console.log('[event] location', location)
-            // if (location.coords.speed && location.coords.speed > 0 && location.coords.speed < 10 && location.is_moving === true) {
-                // console.log('old dist', distRef.current)
-            BackgroundGeolocation.getOdometer().then((odometer) => {
-                console.log('[event] odometer', odometer)
-                setDist(odometer)
-            })
-            setLatitude(location.coords.latitude)
-            setLongitude(location.coords.longitude)
+
+            if (location.coords && location.coords.latitude && location.coords.longitude && location.is_moving === true)
+             {
+                 if (location.coords.speed && location.coords.speed <= 12){
+                    dispatch({ type:'move', latitude:location.coords.latitude, longitude:location.coords.longitude })
+                 } else {
+                     console.log('moving too fast')
+                 }
+            } else {
+                console.log('not moving')
+            }
+
+
+            // if (location && location.coords && location.is_moving && location.coords.speed && location.coords.speed < 10 ) {
+            //     // const newDist = dist +  getDistanceBetweenTwoPoints(latitude, longitude, location.coords.latitude, location.coords.longitude)
+            // setLatitude(location.coords.latitude)
+            // setLongitude(location.coords.longitude)
+            //     setDist(getDistanceBetweenTwoPoints())
+            // } else {
+            //     console.log('stopped')
+            // }
         })
-        const onMotionChange: Subscription = BackgroundGeolocation.onMotionChange((event) => {console.log('[event] motionchange', event)})
-            BackgroundGeolocation.ready({
+        // const onMotionChange: Subscription = BackgroundGeolocation.onMotionChange((event) => {console.log('[event] motionchange', event)})
+
+        BackgroundGeolocation.ready({
             locationAuthorizationRequest : 'WhenInUse',
             desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
-            distanceFilter: 10,
+            distanceFilter: 1 ,
             stopTimeout: 5,
             isMoving: true,
-            debug: true, // <-- enable this hear sounds for background-geolocation life-cycle.
+            reset: false,
             logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
             stopOnTerminate: false,   // <-- Allow the b
-        }).then(() => {
-                BackgroundGeolocation.setOdometer(0).then(() => {
-                    console.log('odometer set to 0')
-                })
-            })
-
-
+        }).then(()=>{
+            console.log('ready')
+        })
         return () => {
             onLocation.remove()
-            onMotionChange.remove()
         }
     }, [])
-
-
-
     /// Add the current state as first item in list.
 
     useEffect(() => {
@@ -110,7 +101,7 @@ const HealthkitContainer = () => {
                 health_kit
                     .InitHealthKitPermission()
                     .then(val => {
-                        console.log(val)
+                        console.log('inti health kit',val)
                     })
                     .catch(err => {
                         console.error(err)
@@ -155,7 +146,6 @@ const HealthkitContainer = () => {
                 setCalories(val)
             })
     }
-
     const UpdateHeartRate = () => {
         health_kit
             .GetHeartRates(start_date, end_date)
@@ -171,32 +161,25 @@ const HealthkitContainer = () => {
             })
     }
 
-    const StartWorkoutSession = () => {
-        setDist(0)
-        setStep(0)
-        health_kit.StartWorkoutSession(new Date(), setStep, setDist)
-    }
-    const StopSessionListener = () => {
-        console.log('stop')
-        health_kit.StopWorkoutSession()
-    }
-
-    const StartListenDistance = async () => {
+    const StartRunningSession = () => {
         setEnabled(true)
+        setStep(0)
+        // health_kit.StartWorkoutSession(new Date(), setStep, setDist)
     }
-
-    const StopListenDistance = () => {
+    const StopRunningSession = () => {
+        console.log('stop')
         setEnabled(false)
+        // health_kit.StopWorkoutSession()
     }
 
 
     useEffect(() => {
-        if (enabled) {
-            console.log('enable')
+        if (enabled === true) {
+            console.log('button enable')
             BackgroundGeolocation.start()
 
         } else {
-            console.log('disable')
+            console.log('button disable')
             BackgroundGeolocation.stop()
         }
     }, [enabled])
@@ -246,20 +229,24 @@ const HealthkitContainer = () => {
       </TouchableOpacity> */}
             <TouchableOpacity
                 style={[Common.button.rounded, Gutters.regularBMargin]}
-                onPress={StartListenDistance}
+                onPress={StartRunningSession}
             >
-                <Text style={Fonts.textRegular}>Listen Workk</Text>
+                <Text style={Fonts.textRegular}>Start Running</Text>
             </TouchableOpacity>
             <TouchableOpacity
                 style={[Common.button.rounded, Gutters.regularBMargin]}
-                onPress={StopListenDistance}
+                onPress={StopRunningSession}
             >
                 <Text style={Fonts.textRegular}>Stop Workk</Text>
             </TouchableOpacity>
             <Text>Steps : {step}</Text>
-            <Text>Distance : {dist}</Text>
-            <Text>latitude : {latitude} </Text>
-            <Text>longitude : {longitude}</Text>
+            <Text>Distance : {state.dist}</Text>
+
+            <Text>latitude : {state.latitude} </Text>
+            <Text>longitude : {state.longitude}</Text>
+            <Text>Log : {log}</Text>
+
+
             {/* <Text>location : {location}</Text> */}
             {/* <Text>prevLatitude : { prevLatitude}</Text> */}
 

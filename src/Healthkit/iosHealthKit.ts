@@ -101,12 +101,12 @@ export class IOSHealthKit extends GeneralHealthKit {
         return new Promise<[]>(resolve => resolve([]))
     }
     StartWorkoutSession() {
-      throw new Error('Not implemented')
+    //   throw new Error('Not implemented')
 
-        NativeAppEventEmitter.addListener('healthKit:HeartRate:setup:success', () => console.log('set up success'))
-        NativeAppEventEmitter.addListener('healthKit:HeartRate:setup:failure', () => console.log('set up failure'))
-        NativeAppEventEmitter.addListener('healthKit:HeartRate:new', () => console.log('new'))
-        NativeAppEventEmitter.addListener('healthKit:HeartRate:failure', () => console.log('failure'))
+    //     NativeAppEventEmitter.addListener('healthKit:HeartRate:setup:success', () => console.log('set up success'))
+    //     NativeAppEventEmitter.addListener('healthKit:HeartRate:setup:failure', () => console.log('set up failure'))
+    //     NativeAppEventEmitter.addListener('healthKit:HeartRate:new', () => console.log('new'))
+    //     NativeAppEventEmitter.addListener('healthKit:HeartRate:failure', () => console.log('failure'))
         // console.log(NativeModules, NativeModules.RCTAppleHealthKit)
         // const nee = new NativeEventEmitter(NativeModules.RCTAppleHealthKit)
         // nee.addListener('healthKit:HeartRate:setup:success', callback)
