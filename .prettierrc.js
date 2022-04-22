@@ -1,10 +1,9 @@
 module.exports = {
-  bracketSameLine: false,
+  bracketSameLine: true,
   singleQuote: true,
   semi: false,
   arrowParens: 'avoid',
-  bracketSpacing: false,
+  bracketSpacing:true,
   requirePragma: true,
-  singleQuote: true,
   trailingComma: 'all',
 }

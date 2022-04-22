@@ -1,6 +1,5 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { ExampleContainer } from '@/Containers'
 import HealthkitContainer from '../Containers/HealthkitContainer'
 import GeoLocationContainer from '../Containers/GeoLocationContainer'
 const Tab = createBottomTabNavigator()
@@ -17,14 +16,14 @@ const MainNavigator = () => {
                     tabBarLabelPosition: 'beside-icon',
                 }}
             />
-            {/* <Tab.Screen
+            <Tab.Screen
                 name="GeoLocation"
                 component={GeoLocationContainer}
                 options={{
                     tabBarIconStyle: { display: 'none' },
                     tabBarLabelPosition: 'beside-icon',
                 }}
-            /> */}
+            />
         </Tab.Navigator>
     )
 }

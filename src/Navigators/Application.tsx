@@ -27,6 +27,13 @@ const ApplicationNavigator = () => {
               animationEnabled: false,
             }}
           />
+          <Stack.Screen
+            name="Fitness"
+            component={MainNavigator}
+            options={{
+              animationEnabled: false,
+            }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaView>
