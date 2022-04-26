@@ -102,32 +102,26 @@ export class GoogleFitKit extends GeneralHealthKit {
 			return new Promise<number>(resolve => resolve(0))
 		}
 	  const opt = {
-			startDate: '2022-04-21T00:00:17.971Z', // required
-			endDate: new Date().toISOString(), // required
+			startDate: startDate.toISOString(), // required
+			endDate: endDate.toISOString(), // required
 			basalCalculation: true, // optional, to calculate or not basalAVG over the week
 		}
 		// get calories burned
 		return new Promise<number>(resolve => {
-			resolve(123)
-			// GoogleFit.getDailyCalorieSamples(opt).then((res: any) => {
-			// 	console.log('res', res)
-			// 	resolve(123)
+			GoogleFit.getDailyCalorieSamples(opt).then((res: any) => {
+				console.log('google fit res', res)
+				if (res.length === 0) {
+					resolve(0)
+				}
+				const calories = res.reduce((a: any, b: { calorie: any }) => {
+					return a + b.calorie
+				}, 0)
 
-			// 	// 	console.log('get daily')
-			// 	// 	if (res.length === 0) {
-			// 	// 		console.log('cal function 3')
-			// 	// 		resolve(0)
-			// 	// 	}
-			// 	// 	const calories = res.reduce((a: any, b: { calorie: any }) => {
-			// 	// 		return a + b.calorie
-			// 	// 	}, 0)
-			// 	// 	console.log('cal function 4')
-
-			// 	// 	resolve(calories)
-			// 	// }).catch(err => {
-			// 	// 	console.log('error', err)
-			// 	// 	resolve(0)
-			// })
+				resolve(calories)
+			}).catch(err => {
+				console.log('error', err)
+				resolve(0)
+			})
 		})
 	}
 

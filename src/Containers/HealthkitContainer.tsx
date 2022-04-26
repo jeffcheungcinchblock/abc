@@ -33,22 +33,33 @@ function reducer(state:State, action:any) {
 	switch (action.type) {
 	case 'ready':
 		if (!action.location){
+			console.log('no location ready')
 			return { ...state }
 		}
 		if (!action.location.latitude || !action.location.longitude){
+			console.log('have location ready')
+
 			return { ...state }
 		}
 		return { ...state, latitude:action.location.latitude, longitude:action.location.longitude }
 	case 'start':
-		return {  startTime: new Date(), latitude:action.latitude, longitude: action.longitude, distance:0, calorie:0, steps:0, heartRate :0  }
+		const initialStateStart:State = { startTime: new Date(), latitude:null, longitude:null, distance:0, calorie:0, steps:0, heartRate :0 }
+		return initialStateStart
+		// return initialState
 	case 'move':
 		const newCarlorieBurned = action.calorie
 		const newSteps = action.steps
-		const distance = getDistanceBetweenTwoPoints(state.latitude, state.longitude, action.latitude, action.longitude)
-		if (distance)
+		console.log(state.latitude, ' ', state.longitude, ' ', action.latitude, ' ', action.longitude)
+		const distance = getDistanceBetweenTwoPoints(state.latitude!, state.longitude!, action.latitude!, action.longitude!)
+
+		if (distance >= 0)
 		{
+			console.log('return 1')
 			return { ...state, latitude : action.latitude, longitude :action.longitude, distance : state.distance!  + distance, calorie: newCarlorieBurned, steps: newSteps }
+			// return { ...state }
 		}
+		console.log('return 2')
+
 		return { ...state, latitude : action.latitude, longitude :action.longitude, calorie: newCarlorieBurned, steps: newSteps }
 	default:
 		return { ...state }
@@ -59,10 +70,10 @@ const HealthkitContainer = () => {
 	const [ log, setLog ] = useState('')
 	const [ enabled, setEnabled ] = React.useState(false)
 	const [ ready, setReady ] = useState(false)
+
 	const [ state, dispatch ] = useReducer(reducer, initialState)
 
 	useEffect(() => {
-		console.log('inti health kit')
 		health_kit.GetAuthorizeStatus().then((isAuthorize) => {
 			if (!isAuthorize) {
 				health_kit
@@ -74,16 +85,23 @@ const HealthkitContainer = () => {
 						console.error(err)
 					})
 			}
-		})
+		})})
+
+	useEffect(() => {
 
 		const onLocation: Subscription = BackgroundGeolocation.onLocation((location) => {
-			console.log('[event] location', location)
+			console.log('listening')
 			if (location.coords && location.coords.latitude && location.coords.longitude && location.is_moving === true)
 			{
 				console.log(location.coords)
-				if (location.coords.speed && location.coords.speed <= 12){
-					const new_cal = health_kit.GetCaloriesBurned(state.startTime!, new Date())
-					const new_step = health_kit.GetSteps(state.startTime!, new Date())
+				if (location.coords.speed && location.coords.speed <= 12 && location.coords.speed >= 0){
+					// const new_cal = health_kit.GetCaloriesBurned(state.startTime!, new Date())
+					// const new_step = health_kit.GetSteps(state.startTime!, new Date())
+					const new_cal = 123
+					const new_step = 123
+					// Promise.all([ new_cal, new_step ]).then((result)=>{
+					// 	dispatch({ type:'move', latitude:location.coords.latitude, longitude:location.coords.longitude, calorie:result[0], steps:result[1] })
+					// })
 					Promise.all([ new_cal, new_step ]).then((result)=>{
 						dispatch({ type:'move', latitude:location.coords.latitude, longitude:location.coords.longitude, calorie:result[0], steps:result[1] })
 					})
@@ -93,25 +111,41 @@ const HealthkitContainer = () => {
 			} else {
 				console.log('not moving')
 			}
-			setLog(log + '\n' + JSON.stringify(location))
+			setLog(JSON.stringify(location))
 		})
 		// const onMotionChange: Subscription = BackgroundGeolocation.onMotionChange((event) => {console.log('[event] motionchange', event)})
+		// const onMotionChange:Subscription = BackgroundGeolocation.onMotionChange((event) => {
+		// 	console.log('[onMotionChange]', event)
+		// })
+
+		// const onActivityChange:Subscription = BackgroundGeolocation.onActivityChange((event) => {
+		// 	console.log('[onMotionChange]', event)
+		// })
+
+		// const onProviderChange:Subscription = BackgroundGeolocation.onProviderChange((event) => {
+		// 	console.log('[onProviderChange]', event)
+		// })
 
 		BackgroundGeolocation.ready({
 			locationAuthorizationRequest : 'WhenInUse',
 			desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
-			distanceFilter: 5,
+			distanceFilter: 3,
 			stopTimeout: 5,
 			isMoving: true,
 			reset: false,
+			debug: true, // <-- enable this hear debug sounds.
+			// locationUpdateInterval: 5000,
 			logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
-			stopOnTerminate: true,   // <-- Allow the b
+			stopOnTerminate: false,
 		}).then(()=>{
 			setReady(true)
 			dispatch({ type:'ready' })
 		})
 		return () => {
 			onLocation.remove()
+			// onMotionChange.remove()
+			// onActivityChange.remove()
+			// onProviderChange.remove()
 		}
 	}, [])
 	/// Add the current state as first item in list.
@@ -126,8 +160,9 @@ const HealthkitContainer = () => {
 		UpdateWorkoutSession()
 	}
 	const getGoogleAuth = async () => {
-		const auth = await health_kit.InitHealthKitPermission()
-		console.log('auth', auth)
+		health_kit.InitHealthKitPermission().then((result)=>{
+			console.log('auth', result)
+		})
 	}
 	const UpdateSteps = () => {
 		// health_kit
@@ -176,11 +211,15 @@ const HealthkitContainer = () => {
 			}
 		})
 		console.log('start')
-		setEnabled(true)
+		if (!enabled){
+			setEnabled(true)
+		}
 	}
 	const StopRunningSession = () => {
 		console.log('stop')
-		setEnabled(false)
+		if (enabled){
+			setEnabled(false)
+		}
 		// health_kit.StopWorkoutSession()
 	}
 	useEffect(() => {
@@ -191,7 +230,6 @@ const HealthkitContainer = () => {
 					maximumAge: 5000,
 					samples: 3,           // How many location samples to attempt.
 				})
-				console.log('[event] location', location)
 				dispatch({ type:'start', latitude : location.coords.latitude, longitude:location.coords.longitude })
 				await BackgroundGeolocation.start()
 				await BackgroundGeolocation.changePace(true)
@@ -242,7 +280,7 @@ const HealthkitContainer = () => {
 			>
 				<Text style={Fonts.textRegular}>Stop Workk</Text>
 			</TouchableOpacity>
-			<Text>Start : {}</Text>
+			<Text>Start : {state.startTime?.toString()}</Text>
 			<Text>Steps : {state.steps}</Text>
 			<Text>Distance : {state.distance}</Text>
 			<Text>Calorie : {state.calorie}</Text>
