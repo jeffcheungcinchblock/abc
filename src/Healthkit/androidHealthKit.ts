@@ -46,30 +46,33 @@ export class GoogleFitKit extends GeneralHealthKit {
 	}
 
 	GetSteps(startDate: Date, endDate: Date) {
-		// const options = {
-		// 	startDate: startDate.toISOString(),
-		// 	endDate: endDate.toISOString(), // optional; default now
-		// }
-		const options = {
-			startDate: new Date().toISOString(),
-			endDate: new Date().toISOString(), // optional; default now
+		if (!GoogleFit.isAuthorized){
+			GoogleFit.authorize(options).then((authResult: any) => {
+				console.log('authResult', authResult)
+			})
+			return new Promise<number>(resolve => resolve(-1))
 		}
 
-
+		const StepOptions = {
+			startDate: startDate.toISOString(),
+			endDate: endDate.toISOString(), // optional; default now
+		}
+		console.log('step')
 		return new Promise<number>(resolve => {
-			GoogleFit.getDailyStepCountSamples(options)
+			GoogleFit.getDailyStepCountSamples(StepOptions)
 				.then((res: any) => {
 					const source = res.find(
 						(step: { source: string }) =>
 							step.source === 'com.google.android.gms:estimated_steps',
 					)
+					console.log('google fit step res', res)
 					const steps = source.steps.reduce((a: any, b: { value: any }) => {
 						return a + b.value
 					}, 0)
 					return resolve(steps)
 					//   resolve(allsteps.reduce((a, b) => a + b))
 				})
-				.catch(err => console.warn(err))
+				.catch(err => console.log('error', err))
 		})
 	}
 
@@ -97,10 +100,15 @@ export class GoogleFitKit extends GeneralHealthKit {
 	}
 
 	GetCaloriesBurned(startDate: Date, endDate: Date) {
-		if (!startDate){
-			console.log('no state date', startDate)
-			return new Promise<number>(resolve => resolve(0))
+		if (!GoogleFit.isAuthorized){
+			GoogleFit.authorize(options).then((authResult: any) => {
+				console.log('authResult', authResult)
+				return authResult
+			})
+			return new Promise<number>(resolve => resolve(-1))
 		}
+
+
 	  const opt = {
 			startDate: startDate.toISOString(), // required
 			endDate: endDate.toISOString(), // required
@@ -126,18 +134,30 @@ export class GoogleFitKit extends GeneralHealthKit {
 	}
 
 	GetHeartRates(startDate: Date, endDate: Date) {
+
+		if (!GoogleFit.isAuthorized){
+			GoogleFit.authorize(options).then((authResult: any) => {
+				console.log('authResult', authResult)
+				return authResult
+			})
+			return new Promise<number>(resolve => resolve(-1))
+		}
 		const opt = {
 			startDate: startDate.toISOString(),
 			endDate: endDate.toISOString(), // optional; default now
 		}
-		return new Promise<[]>(resolve => {
+		return new Promise<number>(resolve => {
 			GoogleFit.getHeartRateSamples(opt)
-				.then((res: any) => {
+				.then((res) => {
 					console.log(res)
+					//get average heart rate from res array
+
 					const heartRate = res.reduce((a: any, b: { value: any }) => {
 						return a + b.value
 					}, 0)
-					return resolve(heartRate)
+					const averageHeartRate = heartRate / res.length
+
+					return resolve(averageHeartRate)
 				})
 				.catch(err => {
 					return err

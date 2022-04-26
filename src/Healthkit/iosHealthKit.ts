@@ -1,6 +1,5 @@
-import AppleHealthKit, { HealthValue, HealthKitPermissions, HealthObserver } from 'react-native-health'
+import AppleHealthKit, {  HealthValue, HealthKitPermissions } from 'react-native-health'
 import { GeneralHealthKit } from './generalHealthKit'
-import { NativeAppEventEmitter, NativeEventEmitter, NativeModules } from 'react-native'
 
 const permissions = {
 	permissions: {
@@ -110,14 +109,18 @@ export class IOSHealthKit extends GeneralHealthKit {
 			startDate: startDate.toISOString(), // required
 			endDate: endDate.toISOString(),
 		}
-		return new Promise<any[]>(resolve => {
+		return new Promise<number>(resolve => {
 			AppleHealthKit.getHeartRateSamples(
 				options,
-				(err: Object, results: any[]) => {
+				(err: Object, results: HealthValue[]) => {
 					if (err) {
 						return
 					}
-					resolve(results)
+					const heartRate = results.reduce((a: any, b: { value: any }) => {
+						return a + b.value
+					}, 0)
+					const averageHeartRate = heartRate / results.length
+					resolve(averageHeartRate)
 				},
 			)
 		})
