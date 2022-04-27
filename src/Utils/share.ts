@@ -1,6 +1,7 @@
 import { Platform } from 'react-native';
 import Share from 'react-native-share';
 import moment from 'moment'
+import { ShareOpenResult } from 'react-native-share/lib/typescript/types';
 
 type ShareOptionsProps = {
     url: string,
@@ -67,14 +68,14 @@ export default async ({ url, title, message } : {
     url: string,
     title: string,
     message: string,
-}) => {
+}) : Promise<ShareOpenResult | boolean> => {
 
     const options = shareOptions({ url, title, message })
     try {
         return await Share.open(options)
     } catch (e) {
         // console.log('share box error:')
-        return e
+        return false
     }
 };
 

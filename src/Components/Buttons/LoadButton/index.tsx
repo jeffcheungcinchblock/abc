@@ -1,7 +1,6 @@
 import React, { FC } from 'react'
-import { View, Image, Text, ActivityIndicator } from 'react-native'
+import { View, Image, Text, ActivityIndicator, Pressable } from 'react-native'
 import { useTheme } from '@/Hooks'
-import { TouchableOpacity } from 'react-native-gesture-handler'
 import { colors } from '@/Utils/constants'
 
 type LoadButtonProps = {
@@ -22,7 +21,6 @@ const DEFAULT_TEXT_STYLE = {
 }
 
 const BUTTON_STYLE = {
-    backgroundColor: colors.frenchPink,
     paddingVertical: 10,
     borderRadius: 10,
 }
@@ -42,7 +40,7 @@ const LoadButton = ({
 
     return (
         <View style={containerStyle}>
-            <TouchableOpacity
+            <Pressable
                 onPress={onPress}
                 style={[BUTTON_STYLE, {
                 }]}
@@ -58,7 +56,7 @@ const LoadButton = ({
                         {rightIcon && rightIcon()}
                     </View>
                 }
-            </TouchableOpacity>
+            </Pressable>
         </View>
     )
 }

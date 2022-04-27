@@ -5,14 +5,14 @@ import {
     ActivityIndicator,
     Text,
     TextInput,
-    TouchableOpacity,
+    Pressable,
     ScrollView,
     TextStyle,
     Alert,
     ViewStyle,
 } from 'react-native'
 import { useTranslation } from 'react-i18next'
-import { Brand } from '@/Components'
+import { Brand, Header } from '@/Components'
 import { useTheme } from '@/Hooks'
 import { useLazyFetchOneQuery } from '@/Services/modules/users'
 import { changeTheme, ThemeState } from '@/Store/Theme'
@@ -25,23 +25,15 @@ import {
     useBlurOnFulfill,
     useClearByFocusCell,
 } from 'react-native-confirmation-code-field';
+import Amplify, { Auth } from 'aws-amplify';
 
-
-import {
-    CognitoUserPool,
-    CognitoUser,
-    AuthenticationDetails,
-    CognitoAccessToken,
-    CognitoIdToken,
-    CognitoRefreshToken,
-    CognitoUserSession,
-    CognitoUserAttribute,
-
-} from 'amazon-cognito-identity-js';
 import { shallowEqual, useDispatch, useSelector } from "react-redux"
-import { config } from '@/Utils/constants'
+import { colors, config } from '@/Utils/constants'
 import { AuthNavigatorParamList } from '@/Navigators/AuthNavigator'
 import { RouteStacks } from '@/Navigators/routes'
+import ScreenBackgrounds from '@/Components/ScreenBackgrounds'
+import YellowButton from '@/Components/Buttons/YellowButton'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 const TEXT_INPUT = {
     height: 40,
@@ -75,9 +67,9 @@ const CELL = {
     lineHeight: 38,
     fontSize: 24,
     borderWidth: 2,
-    borderColor: "#000",
+    borderColor: colors.spanishGray,
+    color: colors.white,
     borderRadius: 10,
-    margin: 4,
     textAlign: 'center',
 }
 
@@ -92,8 +84,8 @@ const ValidationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
     const { Common, Fonts, Gutters, Layout } = useTheme()
     const dispatch = useDispatch()
 
-    const params = route!.params || { username: null }
-
+    const params = route!.params || { username: "" }
+    const [isVerifyingAccount, setIsVerifyingAccount] = useState(false)
     const [validationCode, setValidationCode] = useState("")
     const ref = useBlurOnFulfill({ value: validationCode, cellCount: 6 });
     const [focusCellProps, getCellOnLayoutHandler] = useClearByFocusCell({
@@ -101,78 +93,75 @@ const ValidationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
         setValue: setValidationCode,
     });
 
-    const onVerifyAccountPress = useCallback(() => {
-        if ([null, undefined].includes(params.username)) {
+    const onVerifyAccountPress = useCallback(async () => {
+        if (params.username === "") {
             Alert.alert("Username is empty")
             navigation.goBack()
             return
         }
+        try {
+            await Auth.confirmSignUp(params.username, validationCode)
+            navigation.navigate(RouteStacks.signIn, { username: params.username })
+        } catch (err) {
+            console.log(err)
+        }
 
-        var userPool = new CognitoUserPool(config.aws.cognito.poolData);
-        var userData = {
-            Username: params.username ?? "",
-            Pool: userPool,
-        };
-        var cognitoUser = new CognitoUser(userData);
-
-        cognitoUser.confirmRegistration(validationCode, true, function (err, result) {
-            if (err) {
-                Alert.alert(err.message || JSON.stringify(err));
-                return;
-            }
-            Alert.alert("Validate account successfully!")
-            navigation.navigate(RouteStacks.signIn, { username: params.username } as any)
-        });
     }, [navigation, validationCode, params])
 
-    const goBack = useCallback(() => {
+    const goBack = () => {
         navigation.navigate(RouteStacks.signUp)
-    }, [])
+    }
 
     return (
-        <ScrollView
-            style={Layout.fill}
-            contentContainerStyle={[
-                Layout.fill,
-                Layout.colCenter,
-                Gutters.smallHPadding,
-            ]}
+        <ScreenBackgrounds
+            screenName={RouteStacks.signUp}
         >
-            <View style={{
-                alignItems: "center",
-                width: "100%",
-                flex: 1,
-                justifyContent: "center",
-            }}>
-                <View style={CONTENT_ELEMENT_WRAPPER}>
-                    <CodeField
-                        ref={ref}
-                        // Use `caretHidden={false}` when users can't paste a text value, because context menu doesn't appear
-                        value={validationCode}
-                        onChangeText={setValidationCode}
-                        cellCount={6}
-                        rootStyle={CODE_FIELD_ROOT}
-                        keyboardType="number-pad"
-                        textContentType="oneTimeCode"
-                        renderCell={({ index, symbol, isFocused }) => (
-                            <Text
-                                key={index}
-                                style={[CELL, isFocused && FOCUSED_CELL]}
-                                onLayout={getCellOnLayoutHandler(index)}>
-                                {symbol || (isFocused ? <Cursor /> : null)}
-                            </Text>
-                        )}
-                    />
+            <Header
+                onLeftPress={goBack}
+            />
+            <KeyboardAwareScrollView
+                style={Layout.fill}
+                contentContainerStyle={[
+                    Layout.fill,
+                    Layout.colCenter,
+                ]}
+            >
+                <View style={[{
+                    flexGrow: 6
+                }, Layout.fullWidth, Layout.fill, Layout.colCenter,]}>
+                    <View style={CONTENT_ELEMENT_WRAPPER}>
+                        <CodeField
+                            ref={ref}
+                            // Use `caretHidden={false}` when users can't paste a text value, because context menu doesn't appear
+                            value={validationCode}
+                            onChangeText={setValidationCode}
+                            cellCount={6}
+                            rootStyle={CODE_FIELD_ROOT}
+                            keyboardType="number-pad"
+                            textContentType="oneTimeCode"
+                            renderCell={({ index, symbol, isFocused }) => (
+                                <Text
+                                    key={index}
+                                    style={[CELL, isFocused && FOCUSED_CELL]}
+                                    onLayout={getCellOnLayoutHandler(index)}>
+                                    {symbol || (isFocused ? <Cursor /> : null)}
+                                </Text>
+                            )}
+                        />
+                    </View>
+
                 </View>
 
-                <View style={[]}>
-                    <TouchableOpacity style={[]} onPress={onVerifyAccountPress}>
-                        <Text>Verify</Text>
-                    </TouchableOpacity>
+                <View style={[Layout.fullWidth, Layout.center, { flex: 1, justifyContent: "flex-start" }]}>
+                    <YellowButton
+                        text={t("verifyAccount")}
+                        containerStyle={Layout.fullWidth}
+                        isLoading={isVerifyingAccount}
+                        onPress={onVerifyAccountPress} />
                 </View>
-            </View>
 
-        </ScrollView>
+            </KeyboardAwareScrollView>
+        </ScreenBackgrounds>
     )
 }
 

@@ -1,17 +1,22 @@
 export const config = {
-    aws: {
-        cognito: {
-            poolData: {
-                UserPoolId: "us-west-2_3G5cHmqFj",
-                ClientId: "7sm8vcqul37qrun19o1q2rj6l0",
-            }
-        }
-    }
+    urlScheme: `com.fitevo://`,
+
 }
 
 
-// color name https://www.color-name.com/hex/FF789C
+// Color naming https://www.color-name.com/hex/FF789C
 export const colors = {
     frenchPink: "#FF789C",
+
+    
+    white: "#FFFFFF",
+    lemonGlacier: "#FAFF00",
+    black: "#000000",
+    platinum: "#E5E5E5",
+    electricViolet: "#9100FF",
+    spanishGray: "#939393",
+    violetsAreBlue: "#9472FF",
+
+
     
 }

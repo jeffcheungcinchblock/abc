@@ -5,7 +5,7 @@ import {
     ActivityIndicator,
     Text,
     TextInput,
-    TouchableOpacity,
+    Pressable,
     ScrollView,
     TextStyle,
     Alert,
@@ -20,10 +20,16 @@ import { login, logout } from '@/Store/Users/actions'
 import { UserState } from '@/Store/Users/reducer'
 
 import { shallowEqual, useDispatch, useSelector } from "react-redux"
-import { config } from '@/Utils/constants'
+import { colors, config } from '@/Utils/constants'
 import { MarketplaceNavigatorParamList } from '@/Screens/App/MarketplaceScreen'
 import EncryptedStorage from 'react-native-encrypted-storage'
 import { RouteStacks, RouteTabs } from '@/Navigators/routes'
+import { CompositeScreenProps } from '@react-navigation/native'
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
+import { DrawerScreenProps } from '@react-navigation/drawer'
+import { DrawerNavigatorParamList, TabNavigatorParamList } from '@/Navigators/MainNavigator'
+import ScreenBackgrounds from '@/Components/ScreenBackgrounds'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 const TEXT_INPUT = {
     height: 40,
@@ -33,7 +39,15 @@ const TEXT_INPUT = {
     borderColor: "#000",
 }
 
-const MainScreen: FC<StackScreenProps<MarketplaceNavigatorParamList, RouteStacks.marketplaceMain>> = (
+type MarketplaceScreenNavigationProp = CompositeScreenProps<
+    StackScreenProps<MarketplaceNavigatorParamList, RouteStacks.marketplaceMain>,
+    CompositeScreenProps<
+        BottomTabScreenProps<TabNavigatorParamList>,
+        DrawerScreenProps<DrawerNavigatorParamList>
+    >
+>
+
+const MainScreen: FC<MarketplaceScreenNavigationProp> = (
     { navigation, route }
 ) => {
     const { t } = useTranslation()
@@ -42,33 +56,23 @@ const MainScreen: FC<StackScreenProps<MarketplaceNavigatorParamList, RouteStacks
 
 
     return (
-        <ScrollView
-            style={Layout.fill}
-            contentContainerStyle={[
-                Layout.fill,
-                Layout.colCenter,
-                Gutters.smallHPadding,
-            ]}
+        <ScreenBackgrounds
+            screenName={RouteStacks.breedingMain}
         >
-            
+            <KeyboardAwareScrollView
+                style={Layout.fill}
+                contentContainerStyle={[
+                    Layout.fill,
+                    Layout.colCenter,
+                    Gutters.smallHPadding,
+                ]}
+            >
 
-            <View style={{
-                alignItems: "center",
-                width: "100%",
-                flex: 1,
-                justifyContent: "center",
-            }}>
+                <Text style={{color: colors.black}}>Marketplace</Text>
 
+            </KeyboardAwareScrollView>
 
-
-                <Text>Main screen</Text>
-
-            
-
-
-            </View>
-
-        </ScrollView>
+        </ScreenBackgrounds>
     )
 }
 

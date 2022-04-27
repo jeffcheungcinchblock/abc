@@ -1,52 +1,79 @@
-import React, { useEffect } from 'react'
+import React, { FC, useEffect } from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { HomeScreen, BreedingScreen, MarketplaceScreen, SocialScreen } from '@/Screens/App'
-
+import { HomeScreen, BreedingScreen, MarketplaceScreen, SocialScreen, SettingScreen } from '@/Screens/App'
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import Entypo from 'react-native-vector-icons/Entypo'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
-
 import { useTranslation } from 'react-i18next'
 import { colors } from '@/Utils/constants'
 import { createStackNavigator } from '@react-navigation/stack'
-import { RouteTabs } from './routes'
+import { RouteStacks, RouteTabs } from './routes'
+import { DrawerScreenProps } from '@react-navigation/drawer'
 
+import { createDrawerNavigator, DrawerContentComponentProps, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer'
+import { Dimensions, ImageBackground, View } from 'react-native'
+import { NavigatorScreenParams } from '@react-navigation/native'
+import { HomeNavigatorParamList } from '@/Screens/App/HomeScreen'
+import { BreedingNavigatorParamList } from '@/Screens/App/BreedingScreen'
+import { MarketplaceNavigatorParamList } from '@/Screens/App/MarketplaceScreen'
+import { SocialNavigatorParamList } from '@/Screens/App/SocialScreen'
 
-export type MainNavigatorParamList = {
-  home: undefined
-  breeding: undefined
-  marketplace: undefined
-  social: undefined
+const { width, height } = Dimensions.get("screen");
+
+export type TabNavigatorParamList = {
+  [RouteTabs.home]: NavigatorScreenParams<HomeNavigatorParamList>
+  [RouteTabs.breeding]: NavigatorScreenParams<BreedingNavigatorParamList>
+  [RouteTabs.marketplace]: NavigatorScreenParams<MarketplaceNavigatorParamList>
+  [RouteTabs.social]: NavigatorScreenParams<SocialNavigatorParamList>
   // 🔥 Your screens go here
+}
+
+export type DrawerNavigatorParamList = {
+  [RouteStacks.setting]: undefined
+  [RouteStacks.mainTab]: NavigatorScreenParams<TabNavigatorParamList>
 }
 
 const Tab = createBottomTabNavigator()
 const Stack = createStackNavigator()
+const Drawer = createDrawerNavigator();
 
-const MainTabNavigator = () => {
+export type MainTabNavigatorProps = DrawerScreenProps<DrawerNavigatorParamList, RouteStacks.mainTab>
+
+type TabWrapperViewProps = { focused: boolean }
+
+const TabWrapperView: FC<TabWrapperViewProps> = (props) => {
+  return <View style={{ borderBottomWidth: 4, borderBottomColor: props.focused ? colors.lemonGlacier : colors.black, height: 40, justifyContent: 'center' }}>
+    {props.children}
+  </View>
+}
+
+const MainTabNavigator: FC<MainTabNavigatorProps> = () => {
 
   const { t } = useTranslation()
 
-  useEffect(() => {
-
-  }, [])
-
   return <Tab.Navigator
-    screenOptions={{ 
+    screenOptions={{
       headerShown: false,
+      tabBarShowLabel: false,
+      tabBarStyle: {
+        backgroundColor: colors.black,
+      }
     }}
+
   >
     <Tab.Screen
       name={RouteTabs.home}
       component={HomeScreen}
       options={{
         tabBarLabelPosition: 'below-icon',
-        tabBarLabel: t("tabBarLabels.home"),
         tabBarIcon: ({ focused, color, size }) => {
-          return <FontAwesome name="home" size={20} color={focused ? colors.frenchPink : "#000"} />
+          return <TabWrapperView focused={focused}>
+            <FontAwesome name="home" size={20} color={focused ? colors.lemonGlacier : colors.white} />
+          </TabWrapperView>
         },
+
 
       }}
     />
@@ -55,9 +82,10 @@ const MainTabNavigator = () => {
       component={BreedingScreen}
       options={{
         tabBarLabelPosition: 'below-icon',
-        tabBarLabel: t("tabBarLabels.breeding"),
         tabBarIcon: ({ focused, color, size }) => {
-          return <Entypo name="new" size={20} color={focused ? colors.frenchPink : "#000"} />
+          return <TabWrapperView focused={focused}>
+            <Entypo name="new" size={20} color={focused ? colors.lemonGlacier : colors.white} />
+          </TabWrapperView>
         },
       }}
     />
@@ -66,9 +94,10 @@ const MainTabNavigator = () => {
       component={MarketplaceScreen}
       options={{
         tabBarLabelPosition: 'below-icon',
-        tabBarLabel: t("tabBarLabels.marketplace"),
         tabBarIcon: ({ focused, color, size }) => {
-          return <Entypo name="shop" size={20} color={focused ? colors.frenchPink : "#000"} />
+          return <TabWrapperView focused={focused}>
+            <Entypo name="shop" size={20} color={focused ? colors.lemonGlacier : colors.white} />
+          </TabWrapperView>
         },
       }}
     />
@@ -78,9 +107,10 @@ const MainTabNavigator = () => {
       component={SocialScreen}
       options={{
         tabBarLabelPosition: 'below-icon',
-        tabBarLabel: t("tabBarLabels.social"),
         tabBarIcon: ({ focused, color, size }) => {
-          return <Ionicons name="share-social" size={20} color={focused ? colors.frenchPink : "#000"} />
+          return <TabWrapperView focused={focused}>
+            <Ionicons name="share-social" size={20} color={focused ? colors.lemonGlacier : colors.white} />
+          </TabWrapperView>
         },
       }}
     />
@@ -89,16 +119,29 @@ const MainTabNavigator = () => {
   </Tab.Navigator>
 }
 
+const CustomDrawerContent = (props: DrawerContentComponentProps) => {
+  return (
+    <DrawerContentScrollView {...props}>
+      <DrawerItemList {...props} />
+    </DrawerContentScrollView>
+  );
+}
 const MainNavigator = () => {
 
   const { t } = useTranslation()
 
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="mainTab">
-      <Stack.Screen name="mainTab" component={MainTabNavigator} />
-      {/* Additional hidden stack screens to be added here ,e.g. Setting Screen*/}
-    </Stack.Navigator>
+    <Drawer.Navigator screenOptions={{ headerShown: false }}
+      drawerContent={(props) => <CustomDrawerContent {...props} />}
+      initialRouteName={RouteStacks.setting}>
+
+      <Drawer.Screen name={RouteStacks.setting} component={SettingScreen} />
+      <Drawer.Screen name={RouteStacks.mainTab} component={MainTabNavigator} />
+
+    </Drawer.Navigator>
+
   )
 }
+
 
 export default MainNavigator

@@ -1,4 +1,31 @@
 export default {
+  login: "Login",
+  createAccount: "Create Account",
+  accountLogin: "ACCOUNT LOGIN",
+  verifyAccount: "Verify Account",
+  createANewAccount: "Create a New account",
+  accountName: "ACCOUNT NAME",
+  password: "PASSWORD",
+  enterInvitationCode: "ENTER INVITATION CODE",
+  invitationCodeAllCapital: "INVITATION CODE",
+  invitationCode: "Invitation Code",
+  confirm: "CONFIRM",
+  inviteFriends: "INVITE FRIENDS",
+  yourQueueNumber: "Your queue number",
+  invited: "Invited",
+  eventStartDate: "Event Start Date",
+  yourInvitationCode: "Your invitation code",
+  inviteSucceeded: "Invite Succeeded",
+
+  snackbarMsg: {
+    invitationCodeCopied: "Invitation code copied !",
+  },
+
+  error: {
+    invalidUser: "Invalid User",
+    invalidInvitationCode: "Invalid Invitation Code",
+  },
+
   tabBarLabels: {
     home: "Home",
     marketplace: "MarketPlace",

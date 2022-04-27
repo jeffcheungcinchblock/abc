@@ -5,11 +5,12 @@ import {
     ActivityIndicator,
     Text,
     TextInput,
-    TouchableOpacity,
+    Pressable,
     ScrollView,
     TextStyle,
     Alert,
     ViewStyle,
+    Image,
 } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { Brand } from '@/Components'
@@ -20,7 +21,7 @@ import { login, logout } from '@/Store/Users/actions'
 import { UserState } from '@/Store/Users/reducer'
 import EncryptedStorage from 'react-native-encrypted-storage';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
-
+import Amplify, { Auth, Hub } from 'aws-amplify';
 import {
     CognitoUserPool,
     CognitoUser,
@@ -32,33 +33,37 @@ import {
 
 } from 'amazon-cognito-identity-js';
 import { shallowEqual, useDispatch, useSelector } from "react-redux"
-import { config } from '@/Utils/constants'
+import { colors, config } from '@/Utils/constants'
 import { AuthNavigatorParamList } from '@/Navigators/AuthNavigator'
 import { RootState } from '@/Store'
 import { Header } from '@/Components'
 import { Spacing } from '@/Theme/Variables'
 import LoadButton from '@/Components/Buttons/LoadButton'
-import { routes, RouteStacks, RouteTabs } from '@/Navigators/routes'
+import { RouteStacks, RouteTabs } from '@/Navigators/routes'
+import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth'
 
-const TEXT_INPUT = {
-    height: 40,
-    color: "#000",
-    borderWidth: 1,
-    borderRadius: 10,
-    borderColor: "#000",
-    paddingHorizontal: 20
-}
+import {
+    useWalletConnect,
+} from "@walletconnect/react-native-dapp";
+import ScreenBackgrounds from '@/Components/ScreenBackgrounds'
+import AppLogo from '@/Components/Icons/AppLogo'
+import backBtn from '@/Assets/Images/buttons/back.png'
+import WhiteInput from '@/Components/Inputs/WhiteInput'
+import AppIcon from '@/Components/Icons/AppIcon'
+import { color } from 'react-native-reanimated'
+import YellowButton from '@/Components/Buttons/YellowButton'
+import { InAppBrowser } from 'react-native-inappbrowser-reborn';
+import { firebase } from '@react-native-firebase/messaging'
+import { startLoading } from '@/Store/UI/actions'
+import SocialSignInButton from '@/Components/Buttons/SocialSignInButton'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+
 
 const LOGIN_BUTTON: ViewStyle = {
     height: 40,
     flexDirection: "row"
 }
 
-const HEADER: TextStyle = {
-    paddingBottom: Spacing[5] - 1,
-    paddingHorizontal: Spacing[4],
-    paddingTop: Spacing[3],
-}
 const HEADER_TITLE: TextStyle = {
     fontSize: 12,
     fontWeight: "bold",
@@ -76,6 +81,11 @@ const BUTTON_TEXT: TextStyle = {
     color: "#fff"
 }
 
+const INPUT_VIEW_LAYOUT: ViewStyle = {
+    flexBasis: 80,
+    justifyContent: "center"
+}
+
 const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.signIn>> = (
     { navigation, route }
 ) => {
@@ -83,223 +93,252 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
     const { Common, Fonts, Gutters, Layout } = useTheme()
     const dispatch = useDispatch()
 
+    const connector = useWalletConnect();
+
     const params = route?.params || { username: "" }
 
     const [isLoggingIn, setIsLoggingIn] = useState(false)
+    const [errMsg, setErrMsg] = useState(" ")
 
     const [credential, setCredential] = useState({
         username: "",
         password: ""
     })
 
+    const [socialIdentityUser, setSocialIdentityUser] = useState(null)
+
     useEffect(() => {
         setCredential({
             username: "",
             password: ""
         })
-    }, [])
 
-    const goBack = useCallback(() => {
-        navigation.navigate(RouteStacks.welcome)
-    }, [])
+        const getUser = () => {
+            return Auth.currentAuthenticatedUser()
+                .then(userData => userData)
+                .catch(() => console.log('Not signed in'));
+        }
 
-    const cognitoAuthUser = useCallback((username, password, saveKeyChain = false) => {
-        var authenticationDtl = new AuthenticationDetails({
-            Username: username,
-            Password: password
-        });
-
-        var userPool = new CognitoUserPool(config.aws.cognito.poolData);
-
-        var userData = {
-            Username: username,
-            Pool: userPool,
-        };
-
-        var currCognitoUser = new CognitoUser(userData);
-        currCognitoUser.authenticateUser(authenticationDtl, {
-            onSuccess: async (session) => {
-
-                try {
-                    let payload = session.getIdToken().payload
-
-                    let accessToken = session.getAccessToken().getJwtToken()
-                    let idToken = session.getIdToken().getJwtToken()
-                    let refreshToken = session.getRefreshToken().getToken()
-
-                    dispatch(login({
-                        email: payload.email,
-                        username: payload["cognito:username"],
-                    }))
-
-                    await EncryptedStorage.setItem(
-                        "user_session_info",
-                        JSON.stringify({
-                            username,
-                            accessToken,
-                            idToken,
-                            refreshToken
-                        })
-                    );
-
-                    setIsLoggingIn(false)
-                } catch (error) {
-                    // Alert.alert(JSON.stringify(error))
-                    setIsLoggingIn(false)
-                }
-
-            },
-
-            onFailure: function (err) {
-                Alert.alert(err.message || JSON.stringify(err));
-                setIsLoggingIn(false)
-            },
-        })
-
-    }, [credential])
-
-    useEffect(() => {
-
-        const tryRetrieveKeyChainStoredCred = async () => {
-            // let { username, password } = await load("aws_cognity")
-            // if (!['', null, undefined].includes(username)) {
-            //   cognitoAuthUser(username, password, false)
-            // }
-
-            let userSessionInfo = await EncryptedStorage.getItem("user_session_info")
-
-            if (!["", null, undefined].includes(userSessionInfo)) {
-                let parsedUserSessionInfo = JSON.parse(userSessionInfo as string)
-                let username = parsedUserSessionInfo.username
-                const accessToken = new CognitoAccessToken({ AccessToken: parsedUserSessionInfo.accessToken });
-                const idToken = new CognitoIdToken({ IdToken: parsedUserSessionInfo.idToken });
-                const refreshToken = new CognitoRefreshToken({ RefreshToken: parsedUserSessionInfo.refreshToken });
-
-                const sessionData = {
-                    IdToken: idToken,
-                    AccessToken: accessToken,
-                    RefreshToken: refreshToken
-                };
-
-                const userSession = new CognitoUserSession(sessionData);
-
-                var userPool = new CognitoUserPool(config.aws.cognito.poolData);
-
-                let currCognitoUser = new CognitoUser({
-                    Username: username,
-                    Pool: userPool
-                });
-
-                currCognitoUser.setSignInUserSession(userSession);
-                currCognitoUser.getSession((err: any, session: any) => {
-
-                    let payload = session.getIdToken().payload
-
-                    dispatch(login({
-                        email: payload.email,
-                        username: payload["cognito:username"],
-                    }))
-                })
+        const authListener = ({ payload: { event, data } }: any) => {
+            switch (event) {
+                case 'signIn':
+                case 'cognitoHostedUI':
+                    getUser().then(userData => {
+                        dispatch(login({
+                            username: userData.username,
+                            email: userData.email, // FederatedSignedIn doesnt have email exposed
+                        }))
+                        dispatch(startLoading(false))
+                    });
+                    break;
+                case 'signOut':
+                    break;
+                case 'signIn_failure':
+                case 'cognitoHostedUI_failure':
+                    console.log('Sign in failure', data);
+                    dispatch(startLoading(false))
+                    break;
             }
         }
 
-        tryRetrieveKeyChainStoredCred()
+        Hub.listen('auth', authListener);
+
+        return () => {
+            Hub.remove('auth', authListener)
+        }
+
     }, [])
 
-    const onLoginOptionPress = (loginOpt: string) => {
-        // TBD: frontend fields validation 
+    const goBack = () => {
+        navigation.navigate(RouteStacks.welcome)
 
-        if (loginOpt === 'normal') {
-            setIsLoggingIn(true)
-            cognitoAuthUser(credential.username, credential.password, true)
+    }
+
+    const onLoginOptionPress = async (loginOpt: string) => {
+        // await InAppBrowser.close()
+        // await InAppBrowser.closeAuth()
+        dispatch(startLoading(true))
+        try {
+            if (loginOpt === 'normal') {
+                const user = await Auth.signIn(credential.username, credential.password)
+                let { attributes, username } = user
+
+                dispatch(login({
+                    email: attributes.email,
+                    username,
+                }))
+
+                setIsLoggingIn(true)
+
+            } else if (loginOpt === 'facebook') {
+                await Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Facebook })
+            } else if (loginOpt === 'apple') {
+                await Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Apple })
+            } else if (loginOpt === 'google') {
+                await Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Google })
+            }
+
+        } catch (error: any) {
+
+            switch (error.message) {
+                case 'Username should be either an email or a phone number.':
+                    setErrMsg(error.message)
+                    break;
+                case 'Password did not conform with policy: Password not long enough':
+                    setErrMsg(error.message)
+                    break;
+                case 'User is not confirmed.':
+                    setErrMsg(error.message)
+                    break;
+                case 'Incorrect username or password.':
+                    setErrMsg(error.message)
+                    break;
+                case 'User does not exist.':
+                    setErrMsg(t("error.invalidUser"))
+                    break;
+                default:
+            }
+
+            dispatch(startLoading(false))
+        } finally {
+            setIsLoggingIn(false)
         }
     }
 
-    const onCredentialFieldChange = useCallback((field, text) => {
+    const onCredentialFieldChange = (field: string, text: string) => {
         setCredential(prevCredential => {
             return {
                 ...prevCredential,
                 [field]: text
             }
         })
-    }, [])
+    }
 
-    const onSignUpPress = useCallback(() => {
-        navigation.navigate(RouteStacks.signUp) 
-    }, [])
+    const onSignUpPress = () => {
+        navigation.navigate(RouteStacks.signUp)
+    }
 
     return (
-        <ScrollView
-            style={Layout.fill}
-            contentContainerStyle={[
-                Layout.fill,
-                Layout.colCenter,
-                Gutters.smallHPadding,
-            ]}
+        <ScreenBackgrounds
+            screenName={RouteStacks.signIn}
         >
-            <Header headerTx="signInScreen.screenTitle" style={HEADER} titleStyle={HEADER_TITLE}
+            <Header
                 onLeftPress={goBack}
-                leftIcon={() => <FontAwesome name="arrow-left" size={20} color="#000" />}
             />
 
-            <View style={[Layout.fullWidth]}>
-                <TouchableOpacity style={[LOGIN_BUTTON, Layout.center, { backgroundColor: "powderblue" }]} onPress={() => onLoginOptionPress("google")}>
-                    <FontAwesome style={BUTTON_ICON} name="google" size={20} color="#fff" />
-                    <Text style={[BUTTON_TEXT, Fonts.textCenter]}>Google</Text>
-                </TouchableOpacity>
-            </View>
+            <KeyboardAwareScrollView
+                style={Layout.fill}
+                contentContainerStyle={[
+                    Layout.fill,
+                    Layout.colCenter,
 
-            <View style={[Layout.fullWidth]}>
-                <TouchableOpacity style={[LOGIN_BUTTON, Layout.center, { backgroundColor: "skyblue" }]} onPress={() => onLoginOptionPress("facebook")}>
-                    <FontAwesome style={BUTTON_ICON} name="facebook-square" size={20} color="#fff" />
-                    <Text style={[BUTTON_TEXT, Fonts.textCenter]}>Facebook</Text>
-                </TouchableOpacity>
-            </View>
+                ]}
+            >
 
-            <View style={[Layout.fullWidth]}>
-                <TouchableOpacity style={[LOGIN_BUTTON, Layout.center, { backgroundColor: "steelblue" }]} onPress={() => onLoginOptionPress("twitter")}>
-                    <FontAwesome style={BUTTON_ICON} name="twitter" size={20} color="#fff" />
-                    <Text style={[BUTTON_TEXT, Fonts.textCenter]}>Twitter</Text>
-                </TouchableOpacity>
-            </View>
+                {/* <View> style={[Layout.fullWidth]}>
+                    <Pressable style={[LOGIN_BUTTON, Layout.center, { backgroundColor: "steelblue" }]} onPress={() => onLoginOptionPress("apple")}>
+                        <FontAwesome style={BUTTON_ICON} name="apple" size={20} color="#fff" />
+                        <Text style={[BUTTON_TEXT, Fonts.textCenter]}>Apple</Text>
+                    </Pressable>
+                </View> */}
 
-            <View style={[Layout.fullWidth]}>
-                <TextInput
-                    style={TEXT_INPUT}
-                    onChangeText={(text) => onCredentialFieldChange('username', text)}
-                    value={credential.username}
-                    placeholder={"User Name"}
-                    placeholderTextColor={"#000"}
-                />
-            </View>
+                <View style={[{
+                    flexGrow: 6,
+                    justifyContent: "flex-start",
+                }, Layout.fullWidth, Layout.fill]}>
 
-            <View style={[Layout.fullWidth]}>
-                <TextInput
-                    style={TEXT_INPUT}
-                    onChangeText={(text) => onCredentialFieldChange('password', text)}
-                    value={credential.password}
-                    placeholder={"Password"}
-                    secureTextEntry={true}
-                    placeholderTextColor={"#000"}
-                />
-            </View>
+                    {/* <View style={[Layout.fullWidth]}>
+                        <Pressable style={[LOGIN_BUTTON, Layout.center, { backgroundColor: "powderblue" }]} onPress={() => onLoginOptionPress("google")}>
+                            <FontAwesome style={BUTTON_ICON} name="google" size={20} color="#fff" />
+                            <Text style={[BUTTON_TEXT, Fonts.textCenter]}>Google</Text>
+                        </Pressable>
+                    </View>
 
-            <View style={[Layout.fullWidth, Layout.center]}>
-                <TouchableOpacity style={[Layout.fullWidth, Layout.center]} onPress={onSignUpPress}>
-                    <Text style={{color:"#fff"}}>Sign up</Text>
-                </TouchableOpacity>
-            </View>
+                    <View style={[Layout.fullWidth]}>
+                        <Pressable style={[LOGIN_BUTTON, Layout.center, { backgroundColor: "skyblue" }]} onPress={() => onLoginOptionPress("facebook")}>
+                            <FontAwesome style={BUTTON_ICON} name="facebook-square" size={20} color="#fff" />
+                            <Text style={[BUTTON_TEXT, Fonts.textCenter]}>Facebook</Text>
+                        </Pressable>
+                    </View> */}
 
-            <View style={[Layout.fullWidth, Layout.center]}>
-                <LoadButton
-                    onPress={() => onLoginOptionPress("normal")}
-                    text={t("Login")}
-                    containerStyle={Layout.fullWidth}
-                    isLoading={isLoggingIn}
-                    leftIcon={() => <FontAwesome name="home" size={20} color="#fff"/>}
-                />
-            </View>
-        </ScrollView>
+
+                    <View style={[Layout.fullWidth, { justifyContent: "center", flex: 1 }]}>
+                        <Text style={[{ color: colors.white, fontFamily: "AvenirNext-Bold" }, Fonts.textRegular, Fonts.textCenter]}>
+                            {t("accountLogin")}
+                        </Text>
+                    </View>
+
+                    <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT]}>
+                        <WhiteInput
+                            onChangeText={(text) => onCredentialFieldChange('username', text)}
+                            value={credential.username}
+                            placeholder={t("accountName")}
+                            placeholderTextColor={colors.spanishGray}
+                        />
+                    </View>
+
+                    <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT]}>
+                        <WhiteInput
+                            onChangeText={(text) => onCredentialFieldChange('password', text)}
+                            value={credential.password}
+                            placeholder={t("password")}
+                            secureTextEntry={true}
+                            placeholderTextColor={colors.spanishGray}
+                        />
+                    </View>
+
+                    <View style={[Layout.fullWidth, Layout.colCenter, { flexBasis: 20 }]}>
+                        {
+                            errMsg && <Text style={{ color: colors.electricViolet }}>{errMsg}</Text>
+                        }
+                    </View>
+
+                    <View style={[Layout.fullWidth, Layout.colCenter, Layout.rowCenter, { flexBasis: 40, flexDirection: "row", marginVertical: 30 }]}>
+                        <SocialSignInButton
+                            isLoading={isLoggingIn}
+                            onPress={() => onLoginOptionPress("facebook")}
+                            iconName="facebook"
+                            containerStyle={{
+                                marginHorizontal: 8
+                            }}
+                        />
+                        <SocialSignInButton
+                            isLoading={isLoggingIn}
+                            onPress={() => onLoginOptionPress("google")}
+                            iconName="google"
+                            containerStyle={{
+                                marginHorizontal: 8
+                            }}
+                        />
+                        <SocialSignInButton
+                            isLoading={isLoggingIn}
+                            onPress={() => onLoginOptionPress("apple")}
+                            iconName="apple"
+                            containerStyle={{
+                                marginHorizontal: 8
+                            }}
+                        />
+                    </View>
+
+                    <View style={[Layout.fullWidth, Gutters.largeHPadding, Layout.center, { flex: 1, justifyContent: "flex-start", }]}>
+                        <Pressable style={[Layout.fullWidth, Layout.center]} onPress={onSignUpPress}>
+                            <Text style={[{ color: colors.lemonGlacier }, Fonts.textSmall]}>{t("createANewAccount")}</Text>
+                        </Pressable>
+                    </View>
+                </View>
+
+                <View style={[Layout.fullWidth, Layout.center, { flex: 1, justifyContent: "flex-start" }]}>
+                    <YellowButton
+                        onPress={() => onLoginOptionPress("normal")}
+                        text={t("login")}
+                        containerStyle={Layout.fullWidth}
+                        isLoading={isLoggingIn}
+                    />
+                </View>
+
+
+            </KeyboardAwareScrollView>
+        </ScreenBackgrounds>
     )
 }
 

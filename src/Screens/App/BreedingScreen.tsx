@@ -5,7 +5,6 @@ import {
     ActivityIndicator,
     Text,
     TextInput,
-    TouchableOpacity,
     ScrollView,
     TextStyle,
     Alert,
@@ -21,18 +20,25 @@ import { UserState } from '@/Store/Users/reducer'
 import { createStackNavigator } from '@react-navigation/stack';
 import { shallowEqual, useDispatch, useSelector } from "react-redux"
 import { config } from '@/Utils/constants'
-import { MainNavigatorParamList } from '@/Navigators/MainNavigator'
+import { DrawerNavigatorParamList, TabNavigatorParamList } from '@/Navigators/MainNavigator'
 import { RouteStacks, RouteTabs } from '@/Navigators/routes'
 import { MainScreen } from './Breeding'
+import { CompositeScreenProps } from '@react-navigation/native'
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
+import { DrawerScreenProps } from '@react-navigation/drawer'
 
 const Stack = createStackNavigator();
 
 export type BreedingNavigatorParamList = {
     [RouteStacks.breedingMain]: undefined
-    
 }
 
-const BreedingScreen: FC<StackScreenProps<MainNavigatorParamList, RouteTabs.breeding>> = (
+type SocialMainScreenNavigationProp = CompositeScreenProps<
+    BottomTabScreenProps<TabNavigatorParamList, RouteTabs.breeding>,
+    DrawerScreenProps<DrawerNavigatorParamList>
+>
+
+const BreedingScreen: FC<StackScreenProps<TabNavigatorParamList, RouteTabs.breeding>> = (
     { navigation, route }
 ) => {
     const { t } = useTranslation()
@@ -41,8 +47,8 @@ const BreedingScreen: FC<StackScreenProps<MainNavigatorParamList, RouteTabs.bree
 
     return (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name={RouteStacks.breedingMain} component={MainScreen} />
-          
+            <Stack.Screen name={RouteStacks.breedingMain} component={MainScreen} />
+
         </Stack.Navigator>
     )
 }

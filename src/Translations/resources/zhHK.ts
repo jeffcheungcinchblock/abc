@@ -1,4 +1,8 @@
 export default {
+  login: "Login",
+  createAccount: "Create Account",
+
+
   tabBarLabels: {
     home: "主頁",
     marketplace: "市場",

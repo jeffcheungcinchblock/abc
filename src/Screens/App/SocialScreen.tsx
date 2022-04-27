@@ -5,7 +5,7 @@ import {
     ActivityIndicator,
     Text,
     TextInput,
-    TouchableOpacity,
+    Pressable,
     ScrollView,
     TextStyle,
     Alert,
@@ -21,7 +21,7 @@ import { UserState } from '@/Store/Users/reducer'
 
 import { shallowEqual, useDispatch, useSelector } from "react-redux"
 import { config } from '@/Utils/constants'
-import { MainNavigatorParamList } from '@/Navigators/MainNavigator'
+import { TabNavigatorParamList } from '@/Navigators/MainNavigator'
 import { RouteStacks, RouteTabs } from '@/Navigators/routes'
 import { MainScreen } from './Social'
 
@@ -31,7 +31,7 @@ export type SocialNavigatorParamList = {
     [RouteStacks.socialMain]: undefined
 }
 
-const SocialScreen: FC<StackScreenProps<MainNavigatorParamList, RouteTabs.social>> = (
+const SocialScreen: FC<StackScreenProps<TabNavigatorParamList, RouteTabs.social>> = (
     { navigation, route }
 ) => {
     const { t } = useTranslation()

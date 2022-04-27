@@ -5,10 +5,12 @@ import {
     ActivityIndicator,
     Text,
     TextInput,
-    TouchableOpacity,
+    Pressable,
     ScrollView,
     TextStyle,
     Alert,
+    Image,
+    ViewStyle,
 } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { Brand, Header } from '@/Components'
@@ -18,33 +20,19 @@ import { changeTheme, ThemeState } from '@/Store/Theme'
 import { login } from '@/Store/Users/actions'
 import { UserState } from '@/Store/Users/reducer'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import Amplify, { Auth } from 'aws-amplify';
 
-import {
-    CognitoUserPool,
-    CognitoUser,
-    AuthenticationDetails,
-    CognitoAccessToken,
-    CognitoIdToken,
-    CognitoRefreshToken,
-    CognitoUserSession,
-    CognitoUserAttribute,
-
-} from 'amazon-cognito-identity-js';
 import { shallowEqual, useDispatch, useSelector } from "react-redux"
-import { config } from '@/Utils/constants'
+import { colors, config } from '@/Utils/constants'
 import { AuthNavigatorParamList } from '@/Navigators/AuthNavigator'
 
 import { HeaderLayout } from '@/Styles'
 import { RouteStacks } from '@/Navigators/routes'
-
-const TEXT_INPUT = {
-    height: 40,
-    color: "#000",
-    borderWidth: 1,
-    borderRadius: 10,
-    borderColor: "#000",
-    paddingHorizontal: 20
-}
+import ScreenBackgrounds from '@/Components/ScreenBackgrounds'
+import WhiteInput from '@/Components/Inputs/WhiteInput'
+import YellowButton from '@/Components/Buttons/YellowButton'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { startLoading } from '@/Store/UI/actions'
 
 const BUTTON_ICON = {
     width: 30
@@ -54,12 +42,18 @@ const BUTTON_TEXT: TextStyle = {
     width: 100
 }
 
+const INPUT_VIEW_LAYOUT: ViewStyle = {
+    flexBasis: 80,
+    justifyContent: "center"
+}
+
 const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.signUp>> = (
     { navigation }
 ) => {
     const { t } = useTranslation()
     const { Common, Fonts, Gutters, Layout } = useTheme()
     const dispatch = useDispatch()
+    const [isCreatingAccount, setIsCreatingAccount] = useState(false)
 
     const [credential, setCredential] = useState({
         username: "",
@@ -67,16 +61,16 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
         email: "",
     })
 
-    const onCredentialFieldChange = useCallback((field, text) => {
+    const onCredentialFieldChange = (field: string, text: string) => {
         setCredential(prevCredential => {
             return {
                 ...prevCredential,
                 [field]: text
             }
         })
-    }, [])
+    }
 
-    const onCreateAccountPress = useCallback(() => {
+    const onCreateAccountPress = useCallback(async () => {
         // TBD: frontend fields validation 
 
         // if(!validateEmail(credential.email)){
@@ -84,93 +78,135 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
         //   return
         // }
 
-        var userPool = new CognitoUserPool(config.aws.cognito.poolData);
-
-        var attributeList: any = [];
-
-        var dataEmail = {
-            Name: 'email',
-            Value: credential.email
-        };
-
-        attributeList.push(dataEmail)
-
-        userPool.signUp(credential.username, credential.password, attributeList, [], function (
-            err,
-            result
-        ) {
-            if (err) {
-                Alert.alert(err.message || JSON.stringify(err));
-                return;
-            }
-            // var cognitoUser = result.user;
-            navigation.navigate(RouteStacks.validationCode, {
+        try {
+            dispatch(startLoading(true))
+            setIsCreatingAccount(true)
+            // any type here as aws amplify has no typescript support
+            const { user }: any = await Auth.signUp({
                 username: credential.username,
-            })
+                password: credential.password,
+                attributes: {
+                    email: credential.email,          
+                }
+            });
+            console.log(user);
 
-        });
+            setIsCreatingAccount(false)
+            navigation.navigate(RouteStacks.validationCode, {
+                username: user.username,
+            })
+        } catch (error) {
+            console.log('error ', error)
+        } finally {
+            dispatch(startLoading(false))
+        }
+
+
+        // var userPool = new CognitoUserPool(config.aws.cognito.poolData);
+
+        // var attributeList: any = [];
+
+        // var dataEmail = {
+        //     Name: 'email',
+        //     Value: credential.email
+        // };
+
+        // attributeList.push(dataEmail)
+
+        // userPool.signUp(credential.username, credential.password, attributeList, [], function (
+        //     err,
+        //     result
+        // ) {
+        //     if (err) {
+        //         Alert.alert(err.message || JSON.stringify(err));
+        //         return;
+        //     }
+        //     // var cognitoUser = result.user;
+        //     navigation.navigate(RouteStacks.validationCode, {
+        //         username: credential.username,
+        //     })
+
+        // });
 
 
     }, [credential])
 
-    const goBack = useCallback(() => {
-        navigation.navigate("signIn")
-    }, [])
+    const goBack = () => {
+        navigation.navigate(RouteStacks.signIn)
+    }
 
     return (
-        <ScrollView
-            style={Layout.fill}
-            contentContainerStyle={[
-                Layout.fill,
-                Layout.colCenter,
-                Gutters.smallHPadding,
-            ]}
+        <ScreenBackgrounds
+            screenName={RouteStacks.signUp}
         >
-            <Header headerTx="signUpScreen.screenTitle"
-                style={HeaderLayout.HEADER}
-                titleStyle={HeaderLayout.HEADER_TITLE}
+            <Header
                 onLeftPress={goBack}
-                leftIcon={() => <FontAwesome name="arrow-left" size={20} color="#000"/>}
             />
 
-            <View style={[Layout.fullWidth]}>
-                <TextInput
-                    style={TEXT_INPUT}
-                    onChangeText={(text) => onCredentialFieldChange('email', text)}
-                    value={credential.email}
-                    placeholder={"Email"}
-                    placeholderTextColor={"#000"}
-                />
-            </View>
+            <KeyboardAwareScrollView
+                style={Layout.fill}
+                contentContainerStyle={[
+                    Layout.fill,
+                    Layout.colCenter,
+                ]}
+            >
+                <View style={[{
+                    flexGrow: 6, 
+                    justifyContent: "flex-start",
+                }, Layout.fullWidth, Layout.fill]}>
 
-            <View style={[Layout.fullWidth]}>
-                <TextInput
-                    style={TEXT_INPUT}
-                    onChangeText={(text) => onCredentialFieldChange('username', text)}
-                    value={credential.username}
-                    placeholder={"User Name"}
-                    placeholderTextColor={"#000"}
-                />
-            </View>
+                    <View style={[Layout.fullWidth, { justifyContent: "center", flex: 1 }]}>
+                        <Text style={[{ color: colors.white, fontFamily: "AvenirNext-Bold" }, Fonts.textRegular, Fonts.textCenter]}>
+                            {t('createAccount')}
+                        </Text>
+                    </View>
 
-            <View style={[Layout.fullWidth]}>
-                <TextInput
-                    style={TEXT_INPUT}
-                    onChangeText={(text) => onCredentialFieldChange('password', text)}
-                    value={credential.password}
-                    placeholder={"Password"}
-                    placeholderTextColor={"#000"}
-                    secureTextEntry={true}
-                />
-            </View>
 
-            <View style={[]}>
-                <TouchableOpacity style={[]} onPress={onCreateAccountPress}>
-                    <Text>Create Account</Text>
-                </TouchableOpacity>
-            </View>
+                    <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT]}>
+                        <WhiteInput
+                            onChangeText={(text) => onCredentialFieldChange('email', text)}
+                            value={credential.email}
+                            placeholder={"EMAIL"}
+                            placeholderTextColor={colors.spanishGray}
 
-        </ScrollView>
+                        />
+                    </View>
+
+                    <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT]}>
+                        <WhiteInput
+                            onChangeText={(text) => onCredentialFieldChange('username', text)}
+                            value={credential.username}
+                            placeholder={"USER NAME"}
+                            placeholderTextColor={colors.spanishGray}
+
+                        />
+                    </View>
+
+                    <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT]}>
+                        <WhiteInput
+                            onChangeText={(text) => onCredentialFieldChange('password', text)}
+                            value={credential.password}
+                            placeholder={"PASSWORD"}
+                            placeholderTextColor={colors.spanishGray}
+
+                            secureTextEntry={true}
+                        />
+                    </View>
+
+                    <View style={[Layout.fullWidth, { justifyContent: "center", flex: 1 }]}/>
+
+                </View>
+
+                <View style={[Layout.fullWidth, Layout.center, { flex: 1, justifyContent: "flex-start" }]}>
+                    <YellowButton
+                        text={t("createAccount")}
+                        containerStyle={Layout.fullWidth}
+                        isLoading={isCreatingAccount}
+                        onPress={onCreateAccountPress} />
+                </View>
+
+            </KeyboardAwareScrollView>
+        </ScreenBackgrounds>
     )
 }
 

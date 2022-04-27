@@ -5,7 +5,6 @@ import {
     ActivityIndicator,
     Text,
     TextInput,
-    TouchableOpacity,
     ScrollView,
     TextStyle,
     Alert,
@@ -21,7 +20,7 @@ import { UserState } from '@/Store/Users/reducer'
 
 import { shallowEqual, useDispatch, useSelector } from "react-redux"
 import { config } from '@/Utils/constants'
-import { MainNavigatorParamList } from '@/Navigators/MainNavigator'
+import { TabNavigatorParamList } from '@/Navigators/MainNavigator'
 import { RouteTabs, RouteStacks } from '@/Navigators/routes'
 import { MainScreen } from './Marketplace'
 
@@ -31,7 +30,7 @@ export type MarketplaceNavigatorParamList = {
     [RouteStacks.marketplaceMain]: undefined
 }
 
-const MarketplaceScreen: FC<StackScreenProps<MainNavigatorParamList, RouteTabs.marketplace>> = (
+const MarketplaceScreen: FC<StackScreenProps<TabNavigatorParamList, RouteTabs.marketplace>> = (
     { navigation, route }
 ) => {
     const { t } = useTranslation()

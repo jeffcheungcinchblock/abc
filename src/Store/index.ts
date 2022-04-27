@@ -17,7 +17,7 @@ import { api } from '@/Services/api'
 import * as modules from '@/Services/modules'
 import theme from './Theme'
 import userReducer from '@/Store/Users/reducer'
-
+import uiReducer from '@/Store/UI/reducer'
 
 const reducers = combineReducers({
   theme,
@@ -29,6 +29,7 @@ const reducers = combineReducers({
     {},
   ),
   user: userReducer,
+  ui: uiReducer,
   // new reducers to be added here
 
 })
