@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler'
 import React, { useEffect } from 'react'
-import { Provider } from 'react-redux'
+import { Provider, useDispatch } from 'react-redux'
 import { PersistGate } from 'redux-persist/lib/integration/react'
 import { store, persistor } from '@/Store'
 import ApplicationNavigator from '@/Navigators/Application'
@@ -15,9 +15,9 @@ import awsconfig from '@/aws-exports';
 import { InAppBrowser } from 'react-native-inappbrowser-reborn';
 import messaging from '@react-native-firebase/messaging';
 import firebase from '@react-native-firebase/app';
-import { config } from './Utils/constants'
+import { config, dispatchRef } from './Utils/constants'
 import { RouteStacks } from './Navigators/routes'
-
+import { startLoading } from './Store/UI/actions'
 
 // This is to supress the error coming from unknown lib who is using react-native-gesture-handler
 LogBox.ignoreLogs([
@@ -39,17 +39,20 @@ const urlOpener = async (url: string, redirectUrl: string) => {
         enableUrlBarHiding: true,
         enableDefaultShare: false,
         ephemeralWebSession: false,
-      });
+      }); 
 
       const { type, url: newUrl } = authRes
-      console.log('newUrl', authRes)
       if (type === 'success') {
         Linking.openURL(newUrl);
+      }else if(type === 'cancel'){
+        store.dispatch(startLoading(false))
       }
     }
   } catch (err) {
     console.log('err ', err)
-  }
+    await InAppBrowser.close()
+    store.dispatch(startLoading(false))
+  } 
 
 }
 
@@ -66,7 +69,6 @@ const App = () => {
   const getFcmToken = async () => {
     const fcmToken = await messaging().getToken();
     if (fcmToken) {
-      console.log(fcmToken);
       console.log("Your Firebase Token is:", fcmToken);
     } else {
       console.log("Failed", "No token received");

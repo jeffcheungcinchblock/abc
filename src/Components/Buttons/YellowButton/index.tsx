@@ -22,7 +22,7 @@ const DEFAULT_TEXT_STYLE = {
 }
 
 const BUTTON_STYLE: ViewStyle = {
-    backgroundColor: colors.lemonGlacier,
+    backgroundColor: colors.brightTurquoise,
     width: "100%",
     height: 40,
     justifyContent: "center"

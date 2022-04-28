@@ -49,7 +49,9 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string></string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>$(PRODUCT_NAME) requires FaceID access to allows you quick and secure access.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>

@@ -18,7 +18,7 @@ type ScreenBackgroundsProps = {
 
 // Refers to RouteStacks 
 const ScreenImageMap : any = {
-    [RouteStacks.welcome]: bg1,
+    [RouteStacks.welcome]: bg2,
     [RouteStacks.signIn]: bg2,
     [RouteStacks.signUp]: bg2,
     [RouteStacks.validationCode]: bg2,

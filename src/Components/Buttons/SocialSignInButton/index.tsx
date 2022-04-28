@@ -17,7 +17,7 @@ type SocialSignInButtonProps = {
 
 
 const BUTTON_STYLE: ViewStyle = {
-    backgroundColor: colors.lemonGlacier,
+    backgroundColor: colors.brightTurquoise,
     height: 40,
     width: 40,
     borderRadius: 99,

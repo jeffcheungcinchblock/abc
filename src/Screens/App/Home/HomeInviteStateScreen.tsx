@@ -42,7 +42,7 @@ import Clipboard from '@react-native-clipboard/clipboard';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 const PURPLE_COLOR = {
-    color: colors.electricViolet
+    color: colors.orangeCrayola
 }
 
 type HomeInviteStateScreenNavigationProp = CompositeScreenProps<
@@ -99,8 +99,8 @@ const HomeInviteStateScreen: FC<HomeInviteStateScreenNavigationProp> = (
 
                     <View style={{ flex: 2, flexDirection: "row", justifyContent: "center", alignItems: "flex-start" }}>
                         <View style={{ justifyContent: "center", alignItems: "center" }}>
-                            <Text style={[Fonts.textRegular, { color: colors.lemonGlacier, fontWeight: "bold" }]}>{t("invitationCode")}</Text>
-                            <Text style={[Fonts.textSmall, { color: colors.lemonGlacier }]}>{1234567890}</Text>
+                            <Text style={[Fonts.textRegular, { color: colors.brightTurquoise, fontWeight: "bold" }]}>{t("invitationCode")}</Text>
+                            <Text style={[Fonts.textSmall, { color: colors.brightTurquoise }]}>{1234567890}</Text>
                         </View>
                     
                     </View>

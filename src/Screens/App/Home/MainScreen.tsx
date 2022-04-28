@@ -31,6 +31,7 @@ import { DrawerScreenProps } from '@react-navigation/drawer'
 import { DrawerNavigatorParamList, TabNavigatorParamList } from '@/Navigators/MainNavigator'
 import ScreenBackgrounds from '@/Components/ScreenBackgrounds'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import YellowButton from '@/Components/Buttons/YellowButton'
 
 const TEXT_INPUT = {
     height: 40,
@@ -92,22 +93,31 @@ const MainScreen: FC<HomeMainScreenNavigationProp> = (
                 }}>
 
 
+                    <Text style={Fonts.textRegular}>Welcome</Text>
 
-                    <Text>Welcome</Text>
+                    {
+                        <YellowButton
+                            onPress={onReferFriendsPress}
+                            text={t("Refer friends")}
+                            containerStyle={[Layout.fullWidth]}
+                        />
+                    }
 
-                    <Pressable style={{ backgroundColor: "pink", marginTop: 40 }} onPress={onReferFriendsPress}>
-                        <Text>Refer friends</Text>
-                    </Pressable>
+                    {
+                        <YellowButton
+                            onPress={onToggleDrawer}
+                            text={t("Toggle Drawer")}
+                            containerStyle={[Layout.fullWidth]}
+                        />
+                    }
 
-                    <Pressable style={{ backgroundColor: "pink", marginTop: 40 }} onPress={onToggleDrawer}>
-                        <Text>Toggle Drawer</Text>
-                    </Pressable>
-
-
-                    <Pressable style={{ backgroundColor: "pink", marginTop: 40 }} onPress={onSignOutPress}>
-                        <Text>Sign out</Text>
-                    </Pressable>
-
+                    {
+                        <YellowButton
+                            onPress={onSignOutPress}
+                            text={t("Sign out")}
+                            containerStyle={[Layout.fullWidth]}
+                        />
+                    }
 
                 </View>
 

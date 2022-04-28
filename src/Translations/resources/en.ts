@@ -1,6 +1,7 @@
 export default {
   login: "Login",
   createAccount: "Create Account",
+  createAccountAllCapital: "CREATE ACCOUNT",
   accountLogin: "ACCOUNT LOGIN",
   verifyAccount: "Verify Account",
   createANewAccount: "Create a New account",
@@ -16,6 +17,7 @@ export default {
   eventStartDate: "Event Start Date",
   yourInvitationCode: "Your invitation code",
   inviteSucceeded: "Invite Succeeded",
+  validationCodeAllCapital: "VALIDATION CODE",
 
   snackbarMsg: {
     invitationCodeCopied: "Invitation code copied !",
@@ -24,6 +26,7 @@ export default {
   error: {
     invalidUser: "Invalid User",
     invalidInvitationCode: "Invalid Invitation Code",
+    invalidCode: "Invalid code",
   },
 
   tabBarLabels: {

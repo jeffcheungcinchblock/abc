@@ -17,7 +17,6 @@ import java.util.List;
 // react-native-splash-screen >= 0.3.1
 // import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import io.invertase.firebase.dynamiclinks.ReactNativeFirebaseDynamicLinksPackage;
-// import com.facebook.react.BuildConfig;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -50,7 +49,7 @@ public class MainApplication extends Application implements ReactApplication {
         protected JSIModulePackage getJSIModulePackage() {
           return new ReanimatedJSIModulePackage();
         }
-      };
+    };
 
   @Override
   public ReactNativeHost getReactNativeHost() {

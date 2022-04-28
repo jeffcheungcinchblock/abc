@@ -166,7 +166,7 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
 
                     <View style={[Layout.fullWidth, Layout.colCenter, { flexBasis: 20 }]}>
                         {
-                            errMsg && <Text style={{ color: colors.electricViolet }}>{errMsg}</Text>
+                            errMsg && <Text style={{ color: colors.orangeCrayola }}>{errMsg}</Text>
                         }
                     </View>
 

@@ -26,6 +26,9 @@ import { RouteStacks } from '@/Navigators/routes'
 import ScreenBackgrounds from '@/Components/ScreenBackgrounds'
 import { useWalletConnect } from '@walletconnect/react-native-dapp'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import YellowButton from '@/Components/Buttons/YellowButton'
+
+
 
 const SettingScreen: FC<DrawerScreenProps<DrawerNavigatorParamList, RouteStacks.setting>> = (
     { navigation, route }
@@ -36,6 +39,17 @@ const SettingScreen: FC<DrawerScreenProps<DrawerNavigatorParamList, RouteStacks.
 
     const connector = useWalletConnect();
     const params = route!.params || { username: null }
+
+    useEffect(() => {
+        // FingerprintScanner
+        //     .authenticate({ description: 'Scan your fingerprint on the device scanner to continue' })
+        //     .then(() => {
+        //         Alert.alert('Authenticated successfully');
+        //     })
+        //     .catch((error) => {
+        //         Alert.alert(error.message);
+        //     });
+    }, [])
 
     return (
         <ScreenBackgrounds
@@ -59,12 +73,18 @@ const SettingScreen: FC<DrawerScreenProps<DrawerNavigatorParamList, RouteStacks.
                     <Text style={{ color: colors.black }}>Setting screen</Text>
 
                     {
-                        !connector.connected ? <Pressable onPress={() => connector.connect()}>
-                            <Text style={{width: "100%", backgroundColor: colors.lemonGlacier}}>Connect Wallet</Text>
-                        </Pressable> : <Pressable onPress={() => connector.killSession()}>
-                            <Text style={{width: "100%", backgroundColor: colors.lemonGlacier}}>Disconnect Wallet</Text>
-                        </Pressable>
+                        <YellowButton
+                            onPress={() => navigation.toggleDrawer()}
+                            text={t("Toggle Drawer")}
+                            containerStyle={[Layout.fullWidth]}
+                        />
                     }
+
+                    <YellowButton
+                        onPress={() => !connector.connected ? connector.connect() : connector.killSession()}
+                        text={!connector.connected ? t("Connect Wallet") : t("Disconnect Wallet")}
+                        containerStyle={[Layout.fullWidth, {flex: 1}]}
+                    />
 
                 </View>
 

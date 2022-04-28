@@ -99,6 +99,7 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
             console.log('error ', error)
         } finally {
             dispatch(startLoading(false))
+            setIsCreatingAccount(false)
         }
 
 
@@ -157,7 +158,7 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
 
                     <View style={[Layout.fullWidth, { justifyContent: "center", flex: 1 }]}>
                         <Text style={[{ color: colors.white, fontFamily: "AvenirNext-Bold" }, Fonts.textRegular, Fonts.textCenter]}>
-                            {t('createAccount')}
+                            {t('createAccountAllCapital')}
                         </Text>
                     </View>
 

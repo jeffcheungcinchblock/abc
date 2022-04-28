@@ -33,10 +33,10 @@
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* DragonDappRNTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* DragonDappRNTests.m */; };
+		3DE2278BC69F30CC72662ADD /* libPods-DragonDappRN.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CE8F60935CC7F1EA8FB7E0E /* libPods-DragonDappRN.a */; };
 		5E19A14138774B5E899B912A /* Virus-Killer.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5782D64221414B3B9FFD1DC4 /* Virus-Killer.ttf */; };
 		6D514CADD27F4C7387C2C28D /* Mont-HeavyDEMO.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9460F3FC55DF41AF897C74A9 /* Mont-HeavyDEMO.ttf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		833F2006FE004CFBA319C9F2 /* libPods-DragonDappRN.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CE8F60935CC7F1EA8FB7E0E /* libPods-DragonDappRN.a */; };
 		A14492FCF150478097DBCCED /* AvenirNext-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 30CF59C85CF247DC8F3141F8 /* AvenirNext-Bold.ttf */; };
 		E391E5BA28164994009DD23B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E391E5B928164994009DD23B /* GoogleService-Info.plist */; };
 		E391E5BB28164994009DD23B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E391E5B928164994009DD23B /* GoogleService-Info.plist */; };
@@ -120,7 +120,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				833F2006FE004CFBA319C9F2 /* libPods-DragonDappRN.a in Frameworks */,
+				3DE2278BC69F30CC72662ADD /* libPods-DragonDappRN.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

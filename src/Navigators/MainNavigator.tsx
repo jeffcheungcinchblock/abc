@@ -44,7 +44,7 @@ export type MainTabNavigatorProps = DrawerScreenProps<DrawerNavigatorParamList, 
 type TabWrapperViewProps = { focused: boolean }
 
 const TabWrapperView: FC<TabWrapperViewProps> = (props) => {
-  return <View style={{ borderBottomWidth: 4, borderBottomColor: props.focused ? colors.lemonGlacier : colors.black, height: 40, justifyContent: 'center' }}>
+  return <View style={{ borderBottomWidth: 4, borderBottomColor: props.focused ? colors.brightTurquoise : colors.black, height: 40, justifyContent: 'center' }}>
     {props.children}
   </View>
 }
@@ -70,7 +70,7 @@ const MainTabNavigator: FC<MainTabNavigatorProps> = () => {
         tabBarLabelPosition: 'below-icon',
         tabBarIcon: ({ focused, color, size }) => {
           return <TabWrapperView focused={focused}>
-            <FontAwesome name="home" size={20} color={focused ? colors.lemonGlacier : colors.white} />
+            <FontAwesome name="home" size={20} color={focused ? colors.brightTurquoise : colors.white} />
           </TabWrapperView>
         },
 
@@ -84,7 +84,7 @@ const MainTabNavigator: FC<MainTabNavigatorProps> = () => {
         tabBarLabelPosition: 'below-icon',
         tabBarIcon: ({ focused, color, size }) => {
           return <TabWrapperView focused={focused}>
-            <Entypo name="new" size={20} color={focused ? colors.lemonGlacier : colors.white} />
+            <Entypo name="new" size={20} color={focused ? colors.brightTurquoise : colors.white} />
           </TabWrapperView>
         },
       }}
@@ -96,7 +96,7 @@ const MainTabNavigator: FC<MainTabNavigatorProps> = () => {
         tabBarLabelPosition: 'below-icon',
         tabBarIcon: ({ focused, color, size }) => {
           return <TabWrapperView focused={focused}>
-            <Entypo name="shop" size={20} color={focused ? colors.lemonGlacier : colors.white} />
+            <Entypo name="shop" size={20} color={focused ? colors.brightTurquoise : colors.white} />
           </TabWrapperView>
         },
       }}
@@ -109,7 +109,7 @@ const MainTabNavigator: FC<MainTabNavigatorProps> = () => {
         tabBarLabelPosition: 'below-icon',
         tabBarIcon: ({ focused, color, size }) => {
           return <TabWrapperView focused={focused}>
-            <Ionicons name="share-social" size={20} color={focused ? colors.lemonGlacier : colors.white} />
+            <Ionicons name="share-social" size={20} color={focused ? colors.brightTurquoise : colors.white} />
           </TabWrapperView>
         },
       }}

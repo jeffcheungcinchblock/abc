@@ -58,6 +58,7 @@ const ApplicationNavigator = () => {
       }
     }
     retrieveLoggedInUser()
+
   }, [])
 
   return (

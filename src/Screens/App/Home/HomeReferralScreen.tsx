@@ -42,7 +42,7 @@ import Clipboard from '@react-native-clipboard/clipboard';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import moment from 'moment'
 const PURPLE_COLOR = {
-    color: colors.electricViolet
+    color: colors.orangeCrayola
 }
 
 type HomeReferralScreenNavigationProp = CompositeScreenProps<
@@ -108,7 +108,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
 
 
                 <View style={[{
-                    flexGrow: 1
+                    flexGrow: 6
                 }, Layout.fullWidth, Layout.fill]}>
 
                     <View style={{ flex: 3, justifyContent: "flex-end" }}>
@@ -128,8 +128,8 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                         </View>
 
                         <View style={[Layout.fullWidth]}>
-                            <Text style={[PURPLE_COLOR, Fonts.textSmall, Layout.colCenter, Layout.fullWidth, {
-                                color: colors.violetsAreBlue,
+                            <Text style={[PURPLE_COLOR, Fonts.textRegular, Layout.colCenter, Layout.fullWidth, {
+                                color: colors.black,
                                 fontWeight: "bold",
                                 textAlign: "center",
                             }]}>{`( ${t("invited")}: 100 )`}</Text>
@@ -165,9 +165,9 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                     </View>
 
                     <View style={{ flex: 2, flexDirection: "row" }}>
-                        <View style={{ flex: 4, justifyContent: "center", paddingLeft: 20 }}>
+                        <View style={{ flex: 4, justifyContent: "center", paddingLeft: 50 }}>
                             <Text style={[Fonts.textRegular, { color: colors.white, fontWeight: "bold" }]}>{t("yourInvitationCode")}</Text>
-                            <Text style={[Fonts.textSmall, { color: colors.lemonGlacier }]}>{1234567890}</Text>
+                            <Text style={[Fonts.textSmall, { color: colors.brightTurquoise }]}>{1234567890}</Text>
                         </View>
                         <CircleButton
                             onPress={onCopyPress}
@@ -180,7 +180,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
 
                 </View>
 
-                <View style={[Layout.fullWidth, Layout.center, { flexBasis: 100, justifyContent: "flex-start" }]}>
+                <View style={[Layout.fullWidth, Layout.center, { flex: 1, justifyContent: "flex-start" }]}>
                     <YellowButton
                         onPress={onSharePress}
                         text={t("inviteFriends")}

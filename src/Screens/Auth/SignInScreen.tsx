@@ -289,7 +289,7 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
 
                     <View style={[Layout.fullWidth, Layout.colCenter, { flexBasis: 20 }]}>
                         {
-                            errMsg && <Text style={{ color: colors.electricViolet }}>{errMsg}</Text>
+                            errMsg && <Text style={{ color: colors.orangeCrayola }}>{errMsg}</Text>
                         }
                     </View>
 
@@ -322,7 +322,7 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
 
                     <View style={[Layout.fullWidth, Gutters.largeHPadding, Layout.center, { flex: 1, justifyContent: "flex-start", }]}>
                         <Pressable style={[Layout.fullWidth, Layout.center]} onPress={onSignUpPress}>
-                            <Text style={[{ color: colors.lemonGlacier }, Fonts.textSmall]}>{t("createANewAccount")}</Text>
+                            <Text style={[{ color: colors.white }, Fonts.textSmall]}>{t("createANewAccount")}</Text>
                         </Pressable>
                     </View>
                 </View>

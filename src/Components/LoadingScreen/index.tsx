@@ -26,7 +26,7 @@ const LoadingScreen = (props: LoadingScreenProps) => {
             }}
 
         >
-            <ActivityIndicator color={colors.lemonGlacier} size="large"/>
+            <ActivityIndicator color={colors.brightTurquoise} size="large"/>
         </View>
     
     )

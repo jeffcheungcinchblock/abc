@@ -25,6 +25,7 @@ import {
     useBlurOnFulfill,
     useClearByFocusCell,
 } from 'react-native-confirmation-code-field';
+// @ts-ignore
 import Amplify, { Auth } from 'aws-amplify';
 
 import { shallowEqual, useDispatch, useSelector } from "react-redux"
@@ -34,6 +35,7 @@ import { RouteStacks } from '@/Navigators/routes'
 import ScreenBackgrounds from '@/Components/ScreenBackgrounds'
 import YellowButton from '@/Components/Buttons/YellowButton'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { startLoading } from '@/Store/UI/actions'
 
 const TEXT_INPUT = {
     height: 40,
@@ -62,19 +64,19 @@ const CODE_FIELD_ROOT = {
 }
 
 const CELL = {
-    width: 40,
-    height: 40,
-    lineHeight: 38,
+    width: 50,
+    height: 50,
     fontSize: 24,
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: colors.spanishGray,
     color: colors.white,
     borderRadius: 10,
     textAlign: 'center',
+    lineHeight: 48
 }
 
 const FOCUSED_CELL = {
-    borderColor: '#000',
+
 }
 
 const ValidationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.validationCode>> = (
@@ -88,6 +90,7 @@ const ValidationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
     const [isVerifyingAccount, setIsVerifyingAccount] = useState(false)
     const [validationCode, setValidationCode] = useState("")
     const ref = useBlurOnFulfill({ value: validationCode, cellCount: 6 });
+    const [errMsg, setErrMsg] = useState("")
     const [focusCellProps, getCellOnLayoutHandler] = useClearByFocusCell({
         value: validationCode,
         setValue: setValidationCode,
@@ -99,11 +102,16 @@ const ValidationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
             navigation.goBack()
             return
         }
+        setErrMsg("")
         try {
+            dispatch(startLoading(true))
             await Auth.confirmSignUp(params.username, validationCode)
             navigation.navigate(RouteStacks.signIn, { username: params.username })
         } catch (err) {
             console.log(err)
+            setErrMsg(t("error.invalidCode"))
+        } finally {
+            dispatch(startLoading(false))
         }
 
     }, [navigation, validationCode, params])
@@ -129,7 +137,14 @@ const ValidationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
                 <View style={[{
                     flexGrow: 6
                 }, Layout.fullWidth, Layout.fill, Layout.colCenter,]}>
-                    <View style={CONTENT_ELEMENT_WRAPPER}>
+
+                    <View style={[CONTENT_ELEMENT_WRAPPER, { flex: 1 }]}>
+                        <Text style={[{ color: colors.white, fontFamily: "AvenirNext-Bold" }, Fonts.textRegular, Fonts.textCenter]}>
+                            {t('validationCodeAllCapital')}
+                        </Text>
+                    </View>
+
+                    <View style={[CONTENT_ELEMENT_WRAPPER, { flex: 1, justifyContent: "flex-start" }]}>
                         <CodeField
                             ref={ref}
                             // Use `caretHidden={false}` when users can't paste a text value, because context menu doesn't appear
@@ -148,6 +163,14 @@ const ValidationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
                                 </Text>
                             )}
                         />
+                    </View>
+
+                    <View style={[CONTENT_ELEMENT_WRAPPER, { flex: 1, justifyContent: "flex-start" }]}>
+                        {
+                            errMsg !== "" && <Text style={[{ color: colors.orangeCrayola, fontFamily: "AvenirNext-Regular" }, Fonts.textSmall, Fonts.textCenter]}>
+                                {errMsg}
+                            </Text>
+                        }
                     </View>
 
                 </View>
