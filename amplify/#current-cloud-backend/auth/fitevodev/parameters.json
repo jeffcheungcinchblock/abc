@@ -1,0 +1,26 @@
+{
+  "authSelections": "identityPoolAndUserPool",
+  "resourceName": "fitevodev",
+  "serviceType": "imported",
+  "region": "us-west-2",
+  "authProvidersUserPool": [
+    "Facebook",
+    "Google",
+    "SignInWithApple"
+  ],
+  "requiredAttributes": [
+    "email"
+  ],
+  "passwordPolicyMinLength": 8,
+  "passwordPolicyCharacters": [
+    "Requires Lowercase",
+    "Requires Uppercase",
+    "Requires Numbers",
+    "Requires Symbols"
+  ],
+  "mfaConfiguration": "OFF",
+  "autoVerifiedAttributes": [
+    "email"
+  ],
+  "mfaTypes": []
+}
