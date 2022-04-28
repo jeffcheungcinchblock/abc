@@ -15,18 +15,15 @@ import { useTheme } from '@/Hooks'
 import { useLazyFetchOneQuery } from '@/Services/modules/users'
 import { changeTheme, ThemeState } from '@/Store/Theme'
 import { Image } from 'react-native'
-import { IOSHealthKit } from '../Healthkit/iosHealthKit'
-import { GoogleFitKit } from '../Healthkit/androidHealthKit'
-import Buttons from '@/Theme/components/Buttons'
-import BackgroundGeolocation, {
-	Location,
-	Subscription,
-} from 'react-native-background-geolocation'
 
-const GeoLocationContainer = () => {
-	const [ dist, setDist ] = useState()
+import Buttons from '@/Theme/components/Buttons'
+import MapView from 'react-native-maps'
+
+const GeoLocationContainer = ({ navigation, route }) => {
+	console.log(navigation, 'navigation')
+	console.log(route, 'route')
 	return (
-		<Text>Distance : {dist}</Text>
+		<Text>Distance :</Text>
 	)
 }
 

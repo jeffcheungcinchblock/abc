@@ -94,8 +94,8 @@ export class IOSHealthKit extends GeneralHealthKit {
 					if (err) {
 						return
 					}
-					console.log('health', results)
 					if (results.length === 0){
+						console.log('return 9')
 						resolve(0)
 					} else {
 						resolve(results[0].value)
@@ -105,6 +105,7 @@ export class IOSHealthKit extends GeneralHealthKit {
 		})
 	}
 	GetHeartRates(startDate: Date, endDate: Date) {
+
 		let options = {
 			startDate: startDate.toISOString(), // required
 			endDate: endDate.toISOString(),
@@ -113,12 +114,17 @@ export class IOSHealthKit extends GeneralHealthKit {
 			AppleHealthKit.getHeartRateSamples(
 				options,
 				(err: Object, results: HealthValue[]) => {
+
 					if (err) {
 						return
 					}
 					const heartRate = results.reduce((a: any, b: { value: any }) => {
+
 						return a + b.value
 					}, 0)
+					if (heartRate === 0 ){
+						resolve(0)
+					}
 					const averageHeartRate = heartRate / results.length
 					resolve(averageHeartRate)
 				},

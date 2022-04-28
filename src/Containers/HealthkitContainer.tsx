@@ -35,6 +35,7 @@ const health_kit = isIOS ? new IOSHealthKit() : new GoogleFitKit()
 const initialState:State = { startTime: new Date(), latitude:null, longitude:null, distance:0, calorie:0, steps:0, heartRate :0, coordinates :[ { latitude:0, longitude:0 } ] }
 
 function reducer(state:State, action:any) {
+
 	switch (action.type) {
 	case 'ready':
 		if (!action.location){
@@ -43,7 +44,6 @@ function reducer(state:State, action:any) {
 		}
 		if (!action.location.latitude || !action.location.longitude){
 			console.log('have location ready')
-
 			return { ...state }
 		}
 		return { ...state, latitude:action.location.latitude, longitude:action.location.longitude }
@@ -70,7 +70,7 @@ function reducer(state:State, action:any) {
 		return { ...state }
 	}
 }
-const HealthkitContainer = () => {
+const HealthkitContainer = ({ navigation }) => {
 	const { Common, Fonts, Gutters, Layout } = useTheme()
 	const [ log, setLog ] = useState('')
 	const [ isHealthkitReady, setIstHealthKitReady ] = useState(false)
@@ -97,17 +97,15 @@ const HealthkitContainer = () => {
 
 	useEffect(() => {
 		const onLocation: Subscription = BackgroundGeolocation.onLocation((location) => {
-
 			if (location.coords && location.coords.latitude && location.coords.longitude && location.is_moving === true)
 			{
-				console.log(location.coords)
 				if (location.coords.speed && location.coords.speed <= 12 && location.coords.speed >= 0){
 					const new_cal = health_kit.GetCaloriesBurned(state.startTime!, new Date())
 					const new_step = health_kit.GetSteps(state.startTime!, new Date())
 					const new_heartrate = health_kit.GetHeartRates(state.startTime!, new Date())
 					Promise.all([ new_cal, new_step, new_heartrate ]).then((result)=>{
 						dispatch({ type:'move', latitude:location.coords.latitude, longitude:location.coords.longitude,
-						 calorie:result[0], steps:result[1], heartRate:result[2] })
+							calorie:result[0], steps:result[1], heartRate:result[2] })
 						setNumber(pre => pre + 1)
 					})
 				} else {
@@ -145,18 +143,25 @@ const HealthkitContainer = () => {
 	}, [ isHealthkitReady ])
 	/// Add the current state as first item in list.
 
-	const StartRunningSession = () => {
-		health_kit.GetAuthorizeStatus().then((isAuthorize) => {
+	const StartRunningSession = async() => {
+		const authed = await health_kit.GetAuthorizeStatus().then((isAuthorize) => {
 			if (!isAuthorize) {
 				health_kit.InitHealthKitPermission().then((val) => {
 					console.log('init healthkit', val)
+					return true
 				})
 			}
+			return true
 		})
-		console.log('start')
-		if (!enabled){
-			setEnabled(true)
+		if (authed){
+			console.log('start')
+			if (!enabled){
+				setEnabled(true)
+			}
+		} else {
+			console.log('not authed health kit')
 		}
+
 	}
 	const StopRunningSession = () => {
 		console.log('stop')
@@ -167,7 +172,15 @@ const HealthkitContainer = () => {
 	}
 
 	const ShowMap = () => {
+		console.log('show map')
+		navigation.navigate('GeoLocation', { data: state })
+	}
 
+	const UpdateHealthData = () => {
+		health_kit.InitHealthKitPermission().then((val) => {
+			console.log('init healthkit', val)
+		}
+		)
 	}
 	useEffect(() => {
 		const start = async() => {
@@ -204,19 +217,19 @@ const HealthkitContainer = () => {
 			]}
 		>
 
-			{/* <TouchableOpacity
+			 {/* <TouchableOpacity
 				style={[ Common.button.rounded, Gutters.regularBMargin ]}
 				onPress={getGoogleAuth}
 			>
 				<Text style={Fonts.textRegular}>Get Google Auth</Text>
-			</TouchableOpacity>
+			</TouchableOpacity> */}
 			<TouchableOpacity
 				style={[ Common.button.rounded, Gutters.regularBMargin ]}
 				onPress={UpdateHealthData}
 			>
 
 				<Text style={Fonts.textRegular}>Update Health Data</Text>
-			</TouchableOpacity> */}
+			</TouchableOpacity>
 			<TouchableOpacity
 				style={[ Common.button.rounded, Gutters.regularBMargin ]}
 				onPress={StartRunningSession}

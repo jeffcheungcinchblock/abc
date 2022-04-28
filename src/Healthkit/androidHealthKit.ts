@@ -150,7 +150,6 @@ export class GoogleFitKit extends GeneralHealthKit {
 			GoogleFit.getHeartRateSamples(opt)
 				.then((res) => {
 					console.log(res)
-					//get average heart rate from res array
 
 					const heartRate = res.reduce((a: any, b: { value: any }) => {
 						return a + b.value
