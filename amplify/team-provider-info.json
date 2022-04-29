@@ -14,17 +14,10 @@
     "categories": {
       "auth": {
         "fitevodev": {
-          "userPoolId": "us-west-2_cvF0MvCMd",
-          "userPoolName": "dragonevo-dev-auth-user-pool",
-          "webClientId": "2lrmuf4sjrt39q3hhe15v0d83",
-          "nativeClientId": "2lrmuf4sjrt39q3hhe15v0d83",
-          "identityPoolId": "us-west-2:32adcf8b-cb19-466a-8289-74f1c7b9f568",
-          "identityPoolName": "dragonevo-dev-auth-identity-pool",
-          "allowUnauthenticatedIdentities": true,
-          "authRoleArn": "arn:aws:iam::523966993919:role/dragonevo-dev-auth-authorized-role",
-          "authRoleName": "dragonevo-dev-auth-authorized-role",
-          "unauthRoleArn": "arn:aws:iam::523966993919:role/dragonevo-dev-auth-unauthorized-role",
-          "unauthRoleName": "dragonevo-dev-auth-unauthorized-role"
+          "userPoolId": "us-west-2_8fV5WA633",
+          "userPoolName": "dragonevo-dev-auth-user-pool-test",
+          "webClientId": "25a8ravfkf536ofb2ulm8v571f",
+          "nativeClientId": "25a8ravfkf536ofb2ulm8v571f"
         }
       }
     }

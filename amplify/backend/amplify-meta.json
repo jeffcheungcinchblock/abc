@@ -20,13 +20,11 @@
       "dependsOn": [],
       "customAuth": false,
       "output": {
-        "UserPoolId": "us-west-2_cvF0MvCMd",
-        "UserPoolName": "dragonevo-dev-auth-user-pool",
-        "AppClientID": "2lrmuf4sjrt39q3hhe15v0d83",
-        "AppClientIDWeb": "2lrmuf4sjrt39q3hhe15v0d83",
+        "UserPoolId": "us-west-2_8fV5WA633",
+        "UserPoolName": "dragonevo-dev-auth-user-pool-test",
+        "AppClientID": "25a8ravfkf536ofb2ulm8v571f",
+        "AppClientIDWeb": "25a8ravfkf536ofb2ulm8v571f",
         "HostedUIDomain": "mewo",
-        "IdentityPoolId": "us-west-2:32adcf8b-cb19-466a-8289-74f1c7b9f568",
-        "IdentityPoolName": "dragonevo-dev-auth-identity-pool",
         "OAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"aws.cognito.signin.user.admin\",\"email\",\"openid\",\"phone\",\"profile\"],\"CallbackURLs\":[\"com.fitevo://signIn\"],\"LogoutURLs\":[\"com.fitevo://signOut\"]}"
       },
       "frontendAuthConfig": {
@@ -36,9 +34,7 @@
           "APPLE"
         ],
         "usernameAttributes": [],
-        "signupAttributes": [
-          "EMAIL"
-        ],
+        "signupAttributes": [],
         "passwordProtectionSettings": {
           "passwordPolicyMinLength": 8,
           "passwordPolicyCharacters": [
@@ -54,7 +50,7 @@
           "EMAIL"
         ]
       },
-      "lastPushTimeStamp": "2022-04-25T08:41:36.787Z"
+      "lastPushTimeStamp": "2022-04-28T09:17:11.788Z"
     }
   }
 }

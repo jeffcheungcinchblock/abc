@@ -81,10 +81,17 @@ export class IOSHealthKit extends GeneralHealthKit {
 	}
 
 	GetCaloriesBurned(startDate: Date, endDate: Date) {
+		console.log('strt', startDate)
+
 		let options = {
 			startDate: startDate.toISOString(), // required
 			endDate: endDate.toISOString(),
 		}
+		// const options = {
+		// 	startDate: startDate.toDateString(), // required
+		// 	endDate: endDate.toDateString(), // required
+		// 	basalCalculation: true, // optional, to calculate or not basalAVG over the week
+		// }
 
 		console.log('options', options)
 		return new Promise<number>(resolve => {
