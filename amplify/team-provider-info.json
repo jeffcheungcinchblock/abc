@@ -1,32 +1,15 @@
 {
-  "staging": {
+  "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-fitevodev-staging-72044-authRole",
-      "UnauthRoleArn": "arn:aws:iam::523966993919:role/amplify-fitevodev-staging-72044-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::523966993919:role/amplify-fitevodev-staging-72044-authRole",
+      "AuthRoleName": "amplify-dragonevo-dev-122509-authRole",
+      "UnauthRoleArn": "arn:aws:iam::523966993919:role/amplify-dragonevo-dev-122509-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::523966993919:role/amplify-dragonevo-dev-122509-authRole",
       "Region": "us-west-2",
-      "DeploymentBucketName": "amplify-fitevodev-staging-72044-deployment",
-      "UnauthRoleName": "amplify-fitevodev-staging-72044-unauthRole",
-      "StackName": "amplify-fitevodev-staging-72044",
-      "StackId": "arn:aws:cloudformation:us-west-2:523966993919:stack/amplify-fitevodev-staging-72044/38d181e0-c468-11ec-8100-028f969ade67",
-      "AmplifyAppId": "dop0ghb5eusnz"
-    },
-    "categories": {
-      "auth": {
-        "fitevodev": {
-          "userPoolId": "us-west-2_cvF0MvCMd",
-          "userPoolName": "dragonevo-dev-auth-user-pool",
-          "webClientId": "2lrmuf4sjrt39q3hhe15v0d83",
-          "nativeClientId": "2lrmuf4sjrt39q3hhe15v0d83",
-          "identityPoolId": "us-west-2:32adcf8b-cb19-466a-8289-74f1c7b9f568",
-          "identityPoolName": "dragonevo-dev-auth-identity-pool",
-          "allowUnauthenticatedIdentities": true,
-          "authRoleArn": "arn:aws:iam::523966993919:role/dragonevo-dev-auth-authorized-role",
-          "authRoleName": "dragonevo-dev-auth-authorized-role",
-          "unauthRoleArn": "arn:aws:iam::523966993919:role/dragonevo-dev-auth-unauthorized-role",
-          "unauthRoleName": "dragonevo-dev-auth-unauthorized-role"
-        }
-      }
+      "DeploymentBucketName": "amplify-dragonevo-dev-122509-deployment",
+      "UnauthRoleName": "amplify-dragonevo-dev-122509-unauthRole",
+      "StackName": "amplify-dragonevo-dev-122509",
+      "StackId": "arn:aws:cloudformation:us-west-2:523966993919:stack/amplify-dragonevo-dev-122509/5cbe6c80-c774-11ec-b573-0a3baa7ea85d",
+      "AmplifyAppId": "d1kscz8c8z777g"
     }
   }
 }

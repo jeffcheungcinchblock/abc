@@ -1,6 +1,6 @@
 {
   "authSelections": "identityPoolAndUserPool",
-  "resourceName": "fitevodev",
+  "resourceName": "dragonevo",
   "serviceType": "imported",
   "region": "us-west-2",
   "authProvidersUserPool": [
@@ -8,9 +8,7 @@
     "Google",
     "SignInWithApple"
   ],
-  "requiredAttributes": [
-    "email"
-  ],
+  "requiredAttributes": [],
   "passwordPolicyMinLength": 8,
   "passwordPolicyCharacters": [
     "Requires Lowercase",

@@ -21,17 +21,9 @@ import { login, logout } from '@/Store/Users/actions'
 import { UserState } from '@/Store/Users/reducer'
 import EncryptedStorage from 'react-native-encrypted-storage';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
+// @ts-ignore
 import Amplify, { Auth, Hub } from 'aws-amplify';
-import {
-    CognitoUserPool,
-    CognitoUser,
-    AuthenticationDetails,
-    CognitoAccessToken,
-    CognitoIdToken,
-    CognitoRefreshToken,
-    CognitoUserSession,
 
-} from 'amazon-cognito-identity-js';
 import { shallowEqual, useDispatch, useSelector } from "react-redux"
 import { colors, config } from '@/Utils/constants'
 import { AuthNavigatorParamList } from '@/Navigators/AuthNavigator'
@@ -40,11 +32,10 @@ import { Header } from '@/Components'
 import { Spacing } from '@/Theme/Variables'
 import LoadButton from '@/Components/Buttons/LoadButton'
 import { RouteStacks, RouteTabs } from '@/Navigators/routes'
+// @ts-ignore
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth'
-
-import {
-    useWalletConnect,
-} from "@walletconnect/react-native-dapp";
+// @ts-ignore
+import { useWalletConnect } from "@walletconnect/react-native-dapp";
 import ScreenBackgrounds from '@/Components/ScreenBackgrounds'
 import AppLogo from '@/Components/Icons/AppLogo'
 import backBtn from '@/Assets/Images/buttons/back.png'
@@ -54,10 +45,10 @@ import { color } from 'react-native-reanimated'
 import YellowButton from '@/Components/Buttons/YellowButton'
 import { InAppBrowser } from 'react-native-inappbrowser-reborn';
 import { firebase } from '@react-native-firebase/messaging'
-import { startLoading } from '@/Store/UI/actions'
+import { showSnackbar, startLoading } from '@/Store/UI/actions'
 import SocialSignInButton from '@/Components/Buttons/SocialSignInButton'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-
+import { triggerSnackbar } from '@/Utils/helpers'
 
 const LOGIN_BUTTON: ViewStyle = {
     height: 40,
@@ -198,7 +189,7 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                     break;
                 default:
             }
-
+            console.log('err ', error.message)
             dispatch(startLoading(false))
         } finally {
             setIsLoggingIn(false)
@@ -218,6 +209,10 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
         navigation.navigate(RouteStacks.signUp)
     }
 
+    const onForgotPasswordPress = () => {
+        navigation.navigate(RouteStacks.forgotPassword)
+    }
+
     return (
         <ScreenBackgrounds
             screenName={RouteStacks.signIn}
@@ -234,33 +229,10 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
 
                 ]}
             >
-
-                {/* <View> style={[Layout.fullWidth]}>
-                    <Pressable style={[LOGIN_BUTTON, Layout.center, { backgroundColor: "steelblue" }]} onPress={() => onLoginOptionPress("apple")}>
-                        <FontAwesome style={BUTTON_ICON} name="apple" size={20} color="#fff" />
-                        <Text style={[BUTTON_TEXT, Fonts.textCenter]}>Apple</Text>
-                    </Pressable>
-                </View> */}
-
                 <View style={[{
                     flexGrow: 6,
                     justifyContent: "flex-start",
                 }, Layout.fullWidth, Layout.fill]}>
-
-                    {/* <View style={[Layout.fullWidth]}>
-                        <Pressable style={[LOGIN_BUTTON, Layout.center, { backgroundColor: "powderblue" }]} onPress={() => onLoginOptionPress("google")}>
-                            <FontAwesome style={BUTTON_ICON} name="google" size={20} color="#fff" />
-                            <Text style={[BUTTON_TEXT, Fonts.textCenter]}>Google</Text>
-                        </Pressable>
-                    </View>
-
-                    <View style={[Layout.fullWidth]}>
-                        <Pressable style={[LOGIN_BUTTON, Layout.center, { backgroundColor: "skyblue" }]} onPress={() => onLoginOptionPress("facebook")}>
-                            <FontAwesome style={BUTTON_ICON} name="facebook-square" size={20} color="#fff" />
-                            <Text style={[BUTTON_TEXT, Fonts.textCenter]}>Facebook</Text>
-                        </Pressable>
-                    </View> */}
-
 
                     <View style={[Layout.fullWidth, { justifyContent: "center", flex: 1 }]}>
                         <Text style={[{ color: colors.white, fontFamily: "AvenirNext-Bold" }, Fonts.textRegular, Fonts.textCenter]}>
@@ -320,9 +292,15 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                         />
                     </View>
 
-                    <View style={[Layout.fullWidth, Gutters.largeHPadding, Layout.center, { flex: 1, justifyContent: "flex-start", }]}>
+                    <View style={[Layout.fullWidth, Gutters.largeHPadding, Layout.center, { flexBasis: 50, justifyContent: "flex-start", }]}>
                         <Pressable style={[Layout.fullWidth, Layout.center]} onPress={onSignUpPress}>
                             <Text style={[{ color: colors.white }, Fonts.textSmall]}>{t("createANewAccount")}</Text>
+                        </Pressable>
+                    </View>
+
+                    <View style={[Layout.fullWidth, Gutters.largeHPadding, Layout.center, { flexBasis: 50, justifyContent: "flex-start", }]}>
+                        <Pressable style={[Layout.fullWidth, Layout.center]} onPress={onForgotPasswordPress}>
+                            <Text style={[{ color: colors.white }, Fonts.textSmall]}>{t("forgotPassword")}</Text>
                         </Pressable>
                     </View>
                 </View>

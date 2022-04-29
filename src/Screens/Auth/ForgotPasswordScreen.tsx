@@ -80,56 +80,42 @@ const FOCUSED_CELL = {
 
 }
 
-const ValidationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.validationCode>> = (
+const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.validationCode>> = (
     { navigation, route }
 ) => {
     const { t } = useTranslation()
     const { Common, Fonts, Gutters, Layout } = useTheme()
     const dispatch = useDispatch()
 
-    const params = route!.params || { username: "", action: "" }
+    const params = route!.params || { username: "" }
     const [isVerifyingAccount, setIsVerifyingAccount] = useState(false)
     const [validationCode, setValidationCode] = useState("")
     const ref = useBlurOnFulfill({ value: validationCode, cellCount: 6 });
     const [errMsg, setErrMsg] = useState("")
-    const [newPassword, setNewPassword] = useState("")
+    const [username, setUsername] = useState("")
     const [focusCellProps, getCellOnLayoutHandler] = useClearByFocusCell({
         value: validationCode,
         setValue: setValidationCode,
     });
 
-    const onVerifyAccountPress = useCallback(async () => {
-        if (params.username === "") {
-            Alert.alert("Username is empty")
-            navigation.goBack()
-            return
-        }
-        setErrMsg("")
-        try {
-            dispatch(startLoading(true))
-
-            if (params.action === 'forgotPassword') {
-                await Auth.forgotPasswordSubmit(params.username, validationCode, newPassword)
-            } else {
-                await Auth.confirmSignUp(params.username, validationCode)
-            }
-
-            navigation.navigate(RouteStacks.signIn, { username: params.username })
-        } catch (err) {
-            console.log(err)
-            setErrMsg(t("error.invalidCode"))
-        } finally {
-            dispatch(startLoading(false))
-        }
-
-    }, [navigation, validationCode, params])
-
-    const onPasswordChange = (text: string) => {
-        setNewPassword(text)
+    const goBack = () => {
+        navigation.navigate(RouteStacks.signUp)
     }
 
-    const goBack = () => {
-        navigation.goBack()
+    const onUsernameChange = (text: string) => {
+        setUsername(text)
+    }
+
+    const onConfirmPress = async () => {
+        try {
+            let data = await Auth.forgotPassword(username)
+            navigation.navigate(RouteStacks.validationCode, {
+                username: username,
+                action: 'forgotPassword'
+            })
+        } catch (err) {
+            console.log('err ', err)
+        }
     }
 
     return (
@@ -152,41 +138,18 @@ const ValidationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
 
                     <View style={[CONTENT_ELEMENT_WRAPPER, { flex: 1 }]}>
                         <Text style={[{ color: colors.white, fontFamily: "AvenirNext-Bold" }, Fonts.textRegular, Fonts.textCenter]}>
-                            {t('verificationCodeAllCapital')}
+                            {t('forgotPassword')}
                         </Text>
                     </View>
 
-                    <View style={[CONTENT_ELEMENT_WRAPPER, { flex: 1, justifyContent: "center" }]}>
-                        <CodeField
-                            ref={ref}
-                            // Use `caretHidden={false}` when users can't paste a text value, because context menu doesn't appear
-                            value={validationCode}
-                            onChangeText={setValidationCode}
-                            cellCount={6}
-                            rootStyle={CODE_FIELD_ROOT}
-                            keyboardType="number-pad"
-                            textContentType="oneTimeCode"
-                            renderCell={({ index, symbol, isFocused }) => (
-                                <Text
-                                    key={index}
-                                    style={[CELL, isFocused && FOCUSED_CELL]}
-                                    onLayout={getCellOnLayoutHandler(index)}>
-                                    {symbol || (isFocused ? <Cursor /> : null)}
-                                </Text>
-                            )}
+                    <View style={[CONTENT_ELEMENT_WRAPPER, { flex: 1, justifyContent: "flex-start" }]}>
+                        <WhiteInput
+                            onChangeText={onUsernameChange}
+                            value={username}
+                            placeholder={t("usernameAllCapital")}
+                            placeholderTextColor={colors.spanishGray}
                         />
                     </View>
-
-                    {
-                        params.action === 'forgotPassword' && <View style={[CONTENT_ELEMENT_WRAPPER, { flex: 1, justifyContent: "flex-start" }]}>
-                            <WhiteInput
-                                onChangeText={onPasswordChange}
-                                value={newPassword}
-                                placeholder={t("newPasswordAllCapital")}
-                                placeholderTextColor={colors.spanishGray}
-                            />
-                        </View>
-                    }
 
                     <View style={[CONTENT_ELEMENT_WRAPPER, { flex: 1, justifyContent: "flex-start" }]}>
                         {
@@ -200,10 +163,9 @@ const ValidationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
 
                 <View style={[Layout.fullWidth, Layout.center, { flex: 1, justifyContent: "flex-start" }]}>
                     <YellowButton
-                        text={t("verifyAccount")}
+                        text={t("forgotPassword")}
                         containerStyle={Layout.fullWidth}
-                        isLoading={isVerifyingAccount}
-                        onPress={onVerifyAccountPress} />
+                        onPress={onConfirmPress} />
                 </View>
 
             </KeyboardAwareScrollView>
@@ -211,4 +173,4 @@ const ValidationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
     )
 }
 
-export default ValidationCodeScreen
+export default ForgotPasswordScreen

@@ -5,6 +5,7 @@ export default {
   accountLogin: "ACCOUNT LOGIN",
   verifyAccount: "Verify Account",
   createANewAccount: "Create a New account",
+  forgotPassword: "Forgot Password",
   accountName: "ACCOUNT NAME",
   password: "PASSWORD",
   enterInvitationCode: "ENTER INVITATION CODE",
@@ -17,7 +18,10 @@ export default {
   eventStartDate: "Event Start Date",
   yourInvitationCode: "Your invitation code",
   inviteSucceeded: "Invite Succeeded",
-  validationCodeAllCapital: "VALIDATION CODE",
+  verificationCodeAllCapital: "VERIFICATION CODE",
+  email: "Email",
+  usernameAllCapital: "USER NAME",
+  newPasswordAllCapital: "NEW PASSWORD",
 
   snackbarMsg: {
     invitationCodeCopied: "Invitation code copied !",

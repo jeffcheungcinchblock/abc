@@ -6,13 +6,15 @@ import { useDispatch } from "react-redux"
 import { login } from "@/Store/Users/actions"
 import EnterInvitaionCodeScreen from "@/Screens/Auth/EnterInvitaionCodeScreen"
 import { StackScreenProps } from "@react-navigation/stack"
+import ForgotPasswordScreen from "@/Screens/Auth/ForgotPasswordScreen"
 
 export type AuthNavigatorParamList = {
   [RouteStacks.welcome]: undefined
   [RouteStacks.signUp]: undefined
   [RouteStacks.signIn]: { username: string } | undefined
-  [RouteStacks.validationCode]: { username: string } | undefined
+  [RouteStacks.validationCode]: { username: string, action: 'forgotPassword' | 'signUp' } | undefined
   [RouteStacks.enterInvitationCode]: undefined
+  [RouteStacks.forgotPassword]: undefined
   // 🔥 Your screens go here
 }
 const Stack = createNativeStackNavigator<AuthNavigatorParamList>()
@@ -33,6 +35,7 @@ const AuthNavigator = () => {
       <Stack.Screen name={RouteStacks.signUp} component={SignUpScreen}/>
       <Stack.Screen name={RouteStacks.enterInvitationCode} component={EnterInvitaionCodeScreen}/>
       <Stack.Screen name={RouteStacks.validationCode} component={ValidationCodeScreen}/>
+      <Stack.Screen name={RouteStacks.forgotPassword} component={ForgotPasswordScreen}/>
     </Stack.Navigator>
   )
 }

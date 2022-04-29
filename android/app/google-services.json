@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "51738943910-onrdc8bts153llsrcit5b6c63hpd09ru.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fitevo",
+            "certificate_hash": "cf0903760d49a19089e6b509f9d1a6a92cea5471"
+          }
+        },
+        {
           "client_id": "51738943910-28dc3bafsgi299h91tfthka4d6qd69p9.apps.googleusercontent.com",
           "client_type": 3
         }

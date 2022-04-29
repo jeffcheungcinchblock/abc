@@ -11,6 +11,7 @@ import {
     TextStyle,
     Alert,
     ViewStyle,
+    RefreshControl,
 } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { Brand } from '@/Components'
@@ -21,7 +22,7 @@ import { login, logout } from '@/Store/Users/actions'
 import { UserState } from '@/Store/Users/reducer'
 import { CompositeScreenProps } from '@react-navigation/native';
 import { shallowEqual, useDispatch, useSelector } from "react-redux"
-import { config } from '@/Utils/constants'
+import { colors, config } from '@/Utils/constants'
 import { HomeNavigatorParamList } from '@/Screens/App/HomeScreen'
 import EncryptedStorage from 'react-native-encrypted-storage'
 import { RouteStacks, RouteTabs } from '@/Navigators/routes'
@@ -32,6 +33,7 @@ import { DrawerNavigatorParamList, TabNavigatorParamList } from '@/Navigators/Ma
 import ScreenBackgrounds from '@/Components/ScreenBackgrounds'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import YellowButton from '@/Components/Buttons/YellowButton'
+import axios from 'axios'
 
 const TEXT_INPUT = {
     height: 40,
@@ -71,6 +73,26 @@ const MainScreen: FC<HomeMainScreenNavigationProp> = (
         navigation.toggleDrawer()
     }
 
+    const [refreshing, setRefreshing] = useState(false)
+
+    const onRefresh = useCallback(async() => {
+        setRefreshing(true);
+
+        let user = await Auth.currentAuthenticatedUser()
+        let accessToken = user.signInUserSession.accessToken.jwtToken
+        console.log('accessToken', accessToken)
+
+        const authRes = await axios.get("https://api-dev.dragonevolution.gg/users/auth", {
+            params: {
+                accessToken
+            }
+        })
+        console.log('authRes', authRes)
+        setTimeout(() => {
+            setRefreshing(false)
+        }, 1000)
+    }, []);
+
     return (
         <ScreenBackgrounds
             screenName={RouteStacks.homeMain}
@@ -82,6 +104,14 @@ const MainScreen: FC<HomeMainScreenNavigationProp> = (
                     Layout.colCenter,
                     Gutters.smallHPadding,
                 ]}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                        progressViewOffset={50}
+                        tintColor={colors.brightTurquoise}
+                    />
+                }
             >
 
 

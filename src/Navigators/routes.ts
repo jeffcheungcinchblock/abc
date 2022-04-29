@@ -15,7 +15,7 @@ export enum RouteStacks {
     validationCode = "validationCode",
     welcome = "welcome",
     enterInvitationCode = "enterInvitationCode",
-    
+    forgotPassword = "forgotPassword",
     
     // logged in app screens
     homeMain = "homeMain",

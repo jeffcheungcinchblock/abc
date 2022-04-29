@@ -71,12 +71,6 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
     }
 
     const onCreateAccountPress = useCallback(async () => {
-        // TBD: frontend fields validation 
-
-        // if(!validateEmail(credential.email)){
-        //   Alert.alert("Invalid email format.", credential.email)
-        //   return
-        // }
 
         try {
             dispatch(startLoading(true))
@@ -89,46 +83,23 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                     email: credential.email,          
                 }
             });
-            console.log(user);
 
             setIsCreatingAccount(false)
             navigation.navigate(RouteStacks.validationCode, {
                 username: user.username,
+                action: 'signUp'
             })
         } catch (error) {
-            console.log('error ', error)
+            // console.log('error ', error.message === 'Password did not conform with policy: Password must have uppercase characters')
+            // switch (error.message) {
+            //     case 'Password did not conform with policy: Password must have uppercase characters': 
+            //         setErrMsg()
+            //         break;
+            // }
         } finally {
             dispatch(startLoading(false))
             setIsCreatingAccount(false)
         }
-
-
-        // var userPool = new CognitoUserPool(config.aws.cognito.poolData);
-
-        // var attributeList: any = [];
-
-        // var dataEmail = {
-        //     Name: 'email',
-        //     Value: credential.email
-        // };
-
-        // attributeList.push(dataEmail)
-
-        // userPool.signUp(credential.username, credential.password, attributeList, [], function (
-        //     err,
-        //     result
-        // ) {
-        //     if (err) {
-        //         Alert.alert(err.message || JSON.stringify(err));
-        //         return;
-        //     }
-        //     // var cognitoUser = result.user;
-        //     navigation.navigate(RouteStacks.validationCode, {
-        //         username: credential.username,
-        //     })
-
-        // });
-
 
     }, [credential])
 

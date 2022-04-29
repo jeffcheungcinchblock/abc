@@ -10,6 +10,7 @@ import {
     TextStyle,
     Alert,
     ViewStyle,
+    RefreshControl,
 } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { Brand, Header } from '@/Components'
@@ -41,6 +42,7 @@ import AvenirMediumText from '@/Components/FontText/AvenirMediumText'
 import Clipboard from '@react-native-clipboard/clipboard';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import moment from 'moment'
+import { triggerSnackbar } from '@/Utils/helpers'
 const PURPLE_COLOR = {
     color: colors.orangeCrayola
 }
@@ -86,9 +88,9 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
 
     const onCopyPress = () => {
         Clipboard.setString('123456789');
-    }
+        triggerSnackbar("Invitation code copied !")
 
-    console.log('@@@', moment())
+    }
 
     return (
         <ScreenBackgrounds
@@ -104,8 +106,8 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                     Layout.fill,
                     Layout.colCenter,
                 ]}
+                
             >
-
 
                 <View style={[{
                     flexGrow: 6

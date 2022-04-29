@@ -21,17 +21,11 @@ import { login, logout } from '@/Store/Users/actions'
 import { UserState } from '@/Store/Users/reducer'
 import EncryptedStorage from 'react-native-encrypted-storage';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
+// @ts-ignore
 import Amplify, { Auth, Hub } from 'aws-amplify';
-import {
-    CognitoUserPool,
-    CognitoUser,
-    AuthenticationDetails,
-    CognitoAccessToken,
-    CognitoIdToken,
-    CognitoRefreshToken,
-    CognitoUserSession,
+// @ts-ignore
+import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth'
 
-} from 'amazon-cognito-identity-js';
 import { shallowEqual, useDispatch, useSelector } from "react-redux"
 import { colors, config } from '@/Utils/constants'
 import { AuthNavigatorParamList } from '@/Navigators/AuthNavigator'
@@ -40,11 +34,7 @@ import { Header } from '@/Components'
 import { Spacing } from '@/Theme/Variables'
 import LoadButton from '@/Components/Buttons/LoadButton'
 import { RouteStacks, RouteTabs } from '@/Navigators/routes'
-import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth'
 
-import {
-    useWalletConnect,
-} from "@walletconnect/react-native-dapp";
 import ScreenBackgrounds from '@/Components/ScreenBackgrounds'
 import AppLogo from '@/Components/Icons/AppLogo'
 import backBtn from '@/Assets/Images/buttons/back.png'
@@ -87,8 +77,6 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
     const { t } = useTranslation()
     const { Common, Fonts, Gutters, Layout } = useTheme()
     const dispatch = useDispatch()
-
-    const connector = useWalletConnect();
 
     const params = route?.params || { username: "" }
 
@@ -171,12 +159,6 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
                     </View>
 
                 </View>
-
-                {/* <View>
-                            <Pressable onPress={() => connector.connect()}>
-                                <Text>Connect Wallet</Text>
-                            </Pressable>
-                        </View> */}
 
                 <View style={[Layout.fullWidth, Layout.center, { flex: 1, justifyContent: "flex-start" }]}>
                     <YellowButton
