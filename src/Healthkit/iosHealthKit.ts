@@ -95,7 +95,6 @@ export class IOSHealthKit extends GeneralHealthKit {
 						return
 					}
 					if (results.length === 0){
-						console.log('return 9')
 						resolve(0)
 					} else {
 						resolve(results[0].value)
