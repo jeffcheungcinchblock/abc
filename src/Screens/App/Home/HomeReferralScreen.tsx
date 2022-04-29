@@ -35,7 +35,7 @@ import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
 import { DrawerScreenProps } from '@react-navigation/drawer'
 import { DrawerNavigatorParamList, TabNavigatorParamList } from '@/Navigators/MainNavigator'
 import ScreenBackgrounds from '@/Components/ScreenBackgrounds'
-import YellowButton from '@/Components/Buttons/YellowButton'
+import TurquoiseButton from '@/Components/Buttons/TurquoiseButton'
 import CircleButton from '@/Components/Buttons/CircleButton'
 import AvenirBoldText from '@/Components/FontText/AvenirBoldText'
 import AvenirMediumText from '@/Components/FontText/AvenirMediumText'
@@ -183,7 +183,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                 </View>
 
                 <View style={[Layout.fullWidth, Layout.center, { flex: 1, justifyContent: "flex-start" }]}>
-                    <YellowButton
+                    <TurquoiseButton
                         onPress={onSharePress}
                         text={t("inviteFriends")}
                         containerStyle={Layout.fullWidth}

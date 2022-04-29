@@ -42,7 +42,7 @@ import backBtn from '@/Assets/Images/buttons/back.png'
 import WhiteInput from '@/Components/Inputs/WhiteInput'
 import AppIcon from '@/Components/Icons/AppIcon'
 import { color } from 'react-native-reanimated'
-import YellowButton from '@/Components/Buttons/YellowButton'
+import TurquoiseButton from '@/Components/Buttons/TurquoiseButton'
 import { InAppBrowser } from 'react-native-inappbrowser-reborn';
 import { firebase } from '@react-native-firebase/messaging'
 import { showSnackbar, startLoading } from '@/Store/UI/actions'
@@ -306,7 +306,7 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                 </View>
 
                 <View style={[Layout.fullWidth, Layout.center, { flex: 1, justifyContent: "flex-start" }]}>
-                    <YellowButton
+                    <TurquoiseButton
                         onPress={() => onLoginOptionPress("normal")}
                         text={t("login")}
                         containerStyle={Layout.fullWidth}

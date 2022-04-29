@@ -45,7 +45,6 @@
     "react-native-device-info": "^8.7.0",
     "react-native-encrypted-storage": "^4.0.2",
     "react-native-fast-image": "^8.5.11",
-    "react-native-fingerprint-scanner": "^6.0.0",
     "react-native-flipper": "^0.127.0",
     "react-native-gesture-handler": "^2.1.0",
     "react-native-global-props": "^1.1.5",

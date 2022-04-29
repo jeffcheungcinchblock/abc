@@ -3,7 +3,7 @@ import { View, Image, Text, ActivityIndicator, Pressable, PressableProps, ViewSt
 import { useTheme } from '@/Hooks'
 import { colors } from '@/Utils/constants'
 
-type YellowButtonProps = {
+type TurquoiseButtonProps = {
     text: string
     containerStyle?: object
     style?: object
@@ -28,7 +28,7 @@ const BUTTON_STYLE: ViewStyle = {
     justifyContent: "center"
 }
 
-const YellowButton = ({
+const TurquoiseButton = ({
     text,
     containerStyle,
     style,
@@ -37,7 +37,7 @@ const YellowButton = ({
     isLoading,
     leftIcon,
     rightIcon,
-}: YellowButtonProps) => {
+}: TurquoiseButtonProps) => {
     const { Layout, Images } = useTheme()
 
     return (
@@ -66,8 +66,8 @@ const YellowButton = ({
     )
 }
 
-YellowButton.defaultProps = {
+TurquoiseButton.defaultProps = {
 
 }
 
-export default YellowButton
+export default TurquoiseButton

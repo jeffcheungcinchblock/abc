@@ -30,7 +30,7 @@ import { HeaderLayout } from '@/Styles'
 import { RouteStacks } from '@/Navigators/routes'
 import ScreenBackgrounds from '@/Components/ScreenBackgrounds'
 import WhiteInput from '@/Components/Inputs/WhiteInput'
-import YellowButton from '@/Components/Buttons/YellowButton'
+import TurquoiseButton from '@/Components/Buttons/TurquoiseButton'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { startLoading } from '@/Store/UI/actions'
 
@@ -54,7 +54,7 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
     const { Common, Fonts, Gutters, Layout } = useTheme()
     const dispatch = useDispatch()
     const [isCreatingAccount, setIsCreatingAccount] = useState(false)
-
+    const [errMsg, setErrMsg] = useState("")
     const [credential, setCredential] = useState({
         username: "",
         password: "",
@@ -80,7 +80,7 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                 username: credential.username,
                 password: credential.password,
                 attributes: {
-                    email: credential.email,          
+                    email: credential.email,
                 }
             });
 
@@ -89,13 +89,14 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                 username: user.username,
                 action: 'signUp'
             })
-        } catch (error) {
-            // console.log('error ', error.message === 'Password did not conform with policy: Password must have uppercase characters')
-            // switch (error.message) {
-            //     case 'Password did not conform with policy: Password must have uppercase characters': 
-            //         setErrMsg()
-            //         break;
-            // }
+        } catch (error: any) {
+            switch (error.message) {
+                case 'Password did not conform with policy: Password must have uppercase characters':
+                    setErrMsg(error.message)
+                    break;
+                default:
+                    setErrMsg(error.message)
+            }
         } finally {
             dispatch(startLoading(false))
             setIsCreatingAccount(false)
@@ -106,6 +107,10 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
     const goBack = () => {
         navigation.navigate(RouteStacks.signIn)
     }
+
+    useEffect(() => {
+        setErrMsg("")
+    }, [])
 
     return (
         <ScreenBackgrounds
@@ -123,7 +128,7 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                 ]}
             >
                 <View style={[{
-                    flexGrow: 6, 
+                    flexGrow: 6,
                     justifyContent: "flex-start",
                 }, Layout.fullWidth, Layout.fill]}>
 
@@ -165,12 +170,18 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                         />
                     </View>
 
-                    <View style={[Layout.fullWidth, { justifyContent: "center", flex: 1 }]}/>
+                    <View style={[Layout.fullWidth, { justifyContent: "flex-start", flex: 1 }]}>
+                        {
+                            errMsg !== "" && <Text style={[{ color: colors.orangeCrayola, fontFamily: "AvenirNext-Regular" }, Fonts.textSmall, Fonts.textCenter]}>
+                                {errMsg}
+                            </Text>
+                        }
+                    </View>
 
                 </View>
 
                 <View style={[Layout.fullWidth, Layout.center, { flex: 1, justifyContent: "flex-start" }]}>
-                    <YellowButton
+                    <TurquoiseButton
                         text={t("createAccount")}
                         containerStyle={Layout.fullWidth}
                         isLoading={isCreatingAccount}

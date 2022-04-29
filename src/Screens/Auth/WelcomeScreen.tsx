@@ -27,7 +27,7 @@ import { RouteStacks } from '@/Navigators/routes'
 import ScreenBackgrounds from '@/Components/ScreenBackgrounds'
 import AppLogo from '@/Components/Icons/AppLogo'
 import AppIcon from '@/Components/Icons/AppIcon'
-import YellowButton from '@/Components/Buttons/YellowButton'
+import TurquoiseButton from '@/Components/Buttons/TurquoiseButton'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 
@@ -85,7 +85,7 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
                             Layout.fullWidth,
                             Gutters.regularVMargin
                         ]}>
-                            <YellowButton
+                            <TurquoiseButton
                                 text={t("login")}
                                 onPress={() => navigation.navigate(RouteStacks.signIn)}
                             />
@@ -95,7 +95,7 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
                             Layout.fullWidth,
                             Gutters.regularVMargin
                         ]}>
-                            <YellowButton
+                            <TurquoiseButton
                                 text={t("invitationCodeAllCapital")}
                                 onPress={() => navigation.navigate(RouteStacks.enterInvitationCode)}
                             />

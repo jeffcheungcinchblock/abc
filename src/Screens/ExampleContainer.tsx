@@ -36,7 +36,7 @@ const ExampleContainer = () => {
   const { Common, Fonts, Gutters, Layout } = useTheme()
   const dispatch = useDispatch()
 
-  const { isLogin, username } = useSelector(
+  const { isLoggedIn, username } = useSelector(
     (state: { user: UserState }) => state.user
   )
 

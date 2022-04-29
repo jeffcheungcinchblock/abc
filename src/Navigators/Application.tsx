@@ -34,7 +34,7 @@ const ApplicationNavigator = () => {
   const { colors } = NavigationTheme
   const { isScreenLoading, snackBarConfig } = useSelector((state: RootState) => state.ui)
   const dispatch = useDispatch()
-  const { isLogin } = useSelector((state: RootState) => state.user)
+  const { isLoggedIn } = useSelector((state: RootState) => state.user)
 
   useEffect(() => {
     const retrieveLoggedInUser = async () => {
@@ -93,7 +93,7 @@ const ApplicationNavigator = () => {
           }
 
           {
-            isLogin ? <MainNavigator /> : <AuthNavigator />
+            isLoggedIn ? <MainNavigator /> : <AuthNavigator />
           }
         </NavigationContainer>
       </GestureHandlerRootView>

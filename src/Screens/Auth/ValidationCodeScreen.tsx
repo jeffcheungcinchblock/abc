@@ -33,7 +33,7 @@ import { colors, config } from '@/Utils/constants'
 import { AuthNavigatorParamList } from '@/Navigators/AuthNavigator'
 import { RouteStacks } from '@/Navigators/routes'
 import ScreenBackgrounds from '@/Components/ScreenBackgrounds'
-import YellowButton from '@/Components/Buttons/YellowButton'
+import TurquoiseButton from '@/Components/Buttons/TurquoiseButton'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { startLoading } from '@/Store/UI/actions'
 import WhiteInput from '@/Components/Inputs/WhiteInput'
@@ -184,6 +184,7 @@ const ValidationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
                                 value={newPassword}
                                 placeholder={t("newPasswordAllCapital")}
                                 placeholderTextColor={colors.spanishGray}
+                                secureTextEntry={params.action === 'forgotPassword'}
                             />
                         </View>
                     }
@@ -199,7 +200,7 @@ const ValidationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
                 </View>
 
                 <View style={[Layout.fullWidth, Layout.center, { flex: 1, justifyContent: "flex-start" }]}>
-                    <YellowButton
+                    <TurquoiseButton
                         text={t("verifyAccount")}
                         containerStyle={Layout.fullWidth}
                         isLoading={isVerifyingAccount}

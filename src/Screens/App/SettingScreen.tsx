@@ -24,11 +24,10 @@ import { colors, config } from '@/Utils/constants'
 import { DrawerNavigatorParamList } from '@/Navigators/MainNavigator'
 import { RouteStacks } from '@/Navigators/routes'
 import ScreenBackgrounds from '@/Components/ScreenBackgrounds'
+// @ts-ignore
 import { useWalletConnect } from '@walletconnect/react-native-dapp'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import YellowButton from '@/Components/Buttons/YellowButton'
-
-
+import TurquoiseButton from '@/Components/Buttons/TurquoiseButton'
 
 const SettingScreen: FC<DrawerScreenProps<DrawerNavigatorParamList, RouteStacks.setting>> = (
     { navigation, route }
@@ -49,7 +48,14 @@ const SettingScreen: FC<DrawerScreenProps<DrawerNavigatorParamList, RouteStacks.
         //     .catch((error) => {
         //         Alert.alert(error.message);
         //     });
+        
     }, [])
+
+    const onToggleDrawerPress = async () => {
+
+        navigation.toggleDrawer()
+        
+    }
 
     return (
         <ScreenBackgrounds
@@ -73,17 +79,17 @@ const SettingScreen: FC<DrawerScreenProps<DrawerNavigatorParamList, RouteStacks.
                     <Text style={{ color: colors.black }}>Setting screen</Text>
 
                     {
-                        <YellowButton
-                            onPress={() => navigation.toggleDrawer()}
+                        <TurquoiseButton
+                            onPress={onToggleDrawerPress}
                             text={t("Toggle Drawer")}
                             containerStyle={[Layout.fullWidth]}
                         />
                     }
 
-                    <YellowButton
+                    <TurquoiseButton
                         onPress={() => !connector.connected ? connector.connect() : connector.killSession()}
                         text={!connector.connected ? t("Connect Wallet") : t("Disconnect Wallet")}
-                        containerStyle={[Layout.fullWidth, {flex: 1}]}
+                        containerStyle={[Layout.fullWidth, { flex: 1 }]}
                     />
 
                 </View>

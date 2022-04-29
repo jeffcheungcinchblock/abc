@@ -41,7 +41,7 @@ import backBtn from '@/Assets/Images/buttons/back.png'
 import WhiteInput from '@/Components/Inputs/WhiteInput'
 import AppIcon from '@/Components/Icons/AppIcon'
 import { color } from 'react-native-reanimated'
-import YellowButton from '@/Components/Buttons/YellowButton'
+import TurquoiseButton from '@/Components/Buttons/TurquoiseButton'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 
@@ -161,7 +161,7 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
                 </View>
 
                 <View style={[Layout.fullWidth, Layout.center, { flex: 1, justifyContent: "flex-start" }]}>
-                    <YellowButton
+                    <TurquoiseButton
                         onPress={() => onConfirmPress()}
                         text={t("confirm")}
                         containerStyle={Layout.fullWidth}

@@ -32,7 +32,7 @@ import { DrawerScreenProps } from '@react-navigation/drawer'
 import { DrawerNavigatorParamList, TabNavigatorParamList } from '@/Navigators/MainNavigator'
 import ScreenBackgrounds from '@/Components/ScreenBackgrounds'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import YellowButton from '@/Components/Buttons/YellowButton'
+import TurquoiseButton from '@/Components/Buttons/TurquoiseButton'
 import axios from 'axios'
 
 const TEXT_INPUT = {
@@ -126,7 +126,7 @@ const MainScreen: FC<HomeMainScreenNavigationProp> = (
                     <Text style={Fonts.textRegular}>Welcome</Text>
 
                     {
-                        <YellowButton
+                        <TurquoiseButton
                             onPress={onReferFriendsPress}
                             text={t("Refer friends")}
                             containerStyle={[Layout.fullWidth]}
@@ -134,7 +134,7 @@ const MainScreen: FC<HomeMainScreenNavigationProp> = (
                     }
 
                     {
-                        <YellowButton
+                        <TurquoiseButton
                             onPress={onToggleDrawer}
                             text={t("Toggle Drawer")}
                             containerStyle={[Layout.fullWidth]}
@@ -142,7 +142,7 @@ const MainScreen: FC<HomeMainScreenNavigationProp> = (
                     }
 
                     {
-                        <YellowButton
+                        <TurquoiseButton
                             onPress={onSignOutPress}
                             text={t("Sign out")}
                             containerStyle={[Layout.fullWidth]}
