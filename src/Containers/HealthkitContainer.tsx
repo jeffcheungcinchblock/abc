@@ -114,7 +114,13 @@ const HealthkitContainer = ({ navigation }) => {
 			}
 			setLog(JSON.stringify(location))
 		})
-		// const onMotionChange: Subscription = BackgroundGeolocation.onMotionChange((event) => {console.log('[event] motionchange', event)})
+		const onMotionChange: Subscription = BackgroundGeolocation.onMotionChange((event) => {
+			const new_heartrate = health_kit.GetHeartRates( startTime, new Date())
+			Promise.resolve(new_heartrate ).then((result)=>{
+				dispatch({ type:'heartrate', payload:{ heartRate:result } })
+				setNumber(pre => pre + 1)
+			})
+		})
 		BackgroundGeolocation.ready({
 			triggerActivities: 'on_foot, walking, running',
 			locationAuthorizationRequest : 'WhenInUse',
@@ -134,8 +140,10 @@ const HealthkitContainer = ({ navigation }) => {
 		})
 		return () => {
 			onLocation.remove()
+			onMotionChange.remove()
 
 		}
+
 	}, [ isHealthkitReady ])
 	/// Add the current state as first item in list.
 

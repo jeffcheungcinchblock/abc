@@ -215,7 +215,6 @@ export class GoogleFitKit extends GeneralHealthKit {
 								startDate: startDate.toISOString(),
 								endDate : new Date().toISOString(),
 							}
-
 							step = step + res.steps
 							if (step > 10){
 								console.log('backgound')
