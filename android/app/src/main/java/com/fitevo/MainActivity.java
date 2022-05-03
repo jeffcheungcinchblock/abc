@@ -34,4 +34,10 @@ public class MainActivity extends ReactActivity {
       intent.putExtra("newConfig", newConfig);
       sendBroadcast(intent);
     }
+
+  @Override
+  public void onNewIntent(Intent intent) {
+    super.onNewIntent(intent);
+    setIntent(intent);
+  }
 }

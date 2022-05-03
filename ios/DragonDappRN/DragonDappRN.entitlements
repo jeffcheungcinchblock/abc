@@ -6,7 +6,7 @@
 	<string>development</string>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks:fitevo.page.link</string>
+		<string>applinks:test-dragon-dev.onelink.me</string>
 	</array>
 </dict>
 </plist>

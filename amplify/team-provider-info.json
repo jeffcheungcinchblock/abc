@@ -10,6 +10,23 @@
       "StackName": "amplify-dragonevo-dev-122509",
       "StackId": "arn:aws:cloudformation:us-west-2:523966993919:stack/amplify-dragonevo-dev-122509/5cbe6c80-c774-11ec-b573-0a3baa7ea85d",
       "AmplifyAppId": "d1kscz8c8z777g"
+    },
+    "categories": {
+      "auth": {
+        "dragonevo": {
+          "userPoolId": "us-west-2_QVyy5ZMqT",
+          "userPoolName": "dragonevo-dev-auth-user-pool",
+          "webClientId": "5n21gbh33o8scta9agi8o75aab",
+          "nativeClientId": "5n21gbh33o8scta9agi8o75aab",
+          "identityPoolId": "us-west-2:a0a35520-2e89-4df3-98e9-8543324349e0",
+          "identityPoolName": "dragonevo-dev-auth-identity-pool",
+          "allowUnauthenticatedIdentities": true,
+          "authRoleArn": "arn:aws:iam::523966993919:role/dragonevo-dev-auth-authorized-role",
+          "authRoleName": "dragonevo-dev-auth-authorized-role",
+          "unauthRoleArn": "arn:aws:iam::523966993919:role/dragonevo-dev-auth-unauthorized-role",
+          "unauthRoleName": "dragonevo-dev-auth-unauthorized-role"
+        }
+      }
     }
   }
 }

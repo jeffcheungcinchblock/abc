@@ -15,9 +15,63 @@ import awsconfig from '@/aws-exports';
 import { InAppBrowser } from 'react-native-inappbrowser-reborn';
 import messaging from '@react-native-firebase/messaging';
 import firebase from '@react-native-firebase/app';
+import appsFlyer from 'react-native-appsflyer';
 import { config, dispatchRef } from './Utils/constants'
 import { RouteStacks } from './Navigators/routes'
 import { startLoading } from './Store/UI/actions'
+
+const onInstallConversionDataCanceller = appsFlyer.onInstallConversionData(
+  (res) => {
+    const isFirstLaunch = res?.data?.is_first_launch;
+
+    if (isFirstLaunch && JSON.parse(isFirstLaunch) === true) {
+      if (res.data.af_status === "Non-organic") {
+        const media_source = res.data.media_source;
+        const campaign = res.data.campaign;
+        console.log("appsFlyer Conversion Data: ", 'This is first launch and a Non-Organic install. Media source: ' + media_source + ' Campaign: ' + campaign);
+      } else if (res.data.af_status === "Organic") {
+        console.log("appsFlyer Conversion Data: ", "This is first launch and a Organic Install")
+      } else {
+        console.log("appsFlyer Conversion Data: ", "This is not first launch")
+      }
+    }
+  }
+)
+
+const onAppOpenAttributionCanceller = appsFlyer.onAppOpenAttribution((res) => {
+  console.log(`status: ${res.status}`);
+  console.log(`campaign: ${res.data.campaign}`);
+  console.log(`af_dp: ${res.data.af_dp}`);
+  console.log(`link: ${res.data.link}`);
+  console.log(`DL value: ${res.data.deep_link_value}`);
+  console.log(`media source: ${res.data.media_source}`);
+});
+
+const onDeepLinkCanceller = appsFlyer.onDeepLink(res => {
+  if (res?.deepLinkStatus !== 'NOT_FOUND') {
+    const DLValue = res?.data.deep_link_value;
+    const mediaSrc = res?.data.media_source;
+    const param1 = res?.data.af_sub1;
+    console.log(JSON.stringify(res?.data, null, 2));
+  }
+})
+
+appsFlyer.initSdk(
+  {
+    devKey: 'xLdsHZT9juiWRAjhGsjdSV',
+    isDebug: false,
+    appId: '1618412167',
+    onInstallConversionDataListener: true,
+    onDeepLinkListener: true,
+    timeToWaitForATTUserAuthorization: 10
+  },
+  (result) => {
+    console.log("appsFlyer Result: ", result);
+  },
+  (error) => {
+    console.log("appsFlyer Error: ", error);
+  }
+);
 
 // This is to supress the error coming from unknown lib who is using react-native-gesture-handler
 LogBox.ignoreLogs([
