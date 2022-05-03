@@ -14,7 +14,6 @@ import { GoogleFitKit } from '../Healthkit/androidHealthKit'
 import BackgroundGeolocation, {
 	Subscription,
 } from 'react-native-background-geolocation'
-import { getDistanceBetweenTwoPoints } from '@/Healthkit/utils'
 
 type Coordinate = {
 	latitude:number
