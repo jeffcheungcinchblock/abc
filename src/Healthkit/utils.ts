@@ -25,7 +25,6 @@ function getDistanceBetweenTwoPoints(lat1:any, lon1:any, lat2:any, lon2:any) {
 	dist = (dist * 180) / Math.PI
 	dist = dist * 60 * 1.1515
 	dist = dist * 1.609344 //convert miles to km
-	console.log('dist', dist * 1000)
 	return dist * 1000
 }
 export { getDistanceBetweenTwoPoints }

@@ -2,8 +2,15 @@ require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
 platform :ios, '12.0'
+# use_frameworks!
+source 'https://github.com/CocoaPods/Specs.git'
 
 target 'DragonDappRN' do
+
+  pod 'react-native-google-maps', :path => '../node_modules/react-native-maps'
+  # when not using frameworks  we can remove this line (2/4):
+  pod 'GoogleMaps'  # <~~ remove this line if you do not want to support GoogleMaps on iOS
+
   config = use_native_modules!
   use_react_native!(
     :path => config[:reactNativePath],
@@ -14,8 +21,7 @@ target 'DragonDappRN' do
   pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse/Permission-LocationWhenInUse.podspec"
   target 'DragonDappRNTests' do
     inherit! :complete
-    # Pods for testing
-  
+
   end
 
   # Enables Flipper.

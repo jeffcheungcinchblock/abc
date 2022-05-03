@@ -57,7 +57,6 @@ export class GoogleFitKit extends GeneralHealthKit {
 			startDate: startDate.toISOString(),
 			endDate: endDate.toISOString(), // optional; default now
 		}
-		console.log('step')
 		return new Promise<number>(resolve => {
 			GoogleFit.getDailyStepCountSamples(StepOptions)
 				.then((res: any) => {
@@ -65,7 +64,6 @@ export class GoogleFitKit extends GeneralHealthKit {
 						(step: { source: string }) =>
 							step.source === 'com.google.android.gms:estimated_steps',
 					)
-					console.log('google fit step res', res)
 					const steps = source.steps.reduce((a: any, b: { value: any }) => {
 						return a + b.value
 					}, 0)
@@ -117,7 +115,7 @@ export class GoogleFitKit extends GeneralHealthKit {
 		// get calories burned
 		return new Promise<number>(resolve => {
 			GoogleFit.getDailyCalorieSamples(opt).then((res: any) => {
-				console.log('google fit res', res)
+
 				if (res.length === 0) {
 					resolve(0)
 				}
@@ -149,7 +147,6 @@ export class GoogleFitKit extends GeneralHealthKit {
 		return new Promise<number>(resolve => {
 			GoogleFit.getHeartRateSamples(opt)
 				.then((res) => {
-					console.log(res)
 
 					const heartRate = res.reduce((a: any, b: { value: any }) => {
 						return a + b.value

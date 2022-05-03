@@ -45,7 +45,6 @@ export default createReducer<State>(initialState, (builder) => {
 
 	builder
 		.addCase(move, (state, action) => {
-			console.log('moving')
 			if (!action.payload.latitude || !action.payload.longitude){
 				return { ...state }
 			}
@@ -60,7 +59,6 @@ export default createReducer<State>(initialState, (builder) => {
 			{
 				return { ...state, latitude : action.payload.latitude, longitude :action.payload.longitude, distance : state.distance!  + distance, calories: newCarlorieBurned, steps: newSteps, coordinates: newCoor, heartRate: action.heartRate }
 			}
-			console.log('skip')
 			return { ...state, latitude : action.payload.latitude, longitude :action.payload.longitude, calories: newCarlorieBurned, steps: newSteps }
 
 		})

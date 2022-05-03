@@ -45,6 +45,10 @@
           <action android:name="android.intent.action.MAIN" />
         </intent-filter>
       </activity>
+   <!-- You will only need to add this meta-data tag, but make sure it's a child of application -->
+        <meta-data
+     android:name="com.google.android.geo.API_KEY"
+          android:value="AIzaSyASm0MfpQn0s2KyvXf39_9NgoXb4eUWw0g"/>
        <service android:name="com.transistorsoft.locationmanager.service.TrackingService" android:foregroundServiceType="location" />
        <service android:name="com.transistorsoft.locationmanager.service.LocationRequestService" android:foregroundServiceType="location" />
     </application>
