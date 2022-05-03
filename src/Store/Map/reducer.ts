@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { start, move, ready } from './actions'
+import { start, move, ready, pause,resume } from './actions'
 import { getDistanceBetweenTwoPoints } from '../../Healthkit/utils'
 
 export type State =
@@ -12,34 +12,31 @@ export type State =
         steps: number | null,
         heartRate: number | null,
         coordinates : Array<CoordinateType> | []
+		pauseTime : Array<PauseTimeType> | []
     }
 
 export type CoordinateType = {
     latitude: number,
     longitude: number
 }
+export type PauseTimeType = {
+	startTime: Date,
+	endTime: Date
+}
 
 
 
-const initialState:State = { startTime: new Date(), latitude:null, longitude:null, distance:0, calories:0, steps:0, heartRate :0, coordinates :[ { latitude:0, longitude:0 } ] }
+const initialState:State = { startTime: new Date(), latitude:null, longitude:null, distance:0, calories:0, steps:0, heartRate :0, coordinates :[ { latitude:0, longitude:0 } ] ,pauseTime:[]}
 
 
 export default createReducer<State>(initialState, (builder) => {
 	builder
 		.addCase(ready, (state, action)=>{
-			// if (!action.payload.latitude || !action.payload.longitude) {
-			// 	return { ...state }
-			// }
-			// if (!action.location.latitude || !action.location.longitude){
-			// 	console.log('have location ready')
-			// 	return { ...state }
-			// }
-			// return { ...state, latitude:action.location.latitude, longitude:action.location.longitude }
 			return { ...state }
 		})
 	builder
 		.addCase(start, (state, action) => {
-			const initialStateStart:State = { startTime: new Date(), latitude:null, longitude:null, distance:0, calories:0, steps:0, heartRate :0, coordinates :[] }
+			const initialStateStart:State = { startTime: new Date(), latitude:null, longitude:null, distance:0, calories:0, steps:0, heartRate :0, coordinates :[] ,pauseTime:[]}
 			return initialStateStart
 		})
 
@@ -57,9 +54,16 @@ export default createReducer<State>(initialState, (builder) => {
 			}
 			if (distance > 0)
 			{
-				return { ...state, latitude : action.payload.latitude, longitude :action.payload.longitude, distance : state.distance!  + distance, calories: newCarlorieBurned, steps: newSteps, coordinates: newCoor, heartRate: action.heartRate }
+				return { ...state, latitude : action.payload.latitude, longitude :action.payload.longitude, distance : state.distance!  + distance, calories: newCarlorieBurned, steps: newSteps, coordinates: newCoor, heartRate: action.payload.heartRate }
 			}
 			return { ...state, latitude : action.payload.latitude, longitude :action.payload.longitude, calories: newCarlorieBurned, steps: newSteps }
-
 		})
+	builder
+		.addCase(pause, (state, action) => {
+			return { ...state }
+		})
+
+	builder.addCase(resume, (state, action) => {
+		return { ...state }
+	}
 })

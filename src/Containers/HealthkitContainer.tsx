@@ -15,10 +15,7 @@ import BackgroundGeolocation, {
 	Subscription,
 } from 'react-native-background-geolocation'
 
-type Coordinate = {
-	latitude:number
-	longitude:number
-}
+
 const isIOS = Platform.OS === 'ios'
 const health_kit = isIOS ? new IOSHealthKit() : new GoogleFitKit()
 // const initialState:State = { startTime: new Date(), latitude:null, longitude:null, distance:0, calories:0, steps:0, heartRate :0, coordinates :[ { latitude:0, longitude:0 } ] }
@@ -64,8 +61,8 @@ const HealthkitContainer = ({ navigation }) => {
 	const [ log, setLog ] = useState('')
 	const [ isHealthkitReady, setIstHealthKitReady ] = useState(false)
 	const [ enabled, setEnabled ] = React.useState(false)
-	const [ ready, setReady ] = useState(false)
 	const [ number, setNumber ] = useState(0)
+	const [ currentState, setCurrentState ] = useState('initialing')
 	// const [ state, dispatch ] = useReducer(reducer, initialState)
 
 	const startTime = useSelector((state:any) => state.map.startTime)
@@ -78,6 +75,7 @@ const HealthkitContainer = ({ navigation }) => {
 	const heartRate = useSelector((state:any) => state.map.heartRate)
 
 	useEffect(() => {
+		setCurrentState('initialing')
 		health_kit.GetAuthorizeStatus().then((isAuthorize) => {
 			if (!isAuthorize) {
 				health_kit
@@ -135,7 +133,7 @@ const HealthkitContainer = ({ navigation }) => {
 			logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
 			stopOnTerminate: false,
 		}).then(()=>{
-			setReady(true)
+			setCurrentState('ready')
 			dispatch({ type:'ready' })
 		})
 		return () => {
@@ -186,9 +184,18 @@ const HealthkitContainer = ({ navigation }) => {
 		}
 		)
 	}
+
+	const PauseRunningSession = () => {
+		console.log('pause')
+	}
+
+	const ResumeRunningSession = () => {
+		console.log('resume')
+
+	}
 	useEffect(() => {
 		const start = async() => {
-			if (ready){
+			if (currentState === 'ready'){
 				let location = await BackgroundGeolocation.getCurrentPosition({
 					timeout: 30,          // 30 second timeout to fetch location
 					maximumAge: 5000,
@@ -199,6 +206,7 @@ const HealthkitContainer = ({ navigation }) => {
 				setIstHealthKitReady(true)
 				await BackgroundGeolocation.start()
 				await BackgroundGeolocation.changePace(true)
+				setCurrentState('starting')
 			}
 
 		}
@@ -255,6 +263,18 @@ const HealthkitContainer = ({ navigation }) => {
 				onPress={ShowMap}
 			>
 				<Text style={Fonts.textRegular}>View Map</Text>
+			</TouchableOpacity>
+			<TouchableOpacity
+				style={[ Common.button.rounded, Gutters.regularBMargin ]}
+				onPress={PauseRunningSession}
+			>
+				<Text style={Fonts.textRegular}>Pause</Text>
+			</TouchableOpacity>
+			<TouchableOpacity
+				style={[ Common.button.rounded, Gutters.regularBMargin ]}
+				onPress={ResumeRunningSession}
+			>
+				<Text style={Fonts.textRegular}>Resume</Text>
 			</TouchableOpacity>
 		</ScrollView>
 	)
