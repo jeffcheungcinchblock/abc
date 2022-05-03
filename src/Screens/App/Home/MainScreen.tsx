@@ -79,12 +79,12 @@ const MainScreen: FC<HomeMainScreenNavigationProp> = (
         setRefreshing(true);
 
         let user = await Auth.currentAuthenticatedUser()
-        let accessToken = user.signInUserSession.accessToken.jwtToken
-        console.log('accessToken', accessToken)
+        console.log("Sennett 3: ", user.signInUserSession)
+        let jwtToken = user.signInUserSession.idToken.jwtToken
 
         const authRes = await axios.get("https://api-dev.dragonevolution.gg/users/auth", {
-            params: {
-                accessToken
+            headers: {
+                Authorization: jwtToken //the token is a variable which holds the token
             }
         })
         console.log('authRes', authRes)
