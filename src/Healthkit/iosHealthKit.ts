@@ -81,7 +81,6 @@ export class IOSHealthKit extends GeneralHealthKit {
 	}
 
 	GetCaloriesBurned(startDate: Date, endDate: Date) {
-		console.log('strt', startDate)
 
 		let options = {
 			startDate: startDate.toISOString(), // required

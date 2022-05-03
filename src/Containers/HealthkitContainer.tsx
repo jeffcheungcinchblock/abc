@@ -101,6 +101,7 @@ const HealthkitContainer = ({ navigation }) => {
 					const new_step = health_kit.GetSteps(startTime, new Date())
 					const new_heartrate = health_kit.GetHeartRates( startTime, new Date())
 					Promise.all([ new_cal, new_step, new_heartrate ]).then((result)=>{
+						console.log('result', result)
 						dispatch({ type:'move', payload:{ latitude:location.coords.latitude, longitude:location.coords.longitude,
 							calories:result[0], steps:result[1], heartRate:result[2] } })
 						setNumber(pre => pre + 1)

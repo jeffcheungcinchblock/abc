@@ -26,6 +26,9 @@ const GeoLocationContainer = ({ navigation, route }) => {
 	const [ region, setRegion ] = useState('')
 	console.log(coordinates, 'coordinates')
 
+	const onRegionChange = () => {
+		console.log('region change')
+	}
 	return (
 		<>
 
@@ -37,14 +40,14 @@ const GeoLocationContainer = ({ navigation, route }) => {
 					</View>
 				)
 			})}
-			<MapView
+			{/* <MapView
 				initialRegion={{
 					latitude: coordinates[0].latitude,
 					longitude: coordinates[0].longitude,
 					latitudeDelta: 0.0922,
 					longitudeDelta: 0.0421,
 				  }}
-				onRegionChange={this.onRegionChange}
+				onRegionChange={onRegionChange}
 			>
 				{this.state.markers.map((marker, index) => (
 					<Marker
@@ -54,7 +57,7 @@ const GeoLocationContainer = ({ navigation, route }) => {
 						description={marker.description}
 					/>
 				))}
-			</MapView>
+			</MapView> */}
 		</>
 	)
 }
