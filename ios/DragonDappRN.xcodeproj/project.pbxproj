@@ -38,6 +38,16 @@
 		6D514CADD27F4C7387C2C28D /* Mont-HeavyDEMO.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9460F3FC55DF41AF897C74A9 /* Mont-HeavyDEMO.ttf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		A14492FCF150478097DBCCED /* AvenirNext-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 30CF59C85CF247DC8F3141F8 /* AvenirNext-Bold.ttf */; };
+		C4114DC0282258E000074A62 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4114DBF282258E000074A62 /* AppDelegate.swift */; };
+		C4114DC2282258E000074A62 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4114DC1282258E000074A62 /* SceneDelegate.swift */; };
+		C4114DC4282258E000074A62 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4114DC3282258E000074A62 /* ViewController.swift */; };
+		C4114DC7282258E000074A62 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4114DC5282258E000074A62 /* Main.storyboard */; };
+		C4114DC9282258E100074A62 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C4114DC8282258E100074A62 /* Assets.xcassets */; };
+		C4114DCC282258E100074A62 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4114DCA282258E100074A62 /* LaunchScreen.storyboard */; };
+		C4114DD8282258E100074A62 /* DragonDappRNClipTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4114DD7282258E100074A62 /* DragonDappRNClipTests.swift */; };
+		C4114DE2282258E200074A62 /* DragonDappRNClipUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4114DE1282258E200074A62 /* DragonDappRNClipUITests.swift */; };
+		C4114DE4282258E200074A62 /* DragonDappRNClipUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4114DE3282258E200074A62 /* DragonDappRNClipUITestsLaunchTests.swift */; };
+		C4114DE7282258E200074A62 /* DragonDappRNClip.app in Embed App Clips */ = {isa = PBXBuildFile; fileRef = C4114DBD282258E000074A62 /* DragonDappRNClip.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		E391E5BA28164994009DD23B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E391E5B928164994009DD23B /* GoogleService-Info.plist */; };
 		E391E5BB28164994009DD23B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E391E5B928164994009DD23B /* GoogleService-Info.plist */; };
 		E391E5BC28164994009DD23B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E391E5B928164994009DD23B /* GoogleService-Info.plist */; };
@@ -59,7 +69,42 @@
 			remoteGlobalIDString = 2D02E47A1E0B4A5D006451C7;
 			remoteInfo = "DragonDappRN-tvOS";
 		};
+		C4114DD4282258E100074A62 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C4114DBC282258E000074A62;
+			remoteInfo = DragonDappRNClip;
+		};
+		C4114DDE282258E200074A62 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C4114DBC282258E000074A62;
+			remoteInfo = DragonDappRNClip;
+		};
+		C4114DE5282258E200074A62 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C4114DBC282258E000074A62;
+			remoteInfo = DragonDappRNClip;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C4114DEB282258E200074A62 /* Embed App Clips */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/AppClips";
+			dstSubfolderSpec = 16;
+			files = (
+				C4114DE7282258E200074A62 /* DragonDappRNClip.app in Embed App Clips */,
+			);
+			name = "Embed App Clips";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
@@ -100,6 +145,20 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = DragonDappRN/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9460F3FC55DF41AF897C74A9 /* Mont-HeavyDEMO.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Mont-HeavyDEMO.ttf"; path = "../src/Assets/Fonts/Mont-HeavyDEMO.ttf"; sourceTree = "<group>"; };
 		AD8E564073174A86BD08DB58 /* AvenirNext-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "AvenirNext-Medium.ttf"; path = "../src/Assets/Fonts/AvenirNext-Medium.ttf"; sourceTree = "<group>"; };
+		C4114DBD282258E000074A62 /* DragonDappRNClip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DragonDappRNClip.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C4114DBF282258E000074A62 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		C4114DC1282258E000074A62 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		C4114DC3282258E000074A62 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		C4114DC6282258E000074A62 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		C4114DC8282258E100074A62 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C4114DCB282258E100074A62 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		C4114DCD282258E100074A62 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C4114DCE282258E100074A62 /* DragonDappRNClip.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DragonDappRNClip.entitlements; sourceTree = "<group>"; };
+		C4114DD3282258E100074A62 /* DragonDappRNClipTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DragonDappRNClipTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C4114DD7282258E100074A62 /* DragonDappRNClipTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragonDappRNClipTests.swift; sourceTree = "<group>"; };
+		C4114DDD282258E100074A62 /* DragonDappRNClipUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DragonDappRNClipUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C4114DE1282258E200074A62 /* DragonDappRNClipUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragonDappRNClipUITests.swift; sourceTree = "<group>"; };
+		C4114DE3282258E200074A62 /* DragonDappRNClipUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragonDappRNClipUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		D7A850B0716795F5EA738598 /* Pods-DragonDappRN.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DragonDappRN.debug.xcconfig"; path = "Target Support Files/Pods-DragonDappRN/Pods-DragonDappRN.debug.xcconfig"; sourceTree = "<group>"; };
 		E391E5B928164994009DD23B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -132,6 +191,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		2D02E48D1E0B4A5D006451C7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C4114DBA282258E000074A62 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C4114DD0282258E100074A62 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C4114DDA282258E100074A62 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -233,6 +313,9 @@
 				13B07FAE1A68108700A75B9A /* DragonDappRN */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* DragonDappRNTests */,
+				C4114DBE282258E000074A62 /* DragonDappRNClip */,
+				C4114DD6282258E100074A62 /* DragonDappRNClipTests */,
+				C4114DE0282258E200074A62 /* DragonDappRNClipUITests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				18A06528071B6FFBBA9372E2 /* Pods */,
@@ -250,6 +333,9 @@
 				00E356EE1AD99517003FC87E /* DragonDappRNTests.xctest */,
 				2D02E47B1E0B4A5D006451C7 /* DragonDappRN-tvOS.app */,
 				2D02E4901E0B4A5D006451C7 /* DragonDappRN-tvOSTests.xctest */,
+				C4114DBD282258E000074A62 /* DragonDappRNClip.app */,
+				C4114DD3282258E100074A62 /* DragonDappRNClipTests.xctest */,
+				C4114DDD282258E100074A62 /* DragonDappRNClipUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -263,6 +349,38 @@
 				9460F3FC55DF41AF897C74A9 /* Mont-HeavyDEMO.ttf */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		C4114DBE282258E000074A62 /* DragonDappRNClip */ = {
+			isa = PBXGroup;
+			children = (
+				C4114DBF282258E000074A62 /* AppDelegate.swift */,
+				C4114DC1282258E000074A62 /* SceneDelegate.swift */,
+				C4114DC3282258E000074A62 /* ViewController.swift */,
+				C4114DC5282258E000074A62 /* Main.storyboard */,
+				C4114DC8282258E100074A62 /* Assets.xcassets */,
+				C4114DCA282258E100074A62 /* LaunchScreen.storyboard */,
+				C4114DCD282258E100074A62 /* Info.plist */,
+				C4114DCE282258E100074A62 /* DragonDappRNClip.entitlements */,
+			);
+			path = DragonDappRNClip;
+			sourceTree = "<group>";
+		};
+		C4114DD6282258E100074A62 /* DragonDappRNClipTests */ = {
+			isa = PBXGroup;
+			children = (
+				C4114DD7282258E100074A62 /* DragonDappRNClipTests.swift */,
+			);
+			path = DragonDappRNClipTests;
+			sourceTree = "<group>";
+		};
+		C4114DE0282258E200074A62 /* DragonDappRNClipUITests */ = {
+			isa = PBXGroup;
+			children = (
+				C4114DE1282258E200074A62 /* DragonDappRNClipUITests.swift */,
+				C4114DE3282258E200074A62 /* DragonDappRNClipUITestsLaunchTests.swift */,
+			);
+			path = DragonDappRNClipUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -302,10 +420,12 @@
 				F8BD4674ED2B0EDF2E8DF64C /* [CP] Embed Pods Frameworks */,
 				D57EAF1A39EEDB27D2734B31 /* [CP] Copy Pods Resources */,
 				B78D23506C6ABBEDF3A6177C /* [CP-User] [RNFB] Core Configuration */,
+				C4114DEB282258E200074A62 /* Embed App Clips */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				C4114DE6282258E200074A62 /* PBXTargetDependency */,
 			);
 			name = DragonDappRN;
 			productName = DragonDappRN;
@@ -349,12 +469,66 @@
 			productReference = 2D02E4901E0B4A5D006451C7 /* DragonDappRN-tvOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		C4114DBC282258E000074A62 /* DragonDappRNClip */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C4114DE8282258E200074A62 /* Build configuration list for PBXNativeTarget "DragonDappRNClip" */;
+			buildPhases = (
+				C4114DB9282258E000074A62 /* Sources */,
+				C4114DBA282258E000074A62 /* Frameworks */,
+				C4114DBB282258E000074A62 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DragonDappRNClip;
+			productName = DragonDappRNClip;
+			productReference = C4114DBD282258E000074A62 /* DragonDappRNClip.app */;
+			productType = "com.apple.product-type.application.on-demand-install-capable";
+		};
+		C4114DD2282258E100074A62 /* DragonDappRNClipTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C4114DEC282258E200074A62 /* Build configuration list for PBXNativeTarget "DragonDappRNClipTests" */;
+			buildPhases = (
+				C4114DCF282258E100074A62 /* Sources */,
+				C4114DD0282258E100074A62 /* Frameworks */,
+				C4114DD1282258E100074A62 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C4114DD5282258E100074A62 /* PBXTargetDependency */,
+			);
+			name = DragonDappRNClipTests;
+			productName = DragonDappRNClipTests;
+			productReference = C4114DD3282258E100074A62 /* DragonDappRNClipTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		C4114DDC282258E100074A62 /* DragonDappRNClipUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C4114DEF282258E200074A62 /* Build configuration list for PBXNativeTarget "DragonDappRNClipUITests" */;
+			buildPhases = (
+				C4114DD9282258E100074A62 /* Sources */,
+				C4114DDA282258E100074A62 /* Frameworks */,
+				C4114DDB282258E100074A62 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C4114DDF282258E200074A62 /* PBXTargetDependency */,
+			);
+			name = DragonDappRNClipUITests;
+			productName = DragonDappRNClipUITests;
+			productReference = C4114DDD282258E100074A62 /* DragonDappRNClipUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 1330;
 				LastUpgradeCheck = 1130;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
@@ -375,6 +549,23 @@
 						ProvisioningStyle = Automatic;
 						TestTargetID = 2D02E47A1E0B4A5D006451C7;
 					};
+					C4114DBC282258E000074A62 = {
+						CreatedOnToolsVersion = 13.3;
+						DevelopmentTeam = FN33UR9X45;
+						ProvisioningStyle = Automatic;
+					};
+					C4114DD2282258E100074A62 = {
+						CreatedOnToolsVersion = 13.3;
+						DevelopmentTeam = 5R7ML6LATH;
+						ProvisioningStyle = Automatic;
+						TestTargetID = C4114DBC282258E000074A62;
+					};
+					C4114DDC282258E100074A62 = {
+						CreatedOnToolsVersion = 13.3;
+						DevelopmentTeam = 5R7ML6LATH;
+						ProvisioningStyle = Automatic;
+						TestTargetID = C4114DBC282258E000074A62;
+					};
 				};
 			};
 			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "DragonDappRN" */;
@@ -394,6 +585,9 @@
 				00E356ED1AD99517003FC87E /* DragonDappRNTests */,
 				2D02E47A1E0B4A5D006451C7 /* DragonDappRN-tvOS */,
 				2D02E48F1E0B4A5D006451C7 /* DragonDappRN-tvOSTests */,
+				C4114DBC282258E000074A62 /* DragonDappRNClip */,
+				C4114DD2282258E100074A62 /* DragonDappRNClipTests */,
+				C4114DDC282258E100074A62 /* DragonDappRNClipUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -451,6 +645,30 @@
 			buildActionMask = 2147483647;
 			files = (
 				E391E5BD28164994009DD23B /* GoogleService-Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C4114DBB282258E000074A62 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C4114DCC282258E100074A62 /* LaunchScreen.storyboard in Resources */,
+				C4114DC9282258E100074A62 /* Assets.xcassets in Resources */,
+				C4114DC7282258E000074A62 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C4114DD1282258E100074A62 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C4114DDB282258E100074A62 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -697,6 +915,33 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C4114DB9282258E000074A62 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C4114DC4282258E000074A62 /* ViewController.swift in Sources */,
+				C4114DC0282258E000074A62 /* AppDelegate.swift in Sources */,
+				C4114DC2282258E000074A62 /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C4114DCF282258E100074A62 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C4114DD8282258E100074A62 /* DragonDappRNClipTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C4114DD9282258E100074A62 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C4114DE4282258E200074A62 /* DragonDappRNClipUITestsLaunchTests.swift in Sources */,
+				C4114DE2282258E200074A62 /* DragonDappRNClipUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -710,7 +955,41 @@
 			target = 2D02E47A1E0B4A5D006451C7 /* DragonDappRN-tvOS */;
 			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
 		};
+		C4114DD5282258E100074A62 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C4114DBC282258E000074A62 /* DragonDappRNClip */;
+			targetProxy = C4114DD4282258E100074A62 /* PBXContainerItemProxy */;
+		};
+		C4114DDF282258E200074A62 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C4114DBC282258E000074A62 /* DragonDappRNClip */;
+			targetProxy = C4114DDE282258E200074A62 /* PBXContainerItemProxy */;
+		};
+		C4114DE6282258E200074A62 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C4114DBC282258E000074A62 /* DragonDappRNClip */;
+			targetProxy = C4114DE5282258E200074A62 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		C4114DC5282258E000074A62 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C4114DC6282258E000074A62 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		C4114DCA282258E100074A62 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C4114DCB282258E100074A62 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
@@ -760,6 +1039,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D7A850B0716795F5EA738598 /* Pods-DragonDappRN.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = DragonDappRN/DragonDappRN.entitlements;
@@ -778,7 +1058,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "fit-evo-dev";
+				PRODUCT_BUNDLE_IDENTIFIER = com.fitevo;
 				PRODUCT_NAME = DragonDappRN;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -792,6 +1072,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 570FBFA86A3C6D95C83F54F3 /* Pods-DragonDappRN.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = DragonDappRN/DragonDappRN.entitlements;
@@ -809,7 +1090,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "fit-evo-dev";
+				PRODUCT_BUNDLE_IDENTIFIER = com.fitevo;
 				PRODUCT_NAME = DragonDappRN;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -1039,6 +1320,217 @@
 			};
 			name = Release;
 		};
+		C4114DE9282258E200074A62 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = DragonDappRNClip/DragonDappRNClip.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = FN33UR9X45;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DragonDappRNClip/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = DragonDappRN;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fitevo.Clip;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C4114DEA282258E200074A62 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = DragonDappRNClip/DragonDappRNClip.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = FN33UR9X45;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DragonDappRNClip/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = DragonDappRN;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fitevo.Clip;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		C4114DED282258E200074A62 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 5R7ML6LATH;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fitevo.DragonDappRNClipTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DragonDappRNClip.app/DragonDappRNClip";
+			};
+			name = Debug;
+		};
+		C4114DEE282258E200074A62 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 5R7ML6LATH;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fitevo.DragonDappRNClipTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DragonDappRNClip.app/DragonDappRNClip";
+			};
+			name = Release;
+		};
+		C4114DF0282258E200074A62 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 5R7ML6LATH;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fitevo.DragonDappRNClipUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = DragonDappRNClip;
+			};
+			name = Debug;
+		};
+		C4114DF1282258E200074A62 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 5R7ML6LATH;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fitevo.DragonDappRNClipUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = DragonDappRNClip;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1083,6 +1575,33 @@
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
 				83CBBA211A601CBA00E9B192 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C4114DE8282258E200074A62 /* Build configuration list for PBXNativeTarget "DragonDappRNClip" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C4114DE9282258E200074A62 /* Debug */,
+				C4114DEA282258E200074A62 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C4114DEC282258E200074A62 /* Build configuration list for PBXNativeTarget "DragonDappRNClipTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C4114DED282258E200074A62 /* Debug */,
+				C4114DEE282258E200074A62 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C4114DEF282258E200074A62 /* Build configuration list for PBXNativeTarget "DragonDappRNClipUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C4114DF0282258E200074A62 /* Debug */,
+				C4114DF1282258E200074A62 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
