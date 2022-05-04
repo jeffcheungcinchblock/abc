@@ -26,6 +26,8 @@ export type Path = {
 	numberOfPath: number,
 	coordinates? : Array<CoordinateType>
 	pauseTime?: Date | null,
+	reduceStep? :number|null,
+	reduceCalories? :number|null,
 	endPauseTime?: Date | null,
 }
 export type CoordinateType = {
@@ -55,6 +57,8 @@ export default createReducer<State>(initialState, (builder) => {
 		})
 	builder
 		.addCase(move, (state, action) => {
+			console.log(JSON.stringify(state))
+
 			if (!action.payload.latitude || !action.payload.longitude){
 				return state
 			}
@@ -73,7 +77,6 @@ export default createReducer<State>(initialState, (builder) => {
 				} else {
 					newPaths[newPaths.length - 1].coordinates!.push({ latitude: action.payload.latitude, longitude: action.payload.longitude })
 				}
-
 
 				return { ...state, latitude : action.payload.latitude, longitude :action.payload.longitude, distance : state.distance!  + distance, calories: newCarlorieBurned, steps: newSteps, paths:newPaths, heartRate: action.payload.heartRate }
 			}

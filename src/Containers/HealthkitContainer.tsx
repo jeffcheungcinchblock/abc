@@ -71,7 +71,6 @@ const HealthkitContainer = ({ navigation }) => {
 							calories:result[0], steps:result[1], heartRate:result[2] } })
 						setNumber(pre => pre + 1)
 					})
-					console.log('paths', paths)
 				} else {
 					console.log('moving too fast')
 				}
