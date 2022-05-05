@@ -18,6 +18,7 @@ import * as modules from '@/Services/modules'
 import theme from './Theme'
 import userReducer from '@/Store/Users/reducer'
 import uiReducer from '@/Store/UI/reducer'
+import referralReducer from '@/Store/Referral/reducer'
 
 const reducers = combineReducers({
   theme,
@@ -30,6 +31,7 @@ const reducers = combineReducers({
   ),
   user: userReducer,
   ui: uiReducer,
+  referral: referralReducer,
   // new reducers to be added here
 
 })
@@ -37,7 +39,7 @@ const reducers = combineReducers({
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['theme'],
+  whitelist: ['theme', 'referral'],
 }
 
 const persistedReducer = persistReducer(persistConfig, reducers)

@@ -2,15 +2,21 @@
 //  SceneDelegate.swift
 //  DragonDappRNClip
 //
-//  Created by Jerry Lam on 4/5/2022.
+//  Created by Jerry Lam on 6/4/2022.
 //
 
 import UIKit
+import AppsFlyerLib
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
+  func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
+      
+      // Must for AppsFlyer attrib
+      AppsFlyerLib.shared().continue(userActivity, restorationHandler: nil)
+  }
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -29,6 +35,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneDidBecomeActive(_ scene: UIScene) {
         // Called when the scene has moved from an inactive state to an active state.
         // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
+      AppsFlyerLib.shared().start()
     }
 
     func sceneWillResignActive(_ scene: UIScene) {
