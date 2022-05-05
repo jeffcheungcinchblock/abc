@@ -7,9 +7,10 @@ source 'https://github.com/CocoaPods/Specs.git'
 
 target 'DragonDappRN' do
 
-  pod 'react-native-google-maps', :path => '../node_modules/react-native-maps'
+    # React Native Maps dependencies
+    rn_maps_path = '../node_modules/react-native-maps'
+    pod 'react-native-google-maps', :path => rn_maps_path
   # when not using frameworks  we can remove this line (2/4):
-  pod 'GoogleMaps'  # <~~ remove this line if you do not want to support GoogleMaps on iOS
 
   config = use_native_modules!
   use_react_native!(
@@ -19,6 +20,8 @@ target 'DragonDappRN' do
   )
   permissions_path = '../node_modules/react-native-permissions/ios'
   pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse/Permission-LocationWhenInUse.podspec"
+  pod 'react-native-maps', :path => '../node_modules/react-native-maps'
+
   target 'DragonDappRNTests' do
     inherit! :complete
 

@@ -8,19 +8,20 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* DragonDappRNTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* DragonDappRNTests.m */; };
-		066D8F70D46143ABFCAFF18A /* libPods-DragonDappRN.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8029795440CA0D78B1F565CA /* libPods-DragonDappRN.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		1CDD00002823B6F700858C4E /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C7C45D52800148300F60685 /* HealthKit.framework */; };
+		1CDD00012823B6F700858C4E /* HealthKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6C7C45D52800148300F60685 /* HealthKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* DragonDappRNTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* DragonDappRNTests.m */; };
-		6C7C45D62800148300F60685 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C7C45D52800148300F60685 /* HealthKit.framework */; };
+		319D11B8F12C05D74B6D7B5C /* libPods-DragonDappRN-DragonDappRNTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 801387FCF85C4D6D9267D372 /* libPods-DragonDappRN-DragonDappRNTests.a */; };
+		586C8961211A09BFB60D63CC /* libPods-DragonDappRN.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FAB47B612DD245EF2BA3F55C /* libPods-DragonDappRN.a */; };
 		6CACA623280FA036008F6268 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CACA622280FA036008F6268 /* File.swift */; };
 		6CACA625280FA975008F6268 /* RNBackgroundFetch+AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CACA624280FA975008F6268 /* RNBackgroundFetch+AppDelegate.m */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		852049A7C0DC016E803406E6 /* libPods-DragonDappRN-DragonDappRNTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 40A9711AAC5C5A7E68AEFD67 /* libPods-DragonDappRN-DragonDappRNTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,33 +41,47 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		1CDD00022823B6F700858C4E /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				1CDD00012823B6F700858C4E /* HealthKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		00E356EE1AD99517003FC87E /* DragonDappRNTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DragonDappRNTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* DragonDappRNTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DragonDappRNTests.m; sourceTree = "<group>"; };
+		0BAA660BF4DB53BC6432FFE4 /* Pods-DragonDappRN.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DragonDappRN.debug.xcconfig"; path = "Target Support Files/Pods-DragonDappRN/Pods-DragonDappRN.debug.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* DragonDappRN.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DragonDappRN.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = DragonDappRN/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = DragonDappRN/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = DragonDappRN/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = DragonDappRN/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = DragonDappRN/main.m; sourceTree = "<group>"; };
+		24416539897DBEF300E9D5A5 /* Pods-DragonDappRN.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DragonDappRN.release.xcconfig"; path = "Target Support Files/Pods-DragonDappRN/Pods-DragonDappRN.release.xcconfig"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* DragonDappRN-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DragonDappRN-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* DragonDappRN-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "DragonDappRN-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		40A9711AAC5C5A7E68AEFD67 /* libPods-DragonDappRN-DragonDappRNTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DragonDappRN-DragonDappRNTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		61C63A80A812A002BE2D940C /* Pods-DragonDappRN.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DragonDappRN.release.xcconfig"; path = "Target Support Files/Pods-DragonDappRN/Pods-DragonDappRN.release.xcconfig"; sourceTree = "<group>"; };
-		6BEF7C5414FA8F05DC55DC1C /* Pods-DragonDappRN-DragonDappRNTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DragonDappRN-DragonDappRNTests.debug.xcconfig"; path = "Target Support Files/Pods-DragonDappRN-DragonDappRNTests/Pods-DragonDappRN-DragonDappRNTests.debug.xcconfig"; sourceTree = "<group>"; };
+		373763F0133AF3AECAF0939A /* Pods-DragonDappRN-DragonDappRNTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DragonDappRN-DragonDappRNTests.debug.xcconfig"; path = "Target Support Files/Pods-DragonDappRN-DragonDappRNTests/Pods-DragonDappRN-DragonDappRNTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6C7C45D42800148300F60685 /* DragonDappRN.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = DragonDappRN.entitlements; path = DragonDappRN/DragonDappRN.entitlements; sourceTree = "<group>"; };
 		6C7C45D52800148300F60685 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		6CACA621280FA036008F6268 /* DragonDappRN-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DragonDappRN-Bridging-Header.h"; sourceTree = "<group>"; };
 		6CACA622280FA036008F6268 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		6CACA624280FA975008F6268 /* RNBackgroundFetch+AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "RNBackgroundFetch+AppDelegate.m"; path = "../node_modules/react-native-background-fetch/ios/RNBackgroundFetch/RNBackgroundFetch+AppDelegate.m"; sourceTree = "<group>"; };
-		8029795440CA0D78B1F565CA /* libPods-DragonDappRN.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DragonDappRN.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		801387FCF85C4D6D9267D372 /* libPods-DragonDappRN-DragonDappRNTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DragonDappRN-DragonDappRNTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = DragonDappRN/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		E6B6AD7C43136114ED817E7B /* Pods-DragonDappRN.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DragonDappRN.debug.xcconfig"; path = "Target Support Files/Pods-DragonDappRN/Pods-DragonDappRN.debug.xcconfig"; sourceTree = "<group>"; };
+		D31E63E978957C9F8FAF09B7 /* Pods-DragonDappRN-DragonDappRNTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DragonDappRN-DragonDappRNTests.release.xcconfig"; path = "Target Support Files/Pods-DragonDappRN-DragonDappRNTests/Pods-DragonDappRN-DragonDappRNTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
-		F8DA1179B66C09A8EFA54D86 /* Pods-DragonDappRN-DragonDappRNTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DragonDappRN-DragonDappRNTests.release.xcconfig"; path = "Target Support Files/Pods-DragonDappRN-DragonDappRNTests/Pods-DragonDappRN-DragonDappRNTests.release.xcconfig"; sourceTree = "<group>"; };
+		FAB47B612DD245EF2BA3F55C /* libPods-DragonDappRN.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DragonDappRN.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,7 +89,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				852049A7C0DC016E803406E6 /* libPods-DragonDappRN-DragonDappRNTests.a in Frameworks */,
+				319D11B8F12C05D74B6D7B5C /* libPods-DragonDappRN-DragonDappRNTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,8 +97,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6C7C45D62800148300F60685 /* HealthKit.framework in Frameworks */,
-				066D8F70D46143ABFCAFF18A /* libPods-DragonDappRN.a in Frameworks */,
+				1CDD00002823B6F700858C4E /* HealthKit.framework in Frameworks */,
+				586C8961211A09BFB60D63CC /* libPods-DragonDappRN.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -142,10 +157,10 @@
 		18A06528071B6FFBBA9372E2 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				E6B6AD7C43136114ED817E7B /* Pods-DragonDappRN.debug.xcconfig */,
-				61C63A80A812A002BE2D940C /* Pods-DragonDappRN.release.xcconfig */,
-				6BEF7C5414FA8F05DC55DC1C /* Pods-DragonDappRN-DragonDappRNTests.debug.xcconfig */,
-				F8DA1179B66C09A8EFA54D86 /* Pods-DragonDappRN-DragonDappRNTests.release.xcconfig */,
+				0BAA660BF4DB53BC6432FFE4 /* Pods-DragonDappRN.debug.xcconfig */,
+				24416539897DBEF300E9D5A5 /* Pods-DragonDappRN.release.xcconfig */,
+				373763F0133AF3AECAF0939A /* Pods-DragonDappRN-DragonDappRNTests.debug.xcconfig */,
+				D31E63E978957C9F8FAF09B7 /* Pods-DragonDappRN-DragonDappRNTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -156,8 +171,8 @@
 				6C7C45D52800148300F60685 /* HealthKit.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				8029795440CA0D78B1F565CA /* libPods-DragonDappRN.a */,
-				40A9711AAC5C5A7E68AEFD67 /* libPods-DragonDappRN-DragonDappRNTests.a */,
+				FAB47B612DD245EF2BA3F55C /* libPods-DragonDappRN.a */,
+				801387FCF85C4D6D9267D372 /* libPods-DragonDappRN-DragonDappRNTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -202,12 +217,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "DragonDappRNTests" */;
 			buildPhases = (
-				97595B6479F933551D8D91C8 /* [CP] Check Pods Manifest.lock */,
+				298649D3FFBE1B5C6C00C155 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				BF9FDA52F8CFCE4B7517EEAB /* [CP] Embed Pods Frameworks */,
-				E738E7FF86B9BA180135FD6F /* [CP] Copy Pods Resources */,
+				F3218FD7C40C24084A677D4C /* [CP] Embed Pods Frameworks */,
+				4F4B30B0DF5B42F96E36FEE6 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -223,14 +238,15 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "DragonDappRN" */;
 			buildPhases = (
-				DBB896A765687BDC080ABA7D /* [CP] Check Pods Manifest.lock */,
+				A8592F655EF411150C5BA3E7 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				D8EE017592BC5CB24EDF87D1 /* [CP] Embed Pods Frameworks */,
-				2B27FF2077AB791311B7F607 /* [CP] Copy Pods Resources */,
+				1CDD00022823B6F700858C4E /* Embed Frameworks */,
+				87EE8E34DB71C12CC641F4AB /* [CP] Embed Pods Frameworks */,
+				327ECDAF5FE7A561DE135987 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -373,43 +389,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		2B27FF2077AB791311B7F607 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-DragonDappRN/Pods-DragonDappRN-resources.sh",
-				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DragonDappRN/Pods-DragonDappRN-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Bundle React Native Code And Images";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
-		};
-		97595B6479F933551D8D91C8 /* [CP] Check Pods Manifest.lock */ = {
+		298649D3FFBE1B5C6C00C155 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -431,29 +413,61 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		BF9FDA52F8CFCE4B7517EEAB /* [CP] Embed Pods Frameworks */ = {
+		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-DragonDappRN-DragonDappRNTests/Pods-DragonDappRN-DragonDappRNTests-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Flipper-DoubleConversion/double-conversion.framework/double-conversion",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL-Universal/OpenSSL.framework/OpenSSL",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/hermes.framework/hermes",
 			);
-			name = "[CP] Embed Pods Frameworks";
+			name = "Bundle React Native Code And Images";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/double-conversion.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DragonDappRN-DragonDappRNTests/Pods-DragonDappRN-DragonDappRNTests-frameworks.sh\"\n";
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+		};
+		327ECDAF5FE7A561DE135987 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DragonDappRN/Pods-DragonDappRN-resources.sh",
+				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DragonDappRN/Pods-DragonDappRN-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D8EE017592BC5CB24EDF87D1 /* [CP] Embed Pods Frameworks */ = {
+		4F4B30B0DF5B42F96E36FEE6 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DragonDappRN-DragonDappRNTests/Pods-DragonDappRN-DragonDappRNTests-resources.sh",
+				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DragonDappRN-DragonDappRNTests/Pods-DragonDappRN-DragonDappRNTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		87EE8E34DB71C12CC641F4AB /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -475,7 +489,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DragonDappRN/Pods-DragonDappRN-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		DBB896A765687BDC080ABA7D /* [CP] Check Pods Manifest.lock */ = {
+		A8592F655EF411150C5BA3E7 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -497,24 +511,26 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E738E7FF86B9BA180135FD6F /* [CP] Copy Pods Resources */ = {
+		F3218FD7C40C24084A677D4C /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-DragonDappRN-DragonDappRNTests/Pods-DragonDappRN-DragonDappRNTests-resources.sh",
-				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
+				"${PODS_ROOT}/Target Support Files/Pods-DragonDappRN-DragonDappRNTests/Pods-DragonDappRN-DragonDappRNTests-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Flipper-DoubleConversion/double-conversion.framework/double-conversion",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL-Universal/OpenSSL.framework/OpenSSL",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/hermes.framework/hermes",
 			);
-			name = "[CP] Copy Pods Resources";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/double-conversion.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DragonDappRN-DragonDappRNTests/Pods-DragonDappRN-DragonDappRNTests-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DragonDappRN-DragonDappRNTests/Pods-DragonDappRN-DragonDappRNTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -612,7 +628,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6BEF7C5414FA8F05DC55DC1C /* Pods-DragonDappRN-DragonDappRNTests.debug.xcconfig */;
+			baseConfigurationReference = 373763F0133AF3AECAF0939A /* Pods-DragonDappRN-DragonDappRNTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -636,7 +652,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F8DA1179B66C09A8EFA54D86 /* Pods-DragonDappRN-DragonDappRNTests.release.xcconfig */;
+			baseConfigurationReference = D31E63E978957C9F8FAF09B7 /* Pods-DragonDappRN-DragonDappRNTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -657,7 +673,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E6B6AD7C43136114ED817E7B /* Pods-DragonDappRN.debug.xcconfig */;
+			baseConfigurationReference = 0BAA660BF4DB53BC6432FFE4 /* Pods-DragonDappRN.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -665,6 +681,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FN33UR9X45;
 				ENABLE_BITCODE = NO;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"COCOAPODS=1",
@@ -674,6 +691,7 @@
 				);
 				INFOPLIST_FILE = DragonDappRN/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				"ORDER_FILE[arch=*]" = "";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -690,13 +708,14 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 61C63A80A812A002BE2D940C /* Pods-DragonDappRN.release.xcconfig */;
+			baseConfigurationReference = 24416539897DBEF300E9D5A5 /* Pods-DragonDappRN.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = DragonDappRN/DragonDappRN.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FN33UR9X45;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = DragonDappRN/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (

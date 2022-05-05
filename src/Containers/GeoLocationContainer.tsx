@@ -99,8 +99,8 @@ const GeoLocationContainer = ({ navigation, route }) => {
 									// 	'#238C23',
 									// 	'#7F0000',
 									// ]}
-									strokeWidth={5}
-							  />)
+									strokeWidth={5}/>
+							)
 						}
 					})}
 					{/* <Polyline
