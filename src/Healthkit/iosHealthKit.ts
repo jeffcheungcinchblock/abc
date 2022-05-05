@@ -44,6 +44,7 @@ export class IOSHealthKit extends GeneralHealthKit {
 	}
 
 	GetSteps(startDate: Date, endDate: Date) {
+		console.log(startDate, endDate)
 		const options = {
 			startDate: startDate.toISOString(),
 			endDate: endDate.toISOString(),

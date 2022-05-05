@@ -3,7 +3,7 @@ import { start, move, ready, pause, resume, stop } from './actions'
 import { getDistanceBetweenTwoPoints } from '../../Healthkit/utils'
 
 export type State ={
-		currentType: ActivityType
+	currentState: ActivityType
         startTime : Date,
 		endTime : Date|null,
         latitude : number|null,
@@ -26,7 +26,7 @@ export type Path = {
 	numberOfPath: number,
 	coordinates? : Array<CoordinateType>
 	pauseTime?: Date | null,
-	reduceStep? :number|null,
+	reduceStep :number,
 	reduceCalories? :number|null,
 	endPauseTime?: Date | null,
 }
@@ -41,41 +41,57 @@ export type PauseTimeType = {
 
 
 
-const initialState:State = { currentType: ActivityType.LOADING, startTime: new Date(), latitude:null, longitude:null, distance:0, calories:0, steps:0, heartRate :0, paths:[ { numberOfPath:0, pauseTime:null, endPauseTime:null } ] }
+const initialState:State = { currentState: ActivityType.LOADING, startTime: new Date(), endTime:null, latitude:null, longitude:null, distance:0, calories:0, steps:0, heartRate :0, paths:[ { numberOfPath:0, pauseTime:null, endPauseTime:null, reduceStep:0 } ] }
 
 
 export default createReducer<State>(initialState, (builder) => {
 	builder
 		.addCase(ready, (state, action)=>{
-			return { ...state, currentType:ActivityType.READY }
+			return { ...state, currentState:ActivityType.READY }
 		})
 	builder
 		.addCase(start, (state, action) => {
 
-			const initialStateStart:State = { currentType:ActivityType.MOVING, startTime: new Date(), latitude:null, longitude:null, distance:0, calories:0, steps:0, heartRate :0, paths:[   { numberOfPath:0, pauseTime:null, endPauseTime:null } ] }
+			const initialStateStart:State = { currentState:ActivityType.MOVING, startTime: new Date(), endTime:null, latitude:null, longitude:null, distance:0, calories:0, steps:0, heartRate :0, paths:[   { numberOfPath:0, pauseTime:null, endPauseTime:null, reduceStep:0 } ] }
+			console.log('initialStateStart', initialStateStart)
 			return initialStateStart
 		})
 	builder
 		.addCase(move, (state, action) => {
-			console.log(JSON.stringify(state))
-
 			if (!action.payload.latitude || !action.payload.longitude){
 				return state
 			}
 			const newCarlorieBurned = action.payload.calories
-			const newSteps = action.payload.steps
+			//sum of an array
+
+			let totalReduceStep = 0
+			state.paths.forEach(path => {
+				totalReduceStep += path.reduceStep
+			})
+
+			const newSteps = action.payload.steps! - totalReduceStep
 			const distance = getDistanceBetweenTwoPoints(state.latitude!, state.longitude!, action.payload.latitude!, action.payload.longitude!)
 
 			if (distance > 50){
 				return { ...state, latitude : action.payload.latitude, longitude :action.payload.longitude, calories: newCarlorieBurned, steps: newSteps }
 			}
+
 			if (distance > 0)
 			{
+
 				const newPaths = JSON.parse(JSON.stringify(state.paths))
 				if (!newPaths[newPaths.length - 1].coordinates || newPaths[newPaths.length - 1].coordinates.length === 0){
+					console.log(1)
+
 					newPaths[newPaths.length - 1].coordinates = [ { latitude: action.payload.latitude, longitude: action.payload.longitude } ]
+					console.log(2)
+
 				} else {
+					console.log(3)
+					console.log(newPaths[newPaths.length - 1])
 					newPaths[newPaths.length - 1].coordinates!.push({ latitude: action.payload.latitude, longitude: action.payload.longitude })
+					console.log(4)
+
 				}
 
 				return { ...state, latitude : action.payload.latitude, longitude :action.payload.longitude, distance : state.distance!  + distance, calories: newCarlorieBurned, steps: newSteps, paths:newPaths, heartRate: action.payload.heartRate }
@@ -84,30 +100,34 @@ export default createReducer<State>(initialState, (builder) => {
 		})
 	builder
 		.addCase(pause, (state, action) => {
-			state.currentType = ActivityType.PAUSE
+			state.currentState = ActivityType.PAUSE
 			const tempPauseTime = action.payload.pauseTime
 			let lastIndexofCoordinate = 0
 			if (state.paths.length !== 0){
 				lastIndexofCoordinate = state.paths.length - 1
 			}
 
-			console.log(state.paths, lastIndexofCoordinate)
-
 			state.paths[lastIndexofCoordinate] = { ...state.paths[lastIndexofCoordinate], pauseTime: tempPauseTime }
-
 			return state
 		})
 
 	builder.addCase(resume, (state, action) => {
 		const tempEndPauseTime = action.payload.resumeTime
+		const reduceStep = action.payload.reduceStep
 		let lastIndexofCoordinate = 0
 		if (state.paths.length !== 0){
 			lastIndexofCoordinate = state.paths.length - 1
 		}
 		const newPaths = JSON.parse(JSON.stringify(state.paths))
+
 		newPaths[lastIndexofCoordinate].endPauseTime = tempEndPauseTime!
-		newPaths[newPaths.length].coordinates = [ { latitude: action.payload.latitude, longitude: action.payload.longitude } ]
-		return { ...state, currentType:ActivityType.MOVING, paths:newPaths }
+		newPaths[lastIndexofCoordinate].reduceStep = reduceStep!
+
+		newPaths.push({ numberOfPath: newPaths.length + 1, pauseTime: null, endPauseTime: null, reduceStep:0, coordinates:[ { latitude: action.payload.latitude, longitude: action.payload.longitude } ] })
+		// newPaths[newPaths.length].coordinates.push({ latitude: action.payload.latitude, longitude: action.payload.longitude } )
+		// newPaths[newPaths.length].coordinates = [ { latitude: action.payload.latitude, longitude: action.payload.longitude } ]
+
+		return { ...state, currentState:ActivityType.MOVING, paths:newPaths }
 	})
 
 	builder.addCase(stop, (state, action)=>{

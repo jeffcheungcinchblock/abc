@@ -26,6 +26,7 @@ const HealthkitContainer = ({ navigation }) => {
 	const [ isHealthkitReady, setIstHealthKitReady ] = useState(false)
 	const [ enabled, setEnabled ] = React.useState(false)
 	const [ number, setNumber ] = useState(0)
+	const [ status, setStatus ] = useState('')
 
 	const startTime = useSelector((state:any) => state.map.startTime)
 	const steps = useSelector((state:any) => state.map.steps)
@@ -35,7 +36,7 @@ const HealthkitContainer = ({ navigation }) => {
 	const distance = useSelector((state:any) => state.map.distance)
 	const heartRate = useSelector((state:any) => state.map.heartRate)
 	const paths = useSelector((state:any) => state.map.paths)
-	const currentState = useSelector((state:any) => state.map.currentType)
+	const currentState = useSelector((state:any) => state.map.currentState)
 
 	useEffect(() => {
 		// setCurrentState('initialing')
@@ -56,58 +57,58 @@ const HealthkitContainer = ({ navigation }) => {
 
 	useEffect(() => {
 		const onLocation: Subscription = BackgroundGeolocation.onLocation((location) => {
-			console.log('startTime', startTime)
-			if (currentState === ActivityType.PAUSE){
-				return
-			}
-			if (location.coords && location.coords.latitude && location.coords.longitude && location.is_moving === true)
-			{
-				if (location.coords.speed && location.coords.speed <= 12 && location.coords.speed >= 0){
-					const new_cal = health_kit.GetCaloriesBurned(startTime, new Date())
-					const new_step = health_kit.GetSteps(startTime, new Date())
-					const new_heartrate = health_kit.GetHeartRates( startTime, new Date())
-					Promise.all([ new_cal, new_step, new_heartrate ]).then((result)=>{
-						dispatch({ type:'move', payload:{ latitude:location.coords.latitude, longitude:location.coords.longitude,
-							calories:result[0], steps:result[1], heartRate:result[2] } })
-						setNumber(pre => pre + 1)
-					})
+			console.log('onLocation status', status)
+
+			if (currentState !== ActivityType.PAUSE){
+				if (location.coords && location.coords.latitude && location.coords.longitude && location.is_moving === true)
+				{
+					if (location.coords.speed && location.coords.speed <= 12 && location.coords.speed >= 0){
+						const new_cal = health_kit.GetCaloriesBurned(startTime, new Date())
+						const new_step = health_kit.GetSteps(startTime, new Date())
+
+						const new_heartrate = health_kit.GetHeartRates( startTime, new Date())
+
+						console.log('before move disoatch')
+						Promise.all([ new_cal, new_step, new_heartrate ]).then((result)=>{
+							console.log('result', result)
+							dispatch({ type:'move', payload:{ latitude:location.coords.latitude, longitude:location.coords.longitude,
+								calories:result[0], steps:result[1], heartRate:result[2] } })
+							setNumber(pre => pre + 1)
+						})
+					} else {
+						console.log('moving too fast')
+					}
 				} else {
-					console.log('moving too fast')
+					console.log('not moving')
 				}
-			} else {
-				console.log('not moving')
+				setLog(JSON.stringify(location))
 			}
-			setLog(JSON.stringify(location))
 		})
-		// const onMotionChange: Subscription = BackgroundGeolocation.onMotionChange((event) => {
-		// 	const new_heartrate = health_kit.GetHeartRates( startTime, new Date())
-		// 	Promise.resolve(new_heartrate ).then((result)=>{
-		// 		dispatch({ type:'heartrate', payload:{ heartRate:result } })
-		// 		setNumber(pre => pre + 1)
-		// 	})
-		// })
-		BackgroundGeolocation.ready({
-			triggerActivities: 'on_foot, walking, running',
-			locationAuthorizationRequest : 'WhenInUse',
-			desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
-			distanceFilter: 5,
-			stopTimeout: 5,
-			isMoving: true,
-			reset: false,
-			debug: true,
-			disableElasticity : true,
-			speedJumpFilter:50,
-			logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
-			stopOnTerminate: false,
-		}).then(()=>{
-			// setCurrentState('ready')
-			dispatch({ type:'ready' })
-			console.log('dispatch ready', ActivityType[currentState])
-		})
+		if (currentState === ActivityType.LOADING){
+			BackgroundGeolocation.ready({
+				triggerActivities: 'on_foot, walking, running',
+				locationAuthorizationRequest : 'WhenInUse',
+				desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
+				distanceFilter: 5,
+				stopTimeout: 5,
+				isMoving: true,
+				reset: false,
+				debug: true,
+				disableElasticity : true,
+				speedJumpFilter:50,
+				logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
+				stopOnTerminate: false,
+			}).then(()=>{
+				if (currentState !== ActivityType.MOVING){
+					dispatch({ type:'ready' })
+					console.log('dispatch ready', ActivityType[currentState])
+				}
+			})
+		}
 		return () => {
 			onLocation.remove()
 		}
-	}, [])
+	}, [ status ])
 	/// Add the current state as first item in list.
 
 	const StartRunningSession = async() => {
@@ -153,17 +154,29 @@ const HealthkitContainer = ({ navigation }) => {
 		const curTime = new Date()
 		dispatch({ type:'pause', payload:{ pauseTime:curTime } })
 		console.log('pause')
+
 		// setCurrentState('paused')
 	}
 
 	const ResumeRunningSession = async() => {
 		const curTime = new Date()
-		let location = await BackgroundGeolocation.getCurrentPosition({})
-		dispatch({ type:'pause', payload:{ resumeTime:curTime, latitude : location.coords.latitude, longitude:location.coords.longitude } })
+		let location = await BackgroundGeolocation.getCurrentPosition({ samples: 1,
+			persist: true })
+		console.log('last path in resume click', paths[paths.length - 1])
+		const pauseStateTime = paths[paths.length - 1].pauseTime
+		console.log('pauseStateTime in resueme', pauseStateTime)
+		const ReduceStep = await  health_kit.GetSteps(pauseStateTime, new Date())
+		// Promise.resolve(ReduceStep).then((result)=>{
+		console.log('resume promise', ReduceStep)
+		dispatch({ type:'resume', payload:{ resumeTime:curTime, latitude : location.coords.latitude, longitude:location.coords.longitude, reduceStep:0 } })
+
+		console.log('resumen', ActivityType[currentState])
+		// })
 	}
 
 	useEffect(()=>{
 		console.log('currentState', ActivityType[currentState])
+		setStatus(ActivityType[currentState])
 	}, [ currentState ])
 
 
@@ -227,8 +240,7 @@ const HealthkitContainer = ({ navigation }) => {
 			<Text>calories : {calories}</Text>
 			<Text>latitude : {latitude} </Text>
 			<Text>longitude : {longitude}</Text>
-			<Text>number : {number}</Text>
-
+			<Text>number : {number} - 			{ActivityType[currentState]}</Text>
 			{ (currentState === ActivityType.PAUSE || currentState === ActivityType.MOVING) && (
 				<TouchableOpacity
 					style={[ Common.button.rounded, Gutters.regularBMargin ]}
