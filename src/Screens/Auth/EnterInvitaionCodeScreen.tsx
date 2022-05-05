@@ -92,11 +92,16 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
 
     console.log('===== invitationCode', invitationCode)
 
+    const referralCode = useSelector((state: RootState) => state.referral.referralCode)
+    console.log("REFERRAL CODE", referralCode)
+
     useEffect(() => {
-        if(invitationCode !== ""){
+        if(referralCode !== ""){
+            setCode(referralCode)
+        }else if(invitationCode !== ""){
             setCode(invitationCode)
         }
-    }, [invitationCode])
+    }, [invitationCode, referralCode])
 
     const goBack = () => {
         navigation.navigate(RouteStacks.welcome)

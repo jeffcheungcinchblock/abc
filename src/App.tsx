@@ -19,6 +19,7 @@ import appsFlyer from 'react-native-appsflyer';
 import { config } from './Utils/constants'
 import { RouteStacks } from './Navigators/routes'
 import { startLoading } from './Store/UI/actions'
+import { storeReferralCode } from './Store/Referral/actions'
 
 const onInstallConversionDataCanceller = appsFlyer.onInstallConversionData(
   (res) => {
@@ -35,16 +36,24 @@ const onInstallConversionDataCanceller = appsFlyer.onInstallConversionData(
         console.log("appsFlyer Conversion Data: ", "This is not first launch")
       }
     }
+    const DLValue = res?.data?.deep_link_value
+    if(DLValue) {
+      store.dispatch(storeReferralCode(DLValue));
+    }
   }
 )
 
 const onAppOpenAttributionCanceller = appsFlyer.onAppOpenAttribution((res) => {
-  // console.log(`status: ${res.status}`);
-  // console.log(`campaign: ${res.data.campaign}`);
-  // console.log(`af_dp: ${res.data.af_dp}`);
-  // console.log(`link: ${res.data.link}`);
-  // console.log(`DL value: ${res.data.deep_link_value}`);
-  // console.log(`media source: ${res.data.media_source}`);
+  console.log(`status: ${res.status}`);
+  console.log(`campaign: ${res.data.campaign}`);
+  console.log(`af_dp: ${res.data.af_dp}`);
+  console.log(`link: ${res.data.link}`);
+  console.log(`DL value: ${res.data.deep_link_value}`);
+  console.log(`media source: ${res.data.media_source}`);
+  const DLValue = res?.data.deep_link_value
+  if(DLValue) {
+    store.dispatch(storeReferralCode(DLValue));
+  }
 });
 
 const onDeepLinkCanceller = appsFlyer.onDeepLink(res => {
@@ -52,7 +61,10 @@ const onDeepLinkCanceller = appsFlyer.onDeepLink(res => {
     const DLValue = res?.data.deep_link_value;
     const mediaSrc = res?.data.media_source;
     const param1 = res?.data.af_sub1;
-    // console.log(JSON.stringify(res?.data, null, 2));
+    console.log(JSON.stringify(res?.data, null, 2));
+    if (DLValue) {
+      store.dispatch(storeReferralCode(DLValue));
+    }
   }
 })
 
