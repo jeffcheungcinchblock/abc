@@ -17,7 +17,7 @@ import { Brand } from '@/Components'
 import { useTheme } from '@/Hooks'
 import { useLazyFetchOneQuery } from '@/Services/modules/users'
 import { changeTheme, ThemeState } from '@/Store/Theme'
-import { login, logout } from '@/Store/Users/actions'
+import { login, logout, storeInvitationCode } from '@/Store/Users/actions'
 import { UserState } from '@/Store/Users/reducer'
 import EncryptedStorage from 'react-native-encrypted-storage';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
@@ -43,7 +43,10 @@ import AppIcon from '@/Components/Icons/AppIcon'
 import { color } from 'react-native-reanimated'
 import TurquoiseButton from '@/Components/Buttons/TurquoiseButton'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import axios from 'axios'
+import { triggerSnackbar } from '@/Utils/helpers'
 
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const LOGIN_BUTTON: ViewStyle = {
     height: 40,
@@ -83,39 +86,48 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
     const [isLoggingIn, setIsLoggingIn] = useState(false)
     const [errMsg, setErrMsg] = useState(" ")
 
-    const [invitationCode, setInvitationCode] = useState("")
+    const [code, setCode] = useState("")
+
+    const { invitationCode } = useSelector((state: RootState) => state.user)
+
+    console.log('===== invitationCode', invitationCode)
 
     useEffect(() => {
-        setInvitationCode("")
-    }, [])
+        if(invitationCode !== ""){
+            setCode(invitationCode)
+        }
+    }, [invitationCode])
 
     const goBack = () => {
         navigation.navigate(RouteStacks.welcome)
     }
 
     const onConfirmPress = async () => {
-
-
-        setErrMsg(t("error.invalidInvitationCode"))
+        try {
+            dispatch(storeInvitationCode({
+                invitationCode: code
+            }))
+            triggerSnackbar("Invitation code stored successfully!")
+            navigation.navigate(RouteStacks.signIn)
+        } catch (err) {
+            setErrMsg(t("error.invalidInvitationCode"))
+        }
     }
 
-    const onInvitationCodeChange = (text: string) => {
-        setInvitationCode(text)
+    const onCodeChange = (text: string) => {
+        setCode(text)
     }
 
-    const onSignUpPress = () => {
+    const onSignUpPress = async () => {
+        
         navigation.navigate(RouteStacks.signUp)
     }
+
 
     return (
         <ScreenBackgrounds
             screenName={RouteStacks.signIn}
         >
-            <Header
-                headerText=" "
-                onLeftPress={goBack}
-            />
-
 
             <KeyboardAwareScrollView
                 style={Layout.fill}
@@ -125,6 +137,12 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
 
                 ]}
             >
+
+                <Header
+                    headerText=" "
+                    onLeftPress={goBack}
+                />
+
 
                 <AppLogo style={{
                     // height: "30%"
@@ -145,8 +163,8 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
 
                     <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT, { flexBasis: 80 }]}>
                         <WhiteInput
-                            onChangeText={onInvitationCodeChange}
-                            value={invitationCode}
+                            onChangeText={onCodeChange}
+                            value={code}
                             placeholder={t("invitationCodeAllCapital")}
                             placeholderTextColor={colors.spanishGray}
                         />

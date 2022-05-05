@@ -42,9 +42,20 @@ import AvenirMediumText from '@/Components/FontText/AvenirMediumText'
 import Clipboard from '@react-native-clipboard/clipboard';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import moment from 'moment'
-import { triggerSnackbar } from '@/Utils/helpers'
+import { awsLogout, triggerSnackbar } from '@/Utils/helpers'
+import { Auth } from 'aws-amplify'
+import axios from 'axios'
+import { RootState } from '@/Store'
 const PURPLE_COLOR = {
     color: colors.orangeCrayola
+}
+
+type ReferralInfo = {
+    queueNumber: number
+    referral: string
+    referred: number
+    username: string
+    referredBy: string
 }
 
 type HomeReferralScreenNavigationProp = CompositeScreenProps<
@@ -62,22 +73,90 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
     const { Common, Fonts, Gutters, Layout } = useTheme()
     const dispatch = useDispatch()
     const [isInvitingFriends, setIsInvitingFriends] = useState(false)
+    const [needFetchDtl, setNeedFetchDtl] = useState(true)
 
-    console.log('#### route', route)
-    const params = route.params || {code: "1234"}
+    const [referralInfo, setReferralInfo] = useState<ReferralInfo>({
+        queueNumber: 0,
+        referral: "",
+        referred: 0,
+        username: "",
+        referredBy: ""
+    })
+
+    const { invitationCode } = useSelector((state: RootState) => state.user)
+
+    useEffect(() => {
+        const run = async () => {
+            try {
+                let user = await Auth.currentAuthenticatedUser()
+                let jwtToken = user.signInUserSession.idToken.jwtToken
+
+                const authRes = await axios.get(config.userAuthInfo, {
+                    headers: {
+                        Authorization: jwtToken //the token is a variable which holds the token
+                    }
+                })
+                console.log('authRes', authRes)
+
+                setReferralInfo(authRes.data)
+
+            } catch (err) {
+                console.log(err)
+            }
+        }
+
+
+        if (needFetchDtl) {
+            run()
+            setNeedFetchDtl(false)
+        }
+    }, [needFetchDtl])
+
+    useEffect(() => {
+
+        // TBD: To be placed some where upper level component later
+        const confirmReferral = async () => {
+            console.log('confirming referral')
+            let user = await Auth.currentAuthenticatedUser()
+            let jwtToken = user.signInUserSession.idToken.jwtToken
+
+            try {
+                let referralConfirmRes = await axios({
+                    method: 'post',
+                    url: 'https://api-dev.dragonevolution.gg/users/referral-confirmation',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': jwtToken
+                    },
+                    data: JSON.stringify({
+                        "referral": invitationCode
+                    })
+                })
+            } catch (err: any) {
+                console.log(err)
+            }
+        }
+
+        if (referralInfo.referredBy === '') {
+            // Not yet referred by anyone, if user entered invitation code, need to confirm
+            confirmReferral()
+        }
+    }, [referralInfo])
 
     const onSharePress = async () => {
 
         const shareRes = await share({
-            url: "https://fitevo.page.link/signIn",
+            url: "https://fitevo.page.link/enterInvitationCode",
             title: "Refer your friend", message: "Refer your friend",
         })
 
-        if(shareRes !== false){
+        if (shareRes !== false) {
             navigation.navigate(RouteTabs.home, {
                 screen: RouteStacks.homeInviteState
             })
         }
+
+        await awsLogout()
 
     }
 
@@ -87,18 +166,21 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
     }
 
     const onCopyPress = () => {
-        Clipboard.setString('123456789');
+        Clipboard.setString(referralInfo.referral);
         triggerSnackbar("Invitation code copied !")
 
     }
+
+    const onRefresh = () => {
+        setNeedFetchDtl(true);
+    }
+
 
     return (
         <ScreenBackgrounds
             screenName={RouteStacks.homeReferral}
         >
-            <Header
-                onLeftPress={goBack}
-            />
+
 
             <KeyboardAwareScrollView
                 style={Layout.fill}
@@ -106,20 +188,31 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                     Layout.fill,
                     Layout.colCenter,
                 ]}
-                
+                refreshControl={
+                    <RefreshControl
+                        refreshing={needFetchDtl}
+                        onRefresh={onRefresh}
+                        progressViewOffset={50}
+                        tintColor={colors.brightTurquoise}
+                    />
+                }
             >
+
+                <Header
+                // onLeftPress={goBack}
+                />
 
                 <View style={[{
                     flexGrow: 6
                 }, Layout.fullWidth, Layout.fill]}>
 
-                    <View style={{ flex: 3, justifyContent: "flex-end" }}>
+                    <View style={{ flex: 3, justifyContent: "center" }}>
                         <View style={[Layout.fullWidth]}>
                             <Text style={[PURPLE_COLOR, Layout.colCenter, Layout.fullWidth, {
                                 fontWeight: "bold",
                                 textAlign: "center",
                                 fontSize: 60
-                            }]}>{params.code}</Text>
+                            }]}>{referralInfo.queueNumber}</Text>
                         </View>
 
                         <View style={[Layout.fullWidth]}>
@@ -134,11 +227,11 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                                 color: colors.black,
                                 fontWeight: "bold",
                                 textAlign: "center",
-                            }]}>{`( ${t("invited")}: 100 )`}</Text>
+                            }]}>{`( ${t("invited")}: ${referralInfo.referred} )`}</Text>
                         </View>
                     </View>
 
-                    <View style={{ flex: 3, justifyContent: "center" }}>
+                    <View style={{ flex: 3, justifyContent: "flex-start" }}>
                         <View style={[Layout.fullWidth]}>
                             <AvenirBoldText style={[PURPLE_COLOR, Fonts.textLarge, Layout.colCenter, Layout.fullWidth, {
                                 textAlign: "center",
@@ -169,7 +262,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                     <View style={{ flex: 2, flexDirection: "row" }}>
                         <View style={{ flex: 4, justifyContent: "center", paddingLeft: 50 }}>
                             <Text style={[Fonts.textRegular, { color: colors.white, fontWeight: "bold" }]}>{t("yourInvitationCode")}</Text>
-                            <Text style={[Fonts.textSmall, { color: colors.brightTurquoise }]}>{1234567890}</Text>
+                            <Text style={[Fonts.textSmall, { color: colors.brightTurquoise }]}>{referralInfo.referral}</Text>
                         </View>
                         <CircleButton
                             onPress={onCopyPress}

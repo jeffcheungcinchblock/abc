@@ -1,7 +1,8 @@
 
 export const config = {
     urlScheme: `com.fitevo://`,
-
+    userAuthInfo: `https://api-dev.dragonevolution.gg/users/auth`,
+     
 }
 
 // Color naming https://www.color-name.com/hex/FF789C

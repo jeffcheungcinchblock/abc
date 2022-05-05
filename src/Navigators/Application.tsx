@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
 import { Image, ImageBackground, Linking, SafeAreaView, StatusBar, Text, View } from 'react-native'
 import { createStackNavigator } from '@react-navigation/stack'
-import { LinkingOptions, NavigationContainer } from '@react-navigation/native'
+import { LinkingOptions, NavigationContainer, NavigationContainerRefWithCurrent } from '@react-navigation/native'
 import { StartupContainer } from '@/Screens'
 import { useTheme } from '@/Hooks'
 import MainNavigator, { DrawerNavigatorParamList } from './MainNavigator'
 import { navigationRef } from './utils'
-import AuthNavigator from './AuthNavigator'
+import AuthNavigator, { AuthNavigatorParamList } from './AuthNavigator'
 import { useDispatch, useSelector } from 'react-redux'
 import { UserState } from '@/Store/Users/reducer'
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -14,7 +14,6 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Auth } from 'aws-amplify'
 import { login } from '@/Store/Users/actions'
 import messaging from '@react-native-firebase/messaging';
-import dynamicLinks from '@react-native-firebase/dynamic-links';
 import { RouteStacks } from './routes'
 import firebase from '@react-native-firebase/app';
 import LoadingScreen from '@/Components/LoadingScreen'
@@ -62,6 +61,17 @@ const ApplicationNavigator = () => {
 
   }, [])
 
+  let navProps : any = isLoggedIn ? {
+    ref: privateNavigationRef,
+    linking: privateLinking
+  } : {
+    ref: publicNavigationRef,
+    linking: publicLinking
+  }
+
+  console.log('navProps ', navProps)
+  console.log('isLoggedIn', isLoggedIn)
+
   return (
     <SafeAreaView style={[Layout.fill, { backgroundColor: colors.card }]}>
       <GestureHandlerRootView style={{ flex: 1 }}>
@@ -83,9 +93,7 @@ const ApplicationNavigator = () => {
 
         </SnackBar>
         <NavigationContainer theme={NavigationTheme}
-          // ref={publicNavigationRef} linking={publicLinking}
-          ref={publicNavigationRef}
-          linking={publicLinking}
+          {...navProps}
         >
           <StatusBar barStyle={darkMode ? 'light-content' : 'dark-content'} />
           {

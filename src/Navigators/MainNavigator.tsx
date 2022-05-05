@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next'
 import { colors } from '@/Utils/constants'
 import { createStackNavigator } from '@react-navigation/stack'
 import { RouteStacks, RouteTabs } from './routes'
-import { DrawerScreenProps } from '@react-navigation/drawer'
+import { DrawerItem, DrawerScreenProps } from '@react-navigation/drawer'
 
 import { createDrawerNavigator, DrawerContentComponentProps, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer'
 import { Dimensions, ImageBackground, View } from 'react-native'
@@ -19,6 +19,10 @@ import { HomeNavigatorParamList } from '@/Screens/App/HomeScreen'
 import { BreedingNavigatorParamList } from '@/Screens/App/BreedingScreen'
 import { MarketplaceNavigatorParamList } from '@/Screens/App/MarketplaceScreen'
 import { SocialNavigatorParamList } from '@/Screens/App/SocialScreen'
+import { Auth } from 'aws-amplify'
+import { useDispatch } from 'react-redux'
+import { logout } from '@/Store/Users/actions'
+import { awsLogout } from '@/Utils/helpers'
 
 const { width, height } = Dimensions.get("screen");
 
@@ -59,6 +63,7 @@ const MainTabNavigator: FC<MainTabNavigatorProps> = () => {
       tabBarShowLabel: false,
       tabBarStyle: {
         backgroundColor: colors.black,
+        display: "none" // TBD: need to remove later to show tab
       }
     }}
 
@@ -120,9 +125,16 @@ const MainTabNavigator: FC<MainTabNavigatorProps> = () => {
 }
 
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
+  const dispatch = useDispatch()
+
   return (
     <DrawerContentScrollView {...props}>
-      <DrawerItemList {...props} />
+      {/* <DrawerItemList {...props} /> */}
+      <DrawerItem
+        label="Sign Out"
+        style={{bottom: 0}}
+        onPress={awsLogout}
+      />
     </DrawerContentScrollView>
   );
 }
@@ -133,9 +145,9 @@ const MainNavigator = () => {
   return (
     <Drawer.Navigator screenOptions={{ headerShown: false }}
       drawerContent={(props) => <CustomDrawerContent {...props} />}
-      initialRouteName={RouteStacks.setting}>
+      initialRouteName={RouteStacks.mainTab}>
 
-      <Drawer.Screen name={RouteStacks.setting} component={SettingScreen} />
+      {/* <Drawer.Screen name={RouteStacks.setting} component={SettingScreen} /> */}
       <Drawer.Screen name={RouteStacks.mainTab} component={MainTabNavigator} />
 
     </Drawer.Navigator>

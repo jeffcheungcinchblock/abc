@@ -68,9 +68,6 @@ const HomeInviteStateScreen: FC<HomeInviteStateScreenNavigationProp> = (
         <ScreenBackgrounds
             screenName={RouteStacks.homeInviteState}
         >
-            <Header
-                onLeftPress={() => navigation.goBack()}
-            />
 
             <KeyboardAwareScrollView
                 style={Layout.fill}
@@ -79,6 +76,10 @@ const HomeInviteStateScreen: FC<HomeInviteStateScreenNavigationProp> = (
                     Layout.colCenter,
                 ]}
             >
+
+                <Header
+                    onLeftPress={() => navigation.goBack()}
+                />
 
                 <View style={[{
                     flexGrow: 6
@@ -102,7 +103,7 @@ const HomeInviteStateScreen: FC<HomeInviteStateScreenNavigationProp> = (
                             <Text style={[Fonts.textRegular, { color: colors.brightTurquoise, fontWeight: "bold" }]}>{t("invitationCode")}</Text>
                             <Text style={[Fonts.textSmall, { color: colors.brightTurquoise }]}>{1234567890}</Text>
                         </View>
-                    
+
                     </View>
 
                 </View>

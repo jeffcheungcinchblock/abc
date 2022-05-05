@@ -50,10 +50,10 @@ const HomeScreen: FC<HomeScreenNavigationProp> = (
 
 
     return (
-        <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={RouteStacks.homeMain}>
-            <Stack.Screen name={RouteStacks.homeMain} component={MainScreen} />
+        <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={RouteStacks.homeReferral}>
+            {/* <Stack.Screen name={RouteStacks.homeMain} component={MainScreen} /> */}
             <Stack.Screen name={RouteStacks.homeReferral} component={HomeReferralScreen} />
-            <Stack.Screen name={RouteStacks.homeInviteState} component={HomeInviteStateScreen} />
+            {/* <Stack.Screen name={RouteStacks.homeInviteState} component={HomeInviteStateScreen} /> */}
         </Stack.Navigator>
     )
 }

@@ -49,6 +49,7 @@ import { showSnackbar, startLoading } from '@/Store/UI/actions'
 import SocialSignInButton from '@/Components/Buttons/SocialSignInButton'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { triggerSnackbar } from '@/Utils/helpers'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const LOGIN_BUTTON: ViewStyle = {
     height: 40,
@@ -209,7 +210,7 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
         navigation.navigate(RouteStacks.signUp)
     }
 
-    const onForgotPasswordPress = () => {
+    const onForgotPasswordPress = async() => {
         navigation.navigate(RouteStacks.forgotPassword)
     }
 
@@ -217,9 +218,7 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
         <ScreenBackgrounds
             screenName={RouteStacks.signIn}
         >
-            <Header
-                onLeftPress={goBack}
-            />
+
 
             <KeyboardAwareScrollView
                 style={Layout.fill}
@@ -229,6 +228,9 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
 
                 ]}
             >
+                <Header
+                    onLeftPress={goBack}
+                />
                 <View style={[{
                     flexGrow: 6,
                     justifyContent: "flex-start",

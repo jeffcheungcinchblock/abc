@@ -10,7 +10,8 @@ import {
     TextStyle,
     Alert,
     ViewStyle,
-    ImageBackground
+    ImageBackground,
+    Linking
 } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { Brand, Header } from '@/Components'
@@ -29,6 +30,7 @@ import AppLogo from '@/Components/Icons/AppLogo'
 import AppIcon from '@/Components/Icons/AppIcon'
 import TurquoiseButton from '@/Components/Buttons/TurquoiseButton'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import notifee from '@notifee/react-native';
 
 
 const BUTTON_VIEW = {
@@ -44,6 +46,32 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
 
     const params = route!.params || { username: null }
 
+
+
+    const onDisplayNotification = async () => {
+        // Create a channel
+        try {
+            const channelId = await notifee.createChannel({
+                id: 'default',
+                name: 'Default Channel',
+            });
+
+            console.log('channelId', channelId)
+
+            // Display a notification
+            await notifee.displayNotification({
+                title: 'Notification Title',
+                body: 'Main body content of the notification',
+                android: {
+                    channelId,
+                    smallIcon: 'ic_launcher',
+                },
+            });
+        } catch (err) {
+            // console.log(err)
+        }
+    }
+
     const onSignInPress = () => {
         navigation.navigate(RouteStacks.signIn)
     }
@@ -53,9 +81,7 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
             screenName={RouteStacks.welcome}
         >
 
-            <Header
-                headerText=" "
-            />
+
 
             <KeyboardAwareScrollView
                 style={Layout.fill}
@@ -64,6 +90,9 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
                     Layout.colCenter,
                 ]}
             >
+                <Header
+                    headerText=" "
+                />
                 <View style={{
                     alignItems: "center",
                     width: "100%",
@@ -87,7 +116,7 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
                         ]}>
                             <TurquoiseButton
                                 text={t("login")}
-                                onPress={() => navigation.navigate(RouteStacks.signIn)}
+                                onPress={onSignInPress}
                             />
                         </View>
 
@@ -102,7 +131,7 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
                         </View>
                     </View>
 
-                    <View style={{flex: 1}}/>
+                    <View style={{ flex: 1 }} />
 
 
                 </View>

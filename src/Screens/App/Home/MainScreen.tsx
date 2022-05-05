@@ -34,6 +34,7 @@ import ScreenBackgrounds from '@/Components/ScreenBackgrounds'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import TurquoiseButton from '@/Components/Buttons/TurquoiseButton'
 import axios from 'axios'
+import { awsLogout } from '@/Utils/helpers'
 
 const TEXT_INPUT = {
     height: 40,
@@ -57,10 +58,11 @@ const MainScreen: FC<HomeMainScreenNavigationProp> = (
     const { t } = useTranslation()
     const { Common, Fonts, Gutters, Layout } = useTheme()
     const dispatch = useDispatch()
+    const [refreshing, setRefreshing] = useState(false)
 
     const onSignOutPress = async () => {
-        await Auth.signOut({ global: true })
-        dispatch(logout())
+        await awsLogout()
+
     }
 
     const onReferFriendsPress = () => {
@@ -73,25 +75,14 @@ const MainScreen: FC<HomeMainScreenNavigationProp> = (
         navigation.toggleDrawer()
     }
 
-    const [refreshing, setRefreshing] = useState(false)
 
-    const onRefresh = useCallback(async() => {
+    const onRefresh = async() => {
         setRefreshing(true);
-
-        let user = await Auth.currentAuthenticatedUser()
-        console.log("Sennett 3: ", user.signInUserSession)
-        let jwtToken = user.signInUserSession.idToken.jwtToken
-
-        const authRes = await axios.get("https://api-dev.dragonevolution.gg/users/auth", {
-            headers: {
-                Authorization: jwtToken //the token is a variable which holds the token
-            }
-        })
-        console.log('authRes', authRes)
+       
         setTimeout(() => {
             setRefreshing(false)
         }, 1000)
-    }, []);
+    }
 
     return (
         <ScreenBackgrounds

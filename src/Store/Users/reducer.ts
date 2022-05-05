@@ -1,23 +1,31 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { login, logout } from './actions'
+import { login, logout, storeInvitationCode } from './actions'
 
 export type UserState = {
     isLoggedIn: boolean
     username: string
     email: string
     cognitoUser: any
+    invitationCode: string
 }
 
-const initialState : UserState = {
+const initialState: UserState = {
     isLoggedIn: false,
     username: "",
     email: "",
-    cognitoUser: null
+    cognitoUser: null,
+    invitationCode: "",
 
 }
 
 export default createReducer<UserState>(initialState, (builder) => {
     builder
+        .addCase(storeInvitationCode, (state, action) => {
+            return {
+                ...state,
+                ...action.payload
+            }
+        })
         .addCase(login, (state, action) => {
             return {
                 ...state,

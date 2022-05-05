@@ -15,9 +15,9 @@ const ROOT: ViewStyle = {
   justifyContent: "flex-start",
 }
 const TITLE: TextStyle = { textAlign: "center" }
-const TITLE_MIDDLE: ViewStyle = { flex: 1, justifyContent: "center" }
-const LEFT: ViewStyle = { width: 32 }
-const RIGHT: ViewStyle = { width: 32 }
+const TITLE_MIDDLE: ViewStyle = { flex: 1, justifyContent: "center", alignItems: "center" }
+const LEFT: ViewStyle = { flex: 1 }
+const RIGHT: ViewStyle = { flex: 1 }
 
 const HEADER: TextStyle = {
   paddingBottom: Spacing[5] - 1,
@@ -56,19 +56,23 @@ const Header = (props: {
   return (
     <View style={[ROOT, HEADER, style]}>
       {onLeftPress ? (
-        <Pressable style={{position: "absolute", left: 10, top: '50%', zIndex: 1}} onPress={onLeftPress}>
-          {leftIcon ? leftIcon() : <Image source={backBtn} style={{ width: 16, resizeMode: "contain" }} />}
-        </Pressable>
+        <View style={{flex: 1, justifyContent: "center"}}>
+          <Pressable style={{ position: "absolute", zIndex: 1 }} onPress={onLeftPress}>
+            {leftIcon ? leftIcon() : <Image source={backBtn} style={{ width: 16, resizeMode: "contain" }} />}
+          </Pressable>
+        </View>
       ) : (
         <View style={LEFT} />
       )}
       {
         header ? <View style={TITLE_MIDDLE}>
           <Text style={[TITLE, titleStyle]}>{header}</Text>
-        </View> : <AppIcon />
+        </View> : <View style={{ flex: 5 }}>
+          <AppIcon />
+        </View>
       }
       {rightIcon ? (
-        <Pressable onPress={onRightPress}>
+        <Pressable onPress={onRightPress} style={{ flex: 1 }}>
           {rightIcon()}
         </Pressable>
       ) : (

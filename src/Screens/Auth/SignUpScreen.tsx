@@ -48,8 +48,9 @@ const INPUT_VIEW_LAYOUT: ViewStyle = {
 }
 
 const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.signUp>> = (
-    { navigation }
+    { navigation, route }
 ) => {
+    const params = route?.params || { code: "" }
     const { t } = useTranslation()
     const { Common, Fonts, Gutters, Layout } = useTheme()
     const dispatch = useDispatch()
@@ -87,12 +88,14 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
             setIsCreatingAccount(false)
             navigation.navigate(RouteStacks.validationCode, {
                 username: user.username,
-                action: 'signUp'
+                action: 'signUp',
+                code: params.code
             })
         } catch (error: any) {
             switch (error.message) {
                 case 'Password did not conform with policy: Password must have uppercase characters':
                     setErrMsg(error.message)
+                    // TBD
                     break;
                 default:
                     setErrMsg(error.message)
@@ -116,9 +119,7 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
         <ScreenBackgrounds
             screenName={RouteStacks.signUp}
         >
-            <Header
-                onLeftPress={goBack}
-            />
+
 
             <KeyboardAwareScrollView
                 style={Layout.fill}
@@ -127,6 +128,10 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                     Layout.colCenter,
                 ]}
             >
+
+                <Header
+                    onLeftPress={goBack}
+                />
                 <View style={[{
                     flexGrow: 6,
                     justifyContent: "flex-start",

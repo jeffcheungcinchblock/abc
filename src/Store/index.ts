@@ -37,7 +37,7 @@ const reducers = combineReducers({
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['theme'],
+  whitelist: ['theme', 'user', 'ui'],
 }
 
 const persistedReducer = persistReducer(persistConfig, reducers)
@@ -67,5 +67,4 @@ setupListeners(store.dispatch)
 export { store, persistor }
 
 export type RootState = ReturnType<typeof store.getState>
-// Inferred type: {users: UsersState}
 export type AppDispatch = typeof store.dispatch

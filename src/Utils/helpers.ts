@@ -1,5 +1,7 @@
 import { RootState, store } from "@/Store";
 import { showSnackbar } from "@/Store/UI/actions";
+import { logout } from "@/Store/Users/actions";
+import { Auth } from "aws-amplify";
 import { useSelector } from "react-redux";
 export const validateEmail = (email : string) => {
     return String(email)
@@ -10,9 +12,9 @@ export const validateEmail = (email : string) => {
 };
 
 let showSnackbarTimeout : any = null
-export const triggerSnackbar = (textMsg: string, autoHidingTime = 3000) => {
+export const triggerSnackbar = (textMsg: string, autoHidingTime = 1500) => {
 
-    let dispatchPayload = {
+    let snackBarConfig = {
         visible: true,
         textMessage: textMsg,
         autoHidingTime
@@ -22,7 +24,7 @@ export const triggerSnackbar = (textMsg: string, autoHidingTime = 3000) => {
     if(!stateSnackBarConfig.visible){
         clearTimeout(showSnackbarTimeout)
     }
-    store.dispatch(showSnackbar(dispatchPayload))
+    store.dispatch(showSnackbar(snackBarConfig))
 
     showSnackbarTimeout = setTimeout(() => {
         store.dispatch(showSnackbar({
@@ -31,4 +33,14 @@ export const triggerSnackbar = (textMsg: string, autoHidingTime = 3000) => {
             autoHidingTime
         }))
     }, autoHidingTime)
+}
+
+export const awsLogout = async() => {
+    try{
+        await Auth.signOut({ global: true })
+    }catch(err){    
+        console.log('Error ', err)
+    }finally{
+        store.dispatch(logout())
+    }
 }

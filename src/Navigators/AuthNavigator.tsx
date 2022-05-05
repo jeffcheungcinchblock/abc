@@ -10,9 +10,9 @@ import ForgotPasswordScreen from "@/Screens/Auth/ForgotPasswordScreen"
 
 export type AuthNavigatorParamList = {
   [RouteStacks.welcome]: undefined
-  [RouteStacks.signUp]: undefined
+  [RouteStacks.signUp]: { code?: string } | undefined
   [RouteStacks.signIn]: { username: string } | undefined
-  [RouteStacks.validationCode]: { username: string, action: 'forgotPassword' | 'signUp' } | undefined
+  [RouteStacks.validationCode]: { username: string, action: 'forgotPassword' | 'signUp', code?: string } | undefined
   [RouteStacks.enterInvitationCode]: undefined
   [RouteStacks.forgotPassword]: undefined
   // 🔥 Your screens go here

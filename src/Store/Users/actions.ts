@@ -1,9 +1,10 @@
 import { createAction } from '@reduxjs/toolkit'
 
-type LoginState = {
+export const login = createAction<{
     username: string
     email: string
-}
-
-export const login = createAction<LoginState>('user/login')
+}>('user/login')
 export const logout = createAction('user/logout')
+export const storeInvitationCode = createAction<{
+    invitationCode: string
+}>('user/storeInvitationCode')

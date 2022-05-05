@@ -37,6 +37,7 @@ import TurquoiseButton from '@/Components/Buttons/TurquoiseButton'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { startLoading } from '@/Store/UI/actions'
 import WhiteInput from '@/Components/Inputs/WhiteInput'
+import axios from 'axios'
 
 const TEXT_INPUT = {
     height: 40,
@@ -112,6 +113,23 @@ const ValidationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
                 await Auth.forgotPasswordSubmit(params.username, validationCode, newPassword)
             } else {
                 await Auth.confirmSignUp(params.username, validationCode)
+            }
+
+            try{
+                let referralConfirmRes = await axios({
+                    method: 'post',
+                    url: 'https://api-dev.dragonevolution.gg/users/referral-confirmation',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    data: JSON.stringify({
+                        "referral": "code"
+                    })
+                })
+
+                console.log('referralConfirmRes', referralConfirmRes)
+            }catch(err: any){
+                console.log(err)
             }
 
             navigation.navigate(RouteStacks.signIn, { username: params.username })

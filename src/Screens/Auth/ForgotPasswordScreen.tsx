@@ -99,7 +99,7 @@ const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
     });
 
     const goBack = () => {
-        navigation.navigate(RouteStacks.signUp)
+        navigation.navigate(RouteStacks.signIn)
     }
 
     const onUsernameChange = (text: string) => {
@@ -122,9 +122,7 @@ const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
         <ScreenBackgrounds
             screenName={RouteStacks.signUp}
         >
-            <Header
-                onLeftPress={goBack}
-            />
+
             <KeyboardAwareScrollView
                 style={Layout.fill}
                 contentContainerStyle={[
@@ -132,6 +130,9 @@ const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
                     Layout.colCenter,
                 ]}
             >
+                <Header
+                    onLeftPress={goBack}
+                />
                 <View style={[{
                     flexGrow: 6
                 }, Layout.fullWidth, Layout.fill, Layout.colCenter,]}>

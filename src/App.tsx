@@ -16,7 +16,7 @@ import { InAppBrowser } from 'react-native-inappbrowser-reborn';
 import messaging from '@react-native-firebase/messaging';
 import firebase from '@react-native-firebase/app';
 import appsFlyer from 'react-native-appsflyer';
-import { config, dispatchRef } from './Utils/constants'
+import { config } from './Utils/constants'
 import { RouteStacks } from './Navigators/routes'
 import { startLoading } from './Store/UI/actions'
 
@@ -39,12 +39,12 @@ const onInstallConversionDataCanceller = appsFlyer.onInstallConversionData(
 )
 
 const onAppOpenAttributionCanceller = appsFlyer.onAppOpenAttribution((res) => {
-  console.log(`status: ${res.status}`);
-  console.log(`campaign: ${res.data.campaign}`);
-  console.log(`af_dp: ${res.data.af_dp}`);
-  console.log(`link: ${res.data.link}`);
-  console.log(`DL value: ${res.data.deep_link_value}`);
-  console.log(`media source: ${res.data.media_source}`);
+  // console.log(`status: ${res.status}`);
+  // console.log(`campaign: ${res.data.campaign}`);
+  // console.log(`af_dp: ${res.data.af_dp}`);
+  // console.log(`link: ${res.data.link}`);
+  // console.log(`DL value: ${res.data.deep_link_value}`);
+  // console.log(`media source: ${res.data.media_source}`);
 });
 
 const onDeepLinkCanceller = appsFlyer.onDeepLink(res => {
@@ -52,7 +52,7 @@ const onDeepLinkCanceller = appsFlyer.onDeepLink(res => {
     const DLValue = res?.data.deep_link_value;
     const mediaSrc = res?.data.media_source;
     const param1 = res?.data.af_sub1;
-    console.log(JSON.stringify(res?.data, null, 2));
+    // console.log(JSON.stringify(res?.data, null, 2));
   }
 })
 
@@ -66,10 +66,10 @@ appsFlyer.initSdk(
     timeToWaitForATTUserAuthorization: 10
   },
   (result) => {
-    console.log("appsFlyer Result: ", result);
+    // console.log("appsFlyer Result: ", result);
   },
   (error) => {
-    console.log("appsFlyer Error: ", error);
+    // console.log("appsFlyer Error: ", error);
   }
 );
 
@@ -80,12 +80,14 @@ LogBox.ignoreLogs([
 
 const getUser = () => {
   return Auth.currentAuthenticatedUser()
-      .then(userData => userData)
-      .catch(() => console.log('Not signed in'));
+    .then(userData => userData)
+    .catch(() => console.log('Not signed in'));
 }
 
+
+
 const urlOpener = async (url: string, redirectUrl: string) => {
-  console.log('redirectUrl ', redirectUrl)
+  // console.log('redirectUrl ', redirectUrl)
   try {
     if (redirectUrl === `${config.urlScheme}${RouteStacks.signIn}` && await InAppBrowser.isAvailable()) {
       const authRes: any = await InAppBrowser.openAuth(url, redirectUrl, {
@@ -93,12 +95,12 @@ const urlOpener = async (url: string, redirectUrl: string) => {
         enableUrlBarHiding: true,
         enableDefaultShare: false,
         ephemeralWebSession: false,
-      }); 
+      });
 
       const { type, url: newUrl } = authRes
       if (type === 'success') {
         Linking.openURL(newUrl);
-      }else if(type === 'cancel'){
+      } else if (type === 'cancel') {
         store.dispatch(startLoading(false))
       }
     }
@@ -106,7 +108,7 @@ const urlOpener = async (url: string, redirectUrl: string) => {
     console.log('err ', err)
     await InAppBrowser.close()
     store.dispatch(startLoading(false))
-  } 
+  }
 
 }
 
@@ -119,7 +121,7 @@ Amplify.configure({
 });
 
 const App = () => {
-
+  
   const getFcmToken = async () => {
     const fcmToken = await messaging().getToken();
     if (fcmToken) {
@@ -141,23 +143,34 @@ const App = () => {
     }
   }
 
-
-
   useEffect(() => {
     console.log("Initialized firebae")
 
-    firebase.apps.forEach((app) => {
-      console.log('firebase app ', app)
+    requestUserPermission()
 
-      requestUserPermission()
+    let messageHandler = async(remoteMessage: any) => {
+      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+      console.log('remoteMesg ', remoteMessage)
+    }
 
-      const unsubscribe = messaging().onMessage(async remoteMessage => {
-        Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
-      });
-      return unsubscribe;
-    })
+    let onNotiPress = async(remoteMessage: any) => {
+      const { link } = remoteMessage.data
+      let toBeOpenURL = `${config.urlScheme}${link}`
+      Linking.openURL(toBeOpenURL)
+    }
+
+    messaging().onNotificationOpenedApp(onNotiPress)
+
+    const unsubscribe = messaging().onMessage(messageHandler)
+    messaging().setBackgroundMessageHandler(messageHandler)
+
+    store.dispatch(startLoading(false))
+
+    return unsubscribe;
 
   }, []);
+
+
 
   return (
     <Provider store={store}>
