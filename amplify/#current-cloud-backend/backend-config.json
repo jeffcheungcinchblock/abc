@@ -1,6 +1,6 @@
 {
   "auth": {
-    "fitevodev": {
+    "dragonevo": {
       "service": "Cognito",
       "serviceType": "imported",
       "providerPlugin": "awscloudformation",

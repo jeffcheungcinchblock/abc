@@ -1,29 +1,29 @@
 {
   "providers": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-fitevodev-staging-72044-authRole",
-      "UnauthRoleArn": "arn:aws:iam::523966993919:role/amplify-fitevodev-staging-72044-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::523966993919:role/amplify-fitevodev-staging-72044-authRole",
+      "AuthRoleName": "amplify-dragonevo-dev-122509-authRole",
+      "UnauthRoleArn": "arn:aws:iam::523966993919:role/amplify-dragonevo-dev-122509-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::523966993919:role/amplify-dragonevo-dev-122509-authRole",
       "Region": "us-west-2",
-      "DeploymentBucketName": "amplify-fitevodev-staging-72044-deployment",
-      "UnauthRoleName": "amplify-fitevodev-staging-72044-unauthRole",
-      "StackName": "amplify-fitevodev-staging-72044",
-      "StackId": "arn:aws:cloudformation:us-west-2:523966993919:stack/amplify-fitevodev-staging-72044/38d181e0-c468-11ec-8100-028f969ade67",
-      "AmplifyAppId": "dop0ghb5eusnz"
+      "DeploymentBucketName": "amplify-dragonevo-dev-122509-deployment",
+      "UnauthRoleName": "amplify-dragonevo-dev-122509-unauthRole",
+      "StackName": "amplify-dragonevo-dev-122509",
+      "StackId": "arn:aws:cloudformation:us-west-2:523966993919:stack/amplify-dragonevo-dev-122509/5cbe6c80-c774-11ec-b573-0a3baa7ea85d",
+      "AmplifyAppId": "d1kscz8c8z777g"
     }
   },
   "auth": {
-    "fitevodev": {
+    "dragonevo": {
       "service": "Cognito",
       "serviceType": "imported",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
       "customAuth": false,
       "output": {
-        "UserPoolId": "us-west-2_8fV5WA633",
-        "UserPoolName": "dragonevo-dev-auth-user-pool-test",
-        "AppClientID": "25a8ravfkf536ofb2ulm8v571f",
-        "AppClientIDWeb": "25a8ravfkf536ofb2ulm8v571f",
+        "UserPoolId": "us-west-2_XMLspUvkr",
+        "UserPoolName": "dragonevo-dev-auth-user-pool-test1",
+        "AppClientID": "4rqq42np7e4h9lga51g00sqkv6",
+        "AppClientIDWeb": "4rqq42np7e4h9lga51g00sqkv6",
         "HostedUIDomain": "mewo",
         "OAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"aws.cognito.signin.user.admin\",\"email\",\"openid\",\"phone\",\"profile\"],\"CallbackURLs\":[\"com.fitevo://signIn\"],\"LogoutURLs\":[\"com.fitevo://signOut\"]}"
       },
@@ -34,7 +34,9 @@
           "APPLE"
         ],
         "usernameAttributes": [],
-        "signupAttributes": [],
+        "signupAttributes": [
+          "EMAIL"
+        ],
         "passwordProtectionSettings": {
           "passwordPolicyMinLength": 8,
           "passwordPolicyCharacters": [
@@ -50,7 +52,7 @@
           "EMAIL"
         ]
       },
-      "lastPushTimeStamp": "2022-04-28T09:17:11.788Z"
+      "lastPushTimeStamp": "2022-05-06T07:49:26.960Z"
     }
   }
 }

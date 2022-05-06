@@ -3,10 +3,9 @@
 
 const awsmobile = {
     "aws_project_region": "us-west-2",
-    "aws_cognito_identity_pool_id": "us-west-2:a0a35520-2e89-4df3-98e9-8543324349e0",
     "aws_cognito_region": "us-west-2",
-    "aws_user_pools_id": "us-west-2_QVyy5ZMqT",
-    "aws_user_pools_web_client_id": "5n21gbh33o8scta9agi8o75aab",
+    "aws_user_pools_id": "us-west-2_XMLspUvkr",
+    "aws_user_pools_web_client_id": "4rqq42np7e4h9lga51g00sqkv6",
     "oauth": {
         "domain": "mewo.auth.us-west-2.amazoncognito.com",
         "scope": [
@@ -27,7 +26,9 @@ const awsmobile = {
         "GOOGLE",
         "APPLE"
     ],
-    "aws_cognito_signup_attributes": [],
+    "aws_cognito_signup_attributes": [
+        "EMAIL"
+    ],
     "aws_cognito_mfa_configuration": "OFF",
     "aws_cognito_mfa_types": [],
     "aws_cognito_password_protection_settings": {

@@ -7,9 +7,9 @@ source 'https://github.com/CocoaPods/Specs.git'
 
 target 'DragonDappRN' do
 
-    # React Native Maps dependencies
-    rn_maps_path = '../node_modules/react-native-maps'
-    pod 'react-native-google-maps', :path => rn_maps_path
+  # React Native Maps dependencies
+  rn_maps_path = '../node_modules/react-native-maps'
+  pod 'react-native-google-maps', :path => rn_maps_path
   # when not using frameworks  we can remove this line (2/4):
 
   config = use_native_modules!

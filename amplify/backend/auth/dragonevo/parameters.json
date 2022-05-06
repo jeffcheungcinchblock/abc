@@ -1,5 +1,5 @@
 {
-  "authSelections": "identityPoolAndUserPool",
+  "authSelections": "userPoolOnly",
   "resourceName": "dragonevo",
   "serviceType": "imported",
   "region": "us-west-2",
@@ -8,7 +8,9 @@
     "Google",
     "SignInWithApple"
   ],
-  "requiredAttributes": [],
+  "requiredAttributes": [
+    "email"
+  ],
   "passwordPolicyMinLength": 8,
   "passwordPolicyCharacters": [
     "Requires Lowercase",
