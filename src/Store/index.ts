@@ -16,6 +16,9 @@ import { setupListeners } from '@reduxjs/toolkit/query'
 import { api } from '@/Services/api'
 import * as modules from '@/Services/modules'
 import theme from './Theme'
+import userReducer from '@/Store/Users/reducer'
+import uiReducer from '@/Store/UI/reducer'
+import referralReducer from '@/Store/Referral/reducer'
 
 import mapReducer from '@/Store/Map/reducer'
 
@@ -28,13 +31,19 @@ const reducers = combineReducers({
 		}),
 		{},
 	),
+	user: userReducer,
+	ui: uiReducer,
+	referral: referralReducer,
 	map: mapReducer,
+
+	// new reducers to be added here
+
 })
 
 const persistConfig = {
 	key: 'root',
 	storage: AsyncStorage,
-	whitelist: [ 'theme' ],
+	whitelist: [ 'theme', 'referral', 'user', 'ui' ],
 }
 
 const persistedReducer = persistReducer(persistConfig, reducers)
@@ -64,3 +73,6 @@ const persistor = persistStore(store)
 setupListeners(store.dispatch)
 
 export { store, persistor }
+
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch

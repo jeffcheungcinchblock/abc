@@ -5,6 +5,10 @@
 #import <React/RCTRootView.h>
 #import "RCTAppleHealthKit.h"
 #import <TSBackgroundFetch/TSBackgroundFetch.h>
+#import <Firebase.h>
+#import <React/RCTLinkingManager.h>
+#import <RNAppsFlyer.h>
+
 #ifdef FB_SONARKIT_ENABLED
 #import <FlipperKit/FlipperClient.h>
 #import <FlipperKitLayoutPlugin/FlipperKitLayoutPlugin.h>
@@ -33,7 +37,7 @@ static void InitializeFlipper(UIApplication *application) {
 #ifdef FB_SONARKIT_ENABLED
   InitializeFlipper(application);
 #endif
-
+  [FIRApp configure];
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"DragonDappRN"
@@ -45,7 +49,6 @@ static void InitializeFlipper(UIApplication *application) {
   } else {
       rootView.backgroundColor = [UIColor whiteColor];
   }
-
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;
@@ -54,6 +57,30 @@ static void InitializeFlipper(UIApplication *application) {
   // [REQUIRED] Register BackgroundFetch
   [[TSBackgroundFetch sharedInstance] didFinishLaunching];
   return YES;
+}
+
+- (BOOL)application:(UIApplication *)application
+   openURL:(NSURL *)url
+   options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
+{
+  [[AppsFlyerAttribution shared] handleOpenUrl:url options:options];
+  return [RCTLinkingManager application:application openURL:url options:options];
+
+}
+
+// Open URI-scheme for iOS 8 and below
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString*)sourceApplication annotation:(id)annotation {
+  [[AppsFlyerAttribution shared] handleOpenUrl:url sourceApplication:sourceApplication annotation:annotation];
+  return YES;
+}
+
+- (BOOL)application:(UIApplication *)application continueUserActivity:(nonnull NSUserActivity *)userActivity
+ restorationHandler:(nonnull void (^)(NSArray<id<UIUserActivityRestoring>> * _Nullable))restorationHandler
+{
+  [[AppsFlyerAttribution shared] continueUserActivity:userActivity restorationHandler:restorationHandler];
+ return [RCTLinkingManager application:application
+                  continueUserActivity:userActivity
+                    restorationHandler:restorationHandler];
 }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
@@ -66,3 +93,4 @@ static void InitializeFlipper(UIApplication *application) {
 }
 
 @end
+

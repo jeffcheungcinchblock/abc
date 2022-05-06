@@ -12,6 +12,23 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		1C0B3A9F2824C7A5005158C6 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C7C45D52800148300F60685 /* HealthKit.framework */; };
+		1F5B4F1527FEBA92009618AF /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F5B4F0527FEBA92009618AF /* Zocial.ttf */; };
+		1F5B4F1627FEBA92009618AF /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F5B4F0627FEBA92009618AF /* Foundation.ttf */; };
+		1F5B4F1727FEBA92009618AF /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F5B4F0727FEBA92009618AF /* Ionicons.ttf */; };
+		1F5B4F1827FEBA92009618AF /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F5B4F0827FEBA92009618AF /* MaterialIcons.ttf */; };
+		1F5B4F1927FEBA92009618AF /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F5B4F0927FEBA92009618AF /* FontAwesome.ttf */; };
+		1F5B4F1A27FEBA92009618AF /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F5B4F0A27FEBA92009618AF /* Octicons.ttf */; };
+		1F5B4F1B27FEBA92009618AF /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F5B4F0B27FEBA92009618AF /* FontAwesome5_Solid.ttf */; };
+		1F5B4F1C27FEBA92009618AF /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F5B4F0C27FEBA92009618AF /* Entypo.ttf */; };
+		1F5B4F1D27FEBA92009618AF /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F5B4F0D27FEBA92009618AF /* FontAwesome5_Regular.ttf */; };
+		1F5B4F1E27FEBA92009618AF /* FontAwesome5_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F5B4F0E27FEBA92009618AF /* FontAwesome5_Brands.ttf */; };
+		1F5B4F1F27FEBA92009618AF /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F5B4F0F27FEBA92009618AF /* EvilIcons.ttf */; };
+		1F5B4F2027FEBA92009618AF /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F5B4F1027FEBA92009618AF /* MaterialCommunityIcons.ttf */; };
+		1F5B4F2127FEBA92009618AF /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F5B4F1127FEBA92009618AF /* Feather.ttf */; };
+		1F5B4F2227FEBA92009618AF /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F5B4F1227FEBA92009618AF /* Fontisto.ttf */; };
+		1F5B4F2327FEBA92009618AF /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F5B4F1327FEBA92009618AF /* AntDesign.ttf */; };
+		1F5B4F2427FEBA92009618AF /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F5B4F1427FEBA92009618AF /* SimpleLineIcons.ttf */; };
+		213E7A665B734DA594729590 /* AvenirNext-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD8E564073174A86BD08DB58 /* AvenirNext-Medium.ttf */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -21,6 +38,31 @@
 		6CACA623280FA036008F6268 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CACA622280FA036008F6268 /* File.swift */; };
 		6CACA625280FA975008F6268 /* RNBackgroundFetch+AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CACA624280FA975008F6268 /* RNBackgroundFetch+AppDelegate.m */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		5E19A14138774B5E899B912A /* Virus-Killer.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5782D64221414B3B9FFD1DC4 /* Virus-Killer.ttf */; };
+		66B4CD250ED00C5B2EE2E7F9 /* libPods-DragonDappRNClip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B08427582686ED54B119786D /* libPods-DragonDappRNClip.a */; };
+		6D514CADD27F4C7387C2C28D /* Mont-HeavyDEMO.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9460F3FC55DF41AF897C74A9 /* Mont-HeavyDEMO.ttf */; };
+		A14492FCF150478097DBCCED /* AvenirNext-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 30CF59C85CF247DC8F3141F8 /* AvenirNext-Bold.ttf */; };
+		C4114DC0282258E000074A62 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4114DBF282258E000074A62 /* AppDelegate.swift */; };
+		C4114DC2282258E000074A62 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4114DC1282258E000074A62 /* SceneDelegate.swift */; };
+		C4114DC4282258E000074A62 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4114DC3282258E000074A62 /* ViewController.swift */; };
+		C4114DC7282258E000074A62 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4114DC5282258E000074A62 /* Main.storyboard */; };
+		C4114DC9282258E100074A62 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C4114DC8282258E100074A62 /* Assets.xcassets */; };
+		C4114DCC282258E100074A62 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4114DCA282258E100074A62 /* LaunchScreen.storyboard */; };
+		C4114DD8282258E100074A62 /* DragonDappRNClipTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4114DD7282258E100074A62 /* DragonDappRNClipTests.swift */; };
+		C4114DE2282258E200074A62 /* DragonDappRNClipUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4114DE1282258E200074A62 /* DragonDappRNClipUITests.swift */; };
+		C4114DE4282258E200074A62 /* DragonDappRNClipUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4114DE3282258E200074A62 /* DragonDappRNClipUITestsLaunchTests.swift */; };
+		C4114DE7282258E200074A62 /* DragonDappRNClip.app in Embed App Clips */ = {isa = PBXBuildFile; fileRef = C4114DBD282258E000074A62 /* DragonDappRNClip.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C4EE769E28227579003F6C95 /* afdevkey_donotpush.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4EE769D28227579003F6C95 /* afdevkey_donotpush.plist */; };
+		C4EE769F28227579003F6C95 /* afdevkey_donotpush.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4EE769D28227579003F6C95 /* afdevkey_donotpush.plist */; };
+		C4EE76A028227579003F6C95 /* afdevkey_donotpush.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4EE769D28227579003F6C95 /* afdevkey_donotpush.plist */; };
+		C4EE76A128227579003F6C95 /* afdevkey_donotpush.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4EE769D28227579003F6C95 /* afdevkey_donotpush.plist */; };
+		C4EE76A228227579003F6C95 /* afdevkey_donotpush.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4EE769D28227579003F6C95 /* afdevkey_donotpush.plist */; };
+		C4EE76A328227579003F6C95 /* afdevkey_donotpush.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4EE769D28227579003F6C95 /* afdevkey_donotpush.plist */; };
+		C4EE76A428227579003F6C95 /* afdevkey_donotpush.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4EE769D28227579003F6C95 /* afdevkey_donotpush.plist */; };
+		E391E5BA28164994009DD23B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E391E5B928164994009DD23B /* GoogleService-Info.plist */; };
+		E391E5BB28164994009DD23B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E391E5B928164994009DD23B /* GoogleService-Info.plist */; };
+		E391E5BC28164994009DD23B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E391E5B928164994009DD23B /* GoogleService-Info.plist */; };
+		E391E5BD28164994009DD23B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E391E5B928164994009DD23B /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,7 +80,42 @@
 			remoteGlobalIDString = 2D02E47A1E0B4A5D006451C7;
 			remoteInfo = "DragonDappRN-tvOS";
 		};
+		C4114DD4282258E100074A62 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C4114DBC282258E000074A62;
+			remoteInfo = DragonDappRNClip;
+		};
+		C4114DDE282258E200074A62 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C4114DBC282258E000074A62;
+			remoteInfo = DragonDappRNClip;
+		};
+		C4114DE5282258E200074A62 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C4114DBC282258E000074A62;
+			remoteInfo = DragonDappRNClip;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C4114DEB282258E200074A62 /* Embed App Clips */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/AppClips";
+			dstSubfolderSpec = 16;
+			files = (
+				C4114DE7282258E200074A62 /* DragonDappRNClip.app in Embed App Clips */,
+			);
+			name = "Embed App Clips";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
@@ -52,18 +129,59 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = DragonDappRN/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = DragonDappRN/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = DragonDappRN/main.m; sourceTree = "<group>"; };
-		24416539897DBEF300E9D5A5 /* Pods-DragonDappRN.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DragonDappRN.release.xcconfig"; path = "Target Support Files/Pods-DragonDappRN/Pods-DragonDappRN.release.xcconfig"; sourceTree = "<group>"; };
-		2D02E47B1E0B4A5D006451C7 /* DragonDappRN-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DragonDappRN-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2D02E4901E0B4A5D006451C7 /* DragonDappRN-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "DragonDappRN-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		373763F0133AF3AECAF0939A /* Pods-DragonDappRN-DragonDappRNTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DragonDappRN-DragonDappRNTests.debug.xcconfig"; path = "Target Support Files/Pods-DragonDappRN-DragonDappRNTests/Pods-DragonDappRN-DragonDappRNTests.debug.xcconfig"; sourceTree = "<group>"; };
-		6C7C45D42800148300F60685 /* DragonDappRN.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = DragonDappRN.entitlements; path = DragonDappRN/DragonDappRN.entitlements; sourceTree = "<group>"; };
 		6C7C45D52800148300F60685 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		6CACA621280FA036008F6268 /* DragonDappRN-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DragonDappRN-Bridging-Header.h"; sourceTree = "<group>"; };
 		6CACA622280FA036008F6268 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		6CACA624280FA975008F6268 /* RNBackgroundFetch+AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "RNBackgroundFetch+AppDelegate.m"; path = "../node_modules/react-native-background-fetch/ios/RNBackgroundFetch/RNBackgroundFetch+AppDelegate.m"; sourceTree = "<group>"; };
-		801387FCF85C4D6D9267D372 /* libPods-DragonDappRN-DragonDappRNTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DragonDappRN-DragonDappRNTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = DragonDappRN/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D31E63E978957C9F8FAF09B7 /* Pods-DragonDappRN-DragonDappRNTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DragonDappRN-DragonDappRNTests.release.xcconfig"; path = "Target Support Files/Pods-DragonDappRN-DragonDappRNTests/Pods-DragonDappRN-DragonDappRNTests.release.xcconfig"; sourceTree = "<group>"; };
+		1F5B4F0527FEBA92009618AF /* Zocial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
+		1F5B4F0627FEBA92009618AF /* Foundation.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
+		1F5B4F0727FEBA92009618AF /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
+		1F5B4F0827FEBA92009618AF /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
+		1F5B4F0927FEBA92009618AF /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
+		1F5B4F0A27FEBA92009618AF /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
+		1F5B4F0B27FEBA92009618AF /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
+		1F5B4F0C27FEBA92009618AF /* Entypo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
+		1F5B4F0D27FEBA92009618AF /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
+		1F5B4F0E27FEBA92009618AF /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
+		1F5B4F0F27FEBA92009618AF /* EvilIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
+		1F5B4F1027FEBA92009618AF /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
+		1F5B4F1127FEBA92009618AF /* Feather.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
+		1F5B4F1227FEBA92009618AF /* Fontisto.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Fontisto.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; };
+		1F5B4F1327FEBA92009618AF /* AntDesign.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
+		1F5B4F1427FEBA92009618AF /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
+		1FB6BDD0280E6E3F001B5679 /* DragonDappRN.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = DragonDappRN.entitlements; path = DragonDappRN/DragonDappRN.entitlements; sourceTree = "<group>"; };
+		207DA1B9B00977D51EA7531E /* libPods-DragonDappRN-DragonDappRNTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DragonDappRN-DragonDappRNTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D02E47B1E0B4A5D006451C7 /* DragonDappRN-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DragonDappRN-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D02E4901E0B4A5D006451C7 /* DragonDappRN-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "DragonDappRN-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		30CF59C85CF247DC8F3141F8 /* AvenirNext-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "AvenirNext-Bold.ttf"; path = "../src/Assets/Fonts/AvenirNext-Bold.ttf"; sourceTree = "<group>"; };
+		42C1535F12811C10FCF9C10A /* Pods-DragonDappRNClip.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DragonDappRNClip.release.xcconfig"; path = "Target Support Files/Pods-DragonDappRNClip/Pods-DragonDappRNClip.release.xcconfig"; sourceTree = "<group>"; };
+		4BFC6B41B3C015E7396C4EAC /* libPods-DragonDappRN.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DragonDappRN.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5782D64221414B3B9FFD1DC4 /* Virus-Killer.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Virus-Killer.ttf"; path = "../src/Assets/Fonts/Virus-Killer.ttf"; sourceTree = "<group>"; };
+		5A8D94055692F6939619A49D /* Pods-DragonDappRN-DragonDappRNTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DragonDappRN-DragonDappRNTests.debug.xcconfig"; path = "Target Support Files/Pods-DragonDappRN-DragonDappRNTests/Pods-DragonDappRN-DragonDappRNTests.debug.xcconfig"; sourceTree = "<group>"; };
+		755AEB1DD7BFF6E1E9CD6577 /* Pods-DragonDappRNClip.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DragonDappRNClip.debug.xcconfig"; path = "Target Support Files/Pods-DragonDappRNClip/Pods-DragonDappRNClip.debug.xcconfig"; sourceTree = "<group>"; };
+		868F11F1261656F2B60D9821 /* Pods-DragonDappRN.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DragonDappRN.debug.xcconfig"; path = "Target Support Files/Pods-DragonDappRN/Pods-DragonDappRN.debug.xcconfig"; sourceTree = "<group>"; };
+		9460F3FC55DF41AF897C74A9 /* Mont-HeavyDEMO.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Mont-HeavyDEMO.ttf"; path = "../src/Assets/Fonts/Mont-HeavyDEMO.ttf"; sourceTree = "<group>"; };
+		AD8E564073174A86BD08DB58 /* AvenirNext-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "AvenirNext-Medium.ttf"; path = "../src/Assets/Fonts/AvenirNext-Medium.ttf"; sourceTree = "<group>"; };
+		B08427582686ED54B119786D /* libPods-DragonDappRNClip.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DragonDappRNClip.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C4114DBD282258E000074A62 /* DragonDappRNClip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DragonDappRNClip.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C4114DBF282258E000074A62 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		C4114DC1282258E000074A62 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		C4114DC3282258E000074A62 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		C4114DC6282258E000074A62 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		C4114DC8282258E100074A62 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C4114DCB282258E100074A62 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		C4114DCD282258E100074A62 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C4114DCE282258E100074A62 /* DragonDappRNClip.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DragonDappRNClip.entitlements; sourceTree = "<group>"; };
+		C4114DD3282258E100074A62 /* DragonDappRNClipTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DragonDappRNClipTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C4114DD7282258E100074A62 /* DragonDappRNClipTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragonDappRNClipTests.swift; sourceTree = "<group>"; };
+		C4114DDD282258E100074A62 /* DragonDappRNClipUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DragonDappRNClipUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C4114DE1282258E200074A62 /* DragonDappRNClipUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragonDappRNClipUITests.swift; sourceTree = "<group>"; };
+		C4114DE3282258E200074A62 /* DragonDappRNClipUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragonDappRNClipUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		C4EE769D28227579003F6C95 /* afdevkey_donotpush.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = afdevkey_donotpush.plist; sourceTree = "<group>"; };
+		D6C9BE195C09C010018386D3 /* Pods-DragonDappRN.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DragonDappRN.release.xcconfig"; path = "Target Support Files/Pods-DragonDappRN/Pods-DragonDappRN.release.xcconfig"; sourceTree = "<group>"; };
+		E391E5B928164994009DD23B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		FAB47B612DD245EF2BA3F55C /* libPods-DragonDappRN.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DragonDappRN.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -74,7 +192,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				319D11B8F12C05D74B6D7B5C /* libPods-DragonDappRN-DragonDappRNTests.a in Frameworks */,
+				FE1D5DE19AA08312850D98FD /* libPods-DragonDappRN-DragonDappRNTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,8 +200,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				586C8961211A09BFB60D63CC /* libPods-DragonDappRN.a in Frameworks */,
-				1C0B3A9F2824C7A5005158C6 /* HealthKit.framework in Frameworks */,
+				A2892FE11B9AB0A8E1EF8D72 /* libPods-DragonDappRN.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,6 +212,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		2D02E48D1E0B4A5D006451C7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C4114DBA282258E000074A62 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				66B4CD250ED00C5B2EE2E7F9 /* libPods-DragonDappRNClip.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C4114DD0282258E100074A62 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C4114DDA282258E100074A62 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -125,7 +264,8 @@
 			isa = PBXGroup;
 			children = (
 				6CACA624280FA975008F6268 /* RNBackgroundFetch+AppDelegate.m */,
-				6C7C45D42800148300F60685 /* DragonDappRN.entitlements */,
+				1FB6BDD0280E6E3F001B5679 /* DragonDappRN.entitlements */,
+				1F5B4F0427FEBA77009618AF /* Fonts */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -142,12 +282,37 @@
 		18A06528071B6FFBBA9372E2 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				0BAA660BF4DB53BC6432FFE4 /* Pods-DragonDappRN.debug.xcconfig */,
-				24416539897DBEF300E9D5A5 /* Pods-DragonDappRN.release.xcconfig */,
-				373763F0133AF3AECAF0939A /* Pods-DragonDappRN-DragonDappRNTests.debug.xcconfig */,
-				D31E63E978957C9F8FAF09B7 /* Pods-DragonDappRN-DragonDappRNTests.release.xcconfig */,
+				868F11F1261656F2B60D9821 /* Pods-DragonDappRN.debug.xcconfig */,
+				D6C9BE195C09C010018386D3 /* Pods-DragonDappRN.release.xcconfig */,
+				5A8D94055692F6939619A49D /* Pods-DragonDappRN-DragonDappRNTests.debug.xcconfig */,
+				51F4437A4F41DC2EA6DCA225 /* Pods-DragonDappRN-DragonDappRNTests.release.xcconfig */,
+				755AEB1DD7BFF6E1E9CD6577 /* Pods-DragonDappRNClip.debug.xcconfig */,
+				42C1535F12811C10FCF9C10A /* Pods-DragonDappRNClip.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		1F5B4F0427FEBA77009618AF /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				1F5B4F1327FEBA92009618AF /* AntDesign.ttf */,
+				1F5B4F0C27FEBA92009618AF /* Entypo.ttf */,
+				1F5B4F0F27FEBA92009618AF /* EvilIcons.ttf */,
+				1F5B4F1127FEBA92009618AF /* Feather.ttf */,
+				1F5B4F0927FEBA92009618AF /* FontAwesome.ttf */,
+				1F5B4F0E27FEBA92009618AF /* FontAwesome5_Brands.ttf */,
+				1F5B4F0D27FEBA92009618AF /* FontAwesome5_Regular.ttf */,
+				1F5B4F0B27FEBA92009618AF /* FontAwesome5_Solid.ttf */,
+				1F5B4F1227FEBA92009618AF /* Fontisto.ttf */,
+				1F5B4F0627FEBA92009618AF /* Foundation.ttf */,
+				1F5B4F0727FEBA92009618AF /* Ionicons.ttf */,
+				1F5B4F1027FEBA92009618AF /* MaterialCommunityIcons.ttf */,
+				1F5B4F0827FEBA92009618AF /* MaterialIcons.ttf */,
+				1F5B4F0A27FEBA92009618AF /* Octicons.ttf */,
+				1F5B4F1427FEBA92009618AF /* SimpleLineIcons.ttf */,
+				1F5B4F0527FEBA92009618AF /* Zocial.ttf */,
+			);
+			name = Fonts;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
@@ -156,8 +321,9 @@
 				6C7C45D52800148300F60685 /* HealthKit.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				FAB47B612DD245EF2BA3F55C /* libPods-DragonDappRN.a */,
-				801387FCF85C4D6D9267D372 /* libPods-DragonDappRN-DragonDappRNTests.a */,
+				4BFC6B41B3C015E7396C4EAC /* libPods-DragonDappRN.a */,
+				207DA1B9B00977D51EA7531E /* libPods-DragonDappRN-DragonDappRNTests.a */,
+				B08427582686ED54B119786D /* libPods-DragonDappRNClip.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -172,12 +338,18 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				C4EE769D28227579003F6C95 /* afdevkey_donotpush.plist */,
+				E391E5B928164994009DD23B /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* DragonDappRN */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* DragonDappRNTests */,
+				C4114DBE282258E000074A62 /* DragonDappRNClip */,
+				C4114DD6282258E100074A62 /* DragonDappRNClipTests */,
+				C4114DE0282258E200074A62 /* DragonDappRNClipUITests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				18A06528071B6FFBBA9372E2 /* Pods */,
+				B020D311CABE480E9F0501CC /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -191,8 +363,54 @@
 				00E356EE1AD99517003FC87E /* DragonDappRNTests.xctest */,
 				2D02E47B1E0B4A5D006451C7 /* DragonDappRN-tvOS.app */,
 				2D02E4901E0B4A5D006451C7 /* DragonDappRN-tvOSTests.xctest */,
+				C4114DBD282258E000074A62 /* DragonDappRNClip.app */,
+				C4114DD3282258E100074A62 /* DragonDappRNClipTests.xctest */,
+				C4114DDD282258E100074A62 /* DragonDappRNClipUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		B020D311CABE480E9F0501CC /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				30CF59C85CF247DC8F3141F8 /* AvenirNext-Bold.ttf */,
+				AD8E564073174A86BD08DB58 /* AvenirNext-Medium.ttf */,
+				5782D64221414B3B9FFD1DC4 /* Virus-Killer.ttf */,
+				9460F3FC55DF41AF897C74A9 /* Mont-HeavyDEMO.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		C4114DBE282258E000074A62 /* DragonDappRNClip */ = {
+			isa = PBXGroup;
+			children = (
+				C4114DBF282258E000074A62 /* AppDelegate.swift */,
+				C4114DC1282258E000074A62 /* SceneDelegate.swift */,
+				C4114DC3282258E000074A62 /* ViewController.swift */,
+				C4114DC5282258E000074A62 /* Main.storyboard */,
+				C4114DC8282258E100074A62 /* Assets.xcassets */,
+				C4114DCA282258E100074A62 /* LaunchScreen.storyboard */,
+				C4114DCD282258E100074A62 /* Info.plist */,
+				C4114DCE282258E100074A62 /* DragonDappRNClip.entitlements */,
+			);
+			path = DragonDappRNClip;
+			sourceTree = "<group>";
+		};
+		C4114DD6282258E100074A62 /* DragonDappRNClipTests */ = {
+			isa = PBXGroup;
+			children = (
+				C4114DD7282258E100074A62 /* DragonDappRNClipTests.swift */,
+			);
+			path = DragonDappRNClipTests;
+			sourceTree = "<group>";
+		};
+		C4114DE0282258E200074A62 /* DragonDappRNClipUITests */ = {
+			isa = PBXGroup;
+			children = (
+				C4114DE1282258E200074A62 /* DragonDappRNClipUITests.swift */,
+				C4114DE3282258E200074A62 /* DragonDappRNClipUITestsLaunchTests.swift */,
+			);
+			path = DragonDappRNClipUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -202,12 +420,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "DragonDappRNTests" */;
 			buildPhases = (
-				298649D3FFBE1B5C6C00C155 /* [CP] Check Pods Manifest.lock */,
+				4EE7FFBF544515079B2E582B /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				F3218FD7C40C24084A677D4C /* [CP] Embed Pods Frameworks */,
-				4F4B30B0DF5B42F96E36FEE6 /* [CP] Copy Pods Resources */,
+				1FB408E0244704A84B65E5E9 /* [CP] Embed Pods Frameworks */,
+				2F7127AF7C1DB798AC4B612A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -223,18 +441,21 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "DragonDappRN" */;
 			buildPhases = (
-				A8592F655EF411150C5BA3E7 /* [CP] Check Pods Manifest.lock */,
+				E4B866BA12B5530E8F8E7AA7 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				87EE8E34DB71C12CC641F4AB /* [CP] Embed Pods Frameworks */,
-				327ECDAF5FE7A561DE135987 /* [CP] Copy Pods Resources */,
+				C4114DEB282258E200074A62 /* Embed App Clips */,
+				7046C1417711E7B1825FF35C /* [CP] Embed Pods Frameworks */,
+				22F93A186A524172D3A67389 /* [CP] Copy Pods Resources */,
+				1F1DB5EB9CE44C750592C089 /* [CP-User] [RNFB] Core Configuration */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				C4114DE6282258E200074A62 /* PBXTargetDependency */,
 			);
 			name = DragonDappRN;
 			productName = DragonDappRN;
@@ -278,12 +499,67 @@
 			productReference = 2D02E4901E0B4A5D006451C7 /* DragonDappRN-tvOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		C4114DBC282258E000074A62 /* DragonDappRNClip */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C4114DE8282258E200074A62 /* Build configuration list for PBXNativeTarget "DragonDappRNClip" */;
+			buildPhases = (
+				61B7F2571B54A6298F7ADBA8 /* [CP] Check Pods Manifest.lock */,
+				C4114DB9282258E000074A62 /* Sources */,
+				C4114DBA282258E000074A62 /* Frameworks */,
+				C4114DBB282258E000074A62 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DragonDappRNClip;
+			productName = DragonDappRNClip;
+			productReference = C4114DBD282258E000074A62 /* DragonDappRNClip.app */;
+			productType = "com.apple.product-type.application.on-demand-install-capable";
+		};
+		C4114DD2282258E100074A62 /* DragonDappRNClipTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C4114DEC282258E200074A62 /* Build configuration list for PBXNativeTarget "DragonDappRNClipTests" */;
+			buildPhases = (
+				C4114DCF282258E100074A62 /* Sources */,
+				C4114DD0282258E100074A62 /* Frameworks */,
+				C4114DD1282258E100074A62 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C4114DD5282258E100074A62 /* PBXTargetDependency */,
+			);
+			name = DragonDappRNClipTests;
+			productName = DragonDappRNClipTests;
+			productReference = C4114DD3282258E100074A62 /* DragonDappRNClipTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		C4114DDC282258E100074A62 /* DragonDappRNClipUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C4114DEF282258E200074A62 /* Build configuration list for PBXNativeTarget "DragonDappRNClipUITests" */;
+			buildPhases = (
+				C4114DD9282258E100074A62 /* Sources */,
+				C4114DDA282258E100074A62 /* Frameworks */,
+				C4114DDB282258E100074A62 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C4114DDF282258E200074A62 /* PBXTargetDependency */,
+			);
+			name = DragonDappRNClipUITests;
+			productName = DragonDappRNClipUITests;
+			productReference = C4114DDD282258E100074A62 /* DragonDappRNClipUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 1330;
 				LastUpgradeCheck = 1130;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
@@ -292,7 +568,8 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = FN33UR9X45;
-						LastSwiftMigration = 1330;
+						LastSwiftMigration = 1120;
+						ProvisioningStyle = Manual;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -302,6 +579,23 @@
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 2D02E47A1E0B4A5D006451C7;
+					};
+					C4114DBC282258E000074A62 = {
+						CreatedOnToolsVersion = 13.3;
+						DevelopmentTeam = FN33UR9X45;
+						ProvisioningStyle = Automatic;
+					};
+					C4114DD2282258E100074A62 = {
+						CreatedOnToolsVersion = 13.3;
+						DevelopmentTeam = 5R7ML6LATH;
+						ProvisioningStyle = Automatic;
+						TestTargetID = C4114DBC282258E000074A62;
+					};
+					C4114DDC282258E100074A62 = {
+						CreatedOnToolsVersion = 13.3;
+						DevelopmentTeam = 5R7ML6LATH;
+						ProvisioningStyle = Automatic;
+						TestTargetID = C4114DBC282258E000074A62;
 					};
 				};
 			};
@@ -322,6 +616,9 @@
 				00E356ED1AD99517003FC87E /* DragonDappRNTests */,
 				2D02E47A1E0B4A5D006451C7 /* DragonDappRN-tvOS */,
 				2D02E48F1E0B4A5D006451C7 /* DragonDappRN-tvOSTests */,
+				C4114DBC282258E000074A62 /* DragonDappRNClip */,
+				C4114DD2282258E100074A62 /* DragonDappRNClipTests */,
+				C4114DDC282258E100074A62 /* DragonDappRNClipUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -331,6 +628,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C4EE769F28227579003F6C95 /* afdevkey_donotpush.plist in Resources */,
+				E391E5BB28164994009DD23B /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -338,8 +637,30 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F5B4F1727FEBA92009618AF /* Ionicons.ttf in Resources */,
+				1F5B4F1927FEBA92009618AF /* FontAwesome.ttf in Resources */,
+				1F5B4F2127FEBA92009618AF /* Feather.ttf in Resources */,
+				1F5B4F1A27FEBA92009618AF /* Octicons.ttf in Resources */,
+				1F5B4F1D27FEBA92009618AF /* FontAwesome5_Regular.ttf in Resources */,
+				1F5B4F2427FEBA92009618AF /* SimpleLineIcons.ttf in Resources */,
+				1F5B4F1C27FEBA92009618AF /* Entypo.ttf in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
+				1F5B4F2327FEBA92009618AF /* AntDesign.ttf in Resources */,
+				1F5B4F1827FEBA92009618AF /* MaterialIcons.ttf in Resources */,
+				1F5B4F1F27FEBA92009618AF /* EvilIcons.ttf in Resources */,
+				1F5B4F2027FEBA92009618AF /* MaterialCommunityIcons.ttf in Resources */,
+				C4EE769E28227579003F6C95 /* afdevkey_donotpush.plist in Resources */,
+				1F5B4F1627FEBA92009618AF /* Foundation.ttf in Resources */,
+				1F5B4F1B27FEBA92009618AF /* FontAwesome5_Solid.ttf in Resources */,
+				1F5B4F1E27FEBA92009618AF /* FontAwesome5_Brands.ttf in Resources */,
+				1F5B4F1527FEBA92009618AF /* Zocial.ttf in Resources */,
+				1F5B4F2227FEBA92009618AF /* Fontisto.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				A14492FCF150478097DBCCED /* AvenirNext-Bold.ttf in Resources */,
+				E391E5BA28164994009DD23B /* GoogleService-Info.plist in Resources */,
+				213E7A665B734DA594729590 /* AvenirNext-Medium.ttf in Resources */,
+				5E19A14138774B5E899B912A /* Virus-Killer.ttf in Resources */,
+				6D514CADD27F4C7387C2C28D /* Mont-HeavyDEMO.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -347,7 +668,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C4EE76A028227579003F6C95 /* afdevkey_donotpush.plist in Resources */,
 				2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */,
+				E391E5BC28164994009DD23B /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -355,6 +678,35 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C4EE76A128227579003F6C95 /* afdevkey_donotpush.plist in Resources */,
+				E391E5BD28164994009DD23B /* GoogleService-Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C4114DBB282258E000074A62 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C4EE76A228227579003F6C95 /* afdevkey_donotpush.plist in Resources */,
+				C4114DCC282258E100074A62 /* LaunchScreen.storyboard in Resources */,
+				C4114DC9282258E100074A62 /* Assets.xcassets in Resources */,
+				C4114DC7282258E000074A62 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C4114DD1282258E100074A62 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C4EE76A328227579003F6C95 /* afdevkey_donotpush.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C4114DDB282258E100074A62 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C4EE76A428227579003F6C95 /* afdevkey_donotpush.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -375,7 +727,92 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		298649D3FFBE1B5C6C00C155 /* [CP] Check Pods Manifest.lock */ = {
+		1F1DB5EB9CE44C750592C089 /* [CP-User] [RNFB] Core Configuration */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			name = "[CP-User] [RNFB] Core Configuration";
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/usr/bin/env bash\n#\n# Copyright (c) 2016-present Invertase Limited & Contributors\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this library except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#   http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n#\nset -e\n\n_MAX_LOOKUPS=2;\n_SEARCH_RESULT=''\n_RN_ROOT_EXISTS=''\n_CURRENT_LOOKUPS=1\n_JSON_ROOT=\"'react-native'\"\n_JSON_FILE_NAME='firebase.json'\n_JSON_OUTPUT_BASE64='e30=' # { }\n_CURRENT_SEARCH_DIR=${PROJECT_DIR}\n_PLIST_BUDDY=/usr/libexec/PlistBuddy\n_TARGET_PLIST=\"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\"\n_DSYM_PLIST=\"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist\"\n\n# plist arrays\n_PLIST_ENTRY_KEYS=()\n_PLIST_ENTRY_TYPES=()\n_PLIST_ENTRY_VALUES=()\n\nfunction setPlistValue {\n  echo \"info:      setting plist entry '$1' of type '$2' in file '$4'\"\n  ${_PLIST_BUDDY} -c \"Add :$1 $2 '$3'\" $4 || echo \"info:      '$1' already exists\"\n}\n\nfunction getFirebaseJsonKeyValue () {\n  if [[ ${_RN_ROOT_EXISTS} ]]; then\n    ruby -e \"require 'rubygems';require 'json'; output=JSON.parse('$1'); puts output[$_JSON_ROOT]['$2']\"\n  else\n    echo \"\"\n  fi;\n}\n\nfunction jsonBoolToYesNo () {\n  if [[ $1 == \"false\" ]]; then\n    echo \"NO\"\n  elif [[ $1 == \"true\" ]]; then\n    echo \"YES\"\n  else echo \"NO\"\n  fi\n}\n\necho \"info: -> RNFB build script started\"\necho \"info: 1) Locating ${_JSON_FILE_NAME} file:\"\n\nif [[ -z ${_CURRENT_SEARCH_DIR} ]]; then\n  _CURRENT_SEARCH_DIR=$(pwd)\nfi;\n\nwhile true; do\n  _CURRENT_SEARCH_DIR=$(dirname \"$_CURRENT_SEARCH_DIR\")\n  if [[ \"$_CURRENT_SEARCH_DIR\" == \"/\" ]] || [[ ${_CURRENT_LOOKUPS} -gt ${_MAX_LOOKUPS} ]]; then break; fi;\n  echo \"info:      ($_CURRENT_LOOKUPS of $_MAX_LOOKUPS) Searching in '$_CURRENT_SEARCH_DIR' for a ${_JSON_FILE_NAME} file.\"\n  _SEARCH_RESULT=$(find \"$_CURRENT_SEARCH_DIR\" -maxdepth 2 -name ${_JSON_FILE_NAME} -print | /usr/bin/head -n 1)\n  if [[ ${_SEARCH_RESULT} ]]; then\n    echo \"info:      ${_JSON_FILE_NAME} found at $_SEARCH_RESULT\"\n    break;\n  fi;\n  _CURRENT_LOOKUPS=$((_CURRENT_LOOKUPS+1))\ndone\n\nif [[ ${_SEARCH_RESULT} ]]; then\n  _JSON_OUTPUT_RAW=$(cat \"${_SEARCH_RESULT}\")\n  _RN_ROOT_EXISTS=$(ruby -e \"require 'rubygems';require 'json'; output=JSON.parse('$_JSON_OUTPUT_RAW'); puts output[$_JSON_ROOT]\" || echo '')\n\n  if [[ ${_RN_ROOT_EXISTS} ]]; then\n    _JSON_OUTPUT_BASE64=$(python -c 'import json,sys,base64;print(base64.b64encode(json.dumps(json.loads(open('\"'${_SEARCH_RESULT}'\"').read())['${_JSON_ROOT}'])))' || echo \"e30=\")\n  fi\n\n  _PLIST_ENTRY_KEYS+=(\"firebase_json_raw\")\n  _PLIST_ENTRY_TYPES+=(\"string\")\n  _PLIST_ENTRY_VALUES+=(\"$_JSON_OUTPUT_BASE64\")\n\n  # config.app_data_collection_default_enabled\n  _APP_DATA_COLLECTION_ENABLED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"app_data_collection_default_enabled\")\n  if [[ $_APP_DATA_COLLECTION_ENABLED ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseDataCollectionDefaultEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_APP_DATA_COLLECTION_ENABLED\")\")\n  fi\n\n  # config.analytics_auto_collection_enabled\n  _ANALYTICS_AUTO_COLLECTION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_auto_collection_enabled\")\n  if [[ $_ANALYTICS_AUTO_COLLECTION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FIREBASE_ANALYTICS_COLLECTION_ENABLED\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_AUTO_COLLECTION\")\")\n  fi\n\n  # config.analytics_collection_deactivated\n  _ANALYTICS_DEACTIVATED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_collection_deactivated\")\n  if [[ $_ANALYTICS_DEACTIVATED ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FIREBASE_ANALYTICS_COLLECTION_DEACTIVATED\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_DEACTIVATED\")\")\n  fi\n\n  # config.analytics_idfv_collection_enabled\n  _ANALYTICS_IDFV_COLLECTION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_idfv_collection_enabled\")\n  if [[ $_ANALYTICS_IDFV_COLLECTION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"GOOGLE_ANALYTICS_IDFV_COLLECTION_ENABLED\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_IDFV_COLLECTION\")\")\n  fi\n\n  # config.analytics_default_allow_ad_personalization_signals\n  _ANALYTICS_PERSONALIZATION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_default_allow_ad_personalization_signals\")\n  if [[ $_ANALYTICS_PERSONALIZATION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_PERSONALIZATION_SIGNALS\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_PERSONALIZATION\")\")\n  fi\n\n  # config.google_analytics_automatic_screen_reporting_enabled\n  _ANALYTICS_AUTO_SCREEN_REPORTING=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"google_analytics_automatic_screen_reporting_enabled\")\n  if [[ $_ANALYTICS_AUTO_SCREEN_REPORTING ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseAutomaticScreenReportingEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_AUTO_SCREEN_REPORTING\")\")\n  fi\n\n  # config.perf_auto_collection_enabled\n  _PERF_AUTO_COLLECTION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"perf_auto_collection_enabled\")\n  if [[ $_PERF_AUTO_COLLECTION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"firebase_performance_collection_enabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_PERF_AUTO_COLLECTION\")\")\n  fi\n\n  # config.perf_collection_deactivated\n  _PERF_DEACTIVATED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"perf_collection_deactivated\")\n  if [[ $_PERF_DEACTIVATED ]]; then\n    _PLIST_ENTRY_KEYS+=(\"firebase_performance_collection_deactivated\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_PERF_DEACTIVATED\")\")\n  fi\n\n  # config.messaging_auto_init_enabled\n  _MESSAGING_AUTO_INIT=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"messaging_auto_init_enabled\")\n  if [[ $_MESSAGING_AUTO_INIT ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseMessagingAutoInitEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_MESSAGING_AUTO_INIT\")\")\n  fi\n\n  # config.in_app_messaging_auto_colllection_enabled\n  _FIAM_AUTO_INIT=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"in_app_messaging_auto_collection_enabled\")\n  if [[ $_FIAM_AUTO_INIT ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseInAppMessagingAutomaticDataCollectionEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_FIAM_AUTO_INIT\")\")\n  fi\n\n  # config.app_check_token_auto_refresh\n  _APP_CHECK_TOKEN_AUTO_REFRESH=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"app_check_token_auto_refresh\")\n  if [[ $_APP_CHECK_TOKEN_AUTO_REFRESH ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseAppCheckTokenAutoRefreshEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_APP_CHECK_TOKEN_AUTO_REFRESH\")\")\n  fi\n\n  # config.crashlytics_disable_auto_disabler - undocumented for now - mainly for debugging, document if becomes useful\n  _CRASHLYTICS_AUTO_DISABLE_ENABLED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"crashlytics_disable_auto_disabler\")\n  if [[ $_CRASHLYTICS_AUTO_DISABLE_ENABLED == \"true\" ]]; then\n    echo \"Disabled Crashlytics auto disabler.\" # do nothing\n  else\n    _PLIST_ENTRY_KEYS+=(\"FirebaseCrashlyticsCollectionEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"NO\")\n  fi\nelse\n  _PLIST_ENTRY_KEYS+=(\"firebase_json_raw\")\n  _PLIST_ENTRY_TYPES+=(\"string\")\n  _PLIST_ENTRY_VALUES+=(\"$_JSON_OUTPUT_BASE64\")\n  echo \"warning:   A firebase.json file was not found, whilst this file is optional it is recommended to include it to configure firebase services in React Native Firebase.\"\nfi;\n\necho \"info: 2) Injecting Info.plist entries: \"\n\n# Log out the keys we're adding\nfor i in \"${!_PLIST_ENTRY_KEYS[@]}\"; do\n  echo \"    ->  $i) ${_PLIST_ENTRY_KEYS[$i]}\" \"${_PLIST_ENTRY_TYPES[$i]}\" \"${_PLIST_ENTRY_VALUES[$i]}\"\ndone\n\nfor plist in \"${_TARGET_PLIST}\" \"${_DSYM_PLIST}\" ; do\n  if [[ -f \"${plist}\" ]]; then\n\n    # paths with spaces break the call to setPlistValue. temporarily modify\n    # the shell internal field separator variable (IFS), which normally\n    # includes spaces, to consist only of line breaks\n    oldifs=$IFS\n    IFS=\"\n\"\n\n    for i in \"${!_PLIST_ENTRY_KEYS[@]}\"; do\n      setPlistValue \"${_PLIST_ENTRY_KEYS[$i]}\" \"${_PLIST_ENTRY_TYPES[$i]}\" \"${_PLIST_ENTRY_VALUES[$i]}\" \"${plist}\"\n    done\n\n    # restore the original internal field separator value\n    IFS=$oldifs\n  else\n    echo \"warning:   A Info.plist build output file was not found (${plist})\"\n  fi\ndone\n\necho \"info: <- RNFB build script finished\"\n";
+		};
+		1FB408E0244704A84B65E5E9 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DragonDappRN-DragonDappRNTests/Pods-DragonDappRN-DragonDappRNTests-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Flipper-DoubleConversion/double-conversion.framework/double-conversion",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL-Universal/OpenSSL.framework/OpenSSL",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/hermes.framework/hermes",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/double-conversion.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DragonDappRN-DragonDappRNTests/Pods-DragonDappRN-DragonDappRNTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		22F93A186A524172D3A67389 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DragonDappRN/Pods-DragonDappRN-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DragonDappRN/Pods-DragonDappRN-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Bundle React Native Code And Images";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+		};
+		2F7127AF7C1DB798AC4B612A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DragonDappRN-DragonDappRNTests/Pods-DragonDappRN-DragonDappRNTests-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DragonDappRN-DragonDappRNTests/Pods-DragonDappRN-DragonDappRNTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4EE7FFBF544515079B2E582B /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -397,41 +834,29 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
+		61B7F2571B54A6298F7ADBA8 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
+			inputFileListPaths = (
 			);
-			name = "Bundle React Native Code And Images";
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-DragonDappRNClip-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
-		};
-		327ECDAF5FE7A561DE135987 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-DragonDappRN/Pods-DragonDappRN-resources.sh",
-				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DragonDappRN/Pods-DragonDappRN-resources.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		4F4B30B0DF5B42F96E36FEE6 /* [CP] Copy Pods Resources */ = {
+		7046C1417711E7B1825FF35C /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -440,15 +865,42 @@
 				"${PODS_ROOT}/Target Support Files/Pods-DragonDappRN-DragonDappRNTests/Pods-DragonDappRN-DragonDappRNTests-resources.sh",
 				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
+				"${PODS_ROOT}/Target Support Files/Pods-DragonDappRN/Pods-DragonDappRN-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Flipper-DoubleConversion/double-conversion.framework/double-conversion",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL-Universal/OpenSSL.framework/OpenSSL",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/hermes.framework/hermes",
 			);
-			name = "[CP] Copy Pods Resources";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/double-conversion.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DragonDappRN-DragonDappRNTests/Pods-DragonDappRN-DragonDappRNTests-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DragonDappRN/Pods-DragonDappRN-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E4B866BA12B5530E8F8E7AA7 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-DragonDappRN-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		87EE8E34DB71C12CC641F4AB /* [CP] Embed Pods Frameworks */ = {
@@ -594,6 +1046,33 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C4114DB9282258E000074A62 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C4114DC4282258E000074A62 /* ViewController.swift in Sources */,
+				C4114DC0282258E000074A62 /* AppDelegate.swift in Sources */,
+				C4114DC2282258E000074A62 /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C4114DCF282258E100074A62 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C4114DD8282258E100074A62 /* DragonDappRNClipTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C4114DD9282258E100074A62 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C4114DE4282258E200074A62 /* DragonDappRNClipUITestsLaunchTests.swift in Sources */,
+				C4114DE2282258E200074A62 /* DragonDappRNClipUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -607,21 +1086,55 @@
 			target = 2D02E47A1E0B4A5D006451C7 /* DragonDappRN-tvOS */;
 			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
 		};
+		C4114DD5282258E100074A62 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C4114DBC282258E000074A62 /* DragonDappRNClip */;
+			targetProxy = C4114DD4282258E100074A62 /* PBXContainerItemProxy */;
+		};
+		C4114DDF282258E200074A62 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C4114DBC282258E000074A62 /* DragonDappRNClip */;
+			targetProxy = C4114DDE282258E200074A62 /* PBXContainerItemProxy */;
+		};
+		C4114DE6282258E200074A62 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C4114DBC282258E000074A62 /* DragonDappRNClip */;
+			targetProxy = C4114DE5282258E200074A62 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		C4114DC5282258E000074A62 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C4114DC6282258E000074A62 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		C4114DCA282258E100074A62 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C4114DCB282258E100074A62 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 373763F0133AF3AECAF0939A /* Pods-DragonDappRN-DragonDappRNTests.debug.xcconfig */;
+			baseConfigurationReference = 5A8D94055692F6939619A49D /* Pods-DragonDappRN-DragonDappRNTests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = DragonDappRNTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -636,13 +1149,13 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D31E63E978957C9F8FAF09B7 /* Pods-DragonDappRN-DragonDappRNTests.release.xcconfig */;
+			baseConfigurationReference = 51F4437A4F41DC2EA6DCA225 /* Pods-DragonDappRN-DragonDappRNTests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = DragonDappRNTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -657,23 +1170,21 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0BAA660BF4DB53BC6432FFE4 /* Pods-DragonDappRN.debug.xcconfig */;
+			baseConfigurationReference = 868F11F1261656F2B60D9821 /* Pods-DragonDappRN.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = DragonDappRN/DragonDappRN.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FN33UR9X45;
 				ENABLE_BITCODE = NO;
+				EXCLUDED_ARCHS = i386;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					"COCOAPODS=1",
-					"FB_SONARKIT_ENABLED=1",
-					"HERMES_ENABLE_DEBUGGER=1",
-					"HAVE_GOOGLE_MAPS=1",
-				);
 				INFOPLIST_FILE = DragonDappRN/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				"ORDER_FILE[arch=*]" = "";
 				OTHER_LDFLAGS = (
@@ -681,36 +1192,43 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "fit-evo-dev";
+				PRODUCT_BUNDLE_IDENTIFIER = com.fitevo;
 				PRODUCT_NAME = DragonDappRN;
-				SWIFT_OBJC_BRIDGING_HEADER = "DragonDappRN-Bridging-Header.h";
+				PROVISIONING_PROFILE_SPECIFIER = com.fitevo.profile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 24416539897DBEF300E9D5A5 /* Pods-DragonDappRN.release.xcconfig */;
+			baseConfigurationReference = D6C9BE195C09C010018386D3 /* Pods-DragonDappRN.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = DragonDappRN/DragonDappRN.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FN33UR9X45;
+				EXCLUDED_ARCHS = i386;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = DragonDappRN/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "fit-evo-dev";
+				PRODUCT_BUNDLE_IDENTIFIER = com.fitevo;
 				PRODUCT_NAME = DragonDappRN;
-				SWIFT_OBJC_BRIDGING_HEADER = "DragonDappRN-Bridging-Header.h";
+				PROVISIONING_PROFILE_SPECIFIER = com.fitevo.profile;
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -718,6 +1236,7 @@
 		2D02E4971E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -745,6 +1264,7 @@
 		2D02E4981E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -772,6 +1292,7 @@
 		2D02E4991E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -798,6 +1319,7 @@
 		2D02E49A1E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -872,10 +1394,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
-				LIBRARY_SEARCH_PATHS = (
-					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
-					"\"$(inherited)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -926,13 +1445,239 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
+				LIBRARY_SEARCH_PATHS = "";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C4114DE9282258E200074A62 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 755AEB1DD7BFF6E1E9CD6577 /* Pods-DragonDappRNClip.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = "$(inherited)";
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = DragonDappRNClip/DragonDappRNClip.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = FN33UR9X45;
+				EXCLUDED_ARCHS = i386;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DragonDappRNClip/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = DragonDappRN;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
 					"\"$(inherited)\"",
 				);
-				MTL_ENABLE_DEBUG_INFO = NO;
-				SDKROOT = iphoneos;
-				VALIDATE_PRODUCT = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fitevo.Clip;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		C4114DEA282258E200074A62 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 42C1535F12811C10FCF9C10A /* Pods-DragonDappRNClip.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = "$(inherited)";
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = DragonDappRNClip/DragonDappRNClip.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = FN33UR9X45;
+				EXCLUDED_ARCHS = i386;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DragonDappRNClip/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = DragonDappRN;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
+					"\"$(inherited)\"",
+				);
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fitevo.Clip;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		C4114DED282258E200074A62 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 5R7ML6LATH;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fitevo.DragonDappRNClipTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DragonDappRNClip.app/DragonDappRNClip";
+			};
+			name = Debug;
+		};
+		C4114DEE282258E200074A62 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 5R7ML6LATH;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fitevo.DragonDappRNClipTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DragonDappRNClip.app/DragonDappRNClip";
+			};
+			name = Release;
+		};
+		C4114DF0282258E200074A62 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 5R7ML6LATH;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fitevo.DragonDappRNClipUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = DragonDappRNClip;
+			};
+			name = Debug;
+		};
+		C4114DF1282258E200074A62 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 5R7ML6LATH;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fitevo.DragonDappRNClipUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = DragonDappRNClip;
 			};
 			name = Release;
 		};
@@ -980,6 +1725,33 @@
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
 				83CBBA211A601CBA00E9B192 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C4114DE8282258E200074A62 /* Build configuration list for PBXNativeTarget "DragonDappRNClip" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C4114DE9282258E200074A62 /* Debug */,
+				C4114DEA282258E200074A62 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C4114DEC282258E200074A62 /* Build configuration list for PBXNativeTarget "DragonDappRNClipTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C4114DED282258E200074A62 /* Debug */,
+				C4114DEE282258E200074A62 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C4114DEF282258E200074A62 /* Build configuration list for PBXNativeTarget "DragonDappRNClipUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C4114DF0282258E200074A62 /* Debug */,
+				C4114DF1282258E200074A62 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

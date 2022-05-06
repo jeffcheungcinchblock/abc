@@ -3,7 +3,6 @@
   package="com.dragondapprn"
 
 >
-    <uses-permission android:name="android.permission.INTERNET" />
 +    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
 +    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 +    <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
@@ -16,6 +15,11 @@
 +    <queries>
 +    <package android:name="com.google.android.apps.fitness" />
 +    </queries>
+  package="com.fitevo"
+>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
     <application
       android:name=".MainApplication"
       android:label="@string/app_name"
@@ -43,6 +47,16 @@
         android:windowSoftInputMode="adjustResize">
         <intent-filter>
           <action android:name="android.intent.action.MAIN" />
+        </intent-filter>
+        <intent-filter>
+          <action android:name="android.intent.action.VIEW"/>
+          <category android:name="android.intent.category.DEFAULT"/>
+          <category android:name="android.intent.category.BROWSABLE"/>
+          <data android:host="test-dragon-dev.onelink.me" android:scheme="http"/>
+          <data android:host="test-dragon-dev.onelink.me" android:scheme="https"/>
+          <data android:host="fitevo.page.link" android:scheme="http"/>
+          <data android:host="fitevo.page.link" android:scheme="https"/>
+
         </intent-filter>
       </activity>
    <!-- You will only need to add this meta-data tag, but make sure it's a child of application -->

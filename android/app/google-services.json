@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "51738943910",
+    "project_id": "fit-evo-dev",
+    "storage_bucket": "fit-evo-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:51738943910:android:218f1d5c6d5f3d170aaf67",
+        "android_client_info": {
+          "package_name": "com.fitevo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "51738943910-onrdc8bts153llsrcit5b6c63hpd09ru.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fitevo",
+            "certificate_hash": "cf0903760d49a19089e6b509f9d1a6a92cea5471"
+          }
+        },
+        {
+          "client_id": "51738943910-28dc3bafsgi299h91tfthka4d6qd69p9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASm0MfpQn0s2KyvXf39_9NgoXb4eUWw0g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "51738943910-28dc3bafsgi299h91tfthka4d6qd69p9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "51738943910-156opgo7dpf3lb6svipak1tiu15oitob.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.fitevo"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

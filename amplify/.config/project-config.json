@@ -1,8 +1,6 @@
 {
-  "providers": [
-    "awscloudformation"
-  ],
-  "projectName": "fitevodev",
+  "providers": ["awscloudformation"],
+  "projectName": "dragonevo",
   "version": "3.1",
   "frontend": "javascript",
   "javascript": {
