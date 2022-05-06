@@ -46,6 +46,8 @@ import { awsLogout, triggerSnackbar } from '@/Utils/helpers'
 import { Auth } from 'aws-amplify'
 import axios from 'axios'
 import { RootState } from '@/Store'
+
+
 const PURPLE_COLOR = {
     color: colors.orangeCrayola
 }
@@ -71,9 +73,11 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
 ) => {
     const { t } = useTranslation()
     const { Common, Fonts, Gutters, Layout } = useTheme()
+    const { invitationCode } = useSelector((state: RootState) => state.user)
     const dispatch = useDispatch()
     const [isInvitingFriends, setIsInvitingFriends] = useState(false)
     const [needFetchDtl, setNeedFetchDtl] = useState(true)
+    const [fetchedReferralInfo, setFetchedReferralInfo] = useState(false)
 
     const [referralInfo, setReferralInfo] = useState<ReferralInfo>({
         queueNumber: 0,
@@ -82,8 +86,6 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
         username: "",
         referredBy: ""
     })
-
-    const { invitationCode } = useSelector((state: RootState) => state.user)
 
     useEffect(() => {
         const run = async () => {
@@ -96,8 +98,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                         Authorization: jwtToken //the token is a variable which holds the token
                     }
                 })
-                console.log('authRes', authRes)
-
+                console.log('authRes ', authRes)
                 setReferralInfo(authRes.data)
 
             } catch (err) {
@@ -105,18 +106,21 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
             }
         }
 
-
         if (needFetchDtl) {
             run()
-            setNeedFetchDtl(false)
+            setTimeout(() => {
+                setNeedFetchDtl(false)
+            }, 1000)
+            if (!fetchedReferralInfo) {
+                setFetchedReferralInfo(true)
+            }
         }
-    }, [needFetchDtl])
+    }, [needFetchDtl, fetchedReferralInfo])
 
     useEffect(() => {
 
         // TBD: To be placed some where upper level component later
         const confirmReferral = async () => {
-            console.log('confirming referral')
             let user = await Auth.currentAuthenticatedUser()
             let jwtToken = user.signInUserSession.idToken.jwtToken
 
@@ -133,21 +137,21 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                     })
                 })
             } catch (err: any) {
-                console.log(err)
+                // console.log('###', err.response)
             }
         }
 
-        if (referralInfo.referredBy === '') {
+        if (referralInfo.referredBy === '' && !fetchedReferralInfo) {
             // Not yet referred by anyone, if user entered invitation code, need to confirm
             confirmReferral()
         }
-    }, [referralInfo])
+    }, [referralInfo, fetchedReferralInfo])
 
     const onSharePress = async () => {
 
         const shareRes = await share({
-            url: "https://fitevo.page.link/enterInvitationCode",
-            title: "Refer your friend", message: "Refer your friend",
+            url: `https://test-dragon-dev.onelink.me/xNJK/?screen=enterInvitationCode&deep_link_value=${referralInfo.referral}`,
+            title: "Invite your friend", message: "Invite your friend",
         })
 
         if (shareRes !== false) {
@@ -155,8 +159,6 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                 screen: RouteStacks.homeInviteState
             })
         }
-
-        await awsLogout()
 
     }
 

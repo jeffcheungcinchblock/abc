@@ -21,6 +21,9 @@ import { RouteStacks } from './Navigators/routes'
 import { startLoading } from './Store/UI/actions'
 import { storeReferralCode } from './Store/Referral/actions'
 
+// TBD: remove later
+console.warn = () => {}
+
 const onInstallConversionDataCanceller = appsFlyer.onInstallConversionData(
   (res) => {
     const isFirstLaunch = res?.data?.is_first_launch;
@@ -61,7 +64,11 @@ const onDeepLinkCanceller = appsFlyer.onDeepLink(res => {
     const DLValue = res?.data.deep_link_value;
     const mediaSrc = res?.data.media_source;
     const param1 = res?.data.af_sub1;
-    console.log(JSON.stringify(res?.data, null, 2));
+    const screen = res?.data.screen
+    if(screen !== undefined){
+      Linking.openURL(`${config.urlScheme}${screen}`)
+    }
+
     if (DLValue) {
       store.dispatch(storeReferralCode(DLValue));
     }
@@ -96,10 +103,10 @@ const getUser = () => {
     .catch(() => console.log('Not signed in'));
 }
 
-
+// https://www.facebook.com/log.out
 
 const urlOpener = async (url: string, redirectUrl: string) => {
-  // console.log('redirectUrl ', redirectUrl)
+  console.log('redirectUrl ', redirectUrl, url)
   try {
     if (redirectUrl === `${config.urlScheme}${RouteStacks.signIn}` && await InAppBrowser.isAvailable()) {
       const authRes: any = await InAppBrowser.openAuth(url, redirectUrl, {
@@ -131,6 +138,7 @@ Amplify.configure({
     urlOpener,
   },
 });
+
 
 const App = () => {
   

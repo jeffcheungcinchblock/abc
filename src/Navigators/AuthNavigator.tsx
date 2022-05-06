@@ -8,11 +8,17 @@ import EnterInvitaionCodeScreen from "@/Screens/Auth/EnterInvitaionCodeScreen"
 import { StackScreenProps } from "@react-navigation/stack"
 import ForgotPasswordScreen from "@/Screens/Auth/ForgotPasswordScreen"
 
+type ValidationCodeParam = {
+  username: string, 
+  action: 'forgotPassword' | 'signUp', 
+  code?: string
+}
+
 export type AuthNavigatorParamList = {
   [RouteStacks.welcome]: undefined
   [RouteStacks.signUp]: { code?: string } | undefined
   [RouteStacks.signIn]: { username: string } | undefined
-  [RouteStacks.validationCode]: { username: string, action: 'forgotPassword' | 'signUp', code?: string } | undefined
+  [RouteStacks.validationCode]: ValidationCodeParam | undefined
   [RouteStacks.enterInvitationCode]: undefined
   [RouteStacks.forgotPassword]: undefined
   // 🔥 Your screens go here

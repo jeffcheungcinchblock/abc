@@ -40,11 +40,12 @@ const ApplicationNavigator = () => {
       console.log('retrieveLoggedInUser')
       try {
         let user = await Auth.currentAuthenticatedUser()
+        console.log('user ', user)
         if (user === null) {
           console.log("no active session found")
           return
         }
-
+        
         let { attributes, username } = user
 
         dispatch(login({
@@ -61,16 +62,16 @@ const ApplicationNavigator = () => {
 
   }, [])
 
-  let navProps : any = isLoggedIn ? {
+  let navProps : {
+    ref: NavigationContainerRefWithCurrent<any>,
+    linking: LinkingOptions<any>
+  } = isLoggedIn ? {
     ref: privateNavigationRef,
     linking: privateLinking
   } : {
     ref: publicNavigationRef,
     linking: publicLinking
   }
-
-  console.log('navProps ', navProps)
-  console.log('isLoggedIn', isLoggedIn)
 
   return (
     <SafeAreaView style={[Layout.fill, { backgroundColor: colors.card }]}>

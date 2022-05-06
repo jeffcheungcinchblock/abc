@@ -2,6 +2,7 @@ import { RootState, store } from "@/Store";
 import { showSnackbar } from "@/Store/UI/actions";
 import { logout } from "@/Store/Users/actions";
 import { Auth } from "aws-amplify";
+import InAppBrowser from "react-native-inappbrowser-reborn";
 import { useSelector } from "react-redux";
 export const validateEmail = (email : string) => {
     return String(email)
@@ -37,10 +38,11 @@ export const triggerSnackbar = (textMsg: string, autoHidingTime = 1500) => {
 
 export const awsLogout = async() => {
     try{
-        await Auth.signOut({ global: true })
+        await Auth.signOut()
     }catch(err){    
         console.log('Error ', err)
     }finally{
         store.dispatch(logout())
+        await InAppBrowser.closeAuth()
     }
 }

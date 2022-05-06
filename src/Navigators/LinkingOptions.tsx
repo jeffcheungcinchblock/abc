@@ -35,15 +35,14 @@ const subscribe = (listener: (deeplink: string) => void) => {
     const onReceiveURL = ({ url }: { url: string }) => {
         let urlSplit = url.split("/")
         console.log('urlSplit', urlSplit)
-
         return listener(url)
     };
     // Listen to incoming links from deep linking
     let onReceiveURLEvent = Linking.addEventListener('url', onReceiveURL);
 
     const handleDynamicLink = (link: FirebaseDynamicLinksTypes.DynamicLink) => {
-        console.log("$$ url ", link)
-        Linking.openURL(`${config.urlScheme}signIn`)
+        console.log("Dynamic url ", link)
+        // Linking.openURL(`${config.urlScheme}signIn`)
         // Linking.openURL(link)
     }
     const unsubscribeToDynamicLinks = dynamicLinks().onLink(handleDynamicLink);

@@ -147,8 +147,6 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
     }
 
     const onLoginOptionPress = async (loginOpt: string) => {
-        // await InAppBrowser.close()
-        // await InAppBrowser.closeAuth()
         dispatch(startLoading(true))
         try {
             if (loginOpt === 'normal') {

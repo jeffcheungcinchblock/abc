@@ -9,6 +9,8 @@ buildscript {
         androidXAnnotation = "1.2.0"
         androidXBrowser = "1.3.0"
         androidXCore = "1.7.0" // <-- Add this. Check versions here: https://developer.android.com/jetpack/androidx/releases/core
+
+      
     }
     repositories {
         google()

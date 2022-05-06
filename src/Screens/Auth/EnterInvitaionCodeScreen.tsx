@@ -90,10 +90,7 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
 
     const { invitationCode } = useSelector((state: RootState) => state.user)
 
-    console.log('===== invitationCode', invitationCode)
-
     const referralCode = useSelector((state: RootState) => state.referral.referralCode)
-    console.log("REFERRAL CODE", referralCode)
 
     useEffect(() => {
         if(referralCode !== ""){
