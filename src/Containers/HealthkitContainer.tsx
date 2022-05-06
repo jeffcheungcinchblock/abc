@@ -40,20 +40,25 @@ const HealthkitContainer = ({ navigation }) => {
 
 	useEffect(() => {
 		// setCurrentState('initialing')
-		health_kit.GetAuthorizeStatus().then((isAuthorize) => {
-			if (!isAuthorize) {
-				health_kit
-					.InitHealthKitPermission()
-					.then(val => {
-						console.log('inti health kit', val)
-					})
-					.catch(err => {
-						console.error(err)
-					})
-			} else {
-				setIstHealthKitReady(true)
-			}
-		})}, [])
+		const startInit = async () => {
+			health_kit.GetAuthorizeStatus().then((isAuthorize) => {
+				if (!isAuthorize) {
+					health_kit
+						.InitHealthKitPermission()
+						.then(val => {
+							console.log('inti health kit', val)
+						})
+						.catch(err => {
+							console.error(err)
+						})
+				} else {
+					setIstHealthKitReady(true)
+				}
+			})
+		}
+		startInit()
+
+	}, [])
 
 	useEffect(() => {
 		const onLocation: Subscription = BackgroundGeolocation.onLocation((location) => {
@@ -100,6 +105,9 @@ const HealthkitContainer = ({ navigation }) => {
 				stopOnTerminate: false,
 			}).then(()=>{
 				if (currentState !== ActivityType.MOVING){
+					health_kit.GetAuthorizeStatus().then((isAuthorize) => {
+						console.log('isAuth', isAuthorize)
+					})
 					dispatch({ type:'ready' })
 					console.log('dispatch ready', ActivityType[currentState])
 				}
@@ -193,6 +201,7 @@ const HealthkitContainer = ({ navigation }) => {
 				setIstHealthKitReady(true)
 				await BackgroundGeolocation.start()
 				await BackgroundGeolocation.changePace(true)
+
 			}
 
 		}
@@ -200,6 +209,7 @@ const HealthkitContainer = ({ navigation }) => {
 			console.log('button enable')
 			BackgroundGeolocation.setOdometer(0)
 			start()
+
 		} else {
 			BackgroundGeolocation.stop().then((res)=>{
 				console.log('button disable', res)

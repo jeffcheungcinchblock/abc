@@ -47,8 +47,6 @@
 	<string>Share workout data with other apps.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Share Location When In Use</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Background tracking required</string>
 	<key>NSLocationUsageDescription</key>
 	<string>Share Location When In Use</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
@@ -62,6 +60,7 @@
 		<string>location</string>
 		<string>processing</string>
 		<string>remote-notification</string>
+		<string>voip</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

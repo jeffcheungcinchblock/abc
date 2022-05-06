@@ -44,6 +44,13 @@ export class IOSHealthKit extends GeneralHealthKit {
 	}
 
 	GetSteps(startDate: Date, endDate: Date) {
+		AppleHealthKit.initHealthKit(permissions, (error: string) => {
+			/* Called after we receive a response from the system */
+			if (error) {
+				console.log('[ERROR] Cannot grant permissions!')
+			}
+		})
+
 		console.log(startDate, endDate)
 		const options = {
 			startDate: startDate.toISOString(),
@@ -111,7 +118,6 @@ export class IOSHealthKit extends GeneralHealthKit {
 		})
 	}
 	GetHeartRates(startDate: Date, endDate: Date) {
-
 		let options = {
 			startDate: startDate.toISOString(), // required
 			endDate: endDate.toISOString(),

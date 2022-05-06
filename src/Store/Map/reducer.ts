@@ -82,7 +82,6 @@ export default createReducer<State>(initialState, (builder) => {
 				const newPaths = JSON.parse(JSON.stringify(state.paths))
 				if (!newPaths[newPaths.length - 1].coordinates || newPaths[newPaths.length - 1].coordinates.length === 0){
 					console.log(1)
-
 					newPaths[newPaths.length - 1].coordinates = [ { latitude: action.payload.latitude, longitude: action.payload.longitude } ]
 					console.log(2)
 
