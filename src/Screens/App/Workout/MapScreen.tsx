@@ -28,7 +28,7 @@ type LatLng ={
 	longitude: Number,
   }
 
-const GeoLocationContainer = ({ navigation, route }) => {
+const MapScreen = ({ navigation, route }) => {
 
 	const [ region, setRegion ] = useState({
 		latitude: 22.371,
@@ -103,4 +103,4 @@ const GeoLocationContainer = ({ navigation, route }) => {
 	)
 }
 
-export default GeoLocationContainer
+export default MapScreen

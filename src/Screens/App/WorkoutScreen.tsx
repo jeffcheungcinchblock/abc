@@ -22,15 +22,15 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { config } from '@/Utils/constants'
 import { TabNavigatorParamList } from '@/Navigators/MainNavigator'
 import { RouteTabs, RouteStacks } from '@/Navigators/routes'
-import { MainScreen } from './Marketplace'
+import { MainScreen } from './Workout'
 
 const Stack = createStackNavigator()
 
-export type MarketplaceNavigatorParamList = {
-    [RouteStacks.marketplaceMain]: undefined
+export type WorkoutNavigatorParamList = {
+    [RouteStacks.workout]: undefined
 }
 
-const MarketplaceScreen: FC<StackScreenProps<TabNavigatorParamList, RouteTabs.marketplace>> = (
+const MarketplaceScreen: FC<StackScreenProps<TabNavigatorParamList, RouteTabs.workout>> = (
 	{ navigation, route }
 ) => {
 	const { t } = useTranslation()
@@ -39,7 +39,7 @@ const MarketplaceScreen: FC<StackScreenProps<TabNavigatorParamList, RouteTabs.ma
 
 	return (
 		<Stack.Navigator screenOptions={{ headerShown: false }}>
-			<Stack.Screen name={RouteStacks.marketplaceMain} component={MainScreen} />
+			<Stack.Screen name={RouteStacks.workout} component={MainScreen} />
 		</Stack.Navigator>
 	)
 

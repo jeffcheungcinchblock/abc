@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { HomeScreen, BreedingScreen, MarketplaceScreen, SocialScreen, SettingScreen } from '@/Screens/App'
+import { HomeScreen, BreedingScreen, MarketplaceScreen, SocialScreen, SettingScreen, WorkoutScreen } from '@/Screens/App'
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import Entypo from 'react-native-vector-icons/Entypo'
@@ -23,6 +23,7 @@ import { Auth } from 'aws-amplify'
 import { useDispatch } from 'react-redux'
 import { logout } from '@/Store/Users/actions'
 import { awsLogout } from '@/Utils/helpers'
+import { WorkoutNavigatorParamList } from '@/Screens/App/WorkoutScreen'
 
 const { width, height } = Dimensions.get('screen')
 
@@ -31,12 +32,15 @@ export type TabNavigatorParamList = {
   [RouteTabs.breeding]: NavigatorScreenParams<BreedingNavigatorParamList>
   [RouteTabs.marketplace]: NavigatorScreenParams<MarketplaceNavigatorParamList>
   [RouteTabs.social]: NavigatorScreenParams<SocialNavigatorParamList>
+  [RouteTabs.workout]: NavigatorScreenParams<WorkoutNavigatorParamList>
   // 🔥 Your screens go here
 }
 
 export type DrawerNavigatorParamList = {
   [RouteStacks.setting]: undefined
   [RouteStacks.mainTab]: NavigatorScreenParams<TabNavigatorParamList>
+  [RouteTabs.workout]: NavigatorScreenParams<WorkoutNavigatorParamList>
+
 }
 
 const Tab = createBottomTabNavigator()
@@ -119,7 +123,18 @@ const MainTabNavigator: FC<MainTabNavigatorProps> = () => {
 				},
 			}}
 		/>
-
+		<Tab.Screen
+			name={RouteTabs.workout}
+			component={MarketplaceScreen}
+			options={{
+				tabBarLabelPosition: 'below-icon',
+				tabBarIcon: ({ focused, color, size }) => {
+					return <TabWrapperView focused={focused}>
+						<Entypo name="shop" size={20} color={focused ? colors.brightTurquoise : colors.white} />
+					</TabWrapperView>
+				},
+			}}
+		/>
 
 	</Tab.Navigator>
 }
@@ -129,7 +144,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
 
 	return (
 		<DrawerContentScrollView {...props}>
-			{/* <DrawerItemList {...props} /> */}
+			<DrawerItemList {...props} />
 			<DrawerItem
 				label="Sign Out"
 				style={{ bottom: 0 }}
@@ -147,9 +162,9 @@ const MainNavigator = () => {
 			drawerContent={(props) => <CustomDrawerContent {...props} />}
 			initialRouteName={RouteStacks.mainTab}>
 
-			{/* <Drawer.Screen name={RouteStacks.setting} component={SettingScreen} /> */}
+			<Drawer.Screen name={RouteStacks.setting} component={SettingScreen} />
 			<Drawer.Screen name={RouteStacks.mainTab} component={MainTabNavigator} />
-
+			<Drawer.Screen name={RouteStacks.workout} component={WorkoutScreen} />
 		</Drawer.Navigator>
 
 	)

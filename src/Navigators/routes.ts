@@ -1,38 +1,41 @@
 
 export enum RouteTabs {
-    breeding = "breeding",
-    home = "home",
-    social = "social",
-    marketplace = "marketplace",
+    breeding = 'breeding',
+    home = 'home',
+    social = 'social',
+    marketplace = 'marketplace',
+    workout = 'workout',
 }
 
 // Adding new screens need to add corresponding background image in Components/ScreenBackgrounds/index.tsx
 export enum RouteStacks {
 
     // auth screens
-    signIn = "signIn",
-    signUp = "signUp",
-    validationCode = "validationCode",
-    welcome = "welcome",
-    enterInvitationCode = "enterInvitationCode",
-    forgotPassword = "forgotPassword",
-    
+    signIn = 'signIn',
+    signUp = 'signUp',
+    validationCode = 'validationCode',
+    welcome = 'welcome',
+    enterInvitationCode = 'enterInvitationCode',
+    forgotPassword = 'forgotPassword',
+    workoutMap = 'workoutMap',
+    workout = 'workout',
+
     // logged in app screens
-    homeMain = "homeMain",
-    homeReferral = "homeReferral",
-    homeInviteState = "homeInviteState",
+    homeMain = 'homeMain',
+    homeReferral = 'homeReferral',
+    homeInviteState = 'homeInviteState',
 
-    breedingMain = "breedingMain",
+    breedingMain = 'breedingMain',
 
-    socialMain = "socialMain",
+    socialMain = 'socialMain',
 
-    marketplaceMain = "marketplaceMain",
+    marketplaceMain = 'marketplaceMain',
 
 
 
     // drawer screens
-    setting = "setting",
-    mainTab = "mainTab"
+    setting = 'setting',
+    mainTab = 'mainTab'
 
 }
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, FC } from 'react'
 import {
 	Text,
 	TouchableOpacity,
@@ -6,7 +6,10 @@ import {
 	Platform,
 } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-
+import { StackScreenProps } from '@react-navigation/stack'
+import { CompositeScreenProps } from '@react-navigation/native'
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
+import { DrawerScreenProps } from '@react-navigation/drawer'
 import { useTheme } from '@/Hooks'
 import { IOSHealthKit } from '../../../Healthkit/iosHealthKit'
 import { GoogleFitKit } from '../../../Healthkit/androidHealthKit'
@@ -14,11 +17,21 @@ import BackgroundGeolocation, {
 	Subscription,
 } from 'react-native-background-geolocation'
 import { ActivityType } from '@/Store/Map/reducer'
+import { RouteStacks } from '@/Navigators/routes'
+import { WorkoutNavigatorParamList } from '@/Screens/App/WorkoutScreen'
+import { DrawerNavigatorParamList, TabNavigatorParamList } from '@/Navigators/MainNavigator'
 
+type WorkoutScreenScreenNavigationProp = CompositeScreenProps<
+    StackScreenProps<WorkoutNavigatorParamList, RouteStacks.workout>,
+    CompositeScreenProps<
+        BottomTabScreenProps<TabNavigatorParamList>,
+        DrawerScreenProps<DrawerNavigatorParamList>
+    >
+>
 const isIOS = Platform.OS === 'ios'
 const health_kit = isIOS ? new IOSHealthKit() : new GoogleFitKit()
 
-const HealthkitContainer = ({ navigation }) => {
+const WorkoutScreen: FC<WorkoutScreenScreenNavigationProp> = ({ navigation }) => {
 	const dispatch = useDispatch()
 	const { Common, Fonts, Gutters, Layout } = useTheme()
 	const [ log, setLog ] = useState('')
@@ -148,7 +161,7 @@ const HealthkitContainer = ({ navigation }) => {
 
 	const ShowMap = () => {
 		console.log('show map')
-		navigation.navigate('MapScreen', { data: paths, startTime: startTime })
+		navigation.navigate(RouteStacks.workoutMap, { data: paths, startTime: startTime })
 	}
 
 	const UpdateHealthData = () => {
@@ -288,4 +301,4 @@ const HealthkitContainer = ({ navigation }) => {
 	)
 }
 
-export default HealthkitContainer
+export default WorkoutScreen
