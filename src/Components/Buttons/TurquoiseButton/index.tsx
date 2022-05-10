@@ -19,7 +19,6 @@ const DEFAULT_TEXT_STYLE = {
     fontSize: 16,
     color: colors.black,
     marginLeft: 10,
-    fontFamily: "Poppins"
 }
 
 const BUTTON_STYLE: ViewStyle = {

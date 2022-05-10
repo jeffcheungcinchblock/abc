@@ -98,13 +98,16 @@ const ApplicationNavigator = () => {
         >
           <StatusBar 
           barStyle={darkMode ? 'light-content' : 'dark-content'} />
-          {
-            isScreenLoading && <LoadingScreen />
-          }
-
-          {
-            isLoggedIn ? <MainNavigator /> : <AuthNavigator />
-          }
+          <Stack.Navigator>
+            <Stack.Screen name="Startup" component={StartupContainer}></Stack.Screen>
+            <Stack.Screen name="Application" component={
+              isScreenLoading ? (
+                LoadingScreen
+              ) : (
+                isLoggedIn ? MainNavigator : AuthNavigator
+              )}
+            ></Stack.Screen>
+          </Stack.Navigator>
         </NavigationContainer>
       </GestureHandlerRootView>
     </SafeAreaView>
