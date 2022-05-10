@@ -13,7 +13,7 @@
       android:allowBackup="false"
       android:theme="@style/BootTheme"
     >
-      <activity
+      <!-- <activity
         android:name=".SplashActivity"
         android:theme="@style/BootTheme"
         android:label="@string/app_name"
@@ -23,7 +23,7 @@
           <action android:name="android.intent.action.MAIN" />
           <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
-      </activity>
+      </activity> -->
 
       <activity
           android:name=".MainActivity"
@@ -34,6 +34,7 @@
           android:exported="true"> <!-- Add android:exported="true" -->
         <intent-filter>
           <action android:name="android.intent.action.MAIN" />
+          <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
         <intent-filter>
           <action android:name="android.intent.action.VIEW"/>
