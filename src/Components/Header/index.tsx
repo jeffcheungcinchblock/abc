@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Spacing } from "@/Theme/Variables"
 import backBtn from '@/Assets/Images/buttons/back.png'
 import AppIcon from "../Icons/AppIcon"
+import { useTheme } from "@/Hooks"
 
 // static styles
 const ROOT: ViewStyle = {
@@ -50,13 +51,14 @@ const Header = (props: {
     titleStyle,
   } = props
 
+  const { Common, Fonts, Gutters, Layout } = useTheme()
   const { t: translate } = useTranslation()
   const header = headerText || (headerTx && translate(headerTx)) || ""
 
   return (
     <View style={[ROOT, HEADER, style]}>
       {onLeftPress ? (
-        <View style={{flex: 1, justifyContent: "center"}}>
+        <View style={{ flex: 1, justifyContent: "center" }}>
           <Pressable style={{ position: "absolute", zIndex: 1 }} onPress={onLeftPress}>
             {leftIcon ? leftIcon() : <Image source={backBtn} style={{ width: 16, resizeMode: "contain" }} />}
           </Pressable>
@@ -66,7 +68,7 @@ const Header = (props: {
       )}
       {
         header ? <View style={TITLE_MIDDLE}>
-          <Text style={[TITLE, titleStyle]}>{header}</Text>
+          <Text style={[TITLE, titleStyle, Fonts.textSmall]}>{header}</Text>
         </View> : <View style={{ flex: 5 }}>
           <AppIcon />
         </View>

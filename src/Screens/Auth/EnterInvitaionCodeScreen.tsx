@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, FC } from 'react'
+import React, { useState, useEffect, useCallback, FC, useRef } from 'react'
 import { StackScreenProps } from "@react-navigation/stack"
 import {
     View,
@@ -45,6 +45,7 @@ import TurquoiseButton from '@/Components/Buttons/TurquoiseButton'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import axios from 'axios'
 import { triggerSnackbar } from '@/Utils/helpers'
+import ModalBox from 'react-native-modalbox';
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
@@ -85,7 +86,7 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
 
     const [isLoggingIn, setIsLoggingIn] = useState(false)
     const [errMsg, setErrMsg] = useState(" ")
-
+    const modalRef = useRef()
     const [code, setCode] = useState("")
 
     const { invitationCode } = useSelector((state: RootState) => state.user)
@@ -93,24 +94,24 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
     const referralCode = useSelector((state: RootState) => state.referral.referralCode)
 
     useEffect(() => {
-        if(referralCode !== ""){
+        if (referralCode !== "") {
             setCode(referralCode)
-        }else if(invitationCode !== ""){
+        } else if (invitationCode !== "") {
             setCode(invitationCode)
         }
     }, [invitationCode, referralCode])
 
     const goBack = () => {
-        navigation.navigate(RouteStacks.welcome)
+        navigation.goBack()
     }
 
-    const onConfirmPress = async () => {
+    const onStartPress = async () => {
         try {
             dispatch(storeInvitationCode({
                 invitationCode: code
             }))
-            triggerSnackbar("Invitation code stored successfully!")
-            navigation.navigate(RouteStacks.signIn)
+            triggerSnackbar("Activiation Code Submitted")
+            navigation.navigate(RouteStacks.signUpWithCode)
         } catch (err) {
             setErrMsg(t("error.invalidInvitationCode"))
         }
@@ -120,11 +121,9 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
         setCode(text)
     }
 
-    const onSignUpPress = async () => {
+    const onGetActivationCodePress = () => {
         
-        navigation.navigate(RouteStacks.signUp)
     }
-
 
     return (
         <ScreenBackgrounds
@@ -136,40 +135,29 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
                 contentContainerStyle={[
                     Layout.fill,
                     Layout.colCenter,
-
+                    {
+                        justifyContent: "flex-start"
+                    }
                 ]}
             >
 
                 <Header
-                    headerText=" "
+                    headerText={t("activationCode")}
                     onLeftPress={goBack}
                 />
 
 
-                <AppLogo style={{
-                    // height: "30%"
-                    flex: 2
-                }} />
-
                 <View style={[{
-                    flexGrow: 4,
+                    height: "50%",
                     justifyContent: "center",
-                }, Layout.fullWidth, Layout.fill]}>
+                }, Layout.fullWidth]}>
 
+                    <AppIcon />
 
-                    <View style={[Layout.fullWidth, { justifyContent: "center", flexBasis: 80 }]}>
-                        <Text style={[{ color: colors.white, fontFamily: "AvenirNext-Bold" }, Fonts.textRegular, Fonts.textCenter]}>
-                            {t("enterInvitationCode")}
+                    <View style={[Layout.fullWidth, { justifyContent: "center", paddingVertical: 40, paddingHorizontal: 20 }]}>
+                        <Text style={[{ color: colors.white }, Fonts.textSmall, Fonts.textCenter]}>
+                            {t("enterInvitationCodeDesc")}
                         </Text>
-                    </View>
-
-                    <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT, { flexBasis: 80 }]}>
-                        <WhiteInput
-                            onChangeText={onCodeChange}
-                            value={code}
-                            placeholder={t("invitationCodeAllCapital")}
-                            placeholderTextColor={colors.spanishGray}
-                        />
                     </View>
 
                     <View style={[Layout.fullWidth, Layout.colCenter, { flexBasis: 20 }]}>
@@ -180,14 +168,57 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
 
                 </View>
 
-                <View style={[Layout.fullWidth, Layout.center, { flex: 1, justifyContent: "flex-start" }]}>
-                    <TurquoiseButton
-                        onPress={() => onConfirmPress()}
-                        text={t("confirm")}
-                        containerStyle={Layout.fullWidth}
-                        isLoading={isLoggingIn}
-                    />
-                </View>
+                <ModalBox
+                    ref={modalRef}
+                    backdropPressToClose={false}
+                    swipeToClose={false}
+                    position="bottom"
+                    entry="bottom"
+                    backdrop={false}
+                    backButtonClose={false}
+                    // coverScreen={true}
+                    isOpen={true}
+                    keyboardTopOffset={41}
+                    animationDuration={500}
+                    style={{
+                        height: '50%',
+                        backgroundColor: colors.charcoal,
+                        borderTopLeftRadius: 40,
+                        borderTopRightRadius: 40,
+                    }}
+                >
+                    <View style={[Layout.fullWidth, Gutters.largeVPadding, Layout.center]}>
+                        <View style={{ backgroundColor: colors.spanishGray, borderRadius: 20, width: "10%", height: 4 }} />
+                    </View>
+
+                    <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT, { flexBasis: 80 }]}>
+                        <TextInput
+                            onChangeText={onCodeChange}
+                            value={code}
+                            placeholder={t("activationCode")}
+                            placeholderTextColor={colors.spanishGray}
+                            style={{
+                                borderBottomWidth: 1,
+                                borderColor: colors.silverSand,
+                            }}
+                        />
+                    </View>
+
+                    <View style={[Layout.fullWidth, Layout.center, Gutters.largeVPadding, { flex: 1, justifyContent: "space-between" }]}>
+                        <TurquoiseButton
+                            onPress={onStartPress}
+                            text={t("start")}
+                            isLoading={isLoggingIn}
+                            isTransparentBackground
+                            containerStyle={{
+                                width: "50%",
+                            }}
+                        />
+                        <Pressable onPress={onGetActivationCodePress}>
+                            <Text style={{textDecorationLine: "underline", color: colors.white}}>{t("getActivationCode")}</Text>
+                        </Pressable>
+                    </View>
+                </ModalBox>
 
 
             </KeyboardAwareScrollView>

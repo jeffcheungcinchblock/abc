@@ -38,6 +38,9 @@ import { startLoading } from '@/Store/UI/actions'
 import { Auth } from 'aws-amplify'
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth'
 
+import googleIcon from '@/Assets/icons/google.png'
+import appleIcon from '@/Assets/icons/apple.png'
+import facebookIcon from '@/Assets/icons/facebook.png'
 
 const BUTTON_VIEW = {
     marginVertical: 20
@@ -65,7 +68,7 @@ const images = [{
     // }
 }]
 
-const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.welcome>> = (
+const SignUpWithCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.signUpWithCode>> = (
     { navigation, route }
 ) => {
     const { t } = useTranslation()
@@ -115,8 +118,7 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
     }
 
     const onSignInPress = () => {
-        // navigation.navigate(RouteStacks.signIn)
-        navigation.navigate(RouteStacks.signUpWithCode)
+        navigation.navigate(RouteStacks.signIn)
     }
 
     const onLoginOptionPress = async (loginOpt: string) => {
@@ -213,25 +215,15 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
                             Gutters.smallVMargin,
                             Layout.center
                         ]}>
-                            <TurquoiseButton
-                                text={t("signUp")}
-                                onPress={onSignUpPress}
-                                isTransparentBackground
-                                containerStyle={{ width: "50%" }}
-                            />
+                            <Pressable
+                                onPress={() => onLoginOptionPress("google")}
+                                style={{ width: "80%", backgroundColor: colors.cornflowerBlue, borderRadius: 20 }}
+                            >
+                                <Text style={{color: colors.white}}>{t("continueWithGoogleAllCapital")}</Text>
+                            </Pressable>
                         </View>
 
-                        <View style={[
-                            Layout.fullWidth,
-                            Gutters.smallVMargin,
-                            Layout.center,
-                        ]}>
-                            <TurquoiseButton
-                                text={t("invitationCode")}
-                                containerStyle={{ width: "50%" }}
-                                onPress={() => navigation.navigate(RouteStacks.enterInvitationCode)}
-                            />
-                        </View>
+                  
 
 
                     </View>
@@ -307,4 +299,4 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
     )
 }
 
-export default WelcomeScreen
+export default SignUpWithCodeScreen

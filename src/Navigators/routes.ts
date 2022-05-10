@@ -17,6 +17,7 @@ export enum RouteStacks {
     welcomeGallery = "welcomeGallery",
     enterInvitationCode = "enterInvitationCode",
     forgotPassword = "forgotPassword",
+    signUpWithCode = "signUpWithCode",
     
     // logged in app screens
     homeMain = "homeMain",

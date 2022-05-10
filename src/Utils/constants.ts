@@ -15,10 +15,14 @@ export const colors = {
     white: "#FFFFFF",
     black: "#000000",
     platinum: "#E5E5E5",
-    spanishGray: "#939393",
+    spanishGray: "#969696",
     violetsAreBlue: "#9472FF",
     brightTurquoise: "#00F2DE",
     orangeCrayola: "#FF7529",
+    charcoal: "#343950",
+    silverSand: "#C5C5C5",
+    cornflowerBlue: "#6398F0",
+    glaucous: "#5C7CBA",
     
     
 }

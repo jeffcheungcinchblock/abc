@@ -15,11 +15,12 @@ type SocialSignInButtonProps = {
     iconName: 'google' | 'apple' | 'facebook'
 }
 
+let size = 30
 
 const BUTTON_STYLE: ViewStyle = {
     backgroundColor: colors.brightTurquoise,
-    height: 40,
-    width: 40,
+    height: 30,
+    width: 30,
     borderRadius: 99,
     justifyContent: "center"
 }
@@ -53,7 +54,7 @@ const SocialSignInButton = ({
                     isLoading ? <ActivityIndicator
                         size="small" color={"#fff"}
                     /> : <View style={[Layout.rowCenter]}>
-                        <Image source={iconNameMap[iconName]} style={{width: 40, height: 40}} />
+                        <Image source={iconNameMap[iconName]} style={{width: 30, height: 30}} />
                     </View>
                 }
             </Pressable>
