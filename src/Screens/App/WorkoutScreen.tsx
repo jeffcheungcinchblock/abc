@@ -28,9 +28,11 @@ const Stack = createStackNavigator()
 
 export type WorkoutNavigatorParamList = {
     [RouteStacks.workout]: undefined
+	[RouteStacks.endWorkout]: undefined
+	// param?: string
 }
 
-const MarketplaceScreen: FC<StackScreenProps<TabNavigatorParamList, RouteTabs.workout>> = (
+const WorkoutScreen: FC<StackScreenProps<TabNavigatorParamList, RouteTabs.workout>> = (
 	{ navigation, route }
 ) => {
 	const { t } = useTranslation()
@@ -45,4 +47,4 @@ const MarketplaceScreen: FC<StackScreenProps<TabNavigatorParamList, RouteTabs.wo
 
 }
 
-export default MarketplaceScreen
+export default WorkoutScreen

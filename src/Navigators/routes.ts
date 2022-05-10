@@ -4,6 +4,7 @@ export enum RouteTabs {
     home = 'home',
     social = 'social',
     marketplace = 'marketplace',
+    workoutMap = 'workoutMap',
     workout = 'workout',
 }
 
@@ -17,8 +18,7 @@ export enum RouteStacks {
     welcome = 'welcome',
     enterInvitationCode = 'enterInvitationCode',
     forgotPassword = 'forgotPassword',
-    workoutMap = 'workoutMap',
-    workout = 'workout',
+
 
     // logged in app screens
     homeMain = 'homeMain',
@@ -31,11 +31,14 @@ export enum RouteStacks {
 
     marketplaceMain = 'marketplaceMain',
 
-
-
     // drawer screens
     setting = 'setting',
-    mainTab = 'mainTab'
+    mainTab = 'mainTab',
+
+    //start workout
+    startWorkout = 'startWorkout',
+    workout = 'workout',
+    endWorkout = 'endWorkout',
 
 }
 

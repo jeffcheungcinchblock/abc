@@ -7,11 +7,11 @@ module.exports = {
 	plugins: [ 'jest' ],
 	rules: {
 		'semi': [ 'error', 'never' ],
-		'indent': [ 'error', 'tab' ],
+		'indent': [ 'error', '4' ],
 		'object-curly-spacing': [ 'error', 'always' ],
 		'array-bracket-spacing': [ 'error', 'always' ],
 		'react/require-default-props': [ 'error' ],
-    "react-hooks/exhaustive-deps": 'warn', // <--- THIS IS THE NEW RULE
+    	'react-hooks/exhaustive-deps': 'warn', // <--- THIS IS THE NEW RULE
 		'react/default-props-match-prop-types': [ 'error' ],
 		'react/sort-prop-types': [ 'error' ],
 		'comma-spacing' : [ 'error', { before: false, after: true } ],

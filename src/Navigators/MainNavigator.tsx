@@ -24,7 +24,7 @@ import { useDispatch } from 'react-redux'
 import { logout } from '@/Store/Users/actions'
 import { awsLogout } from '@/Utils/helpers'
 import { WorkoutNavigatorParamList } from '@/Screens/App/WorkoutScreen'
-
+import WorkoutNavigator from '@/Navigators/WorkoutNavigator'
 const { width, height } = Dimensions.get('screen')
 
 export type TabNavigatorParamList = {
@@ -39,7 +39,6 @@ export type TabNavigatorParamList = {
 export type DrawerNavigatorParamList = {
   [RouteStacks.setting]: undefined
   [RouteStacks.mainTab]: NavigatorScreenParams<TabNavigatorParamList>
-  [RouteTabs.workout]: NavigatorScreenParams<WorkoutNavigatorParamList>
 
 }
 
@@ -153,6 +152,19 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
 		</DrawerContentScrollView>
 	)
 }
+
+// const WorkoutNavigator = () => {
+// 	return(
+// 		<Stack.Navigator 
+// 			screenOptions={{
+// 				headerShown: false,
+// 			}}
+// 			initialRouteName={RouteStacks.startWorkout}>
+// 			<Stack.Screen name={RouteStacks.startWorkout} component={Workout} />
+// 		</Stack.Navigator>
+// 	)
+
+// }
 const MainNavigator = () => {
 
 	const { t } = useTranslation()
@@ -161,10 +173,10 @@ const MainNavigator = () => {
 		<Drawer.Navigator screenOptions={{ headerShown: false }}
 			drawerContent={(props) => <CustomDrawerContent {...props} />}
 			initialRouteName={RouteStacks.mainTab}>
-
 			<Drawer.Screen name={RouteStacks.setting} component={SettingScreen} />
 			<Drawer.Screen name={RouteStacks.mainTab} component={MainTabNavigator} />
-			<Drawer.Screen name={RouteStacks.workout} component={WorkoutScreen} />
+			<Drawer.Screen name={RouteStacks.workout} component={WorkoutNavigator} />
+			
 		</Drawer.Navigator>
 
 	)

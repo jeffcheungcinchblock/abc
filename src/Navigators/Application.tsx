@@ -24,6 +24,7 @@ import { startLoading } from '@/Store/UI/actions'
 import SnackBar from 'react-native-snackbar-component'
 import { RootState } from '@/Store'
 import SnackbarMsgContainer from '@/Components/SnackbarMsgContainer'
+import WorkoutNavigator from './WorkoutNavigator'
 
 const Stack = createStackNavigator()
 
@@ -101,6 +102,7 @@ const ApplicationNavigator = () => {
 
 					{
 						isLoggedIn ? <MainNavigator /> : <AuthNavigator />
+						// isLoggedIn ? <WorkoutNavigator /> : <WorkoutNavigator/>
 					}
 				</NavigationContainer>
 			</GestureHandlerRootView>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect ,FC} from 'react'
 import {
 	View,
 	Text,
@@ -8,6 +8,13 @@ import { useTheme } from '@/Hooks'
 import {  useSelector } from 'react-redux'
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps' // remove PROVIDER_GOOGLE import if not using Google Maps
 import { enableLatestRenderer, Polyline } from 'react-native-maps'
+import { StackScreenProps } from '@react-navigation/stack'
+import { CompositeScreenProps } from '@react-navigation/native'
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
+import { DrawerScreenProps } from '@react-navigation/drawer'
+import { WorkoutNavigatorParamList } from '@/Screens/App/WorkoutScreen'
+import { DrawerNavigatorParamList, TabNavigatorParamList } from '@/Navigators/MainNavigator'
+import { RouteStacks } from '@/Navigators/routes'
 
 enableLatestRenderer()
 
@@ -28,7 +35,14 @@ type LatLng ={
 	longitude: Number,
   }
 
-const MapScreen = ({ navigation, route }) => {
+  type WorkoutMapScreenScreenNavigationProp = CompositeScreenProps<
+    StackScreenProps<WorkoutNavigatorParamList, RouteStacks.workout>,
+    CompositeScreenProps<
+        BottomTabScreenProps<TabNavigatorParamList>,
+        DrawerScreenProps<DrawerNavigatorParamList>
+    >>
+
+const MapScreen: FC<WorkoutMapScreenScreenNavigationProp>  = ({ navigation, route }) => {
 
 	const [ region, setRegion ] = useState({
 		latitude: 22.371,

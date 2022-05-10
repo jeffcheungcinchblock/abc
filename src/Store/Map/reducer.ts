@@ -1,10 +1,10 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { start, move, ready, pause, resume, stop } from './actions'
+import { start, move, ready, pause, resume, stop,init } from './actions'
 import { getDistanceBetweenTwoPoints } from '../../Healthkit/utils'
 
-export type State ={
+export type State = {
 	currentState: ActivityType
-        startTime : Date,
+        startTime : Date|null,
 		endTime : Date|null,
         latitude : number|null,
         longitude : number|null,
@@ -45,13 +45,17 @@ const initialState:State = { currentState: ActivityType.LOADING, startTime: new 
 
 
 export default createReducer<State>(initialState, (builder) => {
+	builder.addCase(init, (state,action)=>{
+		const initialStateStart:State = { currentState:ActivityType.LOADING, startTime: null , endTime:null, latitude:null, longitude:null, distance:0, calories:0, steps:0, heartRate :0, paths:[   { numberOfPath:0, pauseTime:null, endPauseTime:null, reduceStep:0 } ] }
+			console.log('initialStateStart', initialStateStart)
+			return initialStateStart
+	})
 	builder
 		.addCase(ready, (state, action)=>{
 			return { ...state, currentState:ActivityType.READY }
 		})
 	builder
 		.addCase(start, (state, action) => {
-
 			const initialStateStart:State = { currentState:ActivityType.MOVING, startTime: new Date(), endTime:null, latitude:null, longitude:null, distance:0, calories:0, steps:0, heartRate :0, paths:[   { numberOfPath:0, pauseTime:null, endPauseTime:null, reduceStep:0 } ] }
 			console.log('initialStateStart', initialStateStart)
 			return initialStateStart
@@ -72,7 +76,7 @@ export default createReducer<State>(initialState, (builder) => {
 			const newSteps = action.payload.steps! - totalReduceStep
 			const distance = getDistanceBetweenTwoPoints(state.latitude!, state.longitude!, action.payload.latitude!, action.payload.longitude!)
 
-			if (distance > 50){
+			if (distance > 20){
 				return { ...state, latitude : action.payload.latitude, longitude :action.payload.longitude, calories: newCarlorieBurned, steps: newSteps }
 			}
 
@@ -130,7 +134,7 @@ export default createReducer<State>(initialState, (builder) => {
 	})
 
 	builder.addCase(stop, (state, action)=>{
-		return { ...state, endTime: action.payload.endTime }
+		return { ...state,currentState:ActivityType.ENDED, endTime: action.payload.endTime }
 	})
 })
 

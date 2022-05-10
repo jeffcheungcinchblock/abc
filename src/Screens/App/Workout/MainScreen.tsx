@@ -20,9 +20,12 @@ import { ActivityType } from '@/Store/Map/reducer'
 import { RouteStacks } from '@/Navigators/routes'
 import { WorkoutNavigatorParamList } from '@/Screens/App/WorkoutScreen'
 import { DrawerNavigatorParamList, TabNavigatorParamList } from '@/Navigators/MainNavigator'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import ScreenBackgrounds from '@/Components/ScreenBackgrounds'
+import axios from 'axios'
 
 type WorkoutScreenScreenNavigationProp = CompositeScreenProps<
-    StackScreenProps<WorkoutNavigatorParamList, RouteStacks.workout>,
+    StackScreenProps<WorkoutNavigatorParamList>,
     CompositeScreenProps<
         BottomTabScreenProps<TabNavigatorParamList>,
         DrawerScreenProps<DrawerNavigatorParamList>
@@ -31,7 +34,7 @@ type WorkoutScreenScreenNavigationProp = CompositeScreenProps<
 const isIOS = Platform.OS === 'ios'
 const health_kit = isIOS ? new IOSHealthKit() : new GoogleFitKit()
 
-const WorkoutScreen: FC<WorkoutScreenScreenNavigationProp> = ({ navigation }) => {
+const WorkoutScreen: FC<WorkoutScreenScreenNavigationProp> = ({ navigation,route }) => {
 	const dispatch = useDispatch()
 	const { Common, Fonts, Gutters, Layout } = useTheme()
 	const [ log, setLog ] = useState('')
@@ -41,6 +44,7 @@ const WorkoutScreen: FC<WorkoutScreenScreenNavigationProp> = ({ navigation }) =>
 	const [ status, setStatus ] = useState('')
 
 	const startTime = useSelector((state:any) => state.map.startTime)
+	const endTime = useSelector((state:any) => state.map.endTime)
 	const steps = useSelector((state:any) => state.map.steps)
 	const calories = useSelector((state:any) => state.map.calories)
 	const latitude = useSelector((state:any) => state.map.latitude)
@@ -49,6 +53,7 @@ const WorkoutScreen: FC<WorkoutScreenScreenNavigationProp> = ({ navigation }) =>
 	const heartRate = useSelector((state:any) => state.map.heartRate)
 	const paths = useSelector((state:any) => state.map.paths)
 	const currentState = useSelector((state:any) => state.map.currentState)
+    const params = { data: ""}
 
 	useEffect(() => {
 		// setCurrentState('initialing')
@@ -77,12 +82,12 @@ const WorkoutScreen: FC<WorkoutScreenScreenNavigationProp> = ({ navigation }) =>
 			console.log('onLocation status', status)
 
 			if (currentState !== ActivityType.PAUSE){
-				if (location.coords && location.coords.latitude && location.coords.longitude && location.is_moving === true)
+				if (location.coords && location.coords.latitude && location.coords.longitude && location.is_moving === true && location.coords.speed!=-1)
 				{
+					setNumber(location.coords.speed!)
 					if (location.coords.speed && location.coords.speed <= 12 && location.coords.speed >= 0){
 						const new_cal = health_kit.GetCaloriesBurned(startTime, new Date())
 						const new_step = health_kit.GetSteps(startTime, new Date())
-
 						const new_heartrate = health_kit.GetHeartRates( startTime, new Date())
 
 						console.log('before move disoatch')
@@ -90,7 +95,7 @@ const WorkoutScreen: FC<WorkoutScreenScreenNavigationProp> = ({ navigation }) =>
 							console.log('result', result)
 							dispatch({ type:'move', payload:{ latitude:location.coords.latitude, longitude:location.coords.longitude,
 								calories:result[0], steps:result[1], heartRate:result[2] } })
-							setNumber(pre => pre + 1)
+							// setNumber(pre => pre + 1)
 						})
 					} else {
 						console.log('moving too fast')
@@ -106,7 +111,7 @@ const WorkoutScreen: FC<WorkoutScreenScreenNavigationProp> = ({ navigation }) =>
 				triggerActivities: 'on_foot, walking, running',
 				locationAuthorizationRequest : 'WhenInUse',
 				desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
-				distanceFilter: 5,
+				distanceFilter: 3,
 				stopTimeout: 5,
 				isMoving: true,
 				reset: false,
@@ -114,7 +119,7 @@ const WorkoutScreen: FC<WorkoutScreenScreenNavigationProp> = ({ navigation }) =>
 				disableElasticity : true,
 				speedJumpFilter:50,
 				logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
-				stopOnTerminate: false,
+				stopOnTerminate: true,
 			}).then(()=>{
 				if (currentState !== ActivityType.MOVING){
 					health_kit.GetAuthorizeStatus().then((isAuthorize) => {
@@ -151,18 +156,41 @@ const WorkoutScreen: FC<WorkoutScreenScreenNavigationProp> = ({ navigation }) =>
 		}
 
 	}
-	const StopRunningSession = () => {
+	const StopRunningSession = async() => {
 		console.log('stop')
 		if (enabled){
 			setEnabled(false)
+			try{
+				dispatch({ type:'stop' ,payload:{endTime:new Date()}})
+				const finalJsonToString = JSON.stringify({
+					startTime : startTime,
+					distance: distance,
+					calories : calories,
+					steps: steps,
+					heartRate: heartRate,
+					paths: paths,
+				})
+				console.log('send')
+				let dataResponse = await axios({
+					method: 'post',
+					url:'https://i0n9e61kyl.execute-api.us-west-2.amazonaws.com/Prod/postsession',
+					headers: {
+                        'Content-Type': 'application/json'
+                    },
+					data:finalJsonToString
+				})
+				console.log('dataResponse',dataResponse)
+				navigation.replace(RouteStacks.endWorkout)
+					// data: finalJsonToString)
+			}catch(err){
+				console.log('error in ver',err)
+			}
 		}
+
 		// health_kit.StopWorkoutSession()
 	}
 
-	const ShowMap = () => {
-		console.log('show map')
-		navigation.navigate(RouteStacks.workoutMap, { data: paths, startTime: startTime })
-	}
+
 
 	const UpdateHealthData = () => {
 		health_kit.InitHealthKitPermission().then((val) => {
@@ -206,13 +234,13 @@ const WorkoutScreen: FC<WorkoutScreenScreenNavigationProp> = ({ navigation }) =>
 				let location = await BackgroundGeolocation.getCurrentPosition({
 					timeout: 30,          // 30 second timeout to fetch location
 					maximumAge: 5000,
-					samples: 3,           // How many location samples to attempt.
+					samples: 1,           // How many location samples to attempt.
 				})
 				dispatch({ type:'start', payload:{ startTime : new Date(), latitude : location.coords.latitude, longitude:location.coords.longitude } })
 				setLog(JSON.stringify(location))
 				setIstHealthKitReady(true)
-				await BackgroundGeolocation.start()
-				await BackgroundGeolocation.changePace(true)
+				const state = await BackgroundGeolocation.start()
+				console.log("[start] success - ", state);
 
 			}
 
@@ -220,6 +248,8 @@ const WorkoutScreen: FC<WorkoutScreenScreenNavigationProp> = ({ navigation }) =>
 		if (enabled === true) {
 			console.log('button enable')
 			BackgroundGeolocation.setOdometer(0)
+			BackgroundGeolocation.changePace(true)
+
 			start()
 
 		} else {
@@ -231,14 +261,15 @@ const WorkoutScreen: FC<WorkoutScreenScreenNavigationProp> = ({ navigation }) =>
 	}, [ enabled ])
 
 	return (
-		<ScrollView
-			style={Layout.fill}
-			contentContainerStyle={[
-				Layout.fill,
-				Layout.colCenter,
-				Gutters.smallHPadding,
-			]}
-		>
+		<ScreenBackgrounds screenName={RouteStacks.workout}>
+
+		<KeyboardAwareScrollView
+                style={Layout.fill}
+                contentContainerStyle={[
+                    Layout.fill,
+                    Layout.colCenter,
+                ]}>
+				
 			<TouchableOpacity
 				style={[ Common.button.rounded, Gutters.regularBMargin ]}
 				onPress={UpdateHealthData}
@@ -273,12 +304,7 @@ const WorkoutScreen: FC<WorkoutScreenScreenNavigationProp> = ({ navigation }) =>
 
 			)}
 
-			<TouchableOpacity
-				style={[ Common.button.rounded, Gutters.regularBMargin ]}
-				onPress={ShowMap}
-			>
-				<Text style={Fonts.textRegular}>View Map</Text>
-			</TouchableOpacity>
+
 			{currentState === ActivityType.MOVING && (
 				<TouchableOpacity
 					style={[ Common.button.rounded, Gutters.regularBMargin ]}
@@ -297,7 +323,8 @@ const WorkoutScreen: FC<WorkoutScreenScreenNavigationProp> = ({ navigation }) =>
 				</TouchableOpacity>
 			)}
 
-		</ScrollView>
+				</KeyboardAwareScrollView>
+		</ScreenBackgrounds>
 	)
 }
 
