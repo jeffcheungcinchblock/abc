@@ -22,7 +22,8 @@ export default {
   email: "Email",
   usernameAllCapital: "USER NAME",
   newPasswordAllCapital: "NEW PASSWORD",
-
+  alreadyHaveAnAc: "I Already Have An Account",
+  orViaSocialMedia: "Or via social media",
   snackbarMsg: {
     invitationCodeCopied: "Invitation code copied !",
   },
@@ -31,6 +32,7 @@ export default {
     invalidUser: "Invalid User",
     invalidInvitationCode: "Invalid Invitation Code",
     invalidCode: "Invalid code",
+    emailEmpty: "Email cannot be empty",
   },
 
   tabBarLabels: {

@@ -72,7 +72,11 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
     }
 
     const onCreateAccountPress = useCallback(async () => {
-
+        if(credential.email === ''){
+            setErrMsg(t("error.emailEmpty"))
+            return
+        }
+        
         try {
             dispatch(startLoading(true))
             setIsCreatingAccount(true)

@@ -113,8 +113,9 @@ const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
                 username: username,
                 action: 'forgotPassword'
             })
-        } catch (err) {
+        } catch (err: any) {
             console.log('err ', err)
+            setErrMsg(err.message)
         }
     }
 
@@ -143,7 +144,7 @@ const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
                         </Text>
                     </View>
 
-                    <View style={[CONTENT_ELEMENT_WRAPPER, { flex: 1, justifyContent: "flex-start" }]}>
+                    <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 80, justifyContent: "center" }]}>
                         <WhiteInput
                             onChangeText={onUsernameChange}
                             value={username}
@@ -152,7 +153,7 @@ const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
                         />
                     </View>
 
-                    <View style={[CONTENT_ELEMENT_WRAPPER, { flex: 1, justifyContent: "flex-start" }]}>
+                    <View style={[CONTENT_ELEMENT_WRAPPER, { flex: 2, justifyContent: "flex-start" }]}>
                         {
                             errMsg !== "" && <Text style={[{ color: colors.orangeCrayola, fontFamily: "AvenirNext-Regular" }, Fonts.textSmall, Fonts.textCenter]}>
                                 {errMsg}

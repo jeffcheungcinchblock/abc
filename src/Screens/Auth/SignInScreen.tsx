@@ -11,6 +11,7 @@ import {
     Alert,
     ViewStyle,
     Image,
+    Keyboard,
 } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { Brand } from '@/Components'
@@ -168,27 +169,30 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                 await Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Google })
             }
 
-        } catch (error: any) {
+        } catch (err: any) {
 
-            switch (error.message) {
+            switch (err.message) {
                 case 'Username should be either an email or a phone number.':
-                    setErrMsg(error.message)
+                    setErrMsg(err.message)
                     break;
                 case 'Password did not conform with policy: Password not long enough':
-                    setErrMsg(error.message)
+                    setErrMsg(err.message)
                     break;
                 case 'User is not confirmed.':
-                    setErrMsg(error.message)
+                    setErrMsg(err.message)
                     break;
                 case 'Incorrect username or password.':
-                    setErrMsg(error.message)
+                    setErrMsg(err.message)
+                    break;
+                case 'Username cannot be empty':
+                    setErrMsg(err.message)
                     break;
                 case 'User does not exist.':
                     setErrMsg(t("error.invalidUser"))
                     break;
                 default:
             }
-            console.log('err ', error.message)
+            console.log('err ', err.message)
             dispatch(startLoading(false))
         } finally {
             setIsLoggingIn(false)
@@ -199,7 +203,7 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
         setCredential(prevCredential => {
             return {
                 ...prevCredential,
-                [field]: text
+                [field]: text.toLowerCase()
             }
         })
     }
@@ -208,7 +212,7 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
         navigation.navigate(RouteStacks.signUp)
     }
 
-    const onForgotPasswordPress = async() => {
+    const onForgotPasswordPress = async () => {
         navigation.navigate(RouteStacks.forgotPassword)
     }
 
@@ -246,6 +250,7 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                             value={credential.username}
                             placeholder={t("accountName")}
                             placeholderTextColor={colors.spanishGray}
+
                         />
                     </View>
 

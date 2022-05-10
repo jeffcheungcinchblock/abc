@@ -81,7 +81,7 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
     const { Common, Fonts, Gutters, Layout } = useTheme()
     const dispatch = useDispatch()
 
-    const params = route?.params || { username: "" }
+    const params = route?.params || { code: "" }
 
     const [isLoggingIn, setIsLoggingIn] = useState(false)
     const [errMsg, setErrMsg] = useState(" ")

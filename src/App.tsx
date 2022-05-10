@@ -20,6 +20,7 @@ import { config } from './Utils/constants'
 import { RouteStacks } from './Navigators/routes'
 import { startLoading } from './Store/UI/actions'
 import { storeReferralCode } from './Store/Referral/actions'
+import RNBootSplash from "react-native-bootsplash";
 
 // TBD: remove later
 console.warn = () => {}
@@ -165,6 +166,7 @@ const App = () => {
 
   useEffect(() => {
     console.log("Initialized firebae")
+    RNBootSplash.hide({fade: true});
 
     requestUserPermission()
 
@@ -190,8 +192,6 @@ const App = () => {
 
   }, []);
 
-
-
   return (
     <Provider store={store}>
       {/**
@@ -203,7 +203,7 @@ const App = () => {
        */}
 
       <WalletConnectProvider
-        redirectUrl={'com.fitevo://homeMain'}
+        redirectUrl={`${config.urlScheme}${RouteStacks.homeMain}`}
         storageOptions={{
           asyncStorage: AsyncStorage,
         }}>

@@ -17,9 +17,6 @@ const getInitialURL = async (): Promise<string> => {
     // Check if the app was opened by a deep link
     const url = await Linking.getInitialURL();
     const dynamicLinkUrl = await dynamicLinks().getInitialLink();
-    console.log('======== Initial url ======== :', url)
-
-    console.log('======== Dynamic url ======== :', dynamicLinkUrl)
     if (dynamicLinkUrl) {
         return dynamicLinkUrl.url;
     }
@@ -34,7 +31,6 @@ const subscribe = (listener: (deeplink: string) => void) => {
     // First, you may want to do the default deep link handling
     const onReceiveURL = ({ url }: { url: string }) => {
         let urlSplit = url.split("/")
-        console.log('urlSplit', urlSplit)
         return listener(url)
     };
     // Listen to incoming links from deep linking
@@ -42,13 +38,10 @@ const subscribe = (listener: (deeplink: string) => void) => {
 
     const handleDynamicLink = (link: FirebaseDynamicLinksTypes.DynamicLink) => {
         console.log("Dynamic url ", link)
-        // Linking.openURL(`${config.urlScheme}signIn`)
-        // Linking.openURL(link)
     }
     const unsubscribeToDynamicLinks = dynamicLinks().onLink(handleDynamicLink);
     return () => {
         unsubscribeToDynamicLinks();
-        // Linking.removeEventListener('url', onReceiveURL);
         onReceiveURLEvent.remove()
     };
 }
@@ -71,10 +64,11 @@ export const publicLinking: LinkingOptions<AuthNavigatorParamList> = {
                 path: RouteStacks.signUp,
             },
             [RouteStacks.enterInvitationCode]: {
-                path: `${RouteStacks.enterInvitationCode}/:code?`,
-                parse: {
-                    code: (code) => code
-                }
+                path: `${RouteStacks.enterInvitationCode}`,
+                // path: `${RouteStacks.enterInvitationCode}/:code?`,
+                // parse: {
+                //     code: (code) => code
+                // }
             },
             [RouteStacks.validationCode]: {
                 path: RouteStacks.validationCode,

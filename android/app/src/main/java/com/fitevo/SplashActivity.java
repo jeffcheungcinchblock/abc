@@ -9,6 +9,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtras(getIntent().getExtras());  // Pass along FCM messages/notifications etc.
         startActivity(intent);
         finish();
     }

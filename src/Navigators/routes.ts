@@ -14,6 +14,7 @@ export enum RouteStacks {
     signUp = "signUp",
     validationCode = "validationCode",
     welcome = "welcome",
+    welcomeGallery = "welcomeGallery",
     enterInvitationCode = "enterInvitationCode",
     forgotPassword = "forgotPassword",
     

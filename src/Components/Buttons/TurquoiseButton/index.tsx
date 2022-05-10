@@ -12,19 +12,21 @@ type TurquoiseButtonProps = {
     isLoading?: boolean
     leftIcon?: () => React.ReactNode
     rightIcon?: () => React.ReactNode
+    isTransparentBackground?: boolean
 }
 
 const DEFAULT_TEXT_STYLE = {
     fontSize: 16,
     color: colors.black,
-    fontFamily: "Virus-Killer",
-    marginLeft: 10
+    marginLeft: 10,
+    fontFamily: "Poppins"
 }
 
 const BUTTON_STYLE: ViewStyle = {
     backgroundColor: colors.brightTurquoise,
     width: "100%",
     height: 40,
+    borderRadius: 20,
     justifyContent: "center"
 }
 
@@ -37,17 +39,21 @@ const TurquoiseButton = ({
     isLoading,
     leftIcon,
     rightIcon,
+    isTransparentBackground
 }: TurquoiseButtonProps) => {
     const { Layout, Images } = useTheme()
 
     return (
         <View style={{
             ...containerStyle,
-            width: "100%",
         }}>
             <Pressable
                 onPress={onPress}
                 style={[BUTTON_STYLE, {
+                    backgroundColor: isTransparentBackground ? "transparent" : colors.brightTurquoise,
+                    borderColor: isTransparentBackground ? colors.brightTurquoise : "transparent",
+                    borderWidth: isTransparentBackground ? 1 : 0
+
                 }]}
             >
                 {
@@ -56,7 +62,10 @@ const TurquoiseButton = ({
                     /> : <View style={[Layout.rowCenter]}>
                         {leftIcon && leftIcon()}
                         <Text
-                            style={[DEFAULT_TEXT_STYLE, textStyle, { textAlign: "center" }]}
+                            style={[DEFAULT_TEXT_STYLE, textStyle, {
+                                textAlign: "center",
+                                color: isTransparentBackground ? colors.brightTurquoise : "#000",
+                            }]}
                         >{text}</Text>
                         {rightIcon && rightIcon()}
                     </View>

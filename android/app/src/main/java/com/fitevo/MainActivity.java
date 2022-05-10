@@ -4,11 +4,24 @@ import android.os.Bundle;
 import com.facebook.react.ReactActivity;
 import android.content.Intent;
 import android.content.res.Configuration;
-
+import com.facebook.react.ReactActivityDelegate; // <- add this necessary import
 // react-native-splash-screen >= 0.3.1
 // import org.devio.rn.splashscreen.SplashScreen; // here
+import com.zoontek.rnbootsplash.RNBootSplash; // <- add this necessary import
 
 public class MainActivity extends ReactActivity {
+
+  @Override
+  protected ReactActivityDelegate createReactActivityDelegate() {
+    return new ReactActivityDelegate(this, getMainComponentName()) {
+
+      @Override
+      protected void loadApp(String appKey) {
+        RNBootSplash.init(MainActivity.this); // <- initialize the splash screen
+        super.loadApp(appKey);
+      }
+    };
+  }
 
   /**
    * Returns the name of the main component registered from JavaScript. This is used to schedule

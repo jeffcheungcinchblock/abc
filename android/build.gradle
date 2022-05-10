@@ -2,15 +2,18 @@
 buildscript {
     ext {
         buildToolsVersion = "30.0.2"
-        minSdkVersion = 21
-        compileSdkVersion = 31
-        targetSdkVersion = 30
+        // minSdkVersion = 21
+        // compileSdkVersion = 31
+        // targetSdkVersion = 30
         ndkVersion = "21.4.7075529"
         androidXAnnotation = "1.2.0"
         androidXBrowser = "1.3.0"
         androidXCore = "1.7.0" // <-- Add this. Check versions here: https://developer.android.com/jetpack/androidx/releases/core
 
-      
+        // buildToolsVersion = "31.0.0"
+        minSdkVersion = 23 // <- AndroidX splashscreen has basic support for 21 (only the background color), so 23 is best
+        compileSdkVersion = 31 // <- set at least 31
+        targetSdkVersion = 31 // <- set at least 31
     }
     repositories {
         google()

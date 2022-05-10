@@ -38,6 +38,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { startLoading } from '@/Store/UI/actions'
 import WhiteInput from '@/Components/Inputs/WhiteInput'
 import axios from 'axios'
+import { triggerSnackbar } from '@/Utils/helpers'
 
 const TEXT_INPUT = {
     height: 40,
@@ -99,6 +100,8 @@ const ValidationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
         setValue: setValidationCode,
     });
 
+    console.log('newPassword', newPassword)
+
     const onVerifyAccountPress = useCallback(async () => {
         if (params.username === "") {
             Alert.alert("Username is empty")
@@ -114,33 +117,15 @@ const ValidationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
             } else {
                 await Auth.confirmSignUp(params.username, validationCode)
             }
-
-            try{
-                let referralConfirmRes = await axios({
-                    method: 'post',
-                    url: 'https://api-dev.dragonevolution.gg/users/referral-confirmation',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    data: JSON.stringify({
-                        "referral": "code"
-                    })
-                })
-
-                console.log('referralConfirmRes', referralConfirmRes)
-            }catch(err: any){
-                console.log(err)
-            }
-
+            triggerSnackbar("Change password successfully!")
             navigation.navigate(RouteStacks.signIn, { username: params.username })
-        } catch (err) {
-            console.log(err)
-            setErrMsg(t("error.invalidCode"))
+        } catch (err: any) {
+            setErrMsg(err.message)
         } finally {
             dispatch(startLoading(false))
         }
 
-    }, [navigation, validationCode, params])
+    }, [validationCode, params, newPassword])
 
     const onPasswordChange = (text: string) => {
         setNewPassword(text)
@@ -196,7 +181,7 @@ const ValidationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
                     </View>
 
                     {
-                        params.action === 'forgotPassword' && <View style={[CONTENT_ELEMENT_WRAPPER, { flex: 1, justifyContent: "flex-start" }]}>
+                        params.action === 'forgotPassword' && <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 80, justifyContent: "flex-start" }]}>
                             <WhiteInput
                                 onChangeText={onPasswordChange}
                                 value={newPassword}

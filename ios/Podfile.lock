@@ -380,6 +380,8 @@ PODS:
     - React-Core
   - react-native-netinfo (8.2.0):
     - React-Core
+  - react-native-pager-view (5.4.15):
+    - React-Core
   - react-native-randombytes (3.6.1):
     - React-Core
   - react-native-safe-area-context (3.4.1):
@@ -450,6 +452,8 @@ PODS:
     - React-logger (= 0.66.4)
     - React-perflogger (= 0.66.4)
   - RNAWSCognito (5.2.8):
+    - React-Core
+  - RNBootSplash (4.1.5):
     - React-Core
   - RNCAsyncStorage (1.17.3):
     - React-Core
@@ -587,6 +591,7 @@ DEPENDENCIES:
   - react-native-encrypted-storage (from `../node_modules/react-native-encrypted-storage`)
   - react-native-flipper (from `../node_modules/react-native-flipper`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
+  - react-native-pager-view (from `../node_modules/react-native-pager-view`)
   - react-native-randombytes (from `../node_modules/react-native-randombytes`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
@@ -602,6 +607,7 @@ DEPENDENCIES:
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - RNAWSCognito (from `../node_modules/amazon-cognito-identity-js`)
+  - RNBootSplash (from `../node_modules/react-native-bootsplash`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCClipboard (from `../node_modules/@react-native-clipboard/clipboard`)"
   - "RNCMaskedView (from `../node_modules/@react-native-masked-view/masked-view`)"
@@ -700,6 +706,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-flipper"
   react-native-netinfo:
     :path: "../node_modules/@react-native-community/netinfo"
+  react-native-pager-view:
+    :path: "../node_modules/react-native-pager-view"
   react-native-randombytes:
     :path: "../node_modules/react-native-randombytes"
   react-native-safe-area-context:
@@ -730,6 +738,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNAWSCognito:
     :path: "../node_modules/amazon-cognito-identity-js"
+  RNBootSplash:
+    :path: "../node_modules/react-native-bootsplash"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
   RNCClipboard:
@@ -819,6 +829,7 @@ SPEC CHECKSUMS:
   react-native-encrypted-storage: 837c733334debf626204f03d867c7e01d8741e2f
   react-native-flipper: b9e2e817604af8da0d5a9ba20a8516e780e30f3c
   react-native-netinfo: 1929cb10180c83da2f7875bef715ae482e37831f
+  react-native-pager-view: 15ae71c52a8a40bd8a10505b5c64fb129fc437e2
   react-native-randombytes: 5fc412efe7b5c55b9002c0004d75fe5fabcaa507
   react-native-safe-area-context: 5b8a418400eb3d8364aa87300e865c0262cc17b9
   React-perflogger: 93075d8931c32cd1fce8a98c15d2d5ccc4d891bd
@@ -834,6 +845,7 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: dec32ee6f2e2a26e13e58152271535fadff5455a
   ReactCommon: 57b69f6383eafcbd7da625bfa6003810332313c4
   RNAWSCognito: 4bb232cc7ed978257658876ee280de9456f998a1
+  RNBootSplash: fcebe52c9fe67c082b5209e7ca9fc6b5e4f5305d
   RNCAsyncStorage: bef53cb70c06b8eff11bab4a848de86ad4488c39
   RNCClipboard: 471860adba60079ac22058c663c91b3a875a7609
   RNCMaskedView: d367b2a8df3992114e31b32b091a0c00dc800827
@@ -857,6 +869,6 @@ SPEC CHECKSUMS:
   Yoga: e7dc4e71caba6472ff48ad7d234389b91dadc280
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 0dbcc0b2206af6d69b56efdf4e4561427aac605c
+PODFILE CHECKSUM: 44b834955d70c0a56af8c2f07b986c1530dca9a5
 
 COCOAPODS: 1.11.3

@@ -24,13 +24,13 @@ import { startLoading } from '@/Store/UI/actions'
 import SnackBar from 'react-native-snackbar-component'
 import { RootState } from '@/Store'
 import SnackbarMsgContainer from '@/Components/SnackbarMsgContainer'
+import { colors } from '@/Utils/constants'
 
 const Stack = createStackNavigator()
 
 // @refresh reset
 const ApplicationNavigator = () => {
   const { Layout, darkMode, NavigationTheme } = useTheme()
-  const { colors } = NavigationTheme
   const { isScreenLoading, snackBarConfig } = useSelector((state: RootState) => state.ui)
   const dispatch = useDispatch()
   const { isLoggedIn } = useSelector((state: RootState) => state.user)
@@ -74,7 +74,7 @@ const ApplicationNavigator = () => {
   }
 
   return (
-    <SafeAreaView style={[Layout.fill, { backgroundColor: colors.card }]}>
+    <SafeAreaView style={[Layout.fill, { backgroundColor: colors.black }]}>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <SnackBar
           {...snackBarConfig}
@@ -96,7 +96,8 @@ const ApplicationNavigator = () => {
         <NavigationContainer theme={NavigationTheme}
           {...navProps}
         >
-          <StatusBar barStyle={darkMode ? 'light-content' : 'dark-content'} />
+          <StatusBar 
+          barStyle={darkMode ? 'light-content' : 'dark-content'} />
           {
             isScreenLoading && <LoadingScreen />
           }
