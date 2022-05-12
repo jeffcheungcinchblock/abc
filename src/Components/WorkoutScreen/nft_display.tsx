@@ -23,19 +23,19 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 		color: 'white',
 	},
-	pointContainer:{
+	NFTShowCaseContainer:{
 		borderRadius:10,
 		backgroundColor:'#343950',
 		flexDirection:'row',
 		justifyContent:'space-around',
-		height:49,
+		height:83,
 		marginTop:25,
 	},
 })
 
 
-const TokenEarned = () =>{
-	return (<View style={[ styles.pointContainer ]}/>)
+const NFTDisplay = () =>{
+	return (<View style={[ styles.NFTShowCaseContainer ]}/>)
 }
 
-export default TokenEarned
+export default NFTDisplay

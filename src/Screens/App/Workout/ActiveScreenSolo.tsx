@@ -16,7 +16,7 @@ import { DrawerScreenProps } from '@react-navigation/drawer'
 import { useTheme } from '@/Hooks'
 import { IOSHealthKit } from '../../../Healthkit/iosHealthKit'
 import { GoogleFitKit } from '../../../Healthkit/androidHealthKit'
-import BackgroundGeolocation from 'react-native-background-geolocation'
+import BackgroundGeolocation, { Subscription } from 'react-native-background-geolocation'
 import { ActivityType } from '@/Store/Map/reducer'
 import { RouteStacks } from '@/Navigators/routes'
 import { WorkoutNavigatorParamList } from '@/Screens/App/WorkoutScreen'
@@ -28,7 +28,8 @@ import { colors, config } from '@/Utils/constants'
 import ActiveMapView from '@/Components/Map/index'
 import EnergyProgressBar from '@/Components/WorkoutScreen/energy_progress_bar'
 import TokenProgressBar from '@/Components/WorkoutScreen/token_progress_bar'
-
+import TokenEarned from '@/Components/WorkoutScreen/token_earned'
+import NFTDisplay from '@/Components/WorkoutScreen/nft_display'
 type WorkoutScreenScreenNavigationProp = CompositeScreenProps<
     StackScreenProps<WorkoutNavigatorParamList>,
     CompositeScreenProps<
@@ -69,22 +70,24 @@ const styles = StyleSheet.create({
 		color:'#fff',
 		fontSize:20,
 		textAlign:'center',
-		backgroundColor: 'red',
 	},
 	stateButtonContainer:{
 		flex:1,
 		display:'flex',
 		flexDirection:'row',
-		bottom:0,
 		justifyContent: 'space-around',
+		marginTop:15,
 	},
 	statePauseResumeButton:{
 		backgroundColor: '#00F2DE',
+		height:40,
 		color:colors.brightTurquoise,
 	},
 	stateStopButton:{
 		borderStyle: 'solid',
 		borderColor: 'red',
+		color:'white',
+		backgroundColor:'none',
 	},
 })
 
@@ -94,28 +97,48 @@ const health_kit = isIOS ? new IOSHealthKit() : new GoogleFitKit()
 const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, route }) => {
 	const dispatch = useDispatch()
 	const { Common, Fonts, Gutters, Layout } = useTheme()
-	const [ log, setLog ] = useState('')
-	const [ isHealthkitReady, setIstHealthKitReady ] = useState(false)
 	const [ enabled, setEnabled ] = useState(false)
-	const [ number, setNumber ] = useState(0)
-	const [ region, setRegion ] = useState<Region|null>(null)
-	const [ isReady, setIsReady ] = useState(false)
-	const [ status, setStatus ] = useState('')
-
+	console.log('navigation', navigation)
 	const startTime = useSelector((state:any) => state.map.startTime)
 	const endTime = useSelector((state:any) => state.map.endTime)
 	const steps = useSelector((state:any) => state.map.steps)
 	const calories = useSelector((state:any) => state.map.calories)
-	const latitude = useSelector((state:any) => state.map.latitude)
-	const longitude = useSelector((state:any) => state.map.longitude)
 	const distance = useSelector((state:any) => state.map.distance)
 	const heartRate = useSelector((state:any) => state.map.heartRate)
 	const paths = useSelector((state:any) => state.map.paths)
 	const currentState = useSelector((state:any) => state.map.currentState)
 	const startRegion = useSelector((state:any) => state.map.startRegion)
-
+	const [ started, setIsStarted ] = useState(false)
+	useEffect(() => {
+		BackgroundGeolocation.start()
+		setIsStarted(true)
+	}, [])
 	useEffect(()=>{
-		console.log('ActiveScreenSolo: useEffect', ActivityType[currentState])
+		const onLocation: Subscription = BackgroundGeolocation.onLocation((location) => {
+			console.log('listening', ActivityType[currentState])
+			if (currentState !== ActivityType.PAUSE){
+				if (location.coords && location.coords.latitude && location.coords.longitude && location.is_moving === true && location.coords.speed != -1)
+				{
+					if (location.coords.speed && location.coords.speed <= 12 && location.coords.speed >= 0){
+						const new_cal = health_kit.GetCaloriesBurned(startTime, new Date())
+						const new_step = health_kit.GetSteps(startTime, new Date())
+						const new_heartrate = health_kit.GetHeartRates( startTime, new Date())
+						Promise.all([ new_cal, new_step, new_heartrate ]).then((result)=>{
+							console.log('result', result)
+							dispatch({ type:'move', payload:{ latitude:location.coords.latitude, longitude:location.coords.longitude,
+								calories:result[0], steps:result[1], heartRate:result[2] } })
+						})
+					} else {
+						console.log('moving too fast')
+					}
+				} else {
+					console.log('not moving')
+				}
+			}
+		})
+		return () => {
+			onLocation.remove()
+		}
 	}, [])
 
 	const StopRunningSession = async() => {
@@ -166,13 +189,6 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 			console.log('resumen', ActivityType[currentState])
 		})
 	}
-
-	// useEffect(()=>{
-	// 	setStatus(ActivityType[currentState])
-	// }, [ currentState ])
-
-
-
 	const WhiteText = (props: TextProps) => {
 		const { style, ...rest } = props
 		return <Text style={[ styles.textStyle, style ]} {...rest} />
@@ -192,7 +208,8 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 							<TokenProgressBar token="Token"/>
 							<EnergyProgressBar energy="Energy"/>
 						</View>
-						<View style={[ styles.pointContainer ]} />
+						<TokenEarned />
+						<NFTDisplay />
 						{/* <View style={[ styles.pointContainer ]}/> */}
 						<View style={[ styles.stateButtonContainer ]}>
 							{ (currentState === ActivityType.PAUSE || currentState === ActivityType.MOVING) && (

@@ -79,27 +79,27 @@ const StartScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 	}, [])
 
 	useEffect(() => {
-		const onLocation: Subscription = BackgroundGeolocation.onLocation((location) => {
-			if (currentState !== ActivityType.PAUSE){
-				if (location.coords && location.coords.latitude && location.coords.longitude && location.is_moving === true && location.coords.speed != -1)
-				{
-					if (location.coords.speed && location.coords.speed <= 12 && location.coords.speed >= 0){
-						const new_cal = health_kit.GetCaloriesBurned(startTime, new Date())
-						const new_step = health_kit.GetSteps(startTime, new Date())
-						const new_heartrate = health_kit.GetHeartRates( startTime, new Date())
-						Promise.all([ new_cal, new_step, new_heartrate ]).then((result)=>{
-							console.log('result', result)
-							dispatch({ type:'move', payload:{ latitude:location.coords.latitude, longitude:location.coords.longitude,
-								calories:result[0], steps:result[1], heartRate:result[2] } })
-						})
-					} else {
-						console.log('moving too fast')
-					}
-				} else {
-					console.log('not moving')
-				}
-			}
-		})
+		// const onLocation: Subscription = BackgroundGeolocation.onLocation((location) => {
+		// 	if (currentState !== ActivityType.PAUSE){
+		// 		if (location.coords && location.coords.latitude && location.coords.longitude && location.is_moving === true && location.coords.speed != -1)
+		// 		{
+		// 			if (location.coords.speed && location.coords.speed <= 12 && location.coords.speed >= 0){
+		// 				const new_cal = health_kit.GetCaloriesBurned(startTime, new Date())
+		// 				const new_step = health_kit.GetSteps(startTime, new Date())
+		// 				const new_heartrate = health_kit.GetHeartRates( startTime, new Date())
+		// 				Promise.all([ new_cal, new_step, new_heartrate ]).then((result)=>{
+		// 					console.log('result', result)
+		// 					dispatch({ type:'move', payload:{ latitude:location.coords.latitude, longitude:location.coords.longitude,
+		// 						calories:result[0], steps:result[1], heartRate:result[2] } })
+		// 				})
+		// 			} else {
+		// 				console.log('moving too fast')
+		// 			}
+		// 		} else {
+		// 			console.log('not moving')
+		// 		}
+		// 	}
+		// })
 		if (currentState === ActivityType.LOADING){
 			BackgroundGeolocation.ready({
 				triggerActivities: 'on_foot, walking, running',
@@ -128,9 +128,9 @@ const StartScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 				}
 			})
 		}
-		return () => {
-			onLocation.remove()
-		}
+		// return () => {
+		// 	onLocation.remove()
+		// }
 	}, [ isHealthkitReady ])
 
 	useEffect(() => {
@@ -142,8 +142,7 @@ const StartScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 					samples: 1,           // How many location samples to attempt.
 				})
 				dispatch({ type:'start', payload:{ startTime : new Date(), latitude : location.coords.latitude, longitude:location.coords.longitude, startRegion:region } })
-				await BackgroundGeolocation.start()
-				navigation.replace(RouteStacks.workout)
+				// await BackgroundGeolocation.start()
 
 				// console.log('[start] success - ', state)
 			}
@@ -154,7 +153,7 @@ const StartScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 			BackgroundGeolocation.setOdometer(0)
 			BackgroundGeolocation.changePace(true)
 			start()
-
+			navigation.replace(RouteStacks.workout)
 		} else {
 			BackgroundGeolocation.stop().then((res)=>{
 				dispatch({ type:'stop', payload:{ endTime : new Date() } })
