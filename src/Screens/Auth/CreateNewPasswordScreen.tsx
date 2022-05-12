@@ -81,19 +81,23 @@ const FOCUSED_CELL = {
 
 }
 
-const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.validationCode>> = (
+const CreateNewPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.createNewPassword>> = (
     { navigation, route }
 ) => {
     const { t } = useTranslation()
     const { Common, Fonts, Gutters, Layout } = useTheme()
     const dispatch = useDispatch()
 
-    const params = route!.params || { username: "" }
+    const params = route!.params || { validationCode: "", username: "" }
     const [isVerifyingAccount, setIsVerifyingAccount] = useState(false)
     const [validationCode, setValidationCode] = useState("")
     const ref = useBlurOnFulfill({ value: validationCode, cellCount: 6 });
     const [errMsg, setErrMsg] = useState("")
     const [username, setUsername] = useState("")
+    const [credential, setCredential] = useState({
+        password: "",
+        confirmPassword: ""
+    })
     const [focusCellProps, getCellOnLayoutHandler] = useClearByFocusCell({
         value: validationCode,
         setValue: setValidationCode,
@@ -103,22 +107,26 @@ const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
         navigation.navigate(RouteStacks.signIn)
     }
 
-    const onUsernameChange = (text: string) => {
-        setUsername(text)
+    const onCredentialChange = (text: string, fieldName: string) => {
+        setCredential({
+            ...credential,
+            [fieldName]: text,
+        })
     }
 
     const onConfirmPress = async () => {
+        if(credential.password !== credential.confirmPassword){
+            setErrMsg("Passwords don't match")
+        }
         try {
-            let data = await Auth.forgotPassword(username)
-            navigation.navigate(RouteStacks.validationCode, {
-                username: username,
-                action: 'forgotPassword'
-            })
+            await Auth.forgotPasswordSubmit(params.username, validationCode, credential.confirmPassword)
+            navigation.navigate(RouteStacks.signIn)
         } catch (err: any) {
             console.log('err ', err)
             setErrMsg(err.message)
         }
     }
+    
 
     return (
         <ScreenBackgrounds
@@ -134,7 +142,7 @@ const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
             >
                 <Header
                     onLeftPress={goBack}
-                    headerText={t("forgotPassword")}
+                    headerText={t("createNewPassword")}
                 />
                 <View style={[{
                     flexGrow: 6
@@ -142,24 +150,41 @@ const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
 
                     <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 60 }]}>
                         <Text style={[{ color: colors.white, fontWeight: "bold", lineHeight: 26 }, Fonts.textSmall, Fonts.textLeft]}>
-                            {t('forgotPasswordPrompt')}
+                            {t('createNewPasswordPrompt')}
                         </Text>
                     </View>
 
 
                     <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 80, justifyContent: "center" }]}>
                         <StandardInput
-                            onChangeText={onUsernameChange}
-                            value={username}
-                            placeholder={t("username")}
+                            onChangeText={(text) => onCredentialChange(text, "password")}
+                            value={credential.password}
+                            placeholder={t("newPassword")}
                             placeholderTextColor={colors.spanishGray}
+                            secureTextEntry={true}
                         />
                         {
-                            errMsg !== "" && <Text style={[{ color: colors.magicPotion }, Fonts.textSmall, Fonts.textCenter]}>
+                            // errMsg !== "" && <Text style={[{ color: colors.magicPotion }, Fonts.textSmall, Fonts.textCenter]}>
+                            //     {errMsg}
+                            // </Text>
+                        }
+                    </View>
+
+                    <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 80, justifyContent: "center" }]}>
+                        <StandardInput
+                            onChangeText={(text) => onCredentialChange(text, "confirmPassword")}
+                            value={credential.confirmPassword}
+                            placeholder={t("confirmPassword")}
+                            placeholderTextColor={colors.spanishGray}
+                            secureTextEntry={true}
+                        />
+                        {
+                            errMsg !== "" && <Text style={[{ color: colors.magicPotion }, Fonts.textSmall, Fonts.textLeft]}>
                                 {errMsg}
                             </Text>
                         }
                     </View>
+
 
                     <View style={[CONTENT_ELEMENT_WRAPPER, { flex: 2, justifyContent: "flex-start" }]}>
                         
@@ -183,4 +208,4 @@ const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
     )
 }
 
-export default ForgotPasswordScreen
+export default CreateNewPasswordScreen

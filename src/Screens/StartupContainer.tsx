@@ -1,17 +1,26 @@
-import React, { useEffect } from 'react'
-import { ActivityIndicator, View, Text, Dimensions } from 'react-native'
+import React, { FC, useEffect, useRef, useState } from 'react'
+import { ActivityIndicator, View, Text, Dimensions, Easing, ViewStyle } from 'react-native'
 import { useTranslation } from 'react-i18next'
+// @ts-ignore
 import Video from 'react-native-video'
 import { useTheme } from '@/Hooks'
 import { Brand } from '@/Components'
 import { setDefaultTheme } from '@/Store/Theme'
 import { navigateAndSimpleReset } from '@/Navigators/utils'
 import { useNavigation } from '@react-navigation/native'
+import AppLogo from '@/Components/Icons/AppLogo'
+import { RouteStacks } from '@/Navigators/routes'
+import { StackScreenProps } from '@react-navigation/stack'
+import { ApplicationNavigatorParamList } from '@/Navigators/Application'
+// @ts-nocheck
+import Animated, { EasingNode, timing } from 'react-native-reanimated'
 
-const StartupContainer = (props) => {
+
+const StartupContainer: FC<StackScreenProps<ApplicationNavigatorParamList, RouteStacks.startUp>> = ({ navigation }) => {
   const { Layout, Gutters, Fonts } = useTheme()
 
   const { t } = useTranslation()
+  const topAnimatedVal = new Animated.Value(200);
 
   const init = async () => {
     await new Promise(resolve =>
@@ -19,14 +28,30 @@ const StartupContainer = (props) => {
         resolve(true)
       }, 2000),
     )
-    await setDefaultTheme({ theme: 'default', darkMode: null })
-    console.log("HELLO")
-    props.navigation.replace('Application')
+    navigation.replace(RouteStacks.application)
   }
 
   useEffect(() => {
     init()
-  })
+  }, [])
+
+
+  const startAnimation = (toValue: any) => {
+    timing(topAnimatedVal, {
+      toValue,
+      duration: 2000,
+      easing: EasingNode.linear,
+    }).start()
+  }
+
+  useEffect(() => {
+    startAnimation(80);
+  }, []);
+
+  const APP_LOGO_ANIMATED_VIEW : any = {
+    top: topAnimatedVal,
+    position: "absolute"
+  }
 
   return (
     <View style={[Layout.fill, Layout.colCenter]}>
@@ -47,9 +72,13 @@ const StartupContainer = (props) => {
         repeat={true}
         ignoreSilentSwitch="obey"
       />
-      <Brand />
-      <ActivityIndicator size={'large'} style={[Gutters.largeVMargin]} />
-      <Text style={Fonts.textCenter}>{t('welcome')}</Text>
+      <Animated.View
+        style={APP_LOGO_ANIMATED_VIEW}
+      >
+        <AppLogo style={{
+          height: 150,
+        }} />
+      </Animated.View>
     </View>
   )
 }

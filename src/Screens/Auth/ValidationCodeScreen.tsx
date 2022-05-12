@@ -71,18 +71,19 @@ const CELL = {
     height: 50,
     fontSize: 24,
     borderWidth: 1,
-    borderColor: colors.spanishGray,
-    color: colors.white,
-    borderRadius: 10,
+    color: colors.brightTurquoise,
+    backgroundColor: colors.charcoal,
+    borderRadius: 4,
     textAlign: 'center',
     lineHeight: 48
 }
 
 const FOCUSED_CELL = {
-
+    borderWidth: 1,
+    borderColor: colors.brightTurquoise,
 }
 
-const ValidationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.validationCode>> = (
+const VerificationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.validationCode>> = (
     { navigation, route }
 ) => {
     const { t } = useTranslation()
@@ -100,29 +101,36 @@ const ValidationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
         setValue: setValidationCode,
     });
 
-    console.log('newPassword', newPassword)
-
     const onVerifyAccountPress = useCallback(async () => {
-        if (params.username === "") {
-            Alert.alert("Username is empty")
-            navigation.goBack()
+        if(validationCode.length !== 6){
+            setErrMsg("error.invalidValidationCode")
             return
         }
-        setErrMsg("")
-        try {
-            dispatch(startLoading(true))
 
-            if (params.action === 'forgotPassword') {
-                await Auth.forgotPasswordSubmit(params.username, validationCode, newPassword)
-            } else {
-                await Auth.confirmSignUp(params.username, validationCode)
+        if (params.action === 'forgotPassword') {
+            // await Auth.forgotPasswordSubmit(params.username, validationCode, newPassword)
+            navigation.navigate(RouteStacks.createNewPassword, {
+                validationCode,
+                username: params.username
+            })
+        }else{
+            if (params.username === "") {
+                Alert.alert("Username is empty")
+                navigation.goBack()
+                return
             }
-            triggerSnackbar("Change password successfully!")
-            navigation.navigate(RouteStacks.signIn, { username: params.username })
-        } catch (err: any) {
-            setErrMsg(err.message)
-        } finally {
-            dispatch(startLoading(false))
+            setErrMsg("")
+            try {
+                dispatch(startLoading(true))
+                await Auth.confirmSignUp(params.username, validationCode)
+    
+                triggerSnackbar("Change password successfully!")
+                navigation.navigate(RouteStacks.signIn, { username: params.username })
+            } catch (err: any) {
+                setErrMsg(err.message)
+            } finally {
+                dispatch(startLoading(false))
+            }
         }
 
     }, [validationCode, params, newPassword])
@@ -139,9 +147,7 @@ const ValidationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
         <ScreenBackgrounds
             screenName={RouteStacks.signUp}
         >
-            <Header
-                onLeftPress={goBack}
-            />
+
             <KeyboardAwareScrollView
                 style={Layout.fill}
                 contentContainerStyle={[
@@ -149,17 +155,30 @@ const ValidationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
                     Layout.colCenter,
                 ]}
             >
+                <Header
+                    onLeftPress={goBack}
+                    headerText={t("emailVerificationCode")}
+                />
                 <View style={[{
                     flexGrow: 6
                 }, Layout.fullWidth, Layout.fill, Layout.colCenter,]}>
 
-                    <View style={[CONTENT_ELEMENT_WRAPPER, { flex: 1 }]}>
-                        <Text style={[{ color: colors.white, fontFamily: "AvenirNext-Bold" }, Fonts.textRegular, Fonts.textCenter]}>
-                            {t('verificationCodeAllCapital')}
+                    <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 60 }]}>
+                        <Text style={[{ color: colors.white, fontWeight: "bold", lineHeight: 26 }, Fonts.textSmall, Fonts.textLeft]}>
+                            {t('verificationCodeDesc')}
                         </Text>
                     </View>
 
-                    <View style={[CONTENT_ELEMENT_WRAPPER, { flex: 1, justifyContent: "center" }]}>
+                    <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 100, flexDirection: "row", alignItems: "center", justifyContent: "flex-start" }]}>
+                        <Text style={[{ color: colors.brightTurquoise, fontWeight: "bold", lineHeight: 26, marginRight: 14 }, Fonts.textSmall, Fonts.textLeft]}>
+                            00:00
+                        </Text>
+                        <Text style={[{ color: colors.white, fontWeight: "bold", lineHeight: 26 }, Fonts.textSmall, Fonts.textLeft]}>
+                            {t('resendVerificationCode')}
+                        </Text>
+                    </View>
+
+                    <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 80, justifyContent: "flex-start" }]}>
                         <CodeField
                             ref={ref}
                             // Use `caretHidden={false}` when users can't paste a text value, because context menu doesn't appear
@@ -181,20 +200,20 @@ const ValidationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
                     </View>
 
                     {
-                        params.action === 'forgotPassword' && <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 80, justifyContent: "flex-start" }]}>
-                            <WhiteInput
-                                onChangeText={onPasswordChange}
-                                value={newPassword}
-                                placeholder={t("newPasswordAllCapital")}
-                                placeholderTextColor={colors.spanishGray}
-                                secureTextEntry={params.action === 'forgotPassword'}
-                            />
-                        </View>
+                        // params.action === 'forgotPassword' && <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 80, justifyContent: "flex-start" }]}>
+                        //     <WhiteInput
+                        //         onChangeText={onPasswordChange}
+                        //         value={newPassword}
+                        //         placeholder={t("newPasswordAllCapital")}
+                        //         placeholderTextColor={colors.spanishGray}
+                        //         secureTextEntry={params.action === 'forgotPassword'}
+                        //     />
+                        // </View>
                     }
 
                     <View style={[CONTENT_ELEMENT_WRAPPER, { flex: 1, justifyContent: "flex-start" }]}>
                         {
-                            errMsg !== "" && <Text style={[{ color: colors.orangeCrayola, fontFamily: "AvenirNext-Regular" }, Fonts.textSmall, Fonts.textCenter]}>
+                            errMsg !== "" && <Text style={[{ color: colors.magicPotion }, Fonts.textSmall, Fonts.textCenter]}>
                                 {errMsg}
                             </Text>
                         }
@@ -204,10 +223,14 @@ const ValidationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
 
                 <View style={[Layout.fullWidth, Layout.center, { flex: 1, justifyContent: "flex-start" }]}>
                     <TurquoiseButton
-                        text={t("verifyAccount")}
-                        containerStyle={Layout.fullWidth}
+                        text={t("confirm")}
                         isLoading={isVerifyingAccount}
-                        onPress={onVerifyAccountPress} />
+                        onPress={onVerifyAccountPress}
+                        isTransparentBackground
+                        containerStyle={{
+                            width: "45%",
+                        }}
+                    />
                 </View>
 
             </KeyboardAwareScrollView>
@@ -215,4 +238,4 @@ const ValidationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
     )
 }
 
-export default ValidationCodeScreen
+export default VerificationCodeScreen

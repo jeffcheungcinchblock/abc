@@ -11,7 +11,8 @@ import {
     Alert,
     ViewStyle,
     ImageBackground,
-    Linking
+    Linking,
+    Image
 } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { Brand, Header } from '@/Components'
@@ -38,9 +39,9 @@ import { startLoading } from '@/Store/UI/actions'
 import { Auth } from 'aws-amplify'
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth'
 
-import googleIcon from '@/Assets/icons/google.png'
-import appleIcon from '@/Assets/icons/apple.png'
-import facebookIcon from '@/Assets/icons/facebook.png'
+import googleIcon from '@/Assets/Images/icons/google.png'
+import appleIcon from '@/Assets/Images/icons/apple.png'
+import facebookIcon from '@/Assets/Images/icons/facebook.png'
 
 const BUTTON_VIEW = {
     marginVertical: 20
@@ -82,16 +83,6 @@ const SignUpWithCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
         username: "",
         password: ""
     })
-
-    useEffect(() => {
-        const run = async () => {
-            // await AsyncStorage.setItem("welcome_visited", "false")
-            let rawWelcomeVisited: string | null = await AsyncStorage.getItem("welcome_visited")
-            navigation.navigate([null, "false"].includes(rawWelcomeVisited) ? RouteStacks.welcomeGallery : RouteStacks.welcome)
-        }
-
-        run()
-    }, [])
 
     const onDisplayNotification = async () => {
         // Create a channel
@@ -179,7 +170,7 @@ const SignUpWithCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
 
     return (
         <ScreenBackgrounds
-            screenName={RouteStacks.welcome}
+            screenName={RouteStacks.signUpWithCode}
         >
 
             <KeyboardAwareScrollView
@@ -206,7 +197,7 @@ const SignUpWithCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
 
                     <View style={[{
                         flexGrow: 5,
-                        justifyContent: "flex-end",
+                        justifyContent: "center",
                     }, Layout.fullWidth, Layout.fill]}>
 
 
@@ -217,79 +208,100 @@ const SignUpWithCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
                         ]}>
                             <Pressable
                                 onPress={() => onLoginOptionPress("google")}
-                                style={{ width: "80%", backgroundColor: colors.cornflowerBlue, borderRadius: 20 }}
+                                style={{
+                                    width: "80%",
+                                    backgroundColor: colors.cornflowerBlue,
+                                    borderRadius: 99,
+                                    flexDirection: "row",
+                                    paddingVertical: 10,
+                                    paddingHorizontal: 20,
+                                    height: 48,
+                                    alignItems: "center",
+                                }}
                             >
-                                <Text style={{color: colors.white}}>{t("continueWithGoogleAllCapital")}</Text>
+                                <Image source={googleIcon} style={{ width: 30, height: 30, resizeMode: "contain" }} />
+                                <Text style={{ color: colors.white, marginLeft: 20 }}>{t("continueWithGoogleAllCapital")}</Text>
                             </Pressable>
                         </View>
 
-                  
 
-
-                    </View>
-
-                    <View style={[
-                        Layout.fullWidth,
-                        Gutters.regularVMargin,
-                        Layout.center,
-                        {
-                            flex: 1
-                        }
-                    ]}>
-                        <Pressable
-                            onPress={onSignInPress}
-                        >
-                            <Text style={[
-                                Fonts.textSmall,
-                                {
-                                    color: colors.brightTurquoise,
-                                }
-                            ]}>{t("alreadyHaveAnAc")}</Text>
-                        </Pressable>
-                    </View>
-
-                    <View style={[
-                        Layout.fullWidth,
-                        Gutters.largeVMargin,
-                        Layout.center,
-                        {
-                            flex: 1
-                        }
-                    ]}>
-                        <Text style={[
-                            Fonts.textSmall,
-                            {
-                                color: "#fff",
-                            }
-                        ]}>{t("orViaSocialMedia")}</Text>
-
-                        <View style={[Layout.fullWidth, Layout.colCenter, Layout.rowCenter, { flexBasis: 40, flexDirection: "row", marginVertical: 30 }]}>
-                            <SocialSignInButton
-                                isLoading={isLoggingIn}
+                        <View style={[
+                            Layout.fullWidth,
+                            Gutters.smallVMargin,
+                            Layout.center
+                        ]}>
+                            <Pressable
                                 onPress={() => onLoginOptionPress("facebook")}
-                                iconName="facebook"
-                                containerStyle={{
-                                    marginHorizontal: 8
+                                style={{
+                                    width: "80%",
+                                    backgroundColor: colors.glaucous,
+                                    borderRadius: 99,
+                                    flexDirection: "row",
+                                    paddingVertical: 10,
+                                    paddingHorizontal: 20,
+                                    height: 46,
+                                    alignItems: "center",
                                 }}
-                            />
-                            <SocialSignInButton
-                                isLoading={isLoggingIn}
-                                onPress={() => onLoginOptionPress("google")}
-                                iconName="google"
-                                containerStyle={{
-                                    marginHorizontal: 8
-                                }}
-                            />
-                            <SocialSignInButton
-                                isLoading={isLoggingIn}
-                                onPress={() => onLoginOptionPress("apple")}
-                                iconName="apple"
-                                containerStyle={{
-                                    marginHorizontal: 8
-                                }}
-                            />
+                            >
+                                <Image source={facebookIcon} style={{ width: 30, height: 30, resizeMode: "contain" }} />
+                                <Text style={{ color: colors.white, marginLeft: 20 }}>{t("continueWithFacebookAllCapital")}</Text>
+                            </Pressable>
                         </View>
+
+                       
+
+                        <View style={[
+                            Layout.fullWidth,
+                            Gutters.smallVMargin,
+                            Layout.center
+                        ]}>
+                            <Pressable
+                                onPress={() => onLoginOptionPress("apple")}
+                                style={{
+                                    width: "80%",
+                                    backgroundColor: colors.white,
+                                    borderRadius: 99,
+                                    flexDirection: "row",
+                                    paddingVertical: 10,
+                                    paddingHorizontal: 20,
+                                    height: 46,
+                                    alignItems: "center",
+                                }}
+                            >
+                                <Image source={appleIcon} style={{ width: 30, height: 30, resizeMode: "contain" }} />
+                                <Text style={{ color: colors.black, marginLeft: 20 }}>{t("continueWithAppleAllCapital")}</Text>
+                            </Pressable>
+                        </View>
+
+                        <View style={{justifyContent: "center", alignItems: "center"}}>
+                            <Text style={Fonts.textRegular}>{t("or")}</Text>
+                        </View>
+
+                        <View style={[
+                            Layout.fullWidth,
+                            Gutters.smallVMargin,
+                            Layout.center
+                        ]}>
+                            <Pressable
+                                onPress={() => navigation.navigate(RouteStacks.signUp)}
+                                style={{
+                                    width: "80%",
+                                    backgroundColor: colors.white,
+                                    borderRadius: 99,
+                                    flexDirection: "row",
+                                    paddingVertical: 10,
+                                    paddingHorizontal: 20,
+                                    height: 46,
+                                    alignItems: "center",
+                                }}
+                            >
+                                <Text style={{ color: colors.black, textAlign: 'center', width: "100%" }}>{t("signUpWithEmail")}</Text>
+                            </Pressable>
+                        </View>
+
                     </View>
+
+                    
 
 
                 </View>

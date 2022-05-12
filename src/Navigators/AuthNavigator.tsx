@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import React, { FC, useEffect, useState } from "react"
-import { SignInScreen, SignUpScreen, SignUpWithCodeScreen, ValidationCodeScreen, WelcomeGalleryScreen, ForgotPasswordScreen, WelcomeScreen } from '@/Screens/Auth'
+import { SignInScreen, SignUpScreen, SignUpWithCodeScreen, ValidationCodeScreen,
+   WelcomeGalleryScreen, ForgotPasswordScreen, WelcomeScreen, CreateNewPasswordScreen } from '@/Screens/Auth'
 import { RouteStacks } from "@/Navigators/routes"
 import { useDispatch } from "react-redux"
 import { login } from "@/Store/Users/actions"
@@ -25,6 +26,7 @@ export type AuthNavigatorParamList = {
   [RouteStacks.enterInvitationCode]: undefined
   [RouteStacks.forgotPassword]: undefined
   [RouteStacks.signUpWithCode]: undefined
+  [RouteStacks.createNewPassword]: { validationCode: string, username: string }
   // 🔥 Your screens go here
 }
 const Stack = createNativeStackNavigator<AuthNavigatorParamList>()
@@ -40,6 +42,7 @@ const AuthNavigator = () => {
       }}
       initialRouteName={RouteStacks.welcome}
     >
+      <Stack.Screen name={RouteStacks.signUpWithCode} component={SignUpWithCodeScreen} />
       <Stack.Screen name={RouteStacks.welcomeGallery} component={WelcomeGalleryScreen} />
       <Stack.Screen name={RouteStacks.welcome} component={WelcomeScreen} />
       <Stack.Screen name={RouteStacks.signIn} component={SignInScreen} />
@@ -47,7 +50,7 @@ const AuthNavigator = () => {
       <Stack.Screen name={RouteStacks.enterInvitationCode} component={EnterInvitaionCodeScreen} />
       <Stack.Screen name={RouteStacks.validationCode} component={ValidationCodeScreen} />
       <Stack.Screen name={RouteStacks.forgotPassword} component={ForgotPasswordScreen} />
-      <Stack.Screen name={RouteStacks.signUpWithCode} component={SignUpWithCodeScreen} />
+      <Stack.Screen name={RouteStacks.createNewPassword} component={CreateNewPasswordScreen} />
     </Stack.Navigator>
   )
 }

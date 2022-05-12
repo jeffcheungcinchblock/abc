@@ -49,7 +49,7 @@ import { RootState } from '@/Store'
 
 
 const PURPLE_COLOR = {
-    color: colors.orangeCrayola
+    color: colors.magicPotion
 }
 
 type ReferralInfo = {

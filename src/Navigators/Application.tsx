@@ -26,7 +26,13 @@ import { RootState } from '@/Store'
 import SnackbarMsgContainer from '@/Components/SnackbarMsgContainer'
 import { colors } from '@/Utils/constants'
 
-const Stack = createStackNavigator()
+
+export type ApplicationNavigatorParamList = {
+  [RouteStacks.startUp]: undefined
+  [RouteStacks.application]: undefined
+  // 🔥 Your screens go here
+}
+const Stack = createStackNavigator<ApplicationNavigatorParamList>()
 
 // @refresh reset
 const ApplicationNavigator = () => {
@@ -45,7 +51,7 @@ const ApplicationNavigator = () => {
           console.log("no active session found")
           return
         }
-        
+
         let { attributes, username } = user
 
         dispatch(login({
@@ -62,16 +68,16 @@ const ApplicationNavigator = () => {
 
   }, [])
 
-  let navProps : {
+  let navProps: {
     ref: NavigationContainerRefWithCurrent<any>,
     linking: LinkingOptions<any>
   } = isLoggedIn ? {
     ref: privateNavigationRef,
     linking: privateLinking
   } : {
-    ref: publicNavigationRef,
-    linking: publicLinking
-  }
+      ref: publicNavigationRef,
+      linking: publicLinking
+    }
 
   return (
     <SafeAreaView style={[Layout.fill, { backgroundColor: colors.black }]}>
@@ -79,7 +85,7 @@ const ApplicationNavigator = () => {
         <SnackBar
           {...snackBarConfig}
           textMessage={() => {
-            return <SnackbarMsgContainer textMessage={snackBarConfig.textMessage}/>
+            return <SnackbarMsgContainer textMessage={snackBarConfig.textMessage} />
           }}
           containerStyle={{
             borderRadius: 16,
@@ -96,17 +102,14 @@ const ApplicationNavigator = () => {
         <NavigationContainer theme={NavigationTheme}
           {...navProps}
         >
-          <StatusBar 
-          barStyle={darkMode ? 'light-content' : 'dark-content'} />
-          <Stack.Navigator>
-            <Stack.Screen name="Startup" component={StartupContainer}></Stack.Screen>
-            <Stack.Screen name="Application" component={
-              isScreenLoading ? (
-                LoadingScreen
-              ) : (
-                isLoggedIn ? MainNavigator : AuthNavigator
-              )}
-            ></Stack.Screen>
+          <StatusBar
+            barStyle={darkMode ? 'light-content' : 'dark-content'} />
+          {isScreenLoading && <LoadingScreen />}
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name={RouteStacks.startUp} component={StartupContainer} />
+            <Stack.Screen name={RouteStacks.application} component={
+              isLoggedIn ? MainNavigator : AuthNavigator
+            } />
           </Stack.Navigator>
         </NavigationContainer>
       </GestureHandlerRootView>

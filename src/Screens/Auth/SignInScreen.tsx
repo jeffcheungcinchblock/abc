@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, FC } from 'react'
+import React, { useState, useEffect, useCallback, FC, useRef } from 'react'
 import { StackScreenProps } from "@react-navigation/stack"
 import {
     View,
@@ -21,7 +21,6 @@ import { changeTheme, ThemeState } from '@/Store/Theme'
 import { login, logout } from '@/Store/Users/actions'
 import { UserState } from '@/Store/Users/reducer'
 import EncryptedStorage from 'react-native-encrypted-storage';
-import FontAwesome from 'react-native-vector-icons/FontAwesome'
 // @ts-ignore
 import Amplify, { Auth, Hub } from 'aws-amplify';
 
@@ -51,6 +50,11 @@ import SocialSignInButton from '@/Components/Buttons/SocialSignInButton'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { triggerSnackbar } from '@/Utils/helpers'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import StandardInput from '@/Components/Inputs/StandardInput'
+import ModalBox, { ModalProps } from 'react-native-modalbox';
+import { useFocusEffect } from '@react-navigation/native'
+import SlideInputModal from '@/Components/Modals/SlideInputModal'
+
 
 const LOGIN_BUTTON: ViewStyle = {
     height: 40,
@@ -79,9 +83,20 @@ const INPUT_VIEW_LAYOUT: ViewStyle = {
     justifyContent: "center"
 }
 
+const ERR_MSG_TEXT: TextStyle = {
+    color: colors.magicPotion
+}
+
+const initErrMsg = {
+    username: "",
+    password: ""
+}
+
 const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.signIn>> = (
     { navigation, route }
 ) => {
+
+    const modalRef = useRef<any>()
     const { t } = useTranslation()
     const { Common, Fonts, Gutters, Layout } = useTheme()
     const dispatch = useDispatch()
@@ -91,8 +106,11 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
     const params = route?.params || { username: "" }
 
     const [isLoggingIn, setIsLoggingIn] = useState(false)
-    const [errMsg, setErrMsg] = useState(" ")
+    const [errMsg, setErrMsg] = useState({
+        ...initErrMsg
+    })
 
+    const [showPassword, setShowPassword] = useState(false)
     const [credential, setCredential] = useState({
         username: "",
         password: ""
@@ -142,9 +160,8 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
 
     }, [])
 
-    const goBack = () => {
-        navigation.navigate(RouteStacks.welcome)
-
+    const onPasswordEyePress = () => {
+        setShowPassword(prev => !prev)
     }
 
     const onLoginOptionPress = async (loginOpt: string) => {
@@ -173,26 +190,23 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
 
             switch (err.message) {
                 case 'Username should be either an email or a phone number.':
-                    setErrMsg(err.message)
+                case 'User is not confirmed.':
+                case 'Incorrect username or password.':
+                case 'Username cannot be empty':
+                case 'User does not exist.':
+                    setErrMsg({
+                        ...initErrMsg,
+                        username: err.message
+                    })
                     break;
                 case 'Password did not conform with policy: Password not long enough':
-                    setErrMsg(err.message)
-                    break;
-                case 'User is not confirmed.':
-                    setErrMsg(err.message)
-                    break;
-                case 'Incorrect username or password.':
-                    setErrMsg(err.message)
-                    break;
-                case 'Username cannot be empty':
-                    setErrMsg(err.message)
-                    break;
-                case 'User does not exist.':
-                    setErrMsg(t("error.invalidUser"))
+                    setErrMsg({
+                        ...initErrMsg,
+                        password: err.message
+                    })
                     break;
                 default:
             }
-            console.log('err ', err.message)
             dispatch(startLoading(false))
         } finally {
             setIsLoggingIn(false)
@@ -208,13 +222,22 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
         })
     }
 
-    const onSignUpPress = () => {
-        navigation.navigate(RouteStacks.signUp)
-    }
-
     const onForgotPasswordPress = async () => {
         navigation.navigate(RouteStacks.forgotPassword)
     }
+
+    const goBack = () => {
+        navigation.navigate(RouteStacks.welcome)
+    }
+    
+    const onModalClose = () => {
+        navigation.navigate(RouteStacks.welcome)
+    }
+
+    useFocusEffect(useCallback(() => {
+        modalRef?.current?.open()
+    }, [modalRef]))
+
 
     return (
         <ScreenBackgrounds
@@ -227,98 +250,88 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                 contentContainerStyle={[
                     Layout.fill,
                     Layout.colCenter,
-
+                    Layout.justifyContentStart,
                 ]}
             >
                 <Header
                     onLeftPress={goBack}
+                    headerText={t("login")}
                 />
-                <View style={[{
-                    flexGrow: 6,
-                    justifyContent: "flex-start",
-                }, Layout.fullWidth, Layout.fill]}>
 
-                    <View style={[Layout.fullWidth, { justifyContent: "center", flex: 1 }]}>
-                        <Text style={[{ color: colors.white, fontFamily: "AvenirNext-Bold" }, Fonts.textRegular, Fonts.textCenter]}>
-                            {t("accountLogin")}
+                <View style={[{
+                    height: "25%",
+                    justifyContent: "center",
+                }, Layout.fullWidth]}>
+
+                    <AppIcon />
+
+                    <View style={[Layout.fullWidth, { justifyContent: "center", paddingVertical: 40, paddingHorizontal: 20 }]}>
+                        <Text style={[{ color: colors.white, fontWeight: "bold" }, Fonts.textRegular, Fonts.textCenter]}>
+                            {t("welcomeBack")} !
                         </Text>
                     </View>
 
+                </View>
+
+
+                <SlideInputModal
+                    ref={modalRef}
+                    onModalClose={onModalClose}
+                >
+
                     <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT]}>
-                        <WhiteInput
+                        <StandardInput
                             onChangeText={(text) => onCredentialFieldChange('username', text)}
                             value={credential.username}
-                            placeholder={t("accountName")}
+                            placeholder={t("username")}
                             placeholderTextColor={colors.spanishGray}
 
                         />
+                         {
+                            <Text style={ERR_MSG_TEXT}>{errMsg.username}</Text>
+                        }
                     </View>
+                    
 
                     <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT]}>
-                        <WhiteInput
+                        <StandardInput
                             onChangeText={(text) => onCredentialFieldChange('password', text)}
                             value={credential.password}
                             placeholder={t("password")}
-                            secureTextEntry={true}
                             placeholderTextColor={colors.spanishGray}
+                            secureTextEntry={!showPassword}
+                            showPassword={showPassword}
+                            onPasswordEyePress={onPasswordEyePress}
                         />
-                    </View>
-
-                    <View style={[Layout.fullWidth, Layout.colCenter, { flexBasis: 20 }]}>
-                        {
-                            errMsg && <Text style={{ color: colors.orangeCrayola }}>{errMsg}</Text>
+                         {
+                            <Text style={ERR_MSG_TEXT}>{errMsg.password}</Text>
                         }
                     </View>
 
-                    <View style={[Layout.fullWidth, Layout.colCenter, Layout.rowCenter, { flexBasis: 40, flexDirection: "row", marginVertical: 30 }]}>
-                        <SocialSignInButton
-                            isLoading={isLoggingIn}
-                            onPress={() => onLoginOptionPress("facebook")}
-                            iconName="facebook"
+                    <View style={[Layout.fullWidth, Layout.center, Gutters.regularVPadding, { flex: 1, justifyContent: "center" }]}>
+                        <TurquoiseButton
+                            onPress={() => onLoginOptionPress("normal")}
+                            text={t("login")}
+                            isTransparentBackground
                             containerStyle={{
-                                marginHorizontal: 8
+                                width: "45%",
                             }}
                         />
-                        <SocialSignInButton
-                            isLoading={isLoggingIn}
-                            onPress={() => onLoginOptionPress("google")}
-                            iconName="google"
-                            containerStyle={{
-                                marginHorizontal: 8
-                            }}
-                        />
-                        <SocialSignInButton
-                            isLoading={isLoggingIn}
-                            onPress={() => onLoginOptionPress("apple")}
-                            iconName="apple"
-                            containerStyle={{
-                                marginHorizontal: 8
-                            }}
-                        />
-                    </View>
-
-                    <View style={[Layout.fullWidth, Gutters.largeHPadding, Layout.center, { flexBasis: 50, justifyContent: "flex-start", }]}>
-                        <Pressable style={[Layout.fullWidth, Layout.center]} onPress={onSignUpPress}>
-                            <Text style={[{ color: colors.white }, Fonts.textSmall]}>{t("createANewAccount")}</Text>
+                        <Pressable style={[Layout.fullWidth, Layout.center, {marginBottom: 30, marginTop: 10}]}
+                            onPress={onForgotPasswordPress}
+                        >
+                            <Text style={{color: colors.white, textDecorationLine: "underline"}}>{t("forgotPassword")}</Text>
                         </Pressable>
+                        
+                        <View style={{ flexDirection: "row" }}>
+                            <Text style={{ color: colors.white }}>{t("dontHaveAnAccount")}</Text>
+                            <Pressable style={{ paddingLeft: 6 }} onPress={() => navigation.navigate(RouteStacks.signUp)}>
+                                <Text style={{ color: colors.brightTurquoise, fontWeight: "bold" }}>{t("signUp")}</Text>
+                            </Pressable>
+                        </View>
                     </View>
-
-                    <View style={[Layout.fullWidth, Gutters.largeHPadding, Layout.center, { flexBasis: 50, justifyContent: "flex-start", }]}>
-                        <Pressable style={[Layout.fullWidth, Layout.center]} onPress={onForgotPasswordPress}>
-                            <Text style={[{ color: colors.white }, Fonts.textSmall]}>{t("forgotPassword")}</Text>
-                        </Pressable>
-                    </View>
-                </View>
-
-                <View style={[Layout.fullWidth, Layout.center, { flex: 1, justifyContent: "flex-start" }]}>
-                    <TurquoiseButton
-                        onPress={() => onLoginOptionPress("normal")}
-                        text={t("login")}
-                        containerStyle={Layout.fullWidth}
-                        isLoading={isLoggingIn}
-                    />
-                </View>
-
+               
+                </SlideInputModal>
 
             </KeyboardAwareScrollView>
         </ScreenBackgrounds>

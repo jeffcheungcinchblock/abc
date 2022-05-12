@@ -62,6 +62,12 @@ export default function ({}: ThemeVariables): ThemeLayout {
     alignItemsStretch: {
       alignItems: 'stretch',
     },
+    justifyContentStart: {
+      justifyContent: "flex-start"
+    },
+    justifyContentEnd: {
+      justifyContent: "flex-start"
+    },
     justifyContentCenter: {
       justifyContent: 'center',
     },

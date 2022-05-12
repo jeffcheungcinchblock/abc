@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { View, Image, Text, ActivityIndicator, Pressable, PressableProps, ViewStyle } from 'react-native'
+import { View, Image, Text, ActivityIndicator, Pressable, PressableProps, ViewStyle, TextStyle } from 'react-native'
 import { useTheme } from '@/Hooks'
 import { colors } from '@/Utils/constants'
 
@@ -15,18 +15,18 @@ type TurquoiseButtonProps = {
     isTransparentBackground?: boolean
 }
 
-const DEFAULT_TEXT_STYLE = {
+const DEFAULT_TEXT_STYLE : TextStyle = {
     fontSize: 16,
+    fontWeight: "bold",
     color: colors.black,
-    marginLeft: 10,
 }
 
 const BUTTON_STYLE: ViewStyle = {
     backgroundColor: colors.brightTurquoise,
     width: "100%",
-    height: 40,
+    height: 34,
     borderRadius: 20,
-    justifyContent: "center"
+    justifyContent: "center",
 }
 
 const TurquoiseButton = ({
@@ -51,19 +51,19 @@ const TurquoiseButton = ({
                 style={[BUTTON_STYLE, {
                     backgroundColor: isTransparentBackground ? "transparent" : colors.brightTurquoise,
                     borderColor: isTransparentBackground ? colors.brightTurquoise : "transparent",
-                    borderWidth: isTransparentBackground ? 1 : 0
-
+                    borderWidth: isTransparentBackground ? 1 : 0,
+                    alignItems: "center"
                 }]}
             >
                 {
                     isLoading ? <ActivityIndicator
-                        size="small" color={"#fff"}
+                        size="small" color={colors.white}
                     /> : <View style={[Layout.rowCenter]}>
                         {leftIcon && leftIcon()}
                         <Text
                             style={[DEFAULT_TEXT_STYLE, textStyle, {
                                 textAlign: "center",
-                                color: isTransparentBackground ? colors.brightTurquoise : "#000",
+                                color: isTransparentBackground ? colors.brightTurquoise : colors.black,
                             }]}
                         >{text}</Text>
                         {rightIcon && rightIcon()}

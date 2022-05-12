@@ -6,6 +6,7 @@
 #import <Firebase.h>
 #import <React/RCTLinkingManager.h>
 #import <RNAppsFlyer.h>
+#import "RNBootSplash.h" // <- add the header import
 
 #ifdef FB_SONARKIT_ENABLED
 #import <FlipperKit/FlipperClient.h>
@@ -14,7 +15,6 @@
 #import <FlipperKitNetworkPlugin/FlipperKitNetworkPlugin.h>
 #import <SKIOSNetworkPlugin/SKIOSNetworkAdapter.h>
 #import <FlipperKitReactPlugin/FlipperKitReactPlugin.h>
-#import "RNBootSplash.h" // <- add the header import
 
 static void InitializeFlipper(UIApplication *application) {
   FlipperClient *client = [FlipperClient sharedClient];

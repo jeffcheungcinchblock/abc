@@ -115,8 +115,7 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
     }
 
     const onSignInPress = () => {
-        // navigation.navigate(RouteStacks.signIn)
-        navigation.navigate(RouteStacks.signUpWithCode)
+        navigation.navigate(RouteStacks.signIn)
     }
 
     const onLoginOptionPress = async (loginOpt: string) => {
@@ -190,6 +189,7 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
                 <Header
                     headerText=" "
                 />
+
                 <View style={{
                     alignItems: "center",
                     width: "100%",
@@ -199,36 +199,39 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
                 }}>
 
                     <AppLogo style={{
-                        height: "25%",
+                        height: 150,
                     }} />
 
                     <View style={[{
-                        flexGrow: 5,
+                        flexGrow: 4,
                         justifyContent: "flex-end",
                     }, Layout.fullWidth, Layout.fill]}>
 
 
                         <View style={[
                             Layout.fullWidth,
-                            Gutters.smallVMargin,
+                            Gutters.smallVPadding,
                             Layout.center
                         ]}>
                             <TurquoiseButton
                                 text={t("signUp")}
                                 onPress={onSignUpPress}
                                 isTransparentBackground
-                                containerStyle={{ width: "50%" }}
+                                containerStyle={{ width: "45%" }}
                             />
                         </View>
 
                         <View style={[
                             Layout.fullWidth,
-                            Gutters.smallVMargin,
                             Layout.center,
+                            {
+                                paddingBottom: 0,
+                                paddingTop: 10
+                            }
                         ]}>
                             <TurquoiseButton
                                 text={t("invitationCode")}
-                                containerStyle={{ width: "50%" }}
+                                containerStyle={{ width: "45%" }}
                                 onPress={() => navigation.navigate(RouteStacks.enterInvitationCode)}
                             />
                         </View>
@@ -238,10 +241,10 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
 
                     <View style={[
                         Layout.fullWidth,
-                        Gutters.regularVMargin,
                         Layout.center,
                         {
-                            flex: 1
+                            flex: 1,
+                            paddingBottom: 40
                         }
                     ]}>
                         <Pressable

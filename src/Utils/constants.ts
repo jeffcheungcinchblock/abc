@@ -18,11 +18,10 @@ export const colors = {
     spanishGray: "#969696",
     violetsAreBlue: "#9472FF",
     brightTurquoise: "#00F2DE",
-    orangeCrayola: "#FF7529",
     charcoal: "#343950",
     silverSand: "#C5C5C5",
     cornflowerBlue: "#6398F0",
     glaucous: "#5C7CBA",
-    
+    magicPotion: "#FD4762",
     
 }

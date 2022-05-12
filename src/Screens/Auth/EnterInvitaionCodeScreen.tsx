@@ -20,7 +20,6 @@ import { changeTheme, ThemeState } from '@/Store/Theme'
 import { login, logout, storeInvitationCode } from '@/Store/Users/actions'
 import { UserState } from '@/Store/Users/reducer'
 import EncryptedStorage from 'react-native-encrypted-storage';
-import FontAwesome from 'react-native-vector-icons/FontAwesome'
 // @ts-ignore
 import Amplify, { Auth, Hub } from 'aws-amplify';
 // @ts-ignore
@@ -48,6 +47,7 @@ import { triggerSnackbar } from '@/Utils/helpers'
 import ModalBox from 'react-native-modalbox';
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import StandardInput from '@/Components/Inputs/StandardInput'
 
 const LOGIN_BUTTON: ViewStyle = {
     height: 40,
@@ -121,8 +121,13 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
         setCode(text)
     }
 
+    const onModalClose = () => {
+        console.log('onModalClose')
+        navigation.navigate(RouteStacks.welcome)
+    }
+
     const onGetActivationCodePress = () => {
-        
+
     }
 
     return (
@@ -135,9 +140,7 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
                 contentContainerStyle={[
                     Layout.fill,
                     Layout.colCenter,
-                    {
-                        justifyContent: "flex-start"
-                    }
+                    Layout.justifyContentStart,
                 ]}
             >
 
@@ -148,22 +151,16 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
 
 
                 <View style={[{
-                    height: "50%",
+                    height: "40%",
                     justifyContent: "center",
                 }, Layout.fullWidth]}>
 
                     <AppIcon />
 
                     <View style={[Layout.fullWidth, { justifyContent: "center", paddingVertical: 40, paddingHorizontal: 20 }]}>
-                        <Text style={[{ color: colors.white }, Fonts.textSmall, Fonts.textCenter]}>
+                        <Text style={[{ color: colors.white, lineHeight: 22 }, Fonts.textSmall, Fonts.textCenter]}>
                             {t("enterInvitationCodeDesc")}
                         </Text>
-                    </View>
-
-                    <View style={[Layout.fullWidth, Layout.colCenter, { flexBasis: 20 }]}>
-                        {
-                            errMsg && <Text style={{ color: colors.orangeCrayola }}>{errMsg}</Text>
-                        }
                     </View>
 
                 </View>
@@ -171,28 +168,28 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
                 <ModalBox
                     ref={modalRef}
                     backdropPressToClose={false}
-                    swipeToClose={false}
+                    swipeToClose={true}
                     position="bottom"
                     entry="bottom"
                     backdrop={false}
                     backButtonClose={false}
-                    // coverScreen={true}
                     isOpen={true}
                     keyboardTopOffset={41}
                     animationDuration={500}
+                    onClosed={onModalClose}
                     style={{
                         height: '50%',
                         backgroundColor: colors.charcoal,
-                        borderTopLeftRadius: 40,
-                        borderTopRightRadius: 40,
+                        borderTopLeftRadius: 20,
+                        borderTopRightRadius: 20,
                     }}
                 >
-                    <View style={[Layout.fullWidth, Gutters.largeVPadding, Layout.center]}>
+                    <View style={[Layout.fullWidth, Gutters.regularVPadding, Layout.center]}>
                         <View style={{ backgroundColor: colors.spanishGray, borderRadius: 20, width: "10%", height: 4 }} />
                     </View>
 
                     <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT, { flexBasis: 80 }]}>
-                        <TextInput
+                        <StandardInput
                             onChangeText={onCodeChange}
                             value={code}
                             placeholder={t("activationCode")}
@@ -211,11 +208,11 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
                             isLoading={isLoggingIn}
                             isTransparentBackground
                             containerStyle={{
-                                width: "50%",
+                                width: "45%",
                             }}
                         />
                         <Pressable onPress={onGetActivationCodePress}>
-                            <Text style={{textDecorationLine: "underline", color: colors.white}}>{t("getActivationCode")}</Text>
+                            <Text style={{ textDecorationLine: "underline", color: colors.white }}>{t("getActivationCode")}</Text>
                         </Pressable>
                     </View>
                 </ModalBox>

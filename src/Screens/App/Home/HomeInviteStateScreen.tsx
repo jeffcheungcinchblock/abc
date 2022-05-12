@@ -28,7 +28,6 @@ import Share from 'react-native-share';
 import share from '@/Utils/share'
 import HeaderLayout from '@/Styles/HeaderLayout'
 import { RouteStacks } from '@/Navigators/routes'
-import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import { CompositeScreenProps } from '@react-navigation/native'
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
 import { DrawerScreenProps } from '@react-navigation/drawer'
@@ -42,7 +41,7 @@ import Clipboard from '@react-native-clipboard/clipboard';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 const PURPLE_COLOR = {
-    color: colors.orangeCrayola
+    color: colors.magicPotion
 }
 
 type HomeInviteStateScreenNavigationProp = CompositeScreenProps<

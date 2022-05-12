@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, FC } from 'react'
+import React, { useState, useEffect, useCallback, FC, useRef, LegacyRef } from 'react'
 import { StackScreenProps } from "@react-navigation/stack"
 import {
     View,
@@ -33,6 +33,11 @@ import WhiteInput from '@/Components/Inputs/WhiteInput'
 import TurquoiseButton from '@/Components/Buttons/TurquoiseButton'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { startLoading } from '@/Store/UI/actions'
+import AppIcon from '@/Components/Icons/AppIcon'
+import ModalBox from 'react-native-modalbox';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import StandardInput from '@/Components/Inputs/StandardInput'
+import SlideInputModal from '@/Components/Modals/SlideInputModal'
 
 const BUTTON_ICON = {
     width: 30
@@ -47,20 +52,33 @@ const INPUT_VIEW_LAYOUT: ViewStyle = {
     justifyContent: "center"
 }
 
+const ERR_MSG_TEXT: TextStyle = {
+    color: colors.magicPotion
+}
+
+const initErrMsg = {
+    email: "",
+    username: "",
+    password: ""
+}
+
 const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.signUp>> = (
     { navigation, route }
 ) => {
-    const params = route?.params || { code: "" }
+    const modalRef = useRef<any>()
     const { t } = useTranslation()
     const { Common, Fonts, Gutters, Layout } = useTheme()
     const dispatch = useDispatch()
     const [isCreatingAccount, setIsCreatingAccount] = useState(false)
-    const [errMsg, setErrMsg] = useState("")
+    const [errMsg, setErrMsg] = useState({
+        ...initErrMsg
+    })
     const [credential, setCredential] = useState({
         username: "",
         password: "",
         email: "",
     })
+    const [showPassword, setShowPassword] = useState(false)
 
     const onCredentialFieldChange = (field: string, text: string) => {
         setCredential(prevCredential => {
@@ -72,11 +90,15 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
     }
 
     const onCreateAccountPress = useCallback(async () => {
-        if(credential.email === ''){
-            setErrMsg(t("error.emailEmpty"))
+        console.log("onCreateAccountPress")
+        if (credential.email === '') {
+            setErrMsg({
+                ...initErrMsg,
+                email: t("error.emailEmpty"),
+            })
             return
         }
-        
+
         try {
             dispatch(startLoading(true))
             setIsCreatingAccount(true)
@@ -88,35 +110,57 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                     email: credential.email,
                 }
             });
-
             setIsCreatingAccount(false)
             navigation.navigate(RouteStacks.validationCode, {
                 username: user.username,
                 action: 'signUp',
-                code: params.code
             })
         } catch (error: any) {
+            console.log('error.message', error.message)
             switch (error.message) {
                 case 'Password did not conform with policy: Password must have uppercase characters':
-                    setErrMsg(error.message)
-                    // TBD
+                case 'Password cannot be empty':
+                    setErrMsg({
+                        ...errMsg,
+                        password: error.message
+                    })
                     break;
-                default:
-                    setErrMsg(error.message)
+                case 'Username cannot be empty':
+                    setErrMsg({
+                        ...errMsg,
+                        username: error.message
+                    })
+                    break;
+                case 'Invalid email address format.':
+                    setErrMsg({
+                        ...errMsg,
+                        email: error.message
+                    })
+                    break;
             }
         } finally {
             dispatch(startLoading(false))
             setIsCreatingAccount(false)
         }
 
-    }, [credential])
+    }, [credential, errMsg])
 
     const goBack = () => {
-        navigation.navigate(RouteStacks.signIn)
+        navigation.navigate(RouteStacks.welcome)
+    }
+
+    const onModalClose = () => {
+        navigation.navigate(RouteStacks.welcome)
+    }
+
+    const onPasswordEyePress = () => {
+        setShowPassword(prev => !prev)
     }
 
     useEffect(() => {
-        setErrMsg("")
+        setErrMsg({
+            ...initErrMsg
+        })
     }, [])
 
     return (
@@ -124,78 +168,95 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
             screenName={RouteStacks.signUp}
         >
 
-
             <KeyboardAwareScrollView
                 style={Layout.fill}
                 contentContainerStyle={[
                     Layout.fill,
                     Layout.colCenter,
+                    Layout.justifyContentStart,
                 ]}
             >
 
                 <Header
+                    headerText={t("createAccount")}
                     onLeftPress={goBack}
                 />
-                <View style={[{
-                    flexGrow: 6,
-                    justifyContent: "flex-start",
-                }, Layout.fullWidth, Layout.fill]}>
 
-                    <View style={[Layout.fullWidth, { justifyContent: "center", flex: 1 }]}>
-                        <Text style={[{ color: colors.white, fontFamily: "AvenirNext-Bold" }, Fonts.textRegular, Fonts.textCenter]}>
-                            {t('createAccountAllCapital')}
+                <View style={[{
+                    height: "25%",
+                    justifyContent: "center",
+                }, Layout.fullWidth]}>
+
+                    <AppIcon />
+
+                    <View style={[Layout.fullWidth, { justifyContent: "center", paddingVertical: 30, paddingHorizontal: 20 }]}>
+                        <Text style={[{ color: colors.white, fontWeight: "bold" }, Fonts.textRegular, Fonts.textCenter]}>
+                            {t("getStarted")} !
                         </Text>
                     </View>
 
+                </View>
 
-                    <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT]}>
-                        <WhiteInput
+                <SlideInputModal
+                    ref={modalRef}
+                    onModalClose={onModalClose}
+                >
+                    <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT, { flexBasis: 80 }]}>
+                        <StandardInput
                             onChangeText={(text) => onCredentialFieldChange('email', text)}
                             value={credential.email}
-                            placeholder={"EMAIL"}
+                            placeholder={t("email")}
                             placeholderTextColor={colors.spanishGray}
-
                         />
-                    </View>
-
-                    <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT]}>
-                        <WhiteInput
-                            onChangeText={(text) => onCredentialFieldChange('username', text)}
-                            value={credential.username}
-                            placeholder={"USER NAME"}
-                            placeholderTextColor={colors.spanishGray}
-
-                        />
-                    </View>
-
-                    <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT]}>
-                        <WhiteInput
-                            onChangeText={(text) => onCredentialFieldChange('password', text)}
-                            value={credential.password}
-                            placeholder={"PASSWORD"}
-                            placeholderTextColor={colors.spanishGray}
-
-                            secureTextEntry={true}
-                        />
-                    </View>
-
-                    <View style={[Layout.fullWidth, { justifyContent: "flex-start", flex: 1 }]}>
                         {
-                            errMsg !== "" && <Text style={[{ color: colors.orangeCrayola, fontFamily: "AvenirNext-Regular" }, Fonts.textSmall, Fonts.textCenter]}>
-                                {errMsg}
-                            </Text>
+                            <Text style={[ERR_MSG_TEXT, Gutters.smallHPadding]}>{errMsg.email}</Text>
                         }
                     </View>
 
-                </View>
+                    <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT, { flexBasis: 80 }]}>
+                        <StandardInput
+                            onChangeText={(text) => onCredentialFieldChange('username', text)}
+                            value={credential.username}
+                            placeholder={t("username")}
+                            placeholderTextColor={colors.spanishGray}
+                        />
+                        {
+                            <Text style={[ERR_MSG_TEXT, Gutters.smallHPadding]}>{errMsg.username}</Text>
+                        }
+                    </View>
 
-                <View style={[Layout.fullWidth, Layout.center, { flex: 1, justifyContent: "flex-start" }]}>
-                    <TurquoiseButton
-                        text={t("createAccount")}
-                        containerStyle={Layout.fullWidth}
-                        isLoading={isCreatingAccount}
-                        onPress={onCreateAccountPress} />
-                </View>
+                    <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT, { flexBasis: 80 }]}>
+                        <StandardInput
+                            onChangeText={(text) => onCredentialFieldChange('password', text)}
+                            value={credential.password}
+                            placeholder={t("password")}
+                            placeholderTextColor={colors.spanishGray}
+                            secureTextEntry={!showPassword}
+                            showPassword={showPassword}
+                            onPasswordEyePress={onPasswordEyePress}
+                        />
+                        {
+                            <Text style={[ERR_MSG_TEXT, Gutters.smallHPadding]}>{errMsg.password}</Text>
+                        }
+                    </View>
+
+                    <View style={[Layout.fullWidth, Layout.center, Gutters.largeVPadding, { flex: 1, justifyContent: "space-between" }]}>
+                        <TurquoiseButton
+                            onPress={onCreateAccountPress}
+                            text={t("create")}
+                            isTransparentBackground
+                            containerStyle={{
+                                width: "45%",
+                            }}
+                        />
+                        <View style={{ flexDirection: "row" }}>
+                            <Text style={{ color: colors.white }}>{t("alreadyHaveAnAccount")}</Text>
+                            <Pressable style={{ paddingLeft: 6 }} onPress={() => navigation.navigate(RouteStacks.signIn)}>
+                                <Text style={{ color: colors.brightTurquoise, fontWeight: "bold" }}>{t("logIn")}</Text>
+                            </Pressable>
+                        </View>
+                    </View>
+                </SlideInputModal>
 
             </KeyboardAwareScrollView>
         </ScreenBackgrounds>

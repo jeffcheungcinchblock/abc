@@ -60,7 +60,7 @@ const FourthScreen : FC<any> = ({navigation, Layout, t}) => {
     }
     
     return (
-        <View style={{ flex: 1, backgroundColor: colors.orangeCrayola }} >
+        <View style={{ flex: 1, backgroundColor: colors.magicPotion }} >
             <View style={[Layout.fullWidth, { flex: 10 }]}>
             </View>
 
