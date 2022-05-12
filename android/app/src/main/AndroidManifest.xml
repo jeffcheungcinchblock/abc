@@ -1,22 +1,21 @@
 <manifest
   xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.dragondapprn"
+  package="com.fitevo"
 
 >
-+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
-+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-+    <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
   <!-- Always include this permission -->
       <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
       <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
       <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
       <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
-+    <queries>
-+    <package android:name="com.google.android.apps.fitness" />
-+    </queries>
-  package="com.fitevo"
->
+    <queries>
+    <package android:name="com.google.android.apps.fitness" />
+    </queries>
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.USE_BIOMETRIC" />
     <uses-permission android:name="android.permission.USE_FINGERPRINT" />
@@ -31,8 +30,10 @@
       <activity
         android:name=".SplashActivity"
         android:theme="@style/SplashTheme"
-        android:label="@string/app_name"
-      >
+
+          android:exported="true"
+
+          >
         <intent-filter>
           <action android:name="android.intent.action.MAIN" />
           <category android:name="android.intent.category.LAUNCHER" />
@@ -41,9 +42,11 @@
 
       <activity
         android:name=".MainActivity"
-        android:label="@string/app_name"
+
         android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
         android:launchMode="singleTask"
+        android:exported="true"
+
         android:windowSoftInputMode="adjustResize">
         <intent-filter>
           <action android:name="android.intent.action.MAIN" />
@@ -52,8 +55,6 @@
           <action android:name="android.intent.action.VIEW"/>
           <category android:name="android.intent.category.DEFAULT"/>
           <category android:name="android.intent.category.BROWSABLE"/>
-          <data android:host="test-dragon-dev.onelink.me" android:scheme="http"/>
-          <data android:host="test-dragon-dev.onelink.me" android:scheme="https"/>
           <data android:host="fitevo.page.link" android:scheme="http"/>
           <data android:host="fitevo.page.link" android:scheme="https"/>
 
@@ -61,7 +62,7 @@
       </activity>
    <!-- You will only need to add this meta-data tag, but make sure it's a child of application -->
         <meta-data
-     android:name="com.google.android.geo.API_KEY"
+          android:name="com.google.android.geo.API_KEY"
           android:value="AIzaSyASm0MfpQn0s2KyvXf39_9NgoXb4eUWw0g"/>
        <service android:name="com.transistorsoft.locationmanager.service.TrackingService" android:foregroundServiceType="location" />
        <service android:name="com.transistorsoft.locationmanager.service.LocationRequestService" android:foregroundServiceType="location" />

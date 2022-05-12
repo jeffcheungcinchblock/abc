@@ -34,7 +34,7 @@ const WhiteInput = (props: WhiteInputProps) => {
                     borderRadius: 10,
                     height: 45,
                     textAlign: "center",
-                    textTransform: "uppercase",
+                    // textTransform: "uppercase",
                     color: colors.spanishGray,
                     ...style as object,
                 }}

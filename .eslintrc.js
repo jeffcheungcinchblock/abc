@@ -7,7 +7,7 @@ module.exports = {
 	plugins: [ 'jest' ],
 	rules: {
 		'semi': [ 'error', 'never' ],
-		'indent': [ 'error', '4' ],
+		'indent': [ 'error', 'tab' ],
 		'object-curly-spacing': [ 'error', 'always' ],
 		'array-bracket-spacing': [ 'error', 'always' ],
 		'react/require-default-props': [ 'error' ],

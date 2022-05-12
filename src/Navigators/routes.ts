@@ -5,6 +5,7 @@ export enum RouteTabs {
     social = 'social',
     marketplace = 'marketplace',
     workoutMap = 'workoutMap',
+    litemode = 'litemode',
     workout = 'workout',
 }
 

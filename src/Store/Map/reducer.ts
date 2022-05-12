@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { start, move, ready, pause, resume, stop,init } from './actions'
+import { start, move, ready, pause, resume, stop, init } from './actions'
 import { getDistanceBetweenTwoPoints } from '../../Healthkit/utils'
 
 export type State = {
@@ -45,10 +45,10 @@ const initialState:State = { currentState: ActivityType.LOADING, startTime: new 
 
 
 export default createReducer<State>(initialState, (builder) => {
-	builder.addCase(init, (state,action)=>{
-		const initialStateStart:State = { currentState:ActivityType.LOADING, startTime: null , endTime:null, latitude:null, longitude:null, distance:0, calories:0, steps:0, heartRate :0, paths:[   { numberOfPath:0, pauseTime:null, endPauseTime:null, reduceStep:0 } ] }
-			console.log('initialStateStart', initialStateStart)
-			return initialStateStart
+	builder.addCase(init, (state, action)=>{
+		const initialStateStart:State = { currentState:ActivityType.LOADING, startTime: null, endTime:null, latitude:null, longitude:null, distance:0, calories:0, steps:0, heartRate :0, paths:[   { numberOfPath:0, pauseTime:null, endPauseTime:null, reduceStep:0 } ] }
+		console.log('initialStateStart', initialStateStart)
+		return initialStateStart
 	})
 	builder
 		.addCase(ready, (state, action)=>{
@@ -67,12 +67,10 @@ export default createReducer<State>(initialState, (builder) => {
 			}
 			const newCarlorieBurned = action.payload.calories
 			//sum of an array
-
 			let totalReduceStep = 0
 			state.paths.forEach(path => {
 				totalReduceStep += path.reduceStep
 			})
-
 			const newSteps = action.payload.steps! - totalReduceStep
 			const distance = getDistanceBetweenTwoPoints(state.latitude!, state.longitude!, action.payload.latitude!, action.payload.longitude!)
 
@@ -82,18 +80,11 @@ export default createReducer<State>(initialState, (builder) => {
 
 			if (distance > 0)
 			{
-
 				const newPaths = JSON.parse(JSON.stringify(state.paths))
 				if (!newPaths[newPaths.length - 1].coordinates || newPaths[newPaths.length - 1].coordinates.length === 0){
-					console.log(1)
 					newPaths[newPaths.length - 1].coordinates = [ { latitude: action.payload.latitude, longitude: action.payload.longitude } ]
-					console.log(2)
-
 				} else {
-					console.log(3)
-					console.log(newPaths[newPaths.length - 1])
 					newPaths[newPaths.length - 1].coordinates!.push({ latitude: action.payload.latitude, longitude: action.payload.longitude })
-					console.log(4)
 
 				}
 
@@ -127,14 +118,11 @@ export default createReducer<State>(initialState, (builder) => {
 		newPaths[lastIndexofCoordinate].reduceStep = reduceStep!
 
 		newPaths.push({ numberOfPath: newPaths.length + 1, pauseTime: null, endPauseTime: null, reduceStep:0, coordinates:[ { latitude: action.payload.latitude, longitude: action.payload.longitude } ] })
-		// newPaths[newPaths.length].coordinates.push({ latitude: action.payload.latitude, longitude: action.payload.longitude } )
-		// newPaths[newPaths.length].coordinates = [ { latitude: action.payload.latitude, longitude: action.payload.longitude } ]
-
 		return { ...state, currentState:ActivityType.MOVING, paths:newPaths }
 	})
 
 	builder.addCase(stop, (state, action)=>{
-		return { ...state,currentState:ActivityType.ENDED, endTime: action.payload.endTime }
+		return { ...state, currentState:ActivityType.ENDED, endTime: action.payload.endTime }
 	})
 })
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect ,FC} from 'react'
+import React, { useState, useEffect, FC } from 'react'
 import {
 	View,
 	Text,
@@ -42,7 +42,7 @@ type LatLng ={
         DrawerScreenProps<DrawerNavigatorParamList>
     >>
 
-const MapScreen: FC<WorkoutMapScreenScreenNavigationProp>  = ({ navigation, route }) => {
+const MapScreen: FC<WorkoutMapScreenScreenNavigationProp>  = (props, { navigation, route }) => {
 
 	const [ region, setRegion ] = useState({
 		latitude: 22.371,
