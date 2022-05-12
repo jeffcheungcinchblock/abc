@@ -49,7 +49,7 @@ import { RootState } from '@/Store'
 
 
 const PURPLE_COLOR = {
-    color: colors.orangeCrayola
+    color: colors.magicPotion
 }
 
 type ReferralInfo = {
@@ -150,7 +150,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
     const onSharePress = async () => {
 
         const shareRes = await share({
-            url: `https://test-dragon-dev.onelink.me/xNJK/?screen=enterInvitationCode&deep_link_value=${referralInfo.referral}`,
+            url: `${config.onelinkUrl}/?screen=enterInvitationCode&deep_link_value=${referralInfo.referral}`,
             title: "Invite your friend", message: "Invite your friend",
         })
 

@@ -70,14 +70,14 @@ const StartScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 						.catch(err => {
 							console.error(err)
 						})
-				} else {
-					setIstHealthKitReady(true)
 				}
 			})
 		}
 		startInit()
 		dispatch({ type:'init' })
+		setIstHealthKitReady(true)
 	}, [])
+
 	useEffect(() => {
 		const onLocation: Subscription = BackgroundGeolocation.onLocation((location) => {
 			if (currentState !== ActivityType.PAUSE){
@@ -121,8 +121,7 @@ const StartScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 					})
 					dispatch({ type:'ready' })
 					console.log('dispatch ready', ActivityType[currentState])
-				 	BackgroundGeolocation.getCurrentPosition({ samples: 1,
-						persist: true }).then(result => {
+				 	BackgroundGeolocation.getCurrentPosition({ samples: 1, persist: true }).then(result => {
 						setRegion({ latitude:result.coords.latitude, longitude:result.coords.longitude, latitudeDelta:0.0922, longitudeDelta:0.0421 })
 						setIsReady(true)
 					})
@@ -132,7 +131,7 @@ const StartScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 		return () => {
 			onLocation.remove()
 		}
-	}, [])
+	}, [ isHealthkitReady ])
 
 	useEffect(() => {
 		const start = async() => {
@@ -142,14 +141,16 @@ const StartScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 					maximumAge: 5000,
 					samples: 1,           // How many location samples to attempt.
 				})
-				dispatch({ type:'start', payload:{ startTime : new Date(), latitude : location.coords.latitude, longitude:location.coords.longitude } })
-				setIstHealthKitReady(true)
-				const state = await BackgroundGeolocation.start()
-				console.log('[start] success - ', state)
-			}
+				dispatch({ type:'start', payload:{ startTime : new Date(), latitude : location.coords.latitude, longitude:location.coords.longitude, startRegion:region } })
+				await BackgroundGeolocation.start()
+				navigation.replace(RouteStacks.workout)
 
+				// console.log('[start] success - ', state)
+			}
 		}
 		if (enabled === true) {
+			// dispatch({ type:'start', payload:{ startTime : new Date(), latitude : location.coords.latitude, longitude:location.coords.longitude } })
+			// setRegion({ latitude:location.coords.latitude, longitude:location.coords.longitude, latitudeDelta:0.0922, longitudeDelta:0.0421 })
 			BackgroundGeolocation.setOdometer(0)
 			BackgroundGeolocation.changePace(true)
 			start()
@@ -161,6 +162,9 @@ const StartScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 		}
 	}, [ enabled ])
 
+	useEffect(()=>{
+		console.log(ActivityType[currentState])
+	}, [ currentState ])
 
 	const StartRunningSession = async() => {
 		const authed = await health_kit.GetAuthorizeStatus().then((isAuthorize) => {
@@ -179,11 +183,7 @@ const StartScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 					maximumAge: 5000,
 					samples: 1,           // How many location samples to attempt.
 				})
-				dispatch({ type:'start', payload:{ startTime : new Date(), latitude : location.coords.latitude, longitude:location.coords.longitude } })				setEnabled(true)
-				setRegion({ latitude:location.coords.latitude, longitude:location.coords.longitude, latitudeDelta:0.0922, longitudeDelta:0.0421 })
-				navigation.replace(RouteStacks.workout, {
-					region: region
-				})
+				setEnabled(true)
 			}
 		} else {
 			console.log('not authed health kit')
@@ -201,16 +201,14 @@ const StartScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 				]}>
 
 				<View style={[ Layout.fill, Layout.rowCenter ]}>
-
-					{currentState === ActivityType.READY && (
+					{currentState === ActivityType.READY ? (
 						<TouchableOpacity
 							style={[ Common.button.rounded, Gutters.regularBMargin ]}
 							onPress={StartRunningSession}
 						>
 							<Text style={Fonts.textRegular}>Start Running</Text>
 						</TouchableOpacity>
-					)}
-
+					) : <Text>Loading</Text>}
 				</View>
 			</KeyboardAwareScrollView>
 		</ScreenBackgrounds>

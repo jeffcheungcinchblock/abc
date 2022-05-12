@@ -22,7 +22,7 @@ const AppIcon = ({
             ...style,
         }}>
             <Image source={appIcon} style={{
-                width: "5%",
+                width: "10%",
                 resizeMode: "contain",
                 ...imageStyle,
             }}/>

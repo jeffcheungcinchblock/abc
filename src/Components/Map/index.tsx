@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
 })
 
 type MapViewProps = {
-    region : { latitude:number,
+    startRegion : { latitude:number,
         longitude:number,
         latitudeDelta: number,
         longitudeDelta: number
@@ -51,6 +51,8 @@ const ActiveMapView:FC<MapViewProps> = (props) => {
 	const distance = useSelector((state:any) => state.map.distance)
 	const speed = useSelector((state:any) => state.map.speed)
 	const startTime = useSelector((state:any) => state.map.startTime)
+	const heartRate = useSelector((state:any) => state.map.heartRate)
+	const calories = useSelector((state:any) => state.map.calories)
 	const [ totalTime, setTotalTime ] = useState(0)
 	console.log(props)
 	return (
@@ -59,8 +61,8 @@ const ActiveMapView:FC<MapViewProps> = (props) => {
 				style={styles.map}
 				mapType="standard"
 				region={{
-					latitude:props.region.latitude,
-					longitude: props.region.longitude,
+					latitude:props.startRegion.latitude,
+					longitude: props.startRegion.longitude,
 					latitudeDelta: 0.005,
 					longitudeDelta: 0.005,
 				}}
@@ -100,6 +102,9 @@ const ActiveMapView:FC<MapViewProps> = (props) => {
 				<View style={[ styles.mapContentRightContainer ]}>
 					<MapContentText>Speed: {speed}</MapContentText>
 					<MapContentText>Time: </MapContentText>
+					<MapContentText>Step: {steps}</MapContentText>
+					<MapContentText>Heart Rates : {heartRate}</MapContentText>
+					<MapContentText>calories : {calories}</MapContentText>
 				</View>
 			</View>
 		</>

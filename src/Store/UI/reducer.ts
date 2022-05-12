@@ -1,5 +1,5 @@
-import { createReducer } from '@reduxjs/toolkit'
-import { showSnackbar, startLoading } from './actions'
+import { createReducer, PayloadAction } from '@reduxjs/toolkit'
+import { showSnackbar, ShowSnackbarPayload, startLoading } from './actions'
 
 
 export type UIState = {
@@ -32,14 +32,15 @@ export default createReducer<UIState>(initialState, (builder) => {
                 isScreenLoading: action.payload
             }
         })
-
-    builder
-        .addCase(showSnackbar, (state, action) => {
+        .addCase(showSnackbar, (state, {payload} : PayloadAction<ShowSnackbarPayload>) => {
             return {
                 ...state,
                 snackBarConfig: {
-                    ...initialState.snackBarConfig,
-                    ...action.payload,
+                    visible: payload.visible ?? false,
+                    textMessage: payload.textMessage ?? "",
+                    position: payload.position ?? "top",
+                    actionText: payload.actionText ?? "OK",
+                    autoHidingTime: payload.autoHidingTime ?? 3000
                 }
             }
         })

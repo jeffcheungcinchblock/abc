@@ -4,8 +4,9 @@ buildscript {
         googlePlayServicesLocationVersion = "17.0.0"  // Or higher.
 
         buildToolsVersion = "30.0.2"
-        compileSdkVersion = 32
-        targetSdkVersion = 32
+        // minSdkVersion = 21
+        // compileSdkVersion = 31
+        // targetSdkVersion = 30
         ndkVersion = "21.4.7075529"
         appCompatVersion = "1.1.0"
         minSdkVersion = 21
@@ -14,7 +15,10 @@ buildscript {
         androidXBrowser = "1.3.0"
         androidXCore = "1.7.0" // <-- Add this. Check versions here: https://developer.android.com/jetpack/androidx/releases/core
 
-      
+        // buildToolsVersion = "31.0.0"
+        minSdkVersion = 23 // <- AndroidX splashscreen has basic support for 21 (only the background color), so 23 is best
+        compileSdkVersion = 31 // <- set at least 31
+        targetSdkVersion = 31 // <- set at least 31
     }
     repositories {
         google()
@@ -54,6 +58,11 @@ allprojects {
         maven { url 'https://www.jitpack.io' }
         maven {
           url "$rootDir/../node_modules/@notifee/react-native/android/libs"
+        }
+        jcenter() {
+            content {
+                includeModule("com.yqritc", "android-scalablevideoview")
+            }
         }
     }
 }

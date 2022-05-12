@@ -20,6 +20,7 @@ import { config } from './Utils/constants'
 import { RouteStacks } from './Navigators/routes'
 import { startLoading } from './Store/UI/actions'
 import { storeReferralCode } from './Store/Referral/actions'
+import RNBootSplash from "react-native-bootsplash";
 
 // TBD: remove later
 console.warn = () => {}
@@ -163,8 +164,9 @@ const App = () => {
 		}
 	}
 
-	useEffect(() => {
-		console.log('Initialized firebae')
+  useEffect(() => {
+    console.log("Initialized firebae")
+    RNBootSplash.hide({fade: true});
 
 		requestUserPermission()
 
@@ -190,11 +192,9 @@ const App = () => {
 
 	}, [])
 
-
-
-	return (
-		<Provider store={store}>
-			{/**
+  return (
+    <Provider store={store}>
+      {/**
        * PersistGate delays the rendering of the app's UI until the persisted state has been retrieved
        * and saved to redux.
        * The `loading` prop can be `null` or any react instance to show during loading (e.g. a splash screen),
@@ -202,18 +202,18 @@ const App = () => {
        * @see https://github.com/rt2zz/redux-persist/blob/master/docs/PersistGate.md
        */}
 
-			<WalletConnectProvider
-				redirectUrl={'com.fitevo://homeMain'}
-				storageOptions={{
-					asyncStorage: AsyncStorage,
-				}}>
+      <WalletConnectProvider
+        redirectUrl={`${config.urlScheme}${RouteStacks.homeMain}`}
+        storageOptions={{
+          asyncStorage: AsyncStorage,
+        }}>
 
-				<PersistGate loading={null} persistor={persistor}>
-					<ApplicationNavigator />
-				</PersistGate>
-			</WalletConnectProvider>
-		</Provider>
-	)
+        <PersistGate loading={null} persistor={persistor}>
+          <ApplicationNavigator />
+        </PersistGate>
+      </WalletConnectProvider>
+    </Provider>
+  )
 }
 
 export default App

@@ -41,6 +41,7 @@
 		6D514CADD27F4C7387C2C28D /* Mont-HeavyDEMO.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9460F3FC55DF41AF897C74A9 /* Mont-HeavyDEMO.ttf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		A14492FCF150478097DBCCED /* AvenirNext-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 30CF59C85CF247DC8F3141F8 /* AvenirNext-Bold.ttf */; };
+		A7A606B9C72E1C8E1742B1D0 /* libPods-DragonDappRNClip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 03C845790036A7C8739EB33A /* libPods-DragonDappRNClip.a */; };
 		C4114DC0282258E000074A62 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4114DBF282258E000074A62 /* AppDelegate.swift */; };
 		C4114DC2282258E000074A62 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4114DC1282258E000074A62 /* SceneDelegate.swift */; };
 		C4114DC4282258E000074A62 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4114DC3282258E000074A62 /* ViewController.swift */; };
@@ -58,7 +59,8 @@
 		C4EE76A228227579003F6C95 /* afdevkey_donotpush.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4EE769D28227579003F6C95 /* afdevkey_donotpush.plist */; };
 		C4EE76A328227579003F6C95 /* afdevkey_donotpush.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4EE769D28227579003F6C95 /* afdevkey_donotpush.plist */; };
 		C4EE76A428227579003F6C95 /* afdevkey_donotpush.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4EE769D28227579003F6C95 /* afdevkey_donotpush.plist */; };
-		D641655F28D5493C87C066C8 /* libPods-DragonDappRNClip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 03C845790036A7C8739EB33A /* libPods-DragonDappRNClip.a */; };
+		E35D920E282A1890000CD920 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E35D920D282A1890000CD920 /* BootSplash.storyboard */; };
+		E35D9210282CA4C0000CD920 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E35D920F282CA4C0000CD920 /* BootSplash.storyboard */; };
 		E391E5BA28164994009DD23B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E391E5B928164994009DD23B /* GoogleService-Info.plist */; };
 		E391E5BB28164994009DD23B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E391E5B928164994009DD23B /* GoogleService-Info.plist */; };
 		E391E5BC28164994009DD23B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E391E5B928164994009DD23B /* GoogleService-Info.plist */; };
@@ -161,6 +163,7 @@
 		87B0274EC365E8E1CA498AA4 /* Pods-DragonDappRNClip.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DragonDappRNClip.release.xcconfig"; path = "Target Support Files/Pods-DragonDappRNClip/Pods-DragonDappRNClip.release.xcconfig"; sourceTree = "<group>"; };
 		9460F3FC55DF41AF897C74A9 /* Mont-HeavyDEMO.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Mont-HeavyDEMO.ttf"; path = "../src/Assets/Fonts/Mont-HeavyDEMO.ttf"; sourceTree = "<group>"; };
 		A0CB4E512CFC27D2C839EFFB /* Pods-DragonDappRNClip.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DragonDappRNClip.debug.xcconfig"; path = "Target Support Files/Pods-DragonDappRNClip/Pods-DragonDappRNClip.debug.xcconfig"; sourceTree = "<group>"; };
+		AB61384E9C5DAF84472986E0 /* Pods-DragonDappRN-DragonDappRNTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DragonDappRN-DragonDappRNTests.debug.xcconfig"; path = "Target Support Files/Pods-DragonDappRN-DragonDappRNTests/Pods-DragonDappRN-DragonDappRNTests.debug.xcconfig"; sourceTree = "<group>"; };
 		AD8E564073174A86BD08DB58 /* AvenirNext-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "AvenirNext-Medium.ttf"; path = "../src/Assets/Fonts/AvenirNext-Medium.ttf"; sourceTree = "<group>"; };
 		BDB4FE414DD47E0703E1C432 /* Pods-DragonDappRN.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DragonDappRN.release.xcconfig"; path = "Target Support Files/Pods-DragonDappRN/Pods-DragonDappRN.release.xcconfig"; sourceTree = "<group>"; };
 		C4114DBD282258E000074A62 /* DragonDappRNClip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DragonDappRNClip.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -178,7 +181,8 @@
 		C4114DE1282258E200074A62 /* DragonDappRNClipUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragonDappRNClipUITests.swift; sourceTree = "<group>"; };
 		C4114DE3282258E200074A62 /* DragonDappRNClipUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragonDappRNClipUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		C4EE769D28227579003F6C95 /* afdevkey_donotpush.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = afdevkey_donotpush.plist; sourceTree = "<group>"; };
-		D45DDFC4C7C03660233F4F5D /* Pods-DragonDappRN-DragonDappRNTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DragonDappRN-DragonDappRNTests.debug.xcconfig"; path = "Target Support Files/Pods-DragonDappRN-DragonDappRNTests/Pods-DragonDappRN-DragonDappRNTests.debug.xcconfig"; sourceTree = "<group>"; };
+		E35D920D282A1890000CD920 /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = DragonDappRN/BootSplash.storyboard; sourceTree = "<group>"; };
+		E35D920F282CA4C0000CD920 /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = DragonDappRN/BootSplash.storyboard; sourceTree = "<group>"; };
 		E391E5B928164994009DD23B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E8BF76D6843C28291C346D81 /* libPods-DragonDappRN.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DragonDappRN.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -221,7 +225,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D641655F28D5493C87C066C8 /* libPods-DragonDappRNClip.a in Frameworks */,
+				A7A606B9C72E1C8E1742B1D0 /* libPods-DragonDappRNClip.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -263,6 +267,8 @@
 			isa = PBXGroup;
 			children = (
 				6CACA624280FA975008F6268 /* RNBackgroundFetch+AppDelegate.m */,
+				E35D920D282A1890000CD920 /* BootSplash.storyboard */,
+				E35D920F282CA4C0000CD920 /* BootSplash.storyboard */,
 				1FB6BDD0280E6E3F001B5679 /* DragonDappRN.entitlements */,
 				1F5B4F0427FEBA77009618AF /* Fonts */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
@@ -283,10 +289,10 @@
 			children = (
 				000B199EE9729048EA5E70AA /* Pods-DragonDappRN.debug.xcconfig */,
 				BDB4FE414DD47E0703E1C432 /* Pods-DragonDappRN.release.xcconfig */,
-				D45DDFC4C7C03660233F4F5D /* Pods-DragonDappRN-DragonDappRNTests.debug.xcconfig */,
 				4FC50E777EAE929C5F912E89 /* Pods-DragonDappRN-DragonDappRNTests.release.xcconfig */,
 				A0CB4E512CFC27D2C839EFFB /* Pods-DragonDappRNClip.debug.xcconfig */,
 				87B0274EC365E8E1CA498AA4 /* Pods-DragonDappRNClip.release.xcconfig */,
+				AB61384E9C5DAF84472986E0 /* Pods-DragonDappRN-DragonDappRNTests.debug.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -646,10 +652,12 @@
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				1F5B4F2327FEBA92009618AF /* AntDesign.ttf in Resources */,
 				1F5B4F1827FEBA92009618AF /* MaterialIcons.ttf in Resources */,
+				E35D920E282A1890000CD920 /* BootSplash.storyboard in Resources */,
 				1F5B4F1F27FEBA92009618AF /* EvilIcons.ttf in Resources */,
 				1F5B4F2027FEBA92009618AF /* MaterialCommunityIcons.ttf in Resources */,
 				C4EE769E28227579003F6C95 /* afdevkey_donotpush.plist in Resources */,
 				1F5B4F1627FEBA92009618AF /* Foundation.ttf in Resources */,
+				E35D9210282CA4C0000CD920 /* BootSplash.storyboard in Resources */,
 				1F5B4F1B27FEBA92009618AF /* FontAwesome5_Solid.ttf in Resources */,
 				1F5B4F1E27FEBA92009618AF /* FontAwesome5_Brands.ttf in Resources */,
 				1F5B4F1527FEBA92009618AF /* Zocial.ttf in Resources */,
@@ -1059,7 +1067,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D45DDFC4C7C03660233F4F5D /* Pods-DragonDappRN-DragonDappRNTests.debug.xcconfig */;
+			baseConfigurationReference = AB61384E9C5DAF84472986E0 /* Pods-DragonDappRN-DragonDappRNTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				BUNDLE_LOADER = "$(TEST_HOST)";

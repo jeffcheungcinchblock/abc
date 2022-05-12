@@ -8,6 +8,7 @@
 #import <Firebase.h>
 #import <React/RCTLinkingManager.h>
 #import <RNAppsFlyer.h>
+#import "RNBootSplash.h" // <- add the header import
 
 #ifdef FB_SONARKIT_ENABLED
 #import <FlipperKit/FlipperClient.h>
@@ -56,6 +57,7 @@ static void InitializeFlipper(UIApplication *application) {
   [self.window makeKeyAndVisible];
   // [REQUIRED] Register BackgroundFetch
   [[TSBackgroundFetch sharedInstance] didFinishLaunching];
+  [RNBootSplash initWithStoryboard:@"BootSplash" rootView:rootView]; // <- initialization using the storyboard file name
   return YES;
 }
 

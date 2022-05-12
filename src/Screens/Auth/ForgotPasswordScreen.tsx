@@ -37,6 +37,7 @@ import TurquoiseButton from '@/Components/Buttons/TurquoiseButton'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { startLoading } from '@/Store/UI/actions'
 import WhiteInput from '@/Components/Inputs/WhiteInput'
+import StandardInput from '@/Components/Inputs/StandardInput'
 
 const TEXT_INPUT = {
     height: 40,
@@ -113,8 +114,9 @@ const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
                 username: username,
                 action: 'forgotPassword'
             })
-        } catch (err) {
+        } catch (err: any) {
             console.log('err ', err)
+            setErrMsg(err.message)
         }
     }
 
@@ -132,41 +134,48 @@ const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
             >
                 <Header
                     onLeftPress={goBack}
+                    headerText={t("forgotPassword")}
                 />
                 <View style={[{
                     flexGrow: 6
                 }, Layout.fullWidth, Layout.fill, Layout.colCenter,]}>
 
-                    <View style={[CONTENT_ELEMENT_WRAPPER, { flex: 1 }]}>
-                        <Text style={[{ color: colors.white, fontFamily: "AvenirNext-Bold" }, Fonts.textRegular, Fonts.textCenter]}>
-                            {t('forgotPassword')}
+                    <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 60 }]}>
+                        <Text style={[{ color: colors.white, fontWeight: "bold", lineHeight: 26 }, Fonts.textSmall, Fonts.textLeft]}>
+                            {t('forgotPasswordPrompt')}
                         </Text>
                     </View>
 
-                    <View style={[CONTENT_ELEMENT_WRAPPER, { flex: 1, justifyContent: "flex-start" }]}>
-                        <WhiteInput
+
+                    <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 80, justifyContent: "center" }]}>
+                        <StandardInput
                             onChangeText={onUsernameChange}
                             value={username}
-                            placeholder={t("usernameAllCapital")}
+                            placeholder={t("username")}
                             placeholderTextColor={colors.spanishGray}
                         />
-                    </View>
-
-                    <View style={[CONTENT_ELEMENT_WRAPPER, { flex: 1, justifyContent: "flex-start" }]}>
                         {
-                            errMsg !== "" && <Text style={[{ color: colors.orangeCrayola, fontFamily: "AvenirNext-Regular" }, Fonts.textSmall, Fonts.textCenter]}>
+                            errMsg !== "" && <Text style={[{ color: colors.magicPotion }, Fonts.textSmall, Fonts.textCenter]}>
                                 {errMsg}
                             </Text>
                         }
+                    </View>
+
+                    <View style={[CONTENT_ELEMENT_WRAPPER, { flex: 2, justifyContent: "flex-start" }]}>
+                        
                     </View>
 
                 </View>
 
                 <View style={[Layout.fullWidth, Layout.center, { flex: 1, justifyContent: "flex-start" }]}>
                     <TurquoiseButton
-                        text={t("forgotPassword")}
-                        containerStyle={Layout.fullWidth}
-                        onPress={onConfirmPress} />
+                        text={t("confirm")}
+                        onPress={onConfirmPress} 
+                        containerStyle={{
+                            width: "45%"
+                        }}
+                        isTransparentBackground
+                        />
                 </View>
 
             </KeyboardAwareScrollView>

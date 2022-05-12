@@ -12,13 +12,22 @@ export enum RouteTabs {
 // Adding new screens need to add corresponding background image in Components/ScreenBackgrounds/index.tsx
 export enum RouteStacks {
 
+    startUp = 'startUp',
+    application = 'application',
+
     // auth screens
     signIn = 'signIn',
     signUp = 'signUp',
     validationCode = 'validationCode',
     welcome = 'welcome',
+
+    welcomeGallery = 'welcomeGallery',
     enterInvitationCode = 'enterInvitationCode',
     forgotPassword = 'forgotPassword',
+    signUpWithCode = 'signUpWithCode',
+    createNewPassword = 'createNewPassword',
+
+    // logged in app screens
 
 
     // logged in app screens
@@ -31,6 +40,7 @@ export enum RouteStacks {
     socialMain = 'socialMain',
 
     marketplaceMain = 'marketplaceMain',
+
 
     // drawer screens
     setting = 'setting',

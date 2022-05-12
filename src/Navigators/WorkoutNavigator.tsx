@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 import React, { FC, useEffect } from 'react'
 import { SignInScreen, SignUpScreen, ValidationCodeScreen, WelcomeScreen } from '@/Screens/Auth'
-import { MapScreen, StartScreen, MainScreen, EndScreen, LiteScreen } from '@/Screens/App/Workout'
+import {  StartScreen, MainScreen, EndScreen, LiteScreen } from '@/Screens/App/Workout'
 import { RouteStacks, RouteTabs } from '@/Navigators/routes'
 import { useDispatch } from 'react-redux'
 import { login } from '@/Store/Users/actions'
@@ -47,7 +47,6 @@ const WorkoutNavigator = () => {
 			initialRouteName={RouteStacks.startWorkout}
 		>
 			<Stack.Screen name={RouteStacks.startWorkout} component={StartScreen} options={{ headerShown:false }}/>
-			{/* <Stack.Screen name={RouteStacks.workout} component={Workout} options={{ headerShown: false }}/> */}
 			<Stack.Screen name={RouteStacks.workout} component={MainScreen} options={{ headerShown: false }}/>
 			<Stack.Screen name={RouteStacks.endWorkout} component={EndScreen} options={{ headerShown: false }}/>
 

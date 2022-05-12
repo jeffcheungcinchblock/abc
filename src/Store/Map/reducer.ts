@@ -3,16 +3,17 @@ import { start, move, ready, pause, resume, stop, init } from './actions'
 import { getDistanceBetweenTwoPoints } from '../../Healthkit/utils'
 
 export type State = {
-	currentState: ActivityType
-        startTime : Date|null,
-		endTime : Date|null,
-        latitude : number|null,
-        longitude : number|null,
-        distance: number | null,
-        calories : number | null,
-        steps: number | null,
-        heartRate: number | null,
-		paths: Array<Path>,
+	currentState: ActivityType,
+	startTime : Date|null,
+	endTime : Date|null,
+	latitude : number|null,
+	longitude : number|null,
+	distance: number | null,
+	calories : number | null,
+	steps: number | null,
+	heartRate: number | null,
+	paths: Array<Path>,
+	startRegion?: StartRegion,
 }
 
 export enum ActivityType {
@@ -30,6 +31,12 @@ export type Path = {
 	reduceCalories? :number|null,
 	endPauseTime?: Date | null,
 }
+export type StartRegion = {
+    latitude: number,
+    longitude: number,
+	latitudeDelta: number,
+	longitudeDelta: number,
+}
 export type CoordinateType = {
     latitude: number,
     longitude: number
@@ -46,6 +53,7 @@ const initialState:State = { currentState: ActivityType.LOADING, startTime: new 
 
 export default createReducer<State>(initialState, (builder) => {
 	builder.addCase(init, (state, action)=>{
+		console.log('reducer init')
 		const initialStateStart:State = { currentState:ActivityType.LOADING, startTime: null, endTime:null, latitude:null, longitude:null, distance:0, calories:0, steps:0, heartRate :0, paths:[   { numberOfPath:0, pauseTime:null, endPauseTime:null, reduceStep:0 } ] }
 		console.log('initialStateStart', initialStateStart)
 		return initialStateStart
@@ -56,7 +64,7 @@ export default createReducer<State>(initialState, (builder) => {
 		})
 	builder
 		.addCase(start, (state, action) => {
-			const initialStateStart:State = { currentState:ActivityType.MOVING, startTime: new Date(), endTime:null, latitude:null, longitude:null, distance:0, calories:0, steps:0, heartRate :0, paths:[   { numberOfPath:0, pauseTime:null, endPauseTime:null, reduceStep:0 } ] }
+			const initialStateStart:State = { currentState:ActivityType.MOVING, startTime: new Date(), endTime:null, latitude:null, longitude:null, distance:0, calories:0, steps:0, heartRate :0, paths:[   { numberOfPath:0, pauseTime:null, endPauseTime:null, reduceStep:0 } ], startRegion:action.payload.startRegion }
 			console.log('initialStateStart', initialStateStart)
 			return initialStateStart
 		})
@@ -122,6 +130,7 @@ export default createReducer<State>(initialState, (builder) => {
 	})
 
 	builder.addCase(stop, (state, action)=>{
+		console.log('inside stop reduerr')
 		return { ...state, currentState:ActivityType.ENDED, endTime: action.payload.endTime }
 	})
 })
