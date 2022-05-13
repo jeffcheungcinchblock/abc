@@ -30,6 +30,8 @@ import EnergyProgressBar from '@/Components/WorkoutScreen/energy_progress_bar'
 import TokenProgressBar from '@/Components/WorkoutScreen/token_progress_bar'
 import TokenEarned from '@/Components/WorkoutScreen/token_earned'
 import NFTDisplay from '@/Components/WorkoutScreen/nft_display'
+import { use } from 'i18next'
+
 type WorkoutScreenScreenNavigationProp = CompositeScreenProps<
     StackScreenProps<WorkoutNavigatorParamList>,
     CompositeScreenProps<
@@ -94,11 +96,15 @@ const styles = StyleSheet.create({
 const isIOS = Platform.OS === 'ios'
 const health_kit = isIOS ? new IOSHealthKit() : new GoogleFitKit()
 
+export type Region = {
+	latitude: number
+	longitude: number
+	latitudeDelta: number
+	longitudeDelta: number
+}
 const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, route }) => {
 	const dispatch = useDispatch()
 	const { Common, Fonts, Gutters, Layout } = useTheme()
-	const [ enabled, setEnabled ] = useState(false)
-	console.log('navigation', navigation)
 	const startTime = useSelector((state:any) => state.map.startTime)
 	const endTime = useSelector((state:any) => state.map.endTime)
 	const steps = useSelector((state:any) => state.map.steps)
@@ -107,16 +113,21 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 	const heartRate = useSelector((state:any) => state.map.heartRate)
 	const paths = useSelector((state:any) => state.map.paths)
 	const currentState = useSelector((state:any) => state.map.currentState)
-	const startRegion = useSelector((state:any) => state.map.startRegion)
-	const [ started, setIsStarted ] = useState(false)
-	useEffect(() => {
-		BackgroundGeolocation.start()
-		setIsStarted(true)
-	}, [])
+	const latitude = useSelector((state:any) => state.map.latitude)
+	const longitude = useSelector((state:any) => state.map.longitude)
+
+	const [ enabled, setEnabled ] = useState(false)
+	const [ isReady, setIsReady ] = useState(false)
+	const [ startRegion, setStartRegion ] = useState<Region|null>(null)
+
+	useEffect(()=>{
+		console.log('updatedState', latitude, longitude, startRegion)
+	}, [ currentState ])
+
 	useEffect(()=>{
 		const onLocation: Subscription = BackgroundGeolocation.onLocation((location) => {
-			console.log('listening', ActivityType[currentState])
-			if (currentState !== ActivityType.PAUSE){
+			console.log('listening', ActivityType[currentState], location)
+			if (currentState !== ActivityType.PAUSE && startTime !== null){
 				if (location.coords && location.coords.latitude && location.coords.longitude && location.is_moving === true && location.coords.speed != -1)
 				{
 					if (location.coords.speed && location.coords.speed <= 12 && location.coords.speed >= 0){
@@ -136,10 +147,52 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 				}
 			}
 		})
+		if (currentState === ActivityType.LOADING){
+			BackgroundGeolocation.ready({
+				triggerActivities: 'on_foot, walking, running',
+				locationAuthorizationRequest : 'WhenInUse',
+				desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
+				distanceFilter: 3,
+				stopTimeout: 5,
+				isMoving: true,
+				reset: false,
+				debug: true,
+				disableElasticity : true,
+				speedJumpFilter:50,
+				logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
+				stopOnTerminate: true,
+			}).then(()=>{
+				if (currentState !== ActivityType.MOVING && currentState === ActivityType.LOADING){
+					health_kit.GetAuthorizeStatus().then((isAuthorize) => {
+						console.log('isAuth', isAuthorize)
+					})
+					dispatch({ type:'ready' })
+					BackgroundGeolocation.getCurrentPosition({
+						timeout: 30,          // 30 second timeout to fetch location
+						maximumAge: 5000,
+						samples: 1,
+					}).then((location)=>{
+						setStartRegion({ latitude:location.coords.latitude, longitude:location.coords.longitude, latitudeDelta:0.0922, longitudeDelta:0.0421 })
+					})
+					setIsReady(true)
+					console.log('start region', startRegion)
+					console.log('dispatch ready', ActivityType[currentState])
+				}
+			})
+		}
+
 		return () => {
 			onLocation.remove()
 		}
-	}, [])
+	}, [  ])
+
+	// useEffect(() => {
+	// }, [  ])
+
+	useEffect(()=>{
+		dispatch({ type:'start', payload:{ startTime: new Date() } })
+		BackgroundGeolocation.start()
+	}, [ isReady ])
 
 	const StopRunningSession = async() => {
 		console.log('stop')
@@ -198,10 +251,11 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 		<ScreenBackgrounds screenName={RouteStacks.workout}>
 			<View style={[ styles.container ]}>
 				<View style={[ styles.mapContainer ]}>
-					{startRegion && (
+					{startRegion && latitude && longitude && (
 						<ActiveMapView startRegion={startRegion}/>
 					)}
 				</View>
+				<View><Text>{ActivityType[currentState]}</Text></View>
 				<View style={[ styles.dataContainer ]}>
 					<View style={[ styles.dataPaddingContainer ]}>
 						<View style={[ styles.statusBarContainer ]}>
@@ -237,6 +291,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 									<Text style={Fonts.textRegular}>Resume</Text>
 								</TouchableOpacity>
 							)}
+							<WhiteText>{ActivityType[currentState]}</WhiteText>
 						</View>
 					</View>
 				</View>

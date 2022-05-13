@@ -17,10 +17,6 @@ import Amplify, { Auth, Hub } from 'aws-amplify'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { WorkoutNavigatorParamList } from '@/Navigators/WorkoutNavigator'
 import { RouteStacks, RouteTabs } from '@/Navigators/routes'
-// @ts-ignore
-import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth'
-// @ts-ignore
-import { useWalletConnect } from '@walletconnect/react-native-dapp'
 
 
 //Map + HealthKit
@@ -29,7 +25,7 @@ import { GoogleFitKit } from '../../../Healthkit/androidHealthKit'
 import BackgroundGeolocation, {
 	Subscription,
 } from 'react-native-background-geolocation'
-import { ActivityType } from '@/Store/Map/reducer'
+import { ActivityType, startGeoloaction } from '@/Store/Map/reducer'
 
 import ScreenBackgrounds from '@/Components/ScreenBackgrounds'
 import  StartButton from '@/Components/Buttons/StartButton'
@@ -74,90 +70,74 @@ const StartScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 			})
 		}
 		startInit()
-		dispatch({ type:'init' })
+		dispatch({ type:'inital' })
 		setIstHealthKitReady(true)
+		console.log('set health kit readty')
 	}, [])
 
 	useEffect(() => {
-		// const onLocation: Subscription = BackgroundGeolocation.onLocation((location) => {
-		// 	if (currentState !== ActivityType.PAUSE){
-		// 		if (location.coords && location.coords.latitude && location.coords.longitude && location.is_moving === true && location.coords.speed != -1)
-		// 		{
-		// 			if (location.coords.speed && location.coords.speed <= 12 && location.coords.speed >= 0){
-		// 				const new_cal = health_kit.GetCaloriesBurned(startTime, new Date())
-		// 				const new_step = health_kit.GetSteps(startTime, new Date())
-		// 				const new_heartrate = health_kit.GetHeartRates( startTime, new Date())
-		// 				Promise.all([ new_cal, new_step, new_heartrate ]).then((result)=>{
-		// 					console.log('result', result)
-		// 					dispatch({ type:'move', payload:{ latitude:location.coords.latitude, longitude:location.coords.longitude,
-		// 						calories:result[0], steps:result[1], heartRate:result[2] } })
-		// 				})
-		// 			} else {
-		// 				console.log('moving too fast')
-		// 			}
-		// 		} else {
-		// 			console.log('not moving')
-		// 		}
-		// 	}
-		// })
-		if (currentState === ActivityType.LOADING){
-			BackgroundGeolocation.ready({
-				triggerActivities: 'on_foot, walking, running',
-				locationAuthorizationRequest : 'WhenInUse',
-				desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
-				distanceFilter: 3,
-				stopTimeout: 5,
-				isMoving: true,
-				reset: false,
-				debug: true,
-				disableElasticity : true,
-				speedJumpFilter:50,
-				logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
-				stopOnTerminate: true,
-			}).then(()=>{
-				if (currentState !== ActivityType.MOVING){
-					health_kit.GetAuthorizeStatus().then((isAuthorize) => {
-						console.log('isAuth', isAuthorize)
-					})
-					dispatch({ type:'ready' })
-					console.log('dispatch ready', ActivityType[currentState])
-				 	BackgroundGeolocation.getCurrentPosition({ samples: 1, persist: true }).then(result => {
-						setRegion({ latitude:result.coords.latitude, longitude:result.coords.longitude, latitudeDelta:0.0922, longitudeDelta:0.0421 })
-						setIsReady(true)
-					})
-				}
-			})
-		}
-		// return () => {
-		// 	onLocation.remove()
-		// }
+		dispatch({ type:'ready' })
+		// console.log('dispatched ready')
 	}, [ isHealthkitReady ])
+	// useEffect(() => {
+	// 	const onLocation: Subscription = BackgroundGeolocation.onLocation((location) => {
+	// 		if (currentState !== ActivityType.PAUSE){
+	// 			if (location.coords && location.coords.latitude && location.coords.longitude && location.is_moving === true && location.coords.speed != -1)
+	// 			{
+	// 				if (location.coords.speed && location.coords.speed <= 12 && location.coords.speed >= 0){
+	// 					const new_cal = health_kit.GetCaloriesBurned(startTime, new Date())
+	// 					const new_step = health_kit.GetSteps(startTime, new Date())
+	// 					const new_heartrate = health_kit.GetHeartRates( startTime, new Date())
+	// 					Promise.all([ new_cal, new_step, new_heartrate ]).then((result)=>{
+	// 						console.log('result', result)
+	// 						dispatch({ type:'move', payload:{ latitude:location.coords.latitude, longitude:location.coords.longitude,
+	// 							calories:result[0], steps:result[1], heartRate:result[2] } })
+	// 					})
+	// 				} else {
+	// 					console.log('moving too fast')
+	// 				}
+	// 			} else {
+	// 				console.log('not moving')
+	// 			}
+	// 		}
+	// 	})
+	// 	if (currentState === ActivityType.LOADING){
+	// 		BackgroundGeolocation.ready({
+	// 			triggerActivities: 'on_foot, walking, running',
+	// 			locationAuthorizationRequest : 'WhenInUse',
+	// 			desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
+	// 			distanceFilter: 3,
+	// 			stopTimeout: 5,
+	// 			isMoving: true,
+	// 			reset: false,
+	// 			debug: true,
+	// 			disableElasticity : true,
+	// 			speedJumpFilter:50,
+	// 			logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
+	// 			stopOnTerminate: true,
+	// 		}).then(()=>{
+	// 			if (currentState !== ActivityType.MOVING){
+	// 				health_kit.GetAuthorizeStatus().then((isAuthorize) => {
+	// 					console.log('isAuth', isAuthorize)
+	// 				})
+	// 				dispatch({ type:'ready' })
+	// 				console.log('dispatch ready', ActivityType[currentState])
+	// 			 	BackgroundGeolocation.getCurrentPosition({ samples: 1, persist: true }).then(result => {
+	// 					setRegion({ latitude:result.coords.latitude, longitude:result.coords.longitude, latitudeDelta:0.0922, longitudeDelta:0.0421 })
+	// 					setIsReady(true)
+	// 				})
+	// 			}
+	// 		})
+	// 	}
+	// 	return () => {
+	// 		onLocation.remove()
+	// 	}
+	// }, [ isHealthkitReady ])
 
 	useEffect(() => {
-		const start = async() => {
-			if (currentState === ActivityType.READY){
-				let location = await BackgroundGeolocation.getCurrentPosition({
-					timeout: 30,          // 30 second timeout to fetch location
-					maximumAge: 5000,
-					samples: 1,           // How many location samples to attempt.
-				})
-				dispatch({ type:'start', payload:{ startTime : new Date(), latitude : location.coords.latitude, longitude:location.coords.longitude, startRegion:region } })
-				// await BackgroundGeolocation.start()
-
-				// console.log('[start] success - ', state)
-			}
-		}
 		if (enabled === true) {
-			// dispatch({ type:'start', payload:{ startTime : new Date(), latitude : location.coords.latitude, longitude:location.coords.longitude } })
-			// setRegion({ latitude:location.coords.latitude, longitude:location.coords.longitude, latitudeDelta:0.0922, longitudeDelta:0.0421 })
-			BackgroundGeolocation.setOdometer(0)
-			BackgroundGeolocation.changePace(true)
-			start()
+			dispatch({ type:'init' })
 			navigation.replace(RouteStacks.workout)
-		} else {
-			BackgroundGeolocation.stop().then((res)=>{
-				dispatch({ type:'stop', payload:{ endTime : new Date() } })
-			})
 		}
 	}, [ enabled ])
 
@@ -176,14 +156,7 @@ const StartScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 			return true
 		})
 		if (authed){
-			if (!enabled){
-				let location = await BackgroundGeolocation.getCurrentPosition({
-					timeout: 30,          // 30 second timeout to fetch location
-					maximumAge: 5000,
-					samples: 1,           // How many location samples to attempt.
-				})
-				setEnabled(true)
-			}
+			setEnabled(true)
 		} else {
 			console.log('not authed health kit')
 		}
@@ -205,9 +178,9 @@ const StartScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 							style={[ Common.button.rounded, Gutters.regularBMargin ]}
 							onPress={StartRunningSession}
 						>
-							<Text style={Fonts.textRegular}>Start Running</Text>
+							<Text style={Fonts.textRegular}>Start Running {enabled}</Text>
 						</TouchableOpacity>
-					) : <Text>Loading</Text>}
+					) : <Text>{ActivityType[currentState]}</Text>}
 				</View>
 			</KeyboardAwareScrollView>
 		</ScreenBackgrounds>

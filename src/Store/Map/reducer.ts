@@ -64,13 +64,13 @@ export default createReducer<State>(initialState, (builder) => {
 		})
 	builder
 		.addCase(start, (state, action) => {
-			const initialStateStart:State = { currentState:ActivityType.MOVING, startTime: new Date(), endTime:null, latitude:null, longitude:null, distance:0, calories:0, steps:0, heartRate :0, paths:[   { numberOfPath:0, pauseTime:null, endPauseTime:null, reduceStep:0 } ], startRegion:action.payload.startRegion }
+			const initialStateStart:State = { currentState:ActivityType.MOVING, startTime: action.payload.startTime, endTime:null, latitude:null, longitude:null, distance:0, calories:0, steps:0, heartRate :0, paths:[   { numberOfPath:0, pauseTime:null, endPauseTime:null, reduceStep:0 } ] }
 			console.log('initialStateStart', initialStateStart)
 			return initialStateStart
 		})
 	builder
 		.addCase(move, (state, action) => {
-			if (!action.payload.latitude || !action.payload.longitude){
+			if (!action.payload.latitude || !action.payload.longitude ) {
 				return state
 			}
 			const newCarlorieBurned = action.payload.calories
@@ -81,7 +81,7 @@ export default createReducer<State>(initialState, (builder) => {
 			})
 			const newSteps = action.payload.steps! - totalReduceStep
 			const distance = getDistanceBetweenTwoPoints(state.latitude!, state.longitude!, action.payload.latitude!, action.payload.longitude!)
-
+			console.log('newSteps', distance)
 			if (distance > 20){
 				return { ...state, latitude : action.payload.latitude, longitude :action.payload.longitude, calories: newCarlorieBurned, steps: newSteps }
 			}
@@ -93,9 +93,7 @@ export default createReducer<State>(initialState, (builder) => {
 					newPaths[newPaths.length - 1].coordinates = [ { latitude: action.payload.latitude, longitude: action.payload.longitude } ]
 				} else {
 					newPaths[newPaths.length - 1].coordinates!.push({ latitude: action.payload.latitude, longitude: action.payload.longitude })
-
 				}
-
 				return { ...state, latitude : action.payload.latitude, longitude :action.payload.longitude, distance : state.distance!  + distance, calories: newCarlorieBurned, steps: newSteps, paths:newPaths, heartRate: action.payload.heartRate }
 			}
 			return { ...state, latitude : action.payload.latitude, longitude :action.payload.longitude, calories: newCarlorieBurned, steps: newSteps }

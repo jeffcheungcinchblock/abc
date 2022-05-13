@@ -26,7 +26,9 @@ const styles = StyleSheet.create({
 		justifyContent: 'flex-start',
 	},
 	mapText : {
-		fontSize: 20,
+		alignSelf:'flex-start',
+		alignItems:'flex-start',
+		fontSize: 10,
 		fontWeight: 'bold',
 	},
 	map: {
@@ -48,31 +50,45 @@ const MapContentText = (props: TextProps) => {
 const ActiveMapView:FC<MapViewProps> = (props) => {
 	const paths = useSelector((state:any) => state.map.paths)
 	const steps = useSelector((state:any) => state.map.steps)
-	const distance = useSelector((state:any) => state.map.distance)
+	const distance = useSelector((state:any) => state.map.distance).toFixed(0)
 	const speed = useSelector((state:any) => state.map.speed)
 	const startTime = useSelector((state:any) => state.map.startTime)
 	const heartRate = useSelector((state:any) => state.map.heartRate)
 	const calories = useSelector((state:any) => state.map.calories)
+	const latitude = useSelector((state:any) => state.map.latitude)
+	const longitude = useSelector((state:any) => state.map.longitude)
 	const [ totalTime, setTotalTime ] = useState(0)
 	console.log(props)
+
+	const getSpeed = () => {
+		const currentTime = new Date()
+		const speed = (distance / (currentTime.getTime() - startTime.getTime())) * 1000
+		return speed.toPrecision(1)
+	}
 	return (
 		<>
 			<MapView
 				style={styles.map}
-				mapType="standard"
-				region={{
+				mapType="mutedStandard"
+				initialRegion={{
 					latitude:props.startRegion.latitude,
 					longitude: props.startRegion.longitude,
 					latitudeDelta: 0.005,
 					longitudeDelta: 0.005,
 				}}
-				// onRegionChange={onRegionChange}
+				// region={{
+				// 	latitude: latitude,
+				// 	longitude: longitude,
+				// 	latitudeDelta: 0.005,
+				// 	longitudeDelta: 0.005,
+				// }}
 				showsUserLocation={true}
 				userLocationPriority="high"
 				userLocationUpdateInterval={4000}
 				followsUserLocation={true}
 				showsMyLocationButton={true}
 				showsBuildings={true}
+				showsCompass={true}
 			>
 
 
@@ -100,7 +116,7 @@ const ActiveMapView:FC<MapViewProps> = (props) => {
 			<View style={[ styles.container ]}>
 				<Text style={[ styles.mapText ]}>Distance : {distance}</Text>
 				<View style={[ styles.mapContentRightContainer ]}>
-					<MapContentText>Speed: {speed}</MapContentText>
+					<MapContentText>Speed: {getSpeed()}</MapContentText>
 					<MapContentText>Time: </MapContentText>
 					<MapContentText>Step: {steps}</MapContentText>
 					<MapContentText>Heart Rates : {heartRate}</MapContentText>

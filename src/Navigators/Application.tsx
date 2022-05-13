@@ -36,23 +36,23 @@ const Stack = createStackNavigator<ApplicationNavigatorParamList>()
 
 // @refresh reset
 const ApplicationNavigator = () => {
-  const { Layout, darkMode, NavigationTheme } = useTheme()
-  const { isScreenLoading, snackBarConfig } = useSelector((state: RootState) => state.ui)
-  const dispatch = useDispatch()
-  const { isLoggedIn } = useSelector((state: RootState) => state.user)
+	const { Layout, darkMode, NavigationTheme } = useTheme()
+	const { isScreenLoading, snackBarConfig } = useSelector((state: RootState) => state.ui)
+	const dispatch = useDispatch()
+	const { isLoggedIn } = useSelector((state: RootState) => state.user)
 
-  useEffect(() => {
-    const retrieveLoggedInUser = async () => {
-      console.log('retrieveLoggedInUser')
-      try {
-        let user = await Auth.currentAuthenticatedUser()
-        console.log('user ', user)
-        if (user === null) {
-          console.log("no active session found")
-          return
-        }
+	useEffect(() => {
+		const retrieveLoggedInUser = async () => {
+			console.log('retrieveLoggedInUser')
+			try {
+				let user = await Auth.currentAuthenticatedUser()
+				// console.log('user ', user)
+				if (user === null) {
+					console.log('no active session found')
+					return
+				}
 
-        let { attributes, username } = user
+				let { attributes, username } = user
 				dispatch(login({
 					email: attributes.email,
 					username,
@@ -64,54 +64,52 @@ const ApplicationNavigator = () => {
 			}
 		}
 		retrieveLoggedInUser()
-	},[])
-  let navProps: {
+	}, [])
+	let navProps: {
     ref: NavigationContainerRefWithCurrent<any>,
     linking: LinkingOptions<any>
   } = isLoggedIn ? {
   	ref: privateNavigationRef,
   	linking: privateLinking,
   } : {
-      ref: publicNavigationRef,
-      linking: publicLinking
-    }
+  	ref: publicNavigationRef,
+  	linking: publicLinking,
+  }
 
-  return (
-    <SafeAreaView style={[Layout.fill, { backgroundColor: colors.black }]}>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <SnackBar
-          {...snackBarConfig}
-          textMessage={() => {
-            return <SnackbarMsgContainer textMessage={snackBarConfig.textMessage} />
-          }}
-          containerStyle={{
-            borderRadius: 16,
-            paddingHorizontal: 4,
-            paddingVertical: 16,
-            backgroundColor: '#1F2323',
-          }}
-          top={10}
-          left={10}
-          right={10}
-        >
-
-        </SnackBar>
-        <NavigationContainer theme={NavigationTheme}
-          {...navProps}
-        >
-          <StatusBar
-            barStyle={darkMode ? 'light-content' : 'dark-content'} />
-          {isScreenLoading && <LoadingScreen />}
-          <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name={RouteStacks.startUp} component={StartupContainer} />
-            <Stack.Screen name={RouteStacks.application} component={
-              isLoggedIn ? MainNavigator : AuthNavigator
-            } />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </GestureHandlerRootView>
-    </SafeAreaView>
-  )
+	return (
+		<SafeAreaView style={[ Layout.fill, { backgroundColor: colors.black } ]}>
+			<GestureHandlerRootView style={{ flex: 1 }}>
+				<SnackBar
+					{...snackBarConfig}
+					textMessage={() => {
+						return <SnackbarMsgContainer textMessage={snackBarConfig.textMessage} />
+					}}
+					containerStyle={{
+						borderRadius: 16,
+						paddingHorizontal: 4,
+						paddingVertical: 16,
+						backgroundColor: '#1F2323',
+					}}
+					top={10}
+					left={10}
+					right={10}
+				 />
+				<NavigationContainer theme={NavigationTheme}
+					{...navProps}
+				>
+					<StatusBar
+						barStyle={darkMode ? 'light-content' : 'dark-content'} />
+					{isScreenLoading && <LoadingScreen />}
+					<Stack.Navigator screenOptions={{ headerShown: false }}>
+						<Stack.Screen name={RouteStacks.startUp} component={StartupContainer} />
+						<Stack.Screen name={RouteStacks.application} component={
+							isLoggedIn ? MainNavigator : AuthNavigator
+						} />
+					</Stack.Navigator>
+				</NavigationContainer>
+			</GestureHandlerRootView>
+		</SafeAreaView>
+	)
 }
 
 export default ApplicationNavigator

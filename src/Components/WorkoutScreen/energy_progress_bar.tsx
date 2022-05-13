@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 	},
-	contextText : {
+	contentText : {
 		fontSize: 10,
 		fontWeight: 'bold',
 		color: 'white',
@@ -47,8 +47,8 @@ const EnergyBar = (props) => {
 	return (
 		<View style={[ styles.container ]}>
 			<View style={[ styles.textContainer ]}>
-				<Text style={[ styles.contextText ]}>{energy}</Text>
-				<Text style={[ styles.contextText ]}>{energy}</Text>
+				<Text style={[ styles.contentText ]}>{energy}</Text>
+				<Text style={[ styles.contentText ]}>{energy}</Text>
 			</View>
 			<Bar />
 		</View>

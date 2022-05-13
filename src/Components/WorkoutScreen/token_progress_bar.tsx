@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'column',
 		justifyContent: 'flex-start',
 	},
-	contextText : {
+	contentText : {
 		fontSize: 10,
 		fontWeight: 'bold',
 		color: 'white',
@@ -44,9 +44,8 @@ const TokenProcessBar = (props) => {
 	return (
 		<View style={[ styles.container ]}>
 			<View style={[ styles.textContainer ]}>
-				<Text style={[ styles.contextText ]}>{token}</Text>
-				<Text style={[ styles.contextText ]}>{token}</Text>
-				{/* <Text style={[ styles.contextText ]}>123</Text> */}
+				<Text style={[ styles.contentText ]}>{token}</Text>
+				<Text style={[ styles.contentText ]}>{token}</Text>
 			</View>
 			<Bar />
 		</View>
