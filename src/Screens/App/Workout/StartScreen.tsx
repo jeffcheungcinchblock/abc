@@ -53,52 +53,7 @@ const StartScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 	const [ region, setRegion ] = useState<Region|null>(null)
 	const [ isReady, setIsReady ] = useState<Boolean>(false)
 	const [ enabled, setEnabled ] = useState<Boolean>(false)
-	useEffect(() => {
-		// setCurrentState('initialing')
-		const startInit = async () => {
-			health_kit.GetAuthorizeStatus().then((isAuthorize) => {
-				if (!isAuthorize) {
-					health_kit
-						.InitHealthKitPermission()
-						.then(val => {
-							console.log('inti health kit', val)
-						})
-						.catch(err => {
-							console.error(err)
-						})
-				}
-			})
-		}
-		startInit()
-		dispatch({ type:'inital' })
-		setIstHealthKitReady(true)
-		console.log('set health kit readty')
-	}, [])
 
-	useEffect(() => {
-		BackgroundGeolocation.ready({
-			triggerActivities: 'on_foot, walking, running',
-			locationAuthorizationRequest : 'WhenInUse',
-			desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
-			distanceFilter: 3,
-			stopTimeout: 5,
-			isMoving: true,
-			reset: false,
-			debug: true,
-			disableElasticity : true,
-			speedJumpFilter:50,
-			logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
-			stopOnTerminate: true,
-		}).then(()=>{
-			// if (currentState !== ActivityType.MOVING && currentState === ActivityType.LOADING){
-			dispatch({ type:'ready' })
-			setIsReady(true)
-			console.log('ready in []')
-
-			//
-			// }
-		})
-	}, [ isHealthkitReady ])
 	// useEffect(() => {
 	// 	const onLocation: Subscription = BackgroundGeolocation.onLocation((location) => {
 	// 		if (currentState !== ActivityType.PAUSE){

@@ -31,16 +31,15 @@ export function Workout() {
 
 
 const WorkoutNavigator = () => {
-	const dispatch = useDispatch()
 
 	return (
 		<Stack.Navigator
 			screenOptions={{
 				headerShown: false,
 			}}
-			initialRouteName={RouteStacks.startWorkout}
+			initialRouteName={RouteStacks.workout}
 		>
-			<Stack.Screen name={RouteStacks.startWorkout} component={StartScreen} />
+			{/* <Stack.Screen name={RouteStacks.startWorkout} component={StartScreen} /> */}
 			<Stack.Screen name={RouteStacks.workout} component={MainScreen} />
 			<Stack.Screen name={RouteStacks.endWorkout} component={EndScreen} />
 

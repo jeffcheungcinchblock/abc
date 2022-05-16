@@ -26,6 +26,9 @@ import { awsLogout } from '@/Utils/helpers'
 import { WelcomeGalleryScreen } from '@/Screens/Auth'
 import { RootState } from '@/Store'
 
+import { WorkoutNavigatorParamList } from '@/Screens/App/WorkoutScreen'
+import WorkoutNavigator from '@/Navigators/WorkoutNavigator'
+
 export type TabNavigatorParamList = {
   [RouteTabs.home]: NavigatorScreenParams<HomeNavigatorParamList>
   [RouteTabs.breeding]: NavigatorScreenParams<BreedingNavigatorParamList>
@@ -47,7 +50,7 @@ export type MainStackNavigatorParamList = {
 }
 
 const Tab = createBottomTabNavigator()
-const Drawer = createDrawerNavigator();
+const Drawer = createDrawerNavigator()
 const Stack = createStackNavigator()
 
 export type MainTabNavigatorProps = DrawerScreenProps<DrawerNavigatorParamList, RouteStacks.mainTab>
@@ -158,48 +161,44 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
 	)
 }
 
-const DrawerNavigator : FC<MainNavigatorProps> = ({navigation}) => {
+const DrawerNavigator : FC<MainNavigatorProps> = ({ navigation }) => {
 
-  const { t } = useTranslation()
-  const { hasLoggedInTimes } = useSelector((state: RootState) => state.user)
-  console.log('hasLoggedInTimes', hasLoggedInTimes)
-  useEffect(() => {
-    if(hasLoggedInTimes < 3){
-      navigation.navigate(RouteStacks.welcomeGallery)
-    }
-  }, [])
+	const { t } = useTranslation()
+	const { hasLoggedInTimes } = useSelector((state: RootState) => state.user)
+	console.log('hasLoggedInTimes', hasLoggedInTimes)
+	useEffect(() => {
+	  if (hasLoggedInTimes < 3){
+			navigation.navigate(RouteStacks.welcomeGallery)
+	  }
+	}, [])
 
-// }
+	return (
+	  <Drawer.Navigator screenOptions={{ headerShown: false }}
+			drawerContent={(props) => <CustomDrawerContent {...props} />}
+			initialRouteName={RouteStacks.mainTab}>
+
+			{/* <Drawer.Screen name={RouteStacks.setting} component={SettingScreen} /> */}
+			<Drawer.Screen name={RouteStacks.mainTab} component={MainTabNavigator} />
+			<Drawer.Screen name={RouteStacks.workout} component={WorkoutNavigator} />
+
+	  </Drawer.Navigator>
+
+	)
+}
 const MainNavigator = () => {
 
 	const { t } = useTranslation()
 
 	return (
-		<Drawer.Navigator screenOptions={{ headerShown: false }}
-			drawerContent={(props) => <CustomDrawerContent {...props} />}
-			initialRouteName={RouteStacks.mainTab}>
-			<Drawer.Screen name={RouteStacks.setting} component={SettingScreen} />
-			<Drawer.Screen name={RouteStacks.mainTab} component={MainTabNavigator} />
-			<Drawer.Screen name={RouteStacks.workout} component={WorkoutNavigator} />
-		</Drawer.Navigator>
+		<Stack.Navigator screenOptions={{ headerShown: false }}
+			initialRouteName={RouteStacks.mainDrawer}>
+
+			<Stack.Screen name={RouteStacks.mainDrawer} component={DrawerNavigator} />
+			<Stack.Screen name={RouteStacks.welcomeGallery} component={WelcomeGalleryScreen} />
+			<Stack.Screen name={RouteStacks.workout} component={WorkoutNavigator} />
+		</Stack.Navigator>
 
 	)
-}
-
-const MainNavigator = () => {
-
-  const { t } = useTranslation()
-
-  return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}
-      initialRouteName={RouteStacks.mainDrawer}>
-
-      <Stack.Screen name={RouteStacks.mainDrawer} component={DrawerNavigator} />
-      <Stack.Screen name={RouteStacks.welcomeGallery} component={WelcomeGalleryScreen} />
-
-    </Stack.Navigator>
-
-  )
 }
 
 export default MainNavigator

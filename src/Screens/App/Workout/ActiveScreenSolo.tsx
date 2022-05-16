@@ -134,10 +134,6 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 	const [ isStopped, setIsStopped ] = useState(false)
 
 	useEffect(()=>{
-		console.log('updatedState', latitude, longitude, startRegion)
-	}, [ currentState ])
-
-	useEffect(()=>{
 		const onLocation: Subscription = BackgroundGeolocation.onLocation((location) => {
 			console.log('listening', ActivityType[currentState], location)
 			if (currentState !== ActivityType.PAUSE && startTime !== null){
@@ -166,10 +162,8 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 			maximumAge: 5000,
 			samples: 3,
 		}).then((location)=>{
+			console.log('current location', location)
 			setStartRegion({ latitude:location.coords.latitude, longitude:location.coords.longitude, latitudeDelta:0.0922, longitudeDelta:0.0421 })
-			console.log('start region inside ready')
-			console.log('start region', startRegion)
-			console.log('dispatch ready', ActivityType[currentState])
 			setIsSettedRegion(true)
 		})
 		// if (currentState === ActivityType.LOADING){
@@ -206,9 +200,11 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 
 	useEffect(() => {
 		// dispatch({ type:'start', payload:{ startTIme: new Date() }	})
-		BackgroundGeolocation.start()
-		BackgroundGeolocation.changePace(true)
-		console.log('started in useeffect')
+		if (isSettedRegion){
+			BackgroundGeolocation.start()
+			BackgroundGeolocation.changePace(true)
+			console.log('started in useeffect')
+		}
 	}, [ isSettedRegion ])
 
 	const StopRunningSession = async() => {

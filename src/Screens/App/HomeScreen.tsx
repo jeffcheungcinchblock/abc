@@ -23,6 +23,7 @@ import { config } from '@/Utils/constants'
 import { DrawerNavigatorParamList, TabNavigatorParamList } from '@/Navigators/MainNavigator'
 import EncryptedStorage from 'react-native-encrypted-storage'
 import { MainScreen, HomeReferralScreen, HomeInviteStateScreen, SocialSignInEnterEmailScreen } from '@/Screens/App/Home'
+import { ActiveScreenSolo } from '@/Screens/App/Workout'
 import { RouteStacks, RouteTabs } from '@/Navigators/routes'
 import { CompositeScreenProps } from '@react-navigation/native'
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
@@ -36,6 +37,7 @@ export type HomeNavigatorParamList = {
     [RouteStacks.homeInviteState]: undefined
 
     // To be moved somewhere else
+    [RouteStacks.workout]: undefined
     [RouteStacks.socialSignInEnterEmail]: undefined
 }
 
@@ -52,14 +54,13 @@ const HomeScreen: FC<HomeScreenNavigationProp> = (
 	const dispatch = useDispatch()
 
 
-    return (
-        <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={RouteStacks.homeReferral}>
-            {/* <Stack.Screen name={RouteStacks.homeMain} component={MainScreen} /> */}
-            <Stack.Screen name={RouteStacks.homeReferral} component={HomeReferralScreen} />
-            <Stack.Screen name={RouteStacks.socialSignInEnterEmail} component={SocialSignInEnterEmailScreen} />
-            {/* <Stack.Screen name={RouteStacks.homeInviteState} component={HomeInviteStateScreen} /> */}
-        </Stack.Navigator>
-    )
+	return (
+		<Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={RouteStacks.homeReferral}>
+			<Stack.Screen name={RouteStacks.homeReferral} component={HomeReferralScreen} />
+			<Stack.Screen name={RouteStacks.socialSignInEnterEmail} component={SocialSignInEnterEmailScreen} />
+			{/* <Stack.Screen name={RouteStacks.workout} component={ActiveScreenSolo} /> */}
+		</Stack.Navigator>
+	)
 }
 
 export default HomeScreen

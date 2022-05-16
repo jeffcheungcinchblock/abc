@@ -499,12 +499,12 @@ PODS:
     - React-Core
   - RNBackgroundFetch (4.1.0):
     - React-Core
-  - RNBackgroundGeolocation (4.6.0):
+  - RNBackgroundGeolocation (4.7.1):
     - CocoaLumberjack (~> 3.7.2)
     - React-Core
   - RNBootSplash (4.1.5):
     - React-Core
-  - RNCAsyncStorage (1.17.3):
+  - RNCAsyncStorage (1.17.4):
     - React-Core
   - RNCClipboard (1.10.0):
     - React-Core
@@ -518,19 +518,19 @@ PODS:
     - React-Core
     - SDWebImage (~> 5.11.1)
     - SDWebImageWebPCoder (~> 0.8.4)
-  - RNFBApp (14.9.1):
+  - RNFBApp (14.9.4):
     - Firebase/CoreOnly (= 8.15.0)
     - React-Core
-  - RNFBAppDistribution (14.9.1):
+  - RNFBAppDistribution (14.9.4):
     - Firebase/AppDistribution (= 8.15.0)
     - React-Core
     - RNFBApp
-  - RNFBDynamicLinks (14.9.1):
+  - RNFBDynamicLinks (14.9.4):
     - Firebase/DynamicLinks (= 8.15.0)
     - GoogleUtilities/AppDelegateSwizzler
     - React-Core
     - RNFBApp
-  - RNFBMessaging (14.9.1):
+  - RNFBMessaging (14.9.4):
     - Firebase/Messaging (= 8.15.0)
     - React-Core
     - RNFBApp
@@ -538,10 +538,10 @@ PODS:
     - React-Core
   - RNInAppBrowser (3.6.3):
     - React-Core
-  - RNNotifee (5.2.1):
+  - RNNotifee (5.2.2):
     - React-Core
-    - RNNotifee/NotifeeCore (= 5.2.1)
-  - RNNotifee/NotifeeCore (5.2.1):
+    - RNNotifee/NotifeeCore (= 5.2.2)
+  - RNNotifee/NotifeeCore (5.2.2):
     - React-Core
   - RNPermissions (3.3.1):
     - React-Core
@@ -575,10 +575,10 @@ PODS:
   - RNScreens (3.13.1):
     - React-Core
     - React-RCTImage
-  - RNShare (7.4.0):
+  - RNShare (7.4.1):
     - React-Core
-  - RNSVG (12.1.0):
-    - React
+  - RNSVG (12.3.0):
+    - React-Core
   - SDWebImage (5.11.1):
     - SDWebImage/Core (= 5.11.1)
   - SDWebImage/Core (5.11.1)
@@ -929,31 +929,31 @@ SPEC CHECKSUMS:
   RNAppleHealthKit: 60a6beefdd89a75811e9a8873a5e24f351dee681
   RNAWSCognito: 4bb232cc7ed978257658876ee280de9456f998a1
   RNBackgroundFetch: 1f47e8f793ad7a1ae7f0e3db5437f4feaf887a03
-  RNBackgroundGeolocation: 29a4237da5245586f5b1379bd37e9a7d0bb9457a
+  RNBackgroundGeolocation: 7dde1b7d63266d91efd5a5aea60f3879a38d4335
   RNBootSplash: 2830c475d5793d6cf12312d1e8f5f1decb0dd3e8
-  RNCAsyncStorage: 005c0e2f09575360f142d0d1f1f15e4ec575b1af
+  RNCAsyncStorage: 9367a646dc24e3ab7b6874d79bc1bfd0832dce58
   RNCClipboard: f1736c75ab85b627a4d57587edb4b60999c4dd80
   RNCMaskedView: c298b644a10c0c142055b3ae24d83879ecb13ccd
   RNCPicker: abc646b53a3d28ccfa3232c927a0ca52e0cf024d
   RNDeviceInfo: aad3c663b25752a52bf8fce93f2354001dd185aa
   RNFastImage: 1f2cab428712a4baaf78d6169eaec7f622556dd7
-  RNFBApp: fd23737680ed2bdde41ca27d8bfb171b6d668c6b
-  RNFBAppDistribution: ee8fbc0d364a35476ec030404dd283b1e2eda5bb
-  RNFBDynamicLinks: 20bd934c6c89ecba6af23a31c1de6b03786923ca
-  RNFBMessaging: cd273b4dcacf98c83a25ce1711c8c85511573990
+  RNFBApp: bef4ec5a6d31a3da9bf285379d0c4857c6b7313e
+  RNFBAppDistribution: 22625459e7946409cc338226b5ba9fd1b4948bd3
+  RNFBDynamicLinks: b603b10774e583bd8b4bf2fbab15afd8b1ce6894
+  RNFBMessaging: bb601451343f61ea26c5806690b4aa62a06aa054
   RNGestureHandler: 61628a2c859172551aa2100d3e73d1e57878392f
   RNInAppBrowser: 3ff3a3b8f458aaf25aaee879d057352862edf357
-  RNNotifee: aa2db7658fd17b5c44ea96b7062bcade3787a10e
+  RNNotifee: d90cdc08df61ace410b4f98aeff97a5ac12e2ce6
   RNPermissions: 34d678157c800b25b22a488e4d8babb57456e796
   RNReanimated: 58b57be69a237fb02ec8099d25171057638cf41a
   RNScreens: 40a2cb40a02a609938137a1e0acfbf8fc9eebf19
-  RNShare: f116bbb04f310c665ca483d0bd1e88cf59b3b334
-  RNSVG: ce9d996113475209013317e48b05c21ee988d42e
+  RNShare: 2074af48908436c310847c6c47ebb6129db1dc89
+  RNSVG: 302bfc9905bd8122f08966dc2ce2d07b7b52b9f8
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SDWebImageWebPCoder: f93010f3f6c031e2f8fb3081ca4ee6966c539815
   Yoga: e7dc4e71caba6472ff48ad7d234389b91dadc280
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 9fae849695cfa524e70c0246be1e1408d84de8d2
+PODFILE CHECKSUM: a4ea370134103ef75811eb8bb1342f976289b221
 
 COCOAPODS: 1.11.3

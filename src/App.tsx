@@ -5,10 +5,10 @@ import { PersistGate } from 'redux-persist/lib/integration/react'
 import { store, persistor } from '@/Store'
 import ApplicationNavigator from '@/Navigators/Application'
 import './Translations'
-import { LogBox, Linking, Alert } from 'react-native';
+import { LogBox, Linking, Alert } from 'react-native'
 // @ts-ignore
-import WalletConnectProvider from '@walletconnect/react-native-dapp';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import WalletConnectProvider from '@walletconnect/react-native-dapp'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 // @ts-ignore
 import Amplify, { Auth } from 'aws-amplify'
 import { credentials } from './Utils/firebase'
@@ -21,7 +21,7 @@ import { config } from './Utils/constants'
 import { RouteStacks } from './Navigators/routes'
 import { startLoading } from './Store/UI/actions'
 import { storeReferralCode } from './Store/Referral/actions'
-import RNBootSplash from "react-native-bootsplash";
+import RNBootSplash from 'react-native-bootsplash'
 
 // TBD: remove later
 console.warn = () => {}
@@ -100,9 +100,9 @@ LogBox.ignoreLogs([
 ])
 
 const getUser = () => {
-  return Auth.currentAuthenticatedUser()
-    .then((userData : any) => userData)
-    .catch(() => console.log('Not signed in'));
+	return Auth.currentAuthenticatedUser()
+		.then((userData : any) => userData)
+		.catch(() => console.log('Not signed in'))
 }
 
 // https://www.facebook.com/log.out
@@ -165,9 +165,9 @@ const App = () => {
 		}
 	}
 
-  useEffect(() => {
-    console.log("Initialized firebae")
-    RNBootSplash.hide({fade: true});
+	useEffect(() => {
+		console.log('Initialized firebae')
+		RNBootSplash.hide({ fade: true })
 
 		requestUserPermission()
 
@@ -193,9 +193,9 @@ const App = () => {
 
 	}, [])
 
-  return (
-    <Provider store={store}>
-      {/**
+	return (
+		<Provider store={store}>
+			{/**
        * PersistGate delays the rendering of the app's UI until the persisted state has been retrieved
        * and saved to redux.
        * The `loading` prop can be `null` or any react instance to show during loading (e.g. a splash screen),
@@ -203,18 +203,18 @@ const App = () => {
        * @see https://github.com/rt2zz/redux-persist/blob/master/docs/PersistGate.md
        */}
 
-      <WalletConnectProvider
-        redirectUrl={`${config.urlScheme}${RouteStacks.homeMain}`}
-        storageOptions={{
-          asyncStorage: AsyncStorage,
-        }}>
+			<WalletConnectProvider
+				redirectUrl={`${config.urlScheme}${RouteStacks.homeMain}`}
+				storageOptions={{
+					asyncStorage: AsyncStorage,
+				}}>
 
-        <PersistGate loading={null} persistor={persistor}>
-          <ApplicationNavigator />
-        </PersistGate>
-      </WalletConnectProvider>
-    </Provider>
-  )
+				<PersistGate loading={null} persistor={persistor}>
+					<ApplicationNavigator />
+				</PersistGate>
+			</WalletConnectProvider>
+		</Provider>
+	)
 }
 
 export default App

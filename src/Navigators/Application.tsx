@@ -43,34 +43,34 @@ const ApplicationNavigator = () => {
 	const dispatch = useDispatch()
 	const { isLoggedIn } = useSelector((state: RootState) => state.user)
 
-  useEffect(() => {
-    const retrieveLoggedInUser = async () => {
-      try {
-        let user = await Auth.currentAuthenticatedUser()
-        if (user === null) {
-          return
-        }
+	useEffect(() => {
+		const retrieveLoggedInUser = async () => {
+			try {
+				let user = await Auth.currentAuthenticatedUser()
+				if (user === null) {
+					return
+				}
 
-        let { attributes, username } = user
+				let { attributes, username } = user
 
-        dispatch(login({
-          email: attributes.email,
-          username,
-        }))
-      } catch (err) {
-        console.log(err)
-      } finally {
-        dispatch(startLoading(false))
-      }
-    }
+				dispatch(login({
+					email: attributes.email,
+					username,
+				}))
+			} catch (err) {
+				console.log(err)
+			} finally {
+				dispatch(startLoading(false))
+			}
+		}
 
-    if(!isLoggedIn){
-      retrieveLoggedInUser()
-    }
+		if (!isLoggedIn){
+			retrieveLoggedInUser()
+		}
 
-  }, [isLoggedIn])
+	}, [ isLoggedIn ])
 
-  let navProps: {
+	let navProps: {
     ref: NavigationContainerRefWithCurrent<any>,
     linking: LinkingOptions<any>
   } = isLoggedIn ? {
@@ -82,48 +82,46 @@ const ApplicationNavigator = () => {
   }
 
 
-  return (
-    <SafeAreaView style={[Layout.fill, { backgroundColor: colors.black }]}>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <SnackBar
-          {...snackBarConfig}
-          textMessage={() => {
-            return <SnackbarMsgContainer textMessage={snackBarConfig.textMessage} />
-          }}
-          containerStyle={{
-            borderRadius: 16,
-            paddingHorizontal: 4,
-            paddingVertical: 16,
-            backgroundColor: '#1F2323',
-          }}
-          top={10}
-          left={10}
-          right={10}
-        >
+	return (
+		<SafeAreaView style={[ Layout.fill, { backgroundColor: colors.black } ]}>
+			<GestureHandlerRootView style={{ flex: 1 }}>
+				<SnackBar
+					{...snackBarConfig}
+					textMessage={() => {
+						return <SnackbarMsgContainer textMessage={snackBarConfig.textMessage} />
+					}}
+					containerStyle={{
+						borderRadius: 16,
+						paddingHorizontal: 4,
+						paddingVertical: 16,
+						backgroundColor: '#1F2323',
+					}}
+					top={10}
+					left={10}
+					right={10}
+				 />
+				<NavigationContainer theme={NavigationTheme}
+					{...navProps}
+				>
+					<StatusBar
+						barStyle={darkMode ? 'light-content' : 'dark-content'} />
+					{isScreenLoading && <LoadingScreen />}
 
-        </SnackBar>
-        <NavigationContainer theme={NavigationTheme}
-          {...navProps}
-        >
-          <StatusBar
-            barStyle={darkMode ? 'light-content' : 'dark-content'} />
-          {isScreenLoading && <LoadingScreen />}
+					<Stack.Navigator
+						screenOptions={{
+							headerShown: false,
+							presentation: 'transparentModal',
+						}} initialRouteName={RouteStacks.startUp}>
+						<Stack.Screen name={RouteStacks.startUp} component={StartupContainer} />
+						<Stack.Screen name={RouteStacks.application} component={
+							isLoggedIn ? MainNavigator : AuthNavigator
+						} />
+					</Stack.Navigator>
 
-          <Stack.Navigator
-            screenOptions={{
-              headerShown: false,
-              presentation: 'transparentModal',
-            }} initialRouteName={RouteStacks.startUp}>
-            <Stack.Screen name={RouteStacks.startUp} component={StartupContainer} />
-            <Stack.Screen name={RouteStacks.application} component={
-              isLoggedIn ? MainNavigator : AuthNavigator
-            } />
-          </Stack.Navigator>
-
-        </NavigationContainer>
-      </GestureHandlerRootView>
-    </SafeAreaView>
-  )
+				</NavigationContainer>
+			</GestureHandlerRootView>
+		</SafeAreaView>
+	)
 }
 
 export default ApplicationNavigator

@@ -7,6 +7,7 @@ import android.content.Context;
 import com.facebook.react.bridge.JSIModulePackage;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import com.horcrux.svg.SvgPackage;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.horcrux.svg.SvgPackage;
 import com.reactnativepagerview.PagerViewPackage;

@@ -112,6 +112,9 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 		return <Text style={[ styles.textStyle, style ]} {...rest} />
 	}
 
+	const BackToMainScreen = () => {
+		navigation.replace(RouteStacks.homeMain)
+	}
 	return (
 		<ScreenBackgrounds screenName={RouteStacks.workout}>
 			<Header
@@ -155,12 +158,11 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 						/>
 						<CloseButton
 							onPress={() => {console.log('close')}}
-							iconName="close"
+							iconName = {t('close')}
 							containerStyle={[ Layout.fullWidth ]}/>
-
 						<TurquoiseButton
-							text={t('confirm')}
-							onPress={()=>{}}
+							text={t('close')}
+							onPress={BackToMainScreen}
 							containerStyle={{
 								width: '45%',
 							}}
