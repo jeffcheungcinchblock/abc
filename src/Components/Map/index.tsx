@@ -4,10 +4,13 @@ import {
 	Text,
 	StyleSheet,
 	TextProps,
+	Image,
 } from 'react-native'
 import {  useSelector } from 'react-redux'
 import MapView  from 'react-native-maps' // remove PROVIDER_GOOGLE import if not using Google Maps
 import { enableLatestRenderer, Polyline } from 'react-native-maps'
+import SpeedLogo from '@/Assets/Images/map/speed.png'
+import TimerLogo from '@/Assets/Images/map/timer.png'
 enableLatestRenderer()
 
 const styles = StyleSheet.create({
@@ -17,18 +20,35 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		position: 'absolute',
-		bottom:30,
+		bottom:20,
 
 	},
 	mapContentRightContainer:{
-		display: 'flex',
-		flexDirection: 'column',
-		justifyContent: 'flex-start',
+		marginLeft: 'auto',
+		marginRight: 20,
+		bottom: -20,
 	},
-	mapText : {
+	mapContentRightLogoTextContainer:{
+		display: 'flex',
+		flexDirection: 'row',
+		alignItems: 'center',
+	},
+	mapDistanceDataText:{
 		alignSelf:'flex-start',
 		alignItems:'flex-start',
-		fontSize: 10,
+		fontSize: 64,
+		fontWeight: 'bold',
+	},
+	mapDistanceText:{
+		alignSelf:'flex-start',
+		alignItems:'flex-start',
+		fontSize: 20,
+		fontWeight: 'bold',
+	},
+
+	mapText : {
+		marginLeft:10,
+		fontSize: 18,
 		fontWeight: 'bold',
 	},
 	map: {
@@ -51,7 +71,7 @@ const ActiveMapView:FC<MapViewProps> = (props) => {
 	const paths = useSelector((state:any) => state.map.paths)
 	const steps = useSelector((state:any) => state.map.steps)
 	const distance = useSelector((state:any) => state.map.distance).toFixed(0)
-	const speed = useSelector((state:any) => state.map.speed)
+	// const speed = useSelector((state:any) => state.map.speed)
 	const startTime = useSelector((state:any) => state.map.startTime)
 	const heartRate = useSelector((state:any) => state.map.heartRate)
 	const calories = useSelector((state:any) => state.map.calories)
@@ -62,8 +82,8 @@ const ActiveMapView:FC<MapViewProps> = (props) => {
 
 	const getSpeed = () => {
 		const currentTime = new Date()
-		const speed = (distance / (currentTime.getTime() - startTime.getTime())) * 1000
-		return speed.toPrecision(1)
+		const speed = (distance / (currentTime.getTime() - startTime.getTime()) * 3600).toFixed(2)
+		return speed
 	}
 	return (
 		<>
@@ -114,13 +134,27 @@ const ActiveMapView:FC<MapViewProps> = (props) => {
 
 			</MapView>
 			<View style={[ styles.container ]}>
-				<Text style={[ styles.mapText ]}>Distance : {distance}</Text>
-				<View style={[ styles.mapContentRightContainer ]}>
-					<MapContentText>Speed: {getSpeed()}</MapContentText>
-					<MapContentText>Time: </MapContentText>
+				<View>
+					<Text style={[ styles.mapDistanceDataText ]}>{distance / 1000}</Text>
+					<Text style={[ styles.mapDistanceText ]}>Total Kilometers</Text>
+				</View>
+				<View style={[ styles.mapContentRightContainer ]} >
+					<View style={[ styles.mapContentRightLogoTextContainer ]}>
+						<Image source={SpeedLogo} style={{ width: 18.14, height: 20, resizeMode: 'contain' }} />
+						<MapContentText>Speed: {getSpeed()}</MapContentText>
+					</View>
+					<View style={[ styles.mapContentRightLogoTextContainer ]}>
+						<Image source={TimerLogo} style={{ width: 18.14, height: 20, resizeMode: 'contain' }} />
+						<MapContentText>Time: </MapContentText>
+					</View>
 					<MapContentText>Step: {steps}</MapContentText>
-					<MapContentText>Heart Rates : {heartRate}</MapContentText>
-					<MapContentText>calories : {calories}</MapContentText>
+					{heartRate !== 0 && (
+						<MapContentText>Heart Rates : {heartRate}</MapContentText>
+					)}
+
+					{calories !== 0 && (
+						<MapContentText>Heart Rates : {calories}</MapContentText>
+					)}
 				</View>
 			</View>
 		</>

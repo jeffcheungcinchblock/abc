@@ -6,31 +6,25 @@ import { SignInScreen, SignUpScreen, ValidationCodeScreen, WelcomeScreen } from 
 import {  StartScreen, MainScreen, EndScreen, LiteScreen } from '@/Screens/App/Workout'
 import { RouteStacks, RouteTabs } from '@/Navigators/routes'
 import { useDispatch } from 'react-redux'
-import { login } from '@/Store/Users/actions'
-import EnterInvitaionCodeScreen from '@/Screens/Auth/EnterInvitaionCodeScreen'
-import { StackScreenProps } from '@react-navigation/stack'
-import ForgotPasswordScreen from '@/Screens/Auth/ForgotPasswordScreen'
-import { DrawerItem, DrawerScreenProps } from '@react-navigation/drawer'
-import { createDrawerNavigator, DrawerContentComponentProps, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer'
-import { awsLogout } from '@/Utils/helpers'
+
 import { Region } from '@/Screens/App/Workout/StartScreen'
 
 export type WorkoutNavigatorParamList = {
   [RouteStacks.startWorkout]: undefined
   [RouteStacks.workout]:  undefined | {region: Region}
-  [RouteStacks.endWorkout]:  undefined
+  [RouteStacks.endWorkout]: any
   // 🔥 Your screens go here
 }
 
 const Tab = createBottomTabNavigator()
-const Drawer = createDrawerNavigator()
 
 const Stack = createNativeStackNavigator<WorkoutNavigatorParamList>()
 export function Workout() {
 	return (
 		<Tab.Navigator>
 			<Tab.Screen name="workout" component={MainScreen} />
-			<Tab.Screen name="Lite" component={LiteScreen} />
+			<Tab.Screen name="lite" component={LiteScreen} />
+			<Tab.Screen name="end" component={EndScreen} />
 		</Tab.Navigator>
 	)
 }
@@ -46,9 +40,9 @@ const WorkoutNavigator = () => {
 			}}
 			initialRouteName={RouteStacks.startWorkout}
 		>
-			<Stack.Screen name={RouteStacks.startWorkout} component={StartScreen} options={{ headerShown:false }}/>
-			<Stack.Screen name={RouteStacks.workout} component={MainScreen} options={{ headerShown: false }}/>
-			<Stack.Screen name={RouteStacks.endWorkout} component={EndScreen} options={{ headerShown: false }}/>
+			<Stack.Screen name={RouteStacks.startWorkout} component={StartScreen} />
+			<Stack.Screen name={RouteStacks.workout} component={MainScreen} />
+			<Stack.Screen name={RouteStacks.endWorkout} component={EndScreen} />
 
 		</Stack.Navigator>
 	)

@@ -14,6 +14,8 @@ import { CompositeScreenProps } from '@react-navigation/native'
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
 import { DrawerScreenProps } from '@react-navigation/drawer'
 import { useTheme } from '@/Hooks'
+import { Brand, Header } from '@/Components'
+
 import { IOSHealthKit } from '../../../Healthkit/iosHealthKit'
 import { GoogleFitKit } from '../../../Healthkit/androidHealthKit'
 import BackgroundGeolocation, { Subscription } from 'react-native-background-geolocation'
@@ -61,7 +63,7 @@ const styles = StyleSheet.create({
 
 	dataContainer:{
 		flex:3,
-		backgroundColor:'#151C35',
+		backgroundColor: colors.darkGunmetal,
 		color:'#fff',
 	},
 	dataPaddingContainer:{
@@ -79,17 +81,26 @@ const styles = StyleSheet.create({
 		flexDirection:'row',
 		justifyContent: 'space-around',
 		marginTop:15,
+		width: '100%',
 	},
 	statePauseResumeButton:{
 		backgroundColor: '#00F2DE',
 		height:40,
 		color:colors.brightTurquoise,
+		width: '40%',
+
 	},
 	stateStopButton:{
 		borderStyle: 'solid',
 		borderColor: 'red',
+		borderWidth: 2,
+		backgroundColor:'transparent',
+		width: '40%',
+
+	},
+	stateStopButtonText:{
 		color:'white',
-		backgroundColor:'none',
+
 	},
 })
 
@@ -119,6 +130,8 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 	const [ enabled, setEnabled ] = useState(false)
 	const [ isReady, setIsReady ] = useState(false)
 	const [ startRegion, setStartRegion ] = useState<Region|null>(null)
+	const [ isSettedRegion, setIsSettedRegion ] = useState(false)
+	const [ isStopped, setIsStopped ] = useState(false)
 
 	useEffect(()=>{
 		console.log('updatedState', latitude, longitude, startRegion)
@@ -135,7 +148,6 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 						const new_step = health_kit.GetSteps(startTime, new Date())
 						const new_heartrate = health_kit.GetHeartRates( startTime, new Date())
 						Promise.all([ new_cal, new_step, new_heartrate ]).then((result)=>{
-							console.log('result', result)
 							dispatch({ type:'move', payload:{ latitude:location.coords.latitude, longitude:location.coords.longitude,
 								calories:result[0], steps:result[1], heartRate:result[2] } })
 						})
@@ -147,91 +159,104 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 				}
 			}
 		})
-		if (currentState === ActivityType.LOADING){
-			BackgroundGeolocation.ready({
-				triggerActivities: 'on_foot, walking, running',
-				locationAuthorizationRequest : 'WhenInUse',
-				desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
-				distanceFilter: 3,
-				stopTimeout: 5,
-				isMoving: true,
-				reset: false,
-				debug: true,
-				disableElasticity : true,
-				speedJumpFilter:50,
-				logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
-				stopOnTerminate: true,
-			}).then(()=>{
-				if (currentState !== ActivityType.MOVING && currentState === ActivityType.LOADING){
-					health_kit.GetAuthorizeStatus().then((isAuthorize) => {
-						console.log('isAuth', isAuthorize)
-					})
-					dispatch({ type:'ready' })
-					BackgroundGeolocation.getCurrentPosition({
-						timeout: 30,          // 30 second timeout to fetch location
-						maximumAge: 5000,
-						samples: 1,
-					}).then((location)=>{
-						setStartRegion({ latitude:location.coords.latitude, longitude:location.coords.longitude, latitudeDelta:0.0922, longitudeDelta:0.0421 })
-					})
-					setIsReady(true)
-					console.log('start region', startRegion)
-					console.log('dispatch ready', ActivityType[currentState])
-				}
-			})
-		}
+
+
+		BackgroundGeolocation.getCurrentPosition({
+			timeout: 30,          // 30 second timeout to fetch location
+			maximumAge: 5000,
+			samples: 3,
+		}).then((location)=>{
+			setStartRegion({ latitude:location.coords.latitude, longitude:location.coords.longitude, latitudeDelta:0.0922, longitudeDelta:0.0421 })
+			console.log('start region inside ready')
+			console.log('start region', startRegion)
+			console.log('dispatch ready', ActivityType[currentState])
+			setIsSettedRegion(true)
+		})
+		// if (currentState === ActivityType.LOADING){
+		// 	BackgroundGeolocation.ready({
+		// 		triggerActivities: 'on_foot, walking, running',
+		// 		locationAuthorizationRequest : 'WhenInUse',
+		// 		desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
+		// 		distanceFilter: 3,
+		// 		stopTimeout: 5,
+		// 		isMoving: true,
+		// 		reset: false,
+		// 		debug: true,
+		// 		disableElasticity : true,
+		// 		speedJumpFilter:50,
+		// 		logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
+		// 		stopOnTerminate: true,
+		// 	}).then(()=>{
+		// 		if (currentState !== ActivityType.MOVING && currentState === ActivityType.LOADING){
+		// 			// health_kit.GetAuthorizeStatus().then((isAuthorize) => {
+		// 			// 	console.log('isAuth', isAuthorize)
+		// 			// })
+		// 			dispatch({ type:'ready' })
+		// 			setIsReady(true)
+		// 			console.log('ready in []')
+
+		// 		}
+		// 	})
+		// }
 
 		return () => {
 			onLocation.remove()
 		}
-	}, [  ])
+	}, [])
 
-	// useEffect(() => {
-	// }, [  ])
-
-	useEffect(()=>{
-		dispatch({ type:'start', payload:{ startTime: new Date() } })
+	useEffect(() => {
+		// dispatch({ type:'start', payload:{ startTIme: new Date() }	})
 		BackgroundGeolocation.start()
-	}, [ isReady ])
+		BackgroundGeolocation.changePace(true)
+		console.log('started in useeffect')
+	}, [ isSettedRegion ])
 
 	const StopRunningSession = async() => {
 		console.log('stop')
-		if (enabled){
-			setEnabled(false)
-			try {
-				dispatch({ type:'stop', payload:{ endTime:new Date() } })
-				const finalJsonToString = JSON.stringify({
-					startTime : startTime,
-					distance: distance,
-					calories : calories,
-					steps: steps,
-					heartRate: heartRate,
-					paths: paths,
-				})
-				console.log('send')
-				let dataResponse = await axios({
-					method: 'post',
-					url:'https://i0n9e61kyl.execute-api.us-west-2.amazonaws.com/Prod/postsession',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					data:finalJsonToString,
-				})
-				console.log('dataResponse', dataResponse)
-				navigation.replace(RouteStacks.endWorkout)
-			} catch (err){
-				console.log('error in ver', err)
-			}
-		}
+		await BackgroundGeolocation.changePace(false)
+		await BackgroundGeolocation.stop()
+		dispatch({ type:'stop', payload:{ endTime:new Date() } })
+		setIsStopped(true)
 	}
+	useEffect(()=>{
+		if (isStopped === false) {return}
+		try {
+			const data = {
+				startTime : startTime,
+				endTime : endTime,
+				distance: distance,
+				calories : calories,
+				steps: steps,
+				heartRate: heartRate,
+				paths: paths,
+			}
+			axios({
+				method: 'post',
+				url:'https://85vamr0pne.execute-api.us-west-2.amazonaws.com/dev/sessions',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				data:data,
+			}).then((result)=>{
+				console.log('result', result)
+				navigation.replace(RouteStacks.endWorkout, data)
+			})
+		} catch (err){
+			console.log('error in ver', err)
+		}
+	})
 
-	const PauseRunningSession = () => {
+
+
+	const PauseRunningSession = async() => {
 		const curTime = new Date()
 		dispatch({ type:'pause', payload:{ pauseTime:curTime } })
+		await BackgroundGeolocation.changePace(false)
 		console.log('pause')
 	}
 
 	const ResumeRunningSession = async() => {
+		await BackgroundGeolocation.changePace(true)
 		const curTime = new Date()
 		let location = await BackgroundGeolocation.getCurrentPosition({ samples: 1,
 			persist: true })
@@ -249,13 +274,18 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 
 	return (
 		<ScreenBackgrounds screenName={RouteStacks.workout}>
+			<Header
+				// onLeftPress={goBack}
+				headerText={ActivityType[currentState]}
+				style={{ backgroundColor: colors.darkGunmetal }}
+			/>
 			<View style={[ styles.container ]}>
 				<View style={[ styles.mapContainer ]}>
-					{startRegion && latitude && longitude && (
+					{startRegion && (
 						<ActiveMapView startRegion={startRegion}/>
 					)}
 				</View>
-				<View><Text>{ActivityType[currentState]}</Text></View>
+				{/* <View><Text>{ActivityType[currentState]}</Text></View> */}
 				<View style={[ styles.dataContainer ]}>
 					<View style={[ styles.dataPaddingContainer ]}>
 						<View style={[ styles.statusBarContainer ]}>
@@ -271,7 +301,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 									style={[ Common.button.rounded, Gutters.regularBMargin, styles.stateStopButton ]}
 									onPress={StopRunningSession}
 								>
-									<Text style={Fonts.textRegular}>Stop Workk</Text>
+									<Text style={[ Fonts.textRegular, styles.stateStopButtonText ]}>Stop</Text>
 								</TouchableOpacity>
 
 							)}
@@ -291,7 +321,6 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 									<Text style={Fonts.textRegular}>Resume</Text>
 								</TouchableOpacity>
 							)}
-							<WhiteText>{ActivityType[currentState]}</WhiteText>
 						</View>
 					</View>
 				</View>

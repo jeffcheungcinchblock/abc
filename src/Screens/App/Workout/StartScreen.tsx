@@ -76,8 +76,28 @@ const StartScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 	}, [])
 
 	useEffect(() => {
-		dispatch({ type:'ready' })
-		// console.log('dispatched ready')
+		BackgroundGeolocation.ready({
+			triggerActivities: 'on_foot, walking, running',
+			locationAuthorizationRequest : 'WhenInUse',
+			desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
+			distanceFilter: 3,
+			stopTimeout: 5,
+			isMoving: true,
+			reset: false,
+			debug: true,
+			disableElasticity : true,
+			speedJumpFilter:50,
+			logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
+			stopOnTerminate: true,
+		}).then(()=>{
+			// if (currentState !== ActivityType.MOVING && currentState === ActivityType.LOADING){
+			dispatch({ type:'ready' })
+			setIsReady(true)
+			console.log('ready in []')
+
+			//
+			// }
+		})
 	}, [ isHealthkitReady ])
 	// useEffect(() => {
 	// 	const onLocation: Subscription = BackgroundGeolocation.onLocation((location) => {
@@ -136,7 +156,7 @@ const StartScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 
 	useEffect(() => {
 		if (enabled === true) {
-			dispatch({ type:'init' })
+			dispatch({ type:'start', payload:{ startTime:new Date() } })
 			navigation.replace(RouteStacks.workout)
 		}
 	}, [ enabled ])
@@ -173,7 +193,7 @@ const StartScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 				]}>
 
 				<View style={[ Layout.fill, Layout.rowCenter ]}>
-					{currentState === ActivityType.READY ? (
+					{currentState === ActivityType.READY && isReady ? (
 						<TouchableOpacity
 							style={[ Common.button.rounded, Gutters.regularBMargin ]}
 							onPress={StartRunningSession}
