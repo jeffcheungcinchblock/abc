@@ -11,7 +11,7 @@ type AppIconProps = {
 
 const AppIcon = ({
     style,
-    imageStyle
+    imageStyle,
 }: AppIconProps) => {
     const { Layout, Images } = useTheme()
 

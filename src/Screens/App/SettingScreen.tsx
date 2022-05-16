@@ -62,7 +62,6 @@ const SettingScreen: FC<DrawerScreenProps<DrawerNavigatorParamList, RouteStacks.
             screenName={RouteStacks.setting}
         >
             <KeyboardAwareScrollView
-                style={Layout.fill}
                 contentContainerStyle={[
                     Layout.fill,
                     Layout.colCenter,

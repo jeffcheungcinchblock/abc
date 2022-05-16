@@ -168,13 +168,16 @@ const SignUpWithCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
         navigation.navigate(RouteStacks.signUp)
     }
 
+    const goBack = () => {
+        navigation.goBack()
+    }
+
     return (
         <ScreenBackgrounds
             screenName={RouteStacks.signUpWithCode}
         >
 
             <KeyboardAwareScrollView
-                style={Layout.fill}
                 contentContainerStyle={[
                     Layout.fill,
                     Layout.colCenter,
@@ -182,6 +185,7 @@ const SignUpWithCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
             >
                 <Header
                     headerText=" "
+                    onLeftPress={goBack}
                 />
                 <View style={{
                     alignItems: "center",

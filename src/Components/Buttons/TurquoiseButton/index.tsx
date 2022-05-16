@@ -52,7 +52,8 @@ const TurquoiseButton = ({
                     backgroundColor: isTransparentBackground ? "transparent" : colors.brightTurquoise,
                     borderColor: isTransparentBackground ? colors.brightTurquoise : "transparent",
                     borderWidth: isTransparentBackground ? 1 : 0,
-                    alignItems: "center"
+                    alignItems: "center",
+                    ...style
                 }]}
             >
                 {

@@ -22,9 +22,8 @@ import { login, logout } from '@/Store/Users/actions'
 import { UserState } from '@/Store/Users/reducer'
 import EncryptedStorage from 'react-native-encrypted-storage'
 // @ts-ignore
-import Amplify, { Auth, Hub } from 'aws-amplify'
-
-import { shallowEqual, useDispatch, useSelector } from 'react-redux'
+import Amplify, { Auth, Hub } from 'aws-amplify';
+import { shallowEqual, useDispatch, useSelector } from "react-redux"
 import { colors, config } from '@/Utils/constants'
 import { AuthNavigatorParamList } from '@/Navigators/AuthNavigator'
 import { RootState } from '@/Store'
@@ -48,7 +47,7 @@ import { firebase } from '@react-native-firebase/messaging'
 import { showSnackbar, startLoading } from '@/Store/UI/actions'
 import SocialSignInButton from '@/Components/Buttons/SocialSignInButton'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { triggerSnackbar } from '@/Utils/helpers'
+import { emailUsernameHash, triggerSnackbar } from '@/Utils/helpers'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import StandardInput from '@/Components/Inputs/StandardInput'
 import ModalBox, { ModalProps } from 'react-native-modalbox'
@@ -84,12 +83,13 @@ const INPUT_VIEW_LAYOUT: ViewStyle = {
 }
 
 const ERR_MSG_TEXT: TextStyle = {
-	color: colors.magicPotion,
+    color: colors.magicPotion,
+    paddingHorizontal: 10
 }
 
 const initErrMsg = {
-	username: '',
-	password: '',
+    email: "",
+    password: ""
 }
 
 const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.signIn>> = (
@@ -103,26 +103,24 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
 
 	const connector = useWalletConnect()
 
-	const params = route?.params || { username: '' }
+    const [isLoggingIn, setIsLoggingIn] = useState(false)
+    const [errMsg, setErrMsg] = useState({
+        ...initErrMsg
+    })
 
-	const [ isLoggingIn, setIsLoggingIn ] = useState(false)
-	const [ errMsg, setErrMsg ] = useState({
-		...initErrMsg,
-	})
-
-	const [ showPassword, setShowPassword ] = useState(false)
-	const [ credential, setCredential ] = useState({
-		username: '',
-		password: '',
-	})
+    const [showPassword, setShowPassword] = useState(false)
+    const [credential, setCredential] = useState({
+        email: "",
+        password: ""
+    })
 
 	const [ socialIdentityUser, setSocialIdentityUser ] = useState(null)
 
-	useEffect(() => {
-		setCredential({
-			username: '',
-			password: '',
-		})
+    useEffect(() => {
+        setCredential({
+            email: "",
+            password: ""
+        })
 
 		const getUser = () => {
 			return Auth.currentAuthenticatedUser()
@@ -164,12 +162,12 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
 		setShowPassword(prev => !prev)
 	}
 
-	const onLoginOptionPress = async (loginOpt: string) => {
-		dispatch(startLoading(true))
-		try {
-			if (loginOpt === 'normal') {
-				const user = await Auth.signIn(credential.username, credential.password)
-				let { attributes, username } = user
+    const onLoginOptionPress = async (loginOpt: string) => {
+        dispatch(startLoading(true))
+        try {
+            if (loginOpt === 'normal') {
+                const user = await Auth.signIn(emailUsernameHash(credential.email), credential.password)
+                let { attributes, username } = user
 
 				dispatch(login({
 					email: attributes.email,
@@ -186,41 +184,45 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
 				await Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Google })
 			}
 
-		} catch (err: any) {
+        } catch (err: any) {
+            switch (err.message) {
+                case 'Username should be either an email or a phone number.':
+                case 'Incorrect username or password.':
+                case 'Username cannot be empty':
+                case 'User does not exist.':
+                    setErrMsg({
+                        ...initErrMsg,
+                        email: err.message
+                    })
+                    break;
+                case 'Password did not conform with policy: Password not long enough':
+                    setErrMsg({
+                        ...initErrMsg,
+                        password: err.message
+                    })
+                    break;
+                case 'User is not confirmed.':
+                    navigation.navigate(RouteStacks.validationCode, {
+                        email: credential.email,
+                        action: "resendSignUp"
+                    })
+                    break;
+                default:
+            }
+            dispatch(startLoading(false))
+        } finally {
+            setIsLoggingIn(false)
+        }
+    }
 
-			switch (err.message) {
-			case 'Username should be either an email or a phone number.':
-			case 'User is not confirmed.':
-			case 'Incorrect username or password.':
-			case 'Username cannot be empty':
-			case 'User does not exist.':
-				setErrMsg({
-					...initErrMsg,
-					username: err.message,
-				})
-				break
-			case 'Password did not conform with policy: Password not long enough':
-				setErrMsg({
-					...initErrMsg,
-					password: err.message,
-				})
-				break
-			default:
-			}
-			dispatch(startLoading(false))
-		} finally {
-			setIsLoggingIn(false)
-		}
-	}
-
-	const onCredentialFieldChange = (field: string, text: string) => {
-		setCredential(prevCredential => {
-			return {
-				...prevCredential,
-				[field]: text,
-			}
-		})
-	}
+    const onCredentialFieldChange = (field: string, text: string) => {
+        setCredential(prevCredential => {
+            return {
+                ...prevCredential,
+                [field]: text
+            }
+        })
+    }
 
 	const onForgotPasswordPress = async () => {
 		navigation.navigate(RouteStacks.forgotPassword)
@@ -238,25 +240,35 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
         modalRef?.current?.open()
 	}, [ modalRef ]))
 
+    // useFocusEffect(
+    //     useCallback(() => {
+    //         setErrMsg({
+    //             ...initErrMsg,
+    //         })
+    //         setCredential({
+    //             ...initErrMsg,
+    //         })
+    //     }, [])
+    // )
 
-	return (
-		<ScreenBackgrounds
-			screenName={RouteStacks.signIn}
-		>
+
+    return (
+        <ScreenBackgrounds
+            screenName={RouteStacks.signIn}
+        >
 
 
-			<KeyboardAwareScrollView
-				style={Layout.fill}
-				contentContainerStyle={[
-					Layout.fill,
-					Layout.colCenter,
-					Layout.justifyContentStart,
-				]}
-			>
-				<Header
-					onLeftPress={goBack}
-					headerText={t('login')}
-				/>
+            <KeyboardAwareScrollView
+                contentContainerStyle={[
+                    Layout.fill,
+                    Layout.colCenter,
+                    Layout.justifyContentStart,
+                ]}
+            >
+                <Header
+                    onLeftPress={goBack}
+                    headerText={t("login")}
+                />
 
 				<View style={[ {
 					height: '25%',
@@ -279,18 +291,19 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
 					onModalClose={onModalClose}
 				>
 
-					<View style={[ Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT ]}>
-						<StandardInput
-							onChangeText={(text) => onCredentialFieldChange('username', text)}
-							value={credential.username}
-							placeholder={t('username')}
-							placeholderTextColor={colors.spanishGray}
+                    <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT]}>
+                        <StandardInput
+                            onChangeText={(text) => onCredentialFieldChange('email', text)}
+                            value={credential.email}
+                            placeholder={t("email")}
+                            placeholderTextColor={colors.spanishGray}
 
-						/>
-						{
-							<Text style={ERR_MSG_TEXT}>{errMsg.username}</Text>
-						}
-					</View>
+                        />
+                         {
+                            <Text style={ERR_MSG_TEXT}>{errMsg.email}</Text>
+                        }
+                    </View>
+                    
 
 
 					<View style={[ Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT ]}>

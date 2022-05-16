@@ -46,3 +46,7 @@ export const awsLogout = async() => {
         await InAppBrowser.closeAuth()
     }
 }
+
+export const emailUsernameHash = (email: string) => {
+    return `Cognito_${email}`
+}

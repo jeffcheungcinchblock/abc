@@ -38,6 +38,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { startLoading } from '@/Store/UI/actions'
 import WhiteInput from '@/Components/Inputs/WhiteInput'
 import StandardInput from '@/Components/Inputs/StandardInput'
+import { emailUsernameHash } from '@/Utils/helpers'
 
 const TEXT_INPUT = {
     height: 40,
@@ -88,12 +89,11 @@ const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
     const { Common, Fonts, Gutters, Layout } = useTheme()
     const dispatch = useDispatch()
 
-    const params = route!.params || { username: "" }
     const [isVerifyingAccount, setIsVerifyingAccount] = useState(false)
     const [validationCode, setValidationCode] = useState("")
     const ref = useBlurOnFulfill({ value: validationCode, cellCount: 6 });
     const [errMsg, setErrMsg] = useState("")
-    const [username, setUsername] = useState("")
+    const [email, setEmail] = useState("")
     const [focusCellProps, getCellOnLayoutHandler] = useClearByFocusCell({
         value: validationCode,
         setValue: setValidationCode,
@@ -103,15 +103,15 @@ const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
         navigation.navigate(RouteStacks.signIn)
     }
 
-    const onUsernameChange = (text: string) => {
-        setUsername(text)
+    const onEmailChange = (text: string) => {
+        setEmail(text)
     }
 
     const onConfirmPress = async () => {
         try {
-            let data = await Auth.forgotPassword(username)
+            await Auth.forgotPassword(emailUsernameHash(email))
             navigation.navigate(RouteStacks.validationCode, {
-                username: username,
+                email: email,
                 action: 'forgotPassword'
             })
         } catch (err: any) {
@@ -122,11 +122,10 @@ const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
 
     return (
         <ScreenBackgrounds
-            screenName={RouteStacks.signUp}
+            screenName={RouteStacks.forgotPassword}
         >
 
             <KeyboardAwareScrollView
-                style={Layout.fill}
                 contentContainerStyle={[
                     Layout.fill,
                     Layout.colCenter,
@@ -149,9 +148,9 @@ const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
 
                     <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 80, justifyContent: "center" }]}>
                         <StandardInput
-                            onChangeText={onUsernameChange}
-                            value={username}
-                            placeholder={t("username")}
+                            onChangeText={onEmailChange}
+                            value={email}
+                            placeholder={t("email")}
                             placeholderTextColor={colors.spanishGray}
                         />
                         {

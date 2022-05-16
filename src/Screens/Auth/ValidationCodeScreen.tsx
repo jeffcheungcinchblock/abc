@@ -38,7 +38,8 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { startLoading } from '@/Store/UI/actions'
 import WhiteInput from '@/Components/Inputs/WhiteInput'
 import axios from 'axios'
-import { triggerSnackbar } from '@/Utils/helpers'
+import { emailUsernameHash, triggerSnackbar } from '@/Utils/helpers'
+import CountDown from 'react-native-countdown-component';
 
 const TEXT_INPUT = {
     height: 40,
@@ -66,7 +67,7 @@ const CODE_FIELD_ROOT = {
 
 }
 
-const CELL = {
+const CELL : TextStyle = {
     width: 50,
     height: 50,
     fontSize: 24,
@@ -83,6 +84,9 @@ const FOCUSED_CELL = {
     borderColor: colors.brightTurquoise,
 }
 
+// TBD: set to 60s later
+const resendVeriCodeTime = 30
+
 const VerificationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.validationCode>> = (
     { navigation, route }
 ) => {
@@ -90,42 +94,53 @@ const VerificationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteS
     const { Common, Fonts, Gutters, Layout } = useTheme()
     const dispatch = useDispatch()
 
-    const params = route!.params || { username: "", action: "" }
+    const params = route!.params || { email: "", action: "" }
     const [isVerifyingAccount, setIsVerifyingAccount] = useState(false)
     const [validationCode, setValidationCode] = useState("")
     const ref = useBlurOnFulfill({ value: validationCode, cellCount: 6 });
     const [errMsg, setErrMsg] = useState("")
     const [newPassword, setNewPassword] = useState("")
+    const [canResendVeriCode, setCanResendVeriCode] = useState(false)
+    const [currUntil, setCurrUntil] = useState(resendVeriCodeTime)
     const [focusCellProps, getCellOnLayoutHandler] = useClearByFocusCell({
         value: validationCode,
         setValue: setValidationCode,
     });
 
+    useEffect(() => {
+        const run = async () => {
+            if (params.action === 'resendSignUp') {
+                await Auth.resendSignUp(emailUsernameHash(params.email))
+            }
+        }
+
+        run()
+    }, [params])
+
+
+
     const onVerifyAccountPress = useCallback(async () => {
-        if(validationCode.length !== 6){
-            setErrMsg("error.invalidValidationCode")
+        if (validationCode.length !== 6) {
+            setErrMsg(t("error.invalidVerificationCode"))
             return
         }
 
         if (params.action === 'forgotPassword') {
-            // await Auth.forgotPasswordSubmit(params.username, validationCode, newPassword)
             navigation.navigate(RouteStacks.createNewPassword, {
                 validationCode,
-                username: params.username
+                email: params.email
             })
-        }else{
-            if (params.username === "") {
-                Alert.alert("Username is empty")
+        } else {
+            if (params.email === "") {
+                Alert.alert("Email is empty")
                 navigation.goBack()
                 return
             }
             setErrMsg("")
             try {
                 dispatch(startLoading(true))
-                await Auth.confirmSignUp(params.username, validationCode)
-    
-                triggerSnackbar("Change password successfully!")
-                navigation.navigate(RouteStacks.signIn, { username: params.username })
+                await Auth.confirmSignUp(emailUsernameHash(params.email), validationCode)
+                navigation.navigate(RouteStacks.signIn)
             } catch (err: any) {
                 setErrMsg(err.message)
             } finally {
@@ -143,13 +158,42 @@ const VerificationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteS
         navigation.goBack()
     }
 
+    const onFinish = () => {
+        setCanResendVeriCode(true)
+
+    }
+    const [countDownKey, setCountDownKey] = useState(new Date().toTimeString())
+
+    const onResendVerificationCodePress = async () => {
+        if (!canResendVeriCode) return
+        console.log('onResendVerificationCodePress', params.email)
+
+        try {
+            setCurrUntil(resendVeriCodeTime)
+            setCanResendVeriCode(false)
+            setCountDownKey(new Date().toTimeString())
+            if(params.action === 'forgotPassword'){
+                await Auth.forgotPassword(emailUsernameHash(params.email))
+            }else{
+                await Auth.resendSignUp(emailUsernameHash(params.email))
+            }
+        } catch (err: any) {
+            switch(err.message){
+                case "Attempt limit exceeded, please try after some time.":
+                default:
+                    setErrMsg(err.message)
+                    break
+                
+            }
+        }
+    }
+
     return (
         <ScreenBackgrounds
-            screenName={RouteStacks.signUp}
+            screenName={RouteStacks.validationCode}
         >
 
             <KeyboardAwareScrollView
-                style={Layout.fill}
                 contentContainerStyle={[
                     Layout.fill,
                     Layout.colCenter,
@@ -164,24 +208,45 @@ const VerificationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteS
                 }, Layout.fullWidth, Layout.fill, Layout.colCenter,]}>
 
                     <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 60 }]}>
-                        <Text style={[{ color: colors.white, fontWeight: "bold", lineHeight: 26 }, Fonts.textSmall, Fonts.textLeft]}>
+                        <Text style={[{ color: colors.white, lineHeight: 26 }, Fonts.textSmall, Fonts.textLeft]}>
                             {t('verificationCodeDesc')}
                         </Text>
                     </View>
 
-                    <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 100, flexDirection: "row", alignItems: "center", justifyContent: "flex-start" }]}>
-                        <Text style={[{ color: colors.brightTurquoise, fontWeight: "bold", lineHeight: 26, marginRight: 14 }, Fonts.textSmall, Fonts.textLeft]}>
-                            00:00
-                        </Text>
-                        <Text style={[{ color: colors.white, fontWeight: "bold", lineHeight: 26 }, Fonts.textSmall, Fonts.textLeft]}>
-                            {t('resendVerificationCode')}
-                        </Text>
+                    <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 100, flexDirection: "row", alignItems: "flex-start", justifyContent: "flex-start" }]}>
+                        <View style={{ justifyContent: "center", height: "100%" }}>
+                            <CountDown
+                                key={countDownKey}
+                                until={currUntil}
+                                digitStyle={{ backgroundColor: 'transparent' }}
+                                digitTxtStyle={{ color: colors.brightTurquoise, fontSize: 18, height: 30, fontWeight: "400" }}
+                                timeLabels={{}}
+                                size={10}
+                                separatorStyle={{ height: 25, fontSize: 14, color: colors.brightTurquoise }}
+                                timeToShow={['M', 'S']}
+                                style={{
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    marginTop: 8,
+                                    marginRight: 10
+                                }}
+
+                                showSeparator
+                                onFinish={onFinish}
+                            />
+                        </View>
+                        <View style={{ justifyContent: "center", height: "100%" }}>
+                            <Pressable onPress={onResendVerificationCodePress}>
+                                <Text style={[{ color: colors.white, lineHeight: 26 }, Fonts.textSmall, Fonts.textLeft]}>
+                                    {t('resendVerificationCode')}
+                                </Text>
+                            </Pressable>
+                        </View>
                     </View>
 
                     <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 80, justifyContent: "flex-start" }]}>
                         <CodeField
                             ref={ref}
-                            // Use `caretHidden={false}` when users can't paste a text value, because context menu doesn't appear
                             value={validationCode}
                             onChangeText={setValidationCode}
                             cellCount={6}
@@ -198,18 +263,6 @@ const VerificationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteS
                             )}
                         />
                     </View>
-
-                    {
-                        // params.action === 'forgotPassword' && <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 80, justifyContent: "flex-start" }]}>
-                        //     <WhiteInput
-                        //         onChangeText={onPasswordChange}
-                        //         value={newPassword}
-                        //         placeholder={t("newPasswordAllCapital")}
-                        //         placeholderTextColor={colors.spanishGray}
-                        //         secureTextEntry={params.action === 'forgotPassword'}
-                        //     />
-                        // </View>
-                    }
 
                     <View style={[CONTENT_ELEMENT_WRAPPER, { flex: 1, justifyContent: "flex-start" }]}>
                         {

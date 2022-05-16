@@ -55,18 +55,17 @@ const MainScreen: FC<MarketplaceScreenNavigationProp> = (
 	const dispatch = useDispatch()
 
 
-	return (
-		<ScreenBackgrounds
-			screenName={RouteStacks.breedingMain}
-		>
-			<KeyboardAwareScrollView
-				style={Layout.fill}
-				contentContainerStyle={[
-					Layout.fill,
-					Layout.colCenter,
-					Gutters.smallHPadding,
-				]}
-			>
+    return (
+        <ScreenBackgrounds
+            screenName={RouteStacks.breedingMain}
+        >
+            <KeyboardAwareScrollView
+                contentContainerStyle={[
+                    Layout.fill,
+                    Layout.colCenter,
+                    Gutters.smallHPadding,
+                ]}
+            >
 
 				<Text style={{ color: colors.black }}>Marketplace</Text>
 

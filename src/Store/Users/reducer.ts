@@ -7,6 +7,7 @@ export type UserState = {
     email: string
     cognitoUser: any
     invitationCode: string
+    hasLoggedInTimes: number
 }
 
 const initialState: UserState = {
@@ -15,7 +16,7 @@ const initialState: UserState = {
     email: "",
     cognitoUser: null,
     invitationCode: "",
-
+    hasLoggedInTimes: 0
 }
 
 export default createReducer<UserState>(initialState, (builder) => {
@@ -23,14 +24,15 @@ export default createReducer<UserState>(initialState, (builder) => {
         .addCase(storeInvitationCode, (state, action) => {
             return {
                 ...state,
-                ...action.payload
+                ...action.payload,
             }
         })
         .addCase(login, (state, action) => {
             return {
                 ...state,
                 isLoggedIn: true,
-                ...action.payload
+                ...action.payload,
+                hasLoggedInTimes: state.hasLoggedInTimes + 1
             }
         })
         .addCase(logout, (state, action) => {

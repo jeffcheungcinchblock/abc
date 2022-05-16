@@ -20,6 +20,8 @@ import { useLazyFetchOneQuery } from '@/Services/modules/users'
 import { changeTheme, ThemeState } from '@/Store/Theme'
 import { login } from '@/Store/Users/actions'
 import { UserState } from '@/Store/Users/reducer'
+// @ts-ignore
+import Amplify, { Auth, Hub } from 'aws-amplify';
 
 import { shallowEqual, useDispatch, useSelector } from "react-redux"
 import { colors, config } from '@/Utils/constants'
@@ -30,40 +32,20 @@ import AppLogo from '@/Components/Icons/AppLogo'
 import AppIcon from '@/Components/Icons/AppIcon'
 import TurquoiseButton from '@/Components/Buttons/TurquoiseButton'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+// @ts-ignore
 import notifee from '@notifee/react-native';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import SocialSignInButton from '@/Components/Buttons/SocialSignInButton'
 import { startLoading } from '@/Store/UI/actions'
-import { Auth } from 'aws-amplify'
+// @ts-ignore
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth'
-
+import { emailUsernameHash } from '@/Utils/helpers'
+import Animated, { FadeIn } from 'react-native-reanimated'; 
 
 const BUTTON_VIEW = {
     marginVertical: 20
 }
-
-const images = [{
-    // Simplest usage.
-    url: 'https://i0.wp.com/www.vetbossel.in/wp-content/uploads/2020/02/first-screen.png?fit=485%2C1024',
-
-    width: 300,
-    height: 300,
-    // width: number
-    // height: number
-    // Optional, if you know the image size, you can set the optimization performance
-
-    // You can pass props to <Image />.
-    props: {
-        // headers: ...
-    }
-}, {
-    url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFwd09mAFWnK_RwdHVjqs6PI76iPyksB6PgbJozABNl8yOAEeaCOTxO-qbbbiaYJebC3k&usqp=CAU',
-    // props: {
-    //     // Or you can set source directory.
-    //     source: require('../background.png')
-    // }
-}]
 
 const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.welcome>> = (
     { navigation, route }
@@ -73,22 +55,12 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
     const dispatch = useDispatch()
     const [isLoggingIn, setIsLoggingIn] = useState(false)
 
-    const params = route!.params || { username: null }
+
     const [errMsg, setErrMsg] = useState(" ")
     const [credential, setCredential] = useState({
-        username: "",
+        email: "",
         password: ""
     })
-
-    useEffect(() => {
-        const run = async () => {
-            // await AsyncStorage.setItem("welcome_visited", "false")
-            let rawWelcomeVisited: string | null = await AsyncStorage.getItem("welcome_visited")
-            navigation.navigate([null, "false"].includes(rawWelcomeVisited) ? RouteStacks.welcomeGallery : RouteStacks.welcome)
-        }
-
-        run()
-    }, [])
 
     const onDisplayNotification = async () => {
         // Create a channel
@@ -97,8 +69,6 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
                 id: 'default',
                 name: 'Default Channel',
             });
-
-            console.log('channelId', channelId)
 
             // Display a notification
             await notifee.displayNotification({
@@ -114,6 +84,42 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
         }
     }
 
+    useEffect(() => {
+        const getUser = () => {
+            return Auth.currentAuthenticatedUser()
+                .then((userData: any) => userData)
+                .catch(() => console.log('Not signed in'));
+        }
+
+        const authListener = ({ payload: { event, data } }: any) => {
+            switch (event) {
+                case 'signIn':
+                case 'cognitoHostedUI':
+                    getUser().then((userData: any) => {
+                        dispatch(login({
+                            username: userData.username,
+                            email: userData.email, // FederatedSignedIn doesnt have email exposed
+                        }))
+                        dispatch(startLoading(false))
+                    });
+                    break;
+                case 'signOut':
+                    break;
+                case 'signIn_failure':
+                case 'cognitoHostedUI_failure':
+                    console.log('Sign in failure', data);
+                    dispatch(startLoading(false))
+                    break;
+            }
+        }
+
+        Hub.listen('auth', authListener);
+
+        return () => {
+            Hub.remove('auth', authListener)
+        }
+    }, [])
+
     const onSignInPress = () => {
         navigation.navigate(RouteStacks.signIn)
     }
@@ -122,7 +128,7 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
         dispatch(startLoading(true))
         try {
             if (loginOpt === 'normal') {
-                const user = await Auth.signIn(credential.username, credential.password)
+                const user = await Auth.signIn(emailUsernameHash(credential.email), credential.password)
                 let { attributes, username } = user
 
                 dispatch(login({
@@ -141,7 +147,6 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
             }
 
         } catch (err: any) {
-
             switch (err.message) {
                 case 'Username should be either an email or a phone number.':
                     setErrMsg(err.message)
@@ -163,7 +168,6 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
                     break;
                 default:
             }
-            console.log('err ', err.message)
             dispatch(startLoading(false))
         } finally {
             setIsLoggingIn(false)
@@ -180,10 +184,12 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
         >
 
             <KeyboardAwareScrollView
-                style={Layout.fill}
                 contentContainerStyle={[
                     Layout.fill,
                     Layout.colCenter,
+                    {
+                        backgroundColor: "transparent"
+                    }
                 ]}
             >
                 <Header

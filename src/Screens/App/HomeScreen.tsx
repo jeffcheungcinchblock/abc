@@ -22,7 +22,7 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { config } from '@/Utils/constants'
 import { DrawerNavigatorParamList, TabNavigatorParamList } from '@/Navigators/MainNavigator'
 import EncryptedStorage from 'react-native-encrypted-storage'
-import { MainScreen, HomeReferralScreen, HomeInviteStateScreen } from '@/Screens/App/Home'
+import { MainScreen, HomeReferralScreen, HomeInviteStateScreen, SocialSignInEnterEmailScreen } from '@/Screens/App/Home'
 import { RouteStacks, RouteTabs } from '@/Navigators/routes'
 import { CompositeScreenProps } from '@react-navigation/native'
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
@@ -34,6 +34,9 @@ export type HomeNavigatorParamList = {
     [RouteStacks.homeMain]: undefined
     [RouteStacks.homeReferral]: undefined
     [RouteStacks.homeInviteState]: undefined
+
+    // To be moved somewhere else
+    [RouteStacks.socialSignInEnterEmail]: undefined
 }
 
 type HomeScreenNavigationProp = CompositeScreenProps<
@@ -49,13 +52,14 @@ const HomeScreen: FC<HomeScreenNavigationProp> = (
 	const dispatch = useDispatch()
 
 
-	return (
-		<Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={RouteStacks.homeReferral}>
-			{/* <Stack.Screen name={RouteStacks.homeMain} component={MainScreen} /> */}
-			<Stack.Screen name={RouteStacks.homeReferral} component={HomeReferralScreen} />
-			{/* <Stack.Screen name={RouteStacks.homeInviteState} component={HomeInviteStateScreen} /> */}
-		</Stack.Navigator>
-	)
+    return (
+        <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={RouteStacks.homeReferral}>
+            {/* <Stack.Screen name={RouteStacks.homeMain} component={MainScreen} /> */}
+            <Stack.Screen name={RouteStacks.homeReferral} component={HomeReferralScreen} />
+            <Stack.Screen name={RouteStacks.socialSignInEnterEmail} component={SocialSignInEnterEmailScreen} />
+            {/* <Stack.Screen name={RouteStacks.homeInviteState} component={HomeInviteStateScreen} /> */}
+        </Stack.Navigator>
+    )
 }
 
 export default HomeScreen

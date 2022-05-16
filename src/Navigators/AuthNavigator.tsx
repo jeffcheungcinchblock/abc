@@ -1,19 +1,22 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import React, { FC, useEffect, useState } from "react"
-import { SignInScreen, SignUpScreen, SignUpWithCodeScreen, ValidationCodeScreen,
-   WelcomeGalleryScreen, ForgotPasswordScreen, WelcomeScreen, CreateNewPasswordScreen } from '@/Screens/Auth'
+import {
+  SignInScreen, SignUpScreen, SignUpWithCodeScreen, ValidationCodeScreen,
+  WelcomeGalleryScreen, ForgotPasswordScreen, WelcomeScreen, CreateNewPasswordScreen
+} from '@/Screens/Auth'
 import { RouteStacks } from "@/Navigators/routes"
 import { useDispatch } from "react-redux"
 import { login } from "@/Store/Users/actions"
 import EnterInvitaionCodeScreen from "@/Screens/Auth/EnterInvitaionCodeScreen"
-import { StackScreenProps } from "@react-navigation/stack"
+import { createStackNavigator, StackScreenProps } from "@react-navigation/stack"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { navigationRef } from "./utils"
 import { LinkingOptions, NavigationContainerRefWithCurrent, Route } from "@react-navigation/native"
+import { StartupContainer } from "@/Screens"
 
 type ValidationCodeParam = {
-  username: string,
-  action: 'forgotPassword' | 'signUp',
+  email: string,
+  action: 'forgotPassword' | 'signUp' | 'resendSignUp',
   code?: string
 }
 
@@ -21,15 +24,15 @@ export type AuthNavigatorParamList = {
   [RouteStacks.welcomeGallery]: undefined
   [RouteStacks.welcome]: undefined
   [RouteStacks.signUp]: { code?: string } | undefined
-  [RouteStacks.signIn]: { username: string } | undefined
+  [RouteStacks.signIn]: undefined
   [RouteStacks.validationCode]: ValidationCodeParam | undefined
   [RouteStacks.enterInvitationCode]: undefined
   [RouteStacks.forgotPassword]: undefined
   [RouteStacks.signUpWithCode]: undefined
-  [RouteStacks.createNewPassword]: { validationCode: string, username: string }
+  [RouteStacks.createNewPassword]: { validationCode: string, email: string }
   // 🔥 Your screens go here
 }
-const Stack = createNativeStackNavigator<AuthNavigatorParamList>()
+const Stack = createStackNavigator<AuthNavigatorParamList>()
 
 const AuthNavigator = () => {
 

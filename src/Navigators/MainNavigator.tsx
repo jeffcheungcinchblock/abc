@@ -8,7 +8,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 
 import { useTranslation } from 'react-i18next'
 import { colors } from '@/Utils/constants'
-import { createStackNavigator } from '@react-navigation/stack'
+import { createStackNavigator, StackScreenProps } from '@react-navigation/stack'
 import { RouteStacks, RouteTabs } from './routes'
 import { DrawerItem, DrawerScreenProps } from '@react-navigation/drawer'
 
@@ -20,12 +20,11 @@ import { BreedingNavigatorParamList } from '@/Screens/App/BreedingScreen'
 import { MarketplaceNavigatorParamList } from '@/Screens/App/MarketplaceScreen'
 import { SocialNavigatorParamList } from '@/Screens/App/SocialScreen'
 import { Auth } from 'aws-amplify'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '@/Store/Users/actions'
 import { awsLogout } from '@/Utils/helpers'
-import { WorkoutNavigatorParamList } from '@/Screens/App/WorkoutScreen'
-import WorkoutNavigator from '@/Navigators/WorkoutNavigator'
-const { width, height } = Dimensions.get('screen')
+import { WelcomeGalleryScreen } from '@/Screens/Auth'
+import { RootState } from '@/Store'
 
 export type TabNavigatorParamList = {
   [RouteTabs.home]: NavigatorScreenParams<HomeNavigatorParamList>
@@ -42,11 +41,17 @@ export type DrawerNavigatorParamList = {
 
 }
 
+export type MainStackNavigatorParamList = {
+  [RouteStacks.welcomeGallery]: undefined
+  [RouteStacks.mainDrawer]: NavigatorScreenParams<DrawerNavigatorParamList>
+}
+
 const Tab = createBottomTabNavigator()
+const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator()
-const Drawer = createDrawerNavigator()
 
 export type MainTabNavigatorProps = DrawerScreenProps<DrawerNavigatorParamList, RouteStacks.mainTab>
+export type MainNavigatorProps = StackScreenProps<MainStackNavigatorParamList, RouteStacks.mainDrawer>
 
 type TabWrapperViewProps = { focused: boolean }
 
@@ -153,16 +158,16 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
 	)
 }
 
-// const WorkoutNavigator = () => {
-// 	return(
-// 		<Stack.Navigator
-// 			screenOptions={{
-// 				headerShown: false,
-// 			}}
-// 			initialRouteName={RouteStacks.startWorkout}>
-// 			<Stack.Screen name={RouteStacks.startWorkout} component={Workout} />
-// 		</Stack.Navigator>
-// 	)
+const DrawerNavigator : FC<MainNavigatorProps> = ({navigation}) => {
+
+  const { t } = useTranslation()
+  const { hasLoggedInTimes } = useSelector((state: RootState) => state.user)
+  console.log('hasLoggedInTimes', hasLoggedInTimes)
+  useEffect(() => {
+    if(hasLoggedInTimes < 3){
+      navigation.navigate(RouteStacks.welcomeGallery)
+    }
+  }, [])
 
 // }
 const MainNavigator = () => {
@@ -181,5 +186,20 @@ const MainNavigator = () => {
 	)
 }
 
+const MainNavigator = () => {
+
+  const { t } = useTranslation()
+
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}
+      initialRouteName={RouteStacks.mainDrawer}>
+
+      <Stack.Screen name={RouteStacks.mainDrawer} component={DrawerNavigator} />
+      <Stack.Screen name={RouteStacks.welcomeGallery} component={WelcomeGalleryScreen} />
+
+    </Stack.Navigator>
+
+  )
+}
 
 export default MainNavigator

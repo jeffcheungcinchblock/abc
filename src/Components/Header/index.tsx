@@ -75,9 +75,11 @@ const Header = (props: {
         </View>
       }
       {rightIcon ? (
-        <Pressable onPress={onRightPress} style={{ flex: 1 }}>
-          {rightIcon()}
-        </Pressable>
+        <View style={{ flex: 1, alignItems: "flex-end" }}>
+          <Pressable onPress={onRightPress}>
+            {rightIcon()}
+          </Pressable>
+        </View>
       ) : (
         <View style={RIGHT} />
       )}

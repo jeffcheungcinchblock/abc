@@ -5,9 +5,10 @@ import { PersistGate } from 'redux-persist/lib/integration/react'
 import { store, persistor } from '@/Store'
 import ApplicationNavigator from '@/Navigators/Application'
 import './Translations'
-import { LogBox, Linking, Alert } from 'react-native'
-import WalletConnectProvider from '@walletconnect/react-native-dapp'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import { LogBox, Linking, Alert } from 'react-native';
+// @ts-ignore
+import WalletConnectProvider from '@walletconnect/react-native-dapp';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // @ts-ignore
 import Amplify, { Auth } from 'aws-amplify'
 import { credentials } from './Utils/firebase'
@@ -99,9 +100,9 @@ LogBox.ignoreLogs([
 ])
 
 const getUser = () => {
-	return Auth.currentAuthenticatedUser()
-		.then(userData => userData)
-		.catch(() => console.log('Not signed in'))
+  return Auth.currentAuthenticatedUser()
+    .then((userData : any) => userData)
+    .catch(() => console.log('Not signed in'));
 }
 
 // https://www.facebook.com/log.out

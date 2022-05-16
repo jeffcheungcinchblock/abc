@@ -10,7 +10,9 @@ import ModalBox from 'react-native-modalbox';
 type SlideInputModalProps = {
   onModalClose: () => void,
   children: React.ReactNode,
-  style?: object
+  style?: object,
+  swipeToClose?: boolean,
+  hasTopBar?: boolean
 }
 
 const SlideInputModal = forwardRef((props: SlideInputModalProps, ref) => {
@@ -18,7 +20,9 @@ const SlideInputModal = forwardRef((props: SlideInputModalProps, ref) => {
   const {
     onModalClose,
     children,
-    style
+    style,
+    swipeToClose,
+    hasTopBar = true,
   } = props
 
   const { Common, Fonts, Gutters, Layout } = useTheme()
@@ -27,14 +31,14 @@ const SlideInputModal = forwardRef((props: SlideInputModalProps, ref) => {
     <ModalBox
       ref={ref as any}
       backdropPressToClose={false}
-      swipeToClose={true}
+      swipeToClose={swipeToClose ?? true}
       position="bottom"
       entry="bottom"
       backdrop={false}
       backButtonClose={false}
       isOpen={true}
       onClosed={onModalClose}
-      keyboardTopOffset={41}
+      keyboardTopOffset={40}
       animationDuration={500}
       style={{
         height: '65%',
@@ -44,9 +48,11 @@ const SlideInputModal = forwardRef((props: SlideInputModalProps, ref) => {
         ...style
       }}
     >
-      <View style={[Layout.fullWidth, Gutters.regularVPadding, Layout.center]}>
-        <View style={{ backgroundColor: colors.spanishGray, borderRadius: 20, width: "10%", height: 4 }} />
-      </View>
+      {
+        hasTopBar && <View style={[Layout.fullWidth, Gutters.regularVPadding, Layout.center]}>
+          <View style={{ backgroundColor: colors.spanishGray, borderRadius: 20, width: "10%", height: 4 }} />
+        </View>
+      }
       {children}
     </ModalBox>
   )

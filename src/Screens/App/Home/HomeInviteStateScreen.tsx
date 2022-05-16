@@ -69,7 +69,6 @@ const HomeInviteStateScreen: FC<HomeInviteStateScreenNavigationProp> = (
         >
 
             <KeyboardAwareScrollView
-                style={Layout.fill}
                 contentContainerStyle={[
                     Layout.fill,
                     Layout.colCenter,
@@ -92,7 +91,6 @@ const HomeInviteStateScreen: FC<HomeInviteStateScreenNavigationProp> = (
                                 fontSize: 60,
                                 width: "60%",
                                 color: colors.white,
-                                fontFamily: "Virus-Killer"
                             }]}>{t("inviteSucceeded")}</Text>
                         </View>
                     </View>

@@ -59,7 +59,6 @@
 		C4EE76A228227579003F6C95 /* afdevkey_donotpush.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4EE769D28227579003F6C95 /* afdevkey_donotpush.plist */; };
 		C4EE76A328227579003F6C95 /* afdevkey_donotpush.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4EE769D28227579003F6C95 /* afdevkey_donotpush.plist */; };
 		C4EE76A428227579003F6C95 /* afdevkey_donotpush.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4EE769D28227579003F6C95 /* afdevkey_donotpush.plist */; };
-		E35D920E282A1890000CD920 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E35D920D282A1890000CD920 /* BootSplash.storyboard */; };
 		E35D9210282CA4C0000CD920 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E35D920F282CA4C0000CD920 /* BootSplash.storyboard */; };
 		E391E5BA28164994009DD23B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E391E5B928164994009DD23B /* GoogleService-Info.plist */; };
 		E391E5BB28164994009DD23B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E391E5B928164994009DD23B /* GoogleService-Info.plist */; };
@@ -181,6 +180,7 @@
 		C4114DE1282258E200074A62 /* DragonDappRNClipUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragonDappRNClipUITests.swift; sourceTree = "<group>"; };
 		C4114DE3282258E200074A62 /* DragonDappRNClipUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragonDappRNClipUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		C4EE769D28227579003F6C95 /* afdevkey_donotpush.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = afdevkey_donotpush.plist; sourceTree = "<group>"; };
+		D6C9BE195C09C010018386D3 /* Pods-DragonDappRN.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DragonDappRN.release.xcconfig"; path = "Target Support Files/Pods-DragonDappRN/Pods-DragonDappRN.release.xcconfig"; sourceTree = "<group>"; };
 		E35D920D282A1890000CD920 /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = DragonDappRN/BootSplash.storyboard; sourceTree = "<group>"; };
 		E35D920F282CA4C0000CD920 /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = DragonDappRN/BootSplash.storyboard; sourceTree = "<group>"; };
 		E391E5B928164994009DD23B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -652,7 +652,6 @@
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				1F5B4F2327FEBA92009618AF /* AntDesign.ttf in Resources */,
 				1F5B4F1827FEBA92009618AF /* MaterialIcons.ttf in Resources */,
-				E35D920E282A1890000CD920 /* BootSplash.storyboard in Resources */,
 				1F5B4F1F27FEBA92009618AF /* EvilIcons.ttf in Resources */,
 				1F5B4F2027FEBA92009618AF /* MaterialCommunityIcons.ttf in Resources */,
 				C4EE769E28227579003F6C95 /* afdevkey_donotpush.plist in Resources */,

@@ -48,6 +48,7 @@ import ModalBox from 'react-native-modalbox';
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import StandardInput from '@/Components/Inputs/StandardInput'
+import InvitationRewardModal from '@/Components/Modals/InvitationRewardModal'
 
 const LOGIN_BUTTON: ViewStyle = {
     height: 40,
@@ -78,6 +79,7 @@ const INPUT_VIEW_LAYOUT: ViewStyle = {
 const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.enterInvitationCode>> = (
     { navigation, route }
 ) => {
+    const invitationRewardModalRef = useRef<any>(null)
     const { t } = useTranslation()
     const { Common, Fonts, Gutters, Layout } = useTheme()
     const dispatch = useDispatch()
@@ -110,8 +112,11 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
             dispatch(storeInvitationCode({
                 invitationCode: code
             }))
-            triggerSnackbar("Activiation Code Submitted")
-            navigation.navigate(RouteStacks.signUpWithCode)
+            invitationRewardModalRef?.current?.open()
+
+            setTimeout(() => {
+                navigation.navigate(RouteStacks.signUpWithCode)
+            }, 1000)
         } catch (err) {
             setErrMsg(t("error.invalidInvitationCode"))
         }
@@ -122,21 +127,34 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
     }
 
     const onModalClose = () => {
-        console.log('onModalClose')
         navigation.navigate(RouteStacks.welcome)
     }
 
     const onGetActivationCodePress = () => {
+        
 
+    }
+
+    const onInvitationRewardModalClose = () => {
+
+    }
+
+    const onCloseBtnPress = () => {
+        invitationRewardModalRef?.current?.close()
     }
 
     return (
         <ScreenBackgrounds
-            screenName={RouteStacks.signIn}
+            screenName={RouteStacks.enterInvitationCode}
         >
+            <InvitationRewardModal
+                ref={invitationRewardModalRef}
+                ke={25}
+                onModalClose={onInvitationRewardModalClose}
+                onActionBtnPress={onCloseBtnPress}
+            />
 
             <KeyboardAwareScrollView
-                style={Layout.fill}
                 contentContainerStyle={[
                     Layout.fill,
                     Layout.colCenter,
