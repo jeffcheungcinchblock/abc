@@ -38,6 +38,7 @@ import ModalBox from 'react-native-modalbox';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import StandardInput from '@/Components/Inputs/StandardInput'
 import SlideInputModal from '@/Components/Modals/SlideInputModal'
+import { emailUsernameHash } from '@/Utils/helpers'
 
 const BUTTON_ICON = {
     width: 30
@@ -104,7 +105,7 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
             setIsCreatingAccount(true)
             // any type here as aws amplify has no typescript support
             const { user }: any = await Auth.signUp({
-                username: credential.username,
+                username: emailUsernameHash(credential.email),
                 password: credential.password,
                 attributes: {
                     email: credential.email,
@@ -112,7 +113,7 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
             });
             setIsCreatingAccount(false)
             navigation.navigate(RouteStacks.validationCode, {
-                username: user.username,
+                email: credential.email,
                 action: 'signUp',
             })
         } catch (error: any) {
@@ -132,6 +133,7 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                     })
                     break;
                 case 'Invalid email address format.':
+                default:
                     setErrMsg({
                         ...errMsg,
                         email: error.message
@@ -151,17 +153,13 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
 
     const onModalClose = () => {
         navigation.navigate(RouteStacks.welcome)
+        // navigation.navigate(RouteStacks.validationCode)
+        
     }
 
     const onPasswordEyePress = () => {
         setShowPassword(prev => !prev)
     }
-
-    useEffect(() => {
-        setErrMsg({
-            ...initErrMsg
-        })
-    }, [])
 
     return (
         <ScreenBackgrounds
@@ -169,7 +167,6 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
         >
 
             <KeyboardAwareScrollView
-                style={Layout.fill}
                 contentContainerStyle={[
                     Layout.fill,
                     Layout.colCenter,
@@ -213,7 +210,7 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                         }
                     </View>
 
-                    <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT, { flexBasis: 80 }]}>
+                    {/* <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT, { flexBasis: 80 }]}>
                         <StandardInput
                             onChangeText={(text) => onCredentialFieldChange('username', text)}
                             value={credential.username}
@@ -223,7 +220,7 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                         {
                             <Text style={[ERR_MSG_TEXT, Gutters.smallHPadding]}>{errMsg.username}</Text>
                         }
-                    </View>
+                    </View> */}
 
                     <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT, { flexBasis: 80 }]}>
                         <StandardInput

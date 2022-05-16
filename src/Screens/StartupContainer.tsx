@@ -13,45 +13,31 @@ import { RouteStacks } from '@/Navigators/routes'
 import { StackScreenProps } from '@react-navigation/stack'
 import { ApplicationNavigatorParamList } from '@/Navigators/Application'
 // @ts-nocheck
-import Animated, { EasingNode, timing } from 'react-native-reanimated'
+import Animated, { EasingNode, timing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
+import { AuthNavigatorParamList } from '@/Navigators/AuthNavigator'
 
+const appLogoHeight = 150
 
 const StartupContainer: FC<StackScreenProps<ApplicationNavigatorParamList, RouteStacks.startUp>> = ({ navigation }) => {
   const { Layout, Gutters, Fonts } = useTheme()
-
+  const windowHeight = Dimensions.get('window').height;
   const { t } = useTranslation()
   const topAnimatedVal = new Animated.Value(200);
-
-  const init = async () => {
-    await new Promise(resolve =>
-      setTimeout(() => {
-        resolve(true)
-      }, 2000),
-    )
-    navigation.replace(RouteStacks.application)
-  }
-
-  useEffect(() => {
-    init()
-  }, [])
-
-
-  const startAnimation = (toValue: any) => {
-    timing(topAnimatedVal, {
-      toValue,
-      duration: 2000,
-      easing: EasingNode.linear,
-    }).start()
-  }
+  const animation = useSharedValue({top: windowHeight / 2 - appLogoHeight / 2})
+  const animationStyle = useAnimatedStyle(() => {
+    return{
+      top: withTiming(animation.value.top,{
+        duration:2000,
+      }),
+    }
+  })
 
   useEffect(() => {
-    startAnimation(80);
+    animation.value = {top: 80}
+    setTimeout(() => {
+      navigation.replace(RouteStacks.application)
+    }, 2000)
   }, []);
-
-  const APP_LOGO_ANIMATED_VIEW : any = {
-    top: topAnimatedVal,
-    position: "absolute"
-  }
 
   return (
     <View style={[Layout.fill, Layout.colCenter]}>
@@ -73,10 +59,10 @@ const StartupContainer: FC<StackScreenProps<ApplicationNavigatorParamList, Route
         ignoreSilentSwitch="obey"
       />
       <Animated.View
-        style={APP_LOGO_ANIMATED_VIEW}
+        style={[{position: "absolute"}, animationStyle]}
       >
         <AppLogo style={{
-          height: 150,
+          height: appLogoHeight,
         }} />
       </Animated.View>
     </View>

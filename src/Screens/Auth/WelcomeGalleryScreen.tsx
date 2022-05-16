@@ -41,7 +41,9 @@ const BUTTON_VIEW = {
 }
 
 const FirstScreen = () => (
-    <View style={{ flex: 1, backgroundColor: '#ff4081' }} />
+    <View style={{ flex: 1, backgroundColor: '#ff4081', justifyContent: "center", alignItems: "center" }} >
+        <Text style={{color: colors.black}}>Swipe -></Text>
+    </View>
 );
 
 const SecondScreen = () => (
@@ -55,8 +57,7 @@ const ThirdScreen = () => (
 const FourthScreen : FC<any> = ({navigation, Layout, t}) => {
 
     const onEnterPress = async () => {
-        await AsyncStorage.setItem("welcome_visited", "true")
-        navigation.navigate(RouteStacks.welcome)
+        navigation.navigate(RouteStacks.homeReferral)
     }
     
     return (
@@ -64,11 +65,14 @@ const FourthScreen : FC<any> = ({navigation, Layout, t}) => {
             <View style={[Layout.fullWidth, { flex: 10 }]}>
             </View>
 
-            <View style={[Layout.fullWidth, { flex: 1 }]}>
+            <View style={[Layout.fullWidth, { flex: 1, alignItems: "center" }]}>
                 <TurquoiseButton
                     onPress={onEnterPress}
                     text={t("Enter")}
-                    containerStyle={[Layout.fullWidth]}
+                    containerStyle={{
+                        width: "45%"
+                    }}
+                    isTransparentBackground
                 />
             </View>
         </View>
@@ -100,24 +104,12 @@ const WelcomeGalleryScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
         '4': () => <FourthScreen Layout={Layout} navigation={navigation} t={t} />,
     });
 
-    useEffect(() => {
-        const run = async () => {
-            await AsyncStorage.setItem("welcome_visited", "false")
-
-            let rawWelcomeVisited: string | null = await AsyncStorage.getItem("welcome_visited")
-            navigation.navigate([null, "false"].includes(rawWelcomeVisited) ? RouteStacks.welcomeGallery : RouteStacks.welcome)
-        }
-
-        run()
-    }, [])
-
     return (
         <ScreenBackgrounds
             screenName={RouteStacks.welcome}
         >
 
             <KeyboardAwareScrollView
-                style={Layout.fill}
                 contentContainerStyle={[
                     Layout.fill,
                     Layout.colCenter,

@@ -60,7 +60,6 @@ const MainScreen: FC<MarketplaceScreenNavigationProp> = (
             screenName={RouteStacks.breedingMain}
         >
             <KeyboardAwareScrollView
-                style={Layout.fill}
                 contentContainerStyle={[
                     Layout.fill,
                     Layout.colCenter,

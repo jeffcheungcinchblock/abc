@@ -38,6 +38,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { startLoading } from '@/Store/UI/actions'
 import WhiteInput from '@/Components/Inputs/WhiteInput'
 import StandardInput from '@/Components/Inputs/StandardInput'
+import { emailUsernameHash } from '@/Utils/helpers'
 
 const TEXT_INPUT = {
     height: 40,
@@ -98,10 +99,6 @@ const CreateNewPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, Route
         password: "",
         confirmPassword: ""
     })
-    const [focusCellProps, getCellOnLayoutHandler] = useClearByFocusCell({
-        value: validationCode,
-        setValue: setValidationCode,
-    });
 
     const goBack = () => {
         navigation.navigate(RouteStacks.signIn)
@@ -119,7 +116,7 @@ const CreateNewPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, Route
             setErrMsg("Passwords don't match")
         }
         try {
-            await Auth.forgotPasswordSubmit(params.username, validationCode, credential.confirmPassword)
+            await Auth.forgotPasswordSubmit(emailUsernameHash(params.email), params.validationCode, credential.confirmPassword)
             navigation.navigate(RouteStacks.signIn)
         } catch (err: any) {
             console.log('err ', err)
@@ -130,11 +127,10 @@ const CreateNewPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, Route
 
     return (
         <ScreenBackgrounds
-            screenName={RouteStacks.signUp}
+            screenName={RouteStacks.createNewPassword}
         >
 
             <KeyboardAwareScrollView
-                style={Layout.fill}
                 contentContainerStyle={[
                     Layout.fill,
                     Layout.colCenter,
@@ -149,7 +145,7 @@ const CreateNewPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, Route
                 }, Layout.fullWidth, Layout.fill, Layout.colCenter,]}>
 
                     <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 60 }]}>
-                        <Text style={[{ color: colors.white, fontWeight: "bold", lineHeight: 26 }, Fonts.textSmall, Fonts.textLeft]}>
+                        <Text style={[{ color: colors.white, lineHeight: 26 }, Fonts.textSmall, Fonts.textLeft]}>
                             {t('createNewPasswordPrompt')}
                         </Text>
                     </View>
@@ -179,7 +175,7 @@ const CreateNewPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, Route
                             secureTextEntry={true}
                         />
                         {
-                            errMsg !== "" && <Text style={[{ color: colors.magicPotion }, Fonts.textSmall, Fonts.textLeft]}>
+                            errMsg !== "" && <Text style={[{ color: colors.magicPotion, paddingHorizontal: 10 }, Fonts.textSmall, Fonts.textLeft]}>
                                 {errMsg}
                             </Text>
                         }

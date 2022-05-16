@@ -11,7 +11,7 @@ export const config = {
 export const colors = {
     frenchPink: "#FF789C",
 
-    
+    transparent: "transparent",
     white: "#FFFFFF",
     black: "#000000",
     platinum: "#E5E5E5",
@@ -23,5 +23,12 @@ export const colors = {
     cornflowerBlue: "#6398F0",
     glaucous: "#5C7CBA",
     magicPotion: "#FD4762",
+    desire: "#E23E57",
+    crystal: "#ADDCDF",
+    indigo: "#234263",
+    chineseBlack: "#141414",
+    darkBlueGray: "#67739E",
+    darkGunmetal: "#151C35",
+    jacarta: "#38405E",
     
 }

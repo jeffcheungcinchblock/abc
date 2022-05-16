@@ -89,7 +89,6 @@ const MainScreen: FC<HomeMainScreenNavigationProp> = (
             screenName={RouteStacks.homeMain}
         >
             <KeyboardAwareScrollView
-                style={Layout.fill}
                 contentContainerStyle={[
                     Layout.fill,
                     Layout.colCenter,

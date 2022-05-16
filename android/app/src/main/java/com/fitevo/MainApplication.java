@@ -7,6 +7,7 @@ import android.content.Context;
 import com.facebook.react.bridge.JSIModulePackage;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import com.horcrux.svg.SvgPackage;
 import com.reactnativepagerview.PagerViewPackage;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;

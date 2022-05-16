@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
-import { Image, ImageBackground, Linking, SafeAreaView, StatusBar, Text, View } from 'react-native'
-import { createStackNavigator } from '@react-navigation/stack'
+import { Dimensions, Image, ImageBackground, Linking, Pressable, SafeAreaView, StatusBar, Text, View } from 'react-native'
+import { createStackNavigator, TransitionSpecs } from '@react-navigation/stack'
 import { LinkingOptions, NavigationContainer, NavigationContainerRefWithCurrent } from '@react-navigation/native'
 import { StartupContainer } from '@/Screens'
 import { useTheme } from '@/Hooks'
@@ -25,11 +25,13 @@ import SnackBar from 'react-native-snackbar-component'
 import { RootState } from '@/Store'
 import SnackbarMsgContainer from '@/Components/SnackbarMsgContainer'
 import { colors } from '@/Utils/constants'
-
+import Video from 'react-native-video'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 export type ApplicationNavigatorParamList = {
   [RouteStacks.startUp]: undefined
   [RouteStacks.application]: undefined
+  BgVideo: undefined
   // 🔥 Your screens go here
 }
 const Stack = createStackNavigator<ApplicationNavigatorParamList>()
@@ -43,12 +45,9 @@ const ApplicationNavigator = () => {
 
   useEffect(() => {
     const retrieveLoggedInUser = async () => {
-      console.log('retrieveLoggedInUser')
       try {
         let user = await Auth.currentAuthenticatedUser()
-        console.log('user ', user)
         if (user === null) {
-          console.log("no active session found")
           return
         }
 
@@ -64,9 +63,12 @@ const ApplicationNavigator = () => {
         dispatch(startLoading(false))
       }
     }
-    retrieveLoggedInUser()
 
-  }, [])
+    if(!isLoggedIn){
+      retrieveLoggedInUser()
+    }
+
+  }, [isLoggedIn])
 
   let navProps: {
     ref: NavigationContainerRefWithCurrent<any>,
@@ -78,6 +80,7 @@ const ApplicationNavigator = () => {
       ref: publicNavigationRef,
       linking: publicLinking
     }
+
 
   return (
     <SafeAreaView style={[Layout.fill, { backgroundColor: colors.black }]}>
@@ -105,12 +108,18 @@ const ApplicationNavigator = () => {
           <StatusBar
             barStyle={darkMode ? 'light-content' : 'dark-content'} />
           {isScreenLoading && <LoadingScreen />}
-          <Stack.Navigator screenOptions={{ headerShown: false }}>
+
+          <Stack.Navigator
+            screenOptions={{
+              headerShown: false,
+              presentation: 'transparentModal',
+            }} initialRouteName={RouteStacks.startUp}>
             <Stack.Screen name={RouteStacks.startUp} component={StartupContainer} />
             <Stack.Screen name={RouteStacks.application} component={
               isLoggedIn ? MainNavigator : AuthNavigator
             } />
           </Stack.Navigator>
+
         </NavigationContainer>
       </GestureHandlerRootView>
     </SafeAreaView>

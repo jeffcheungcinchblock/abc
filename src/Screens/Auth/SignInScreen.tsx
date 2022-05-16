@@ -23,7 +23,6 @@ import { UserState } from '@/Store/Users/reducer'
 import EncryptedStorage from 'react-native-encrypted-storage';
 // @ts-ignore
 import Amplify, { Auth, Hub } from 'aws-amplify';
-
 import { shallowEqual, useDispatch, useSelector } from "react-redux"
 import { colors, config } from '@/Utils/constants'
 import { AuthNavigatorParamList } from '@/Navigators/AuthNavigator'
@@ -48,7 +47,7 @@ import { firebase } from '@react-native-firebase/messaging'
 import { showSnackbar, startLoading } from '@/Store/UI/actions'
 import SocialSignInButton from '@/Components/Buttons/SocialSignInButton'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { triggerSnackbar } from '@/Utils/helpers'
+import { emailUsernameHash, triggerSnackbar } from '@/Utils/helpers'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import StandardInput from '@/Components/Inputs/StandardInput'
 import ModalBox, { ModalProps } from 'react-native-modalbox';
@@ -84,11 +83,12 @@ const INPUT_VIEW_LAYOUT: ViewStyle = {
 }
 
 const ERR_MSG_TEXT: TextStyle = {
-    color: colors.magicPotion
+    color: colors.magicPotion,
+    paddingHorizontal: 10
 }
 
 const initErrMsg = {
-    username: "",
+    email: "",
     password: ""
 }
 
@@ -103,8 +103,6 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
 
     const connector = useWalletConnect();
 
-    const params = route?.params || { username: "" }
-
     const [isLoggingIn, setIsLoggingIn] = useState(false)
     const [errMsg, setErrMsg] = useState({
         ...initErrMsg
@@ -112,7 +110,7 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
 
     const [showPassword, setShowPassword] = useState(false)
     const [credential, setCredential] = useState({
-        username: "",
+        email: "",
         password: ""
     })
 
@@ -120,7 +118,7 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
 
     useEffect(() => {
         setCredential({
-            username: "",
+            email: "",
             password: ""
         })
 
@@ -168,7 +166,7 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
         dispatch(startLoading(true))
         try {
             if (loginOpt === 'normal') {
-                const user = await Auth.signIn(credential.username, credential.password)
+                const user = await Auth.signIn(emailUsernameHash(credential.email), credential.password)
                 let { attributes, username } = user
 
                 dispatch(login({
@@ -187,22 +185,26 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
             }
 
         } catch (err: any) {
-
             switch (err.message) {
                 case 'Username should be either an email or a phone number.':
-                case 'User is not confirmed.':
                 case 'Incorrect username or password.':
                 case 'Username cannot be empty':
                 case 'User does not exist.':
                     setErrMsg({
                         ...initErrMsg,
-                        username: err.message
+                        email: err.message
                     })
                     break;
                 case 'Password did not conform with policy: Password not long enough':
                     setErrMsg({
                         ...initErrMsg,
                         password: err.message
+                    })
+                    break;
+                case 'User is not confirmed.':
+                    navigation.navigate(RouteStacks.validationCode, {
+                        email: credential.email,
+                        action: "resendSignUp"
                     })
                     break;
                 default:
@@ -217,7 +219,7 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
         setCredential(prevCredential => {
             return {
                 ...prevCredential,
-                [field]: text.toLowerCase()
+                [field]: text
             }
         })
     }
@@ -238,6 +240,17 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
         modalRef?.current?.open()
     }, [modalRef]))
 
+    // useFocusEffect(
+    //     useCallback(() => {
+    //         setErrMsg({
+    //             ...initErrMsg,
+    //         })
+    //         setCredential({
+    //             ...initErrMsg,
+    //         })
+    //     }, [])
+    // )
+
 
     return (
         <ScreenBackgrounds
@@ -246,7 +259,6 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
 
 
             <KeyboardAwareScrollView
-                style={Layout.fill}
                 contentContainerStyle={[
                     Layout.fill,
                     Layout.colCenter,
@@ -281,14 +293,14 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
 
                     <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT]}>
                         <StandardInput
-                            onChangeText={(text) => onCredentialFieldChange('username', text)}
-                            value={credential.username}
-                            placeholder={t("username")}
+                            onChangeText={(text) => onCredentialFieldChange('email', text)}
+                            value={credential.email}
+                            placeholder={t("email")}
                             placeholderTextColor={colors.spanishGray}
 
                         />
                          {
-                            <Text style={ERR_MSG_TEXT}>{errMsg.username}</Text>
+                            <Text style={ERR_MSG_TEXT}>{errMsg.email}</Text>
                         }
                     </View>
                     

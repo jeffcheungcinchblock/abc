@@ -6,6 +6,7 @@ import { store, persistor } from '@/Store'
 import ApplicationNavigator from '@/Navigators/Application'
 import './Translations'
 import { LogBox, Linking, Alert } from 'react-native';
+// @ts-ignore
 import WalletConnectProvider from '@walletconnect/react-native-dapp';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 // @ts-ignore
@@ -100,7 +101,7 @@ LogBox.ignoreLogs([
 
 const getUser = () => {
   return Auth.currentAuthenticatedUser()
-    .then(userData => userData)
+    .then((userData : any) => userData)
     .catch(() => console.log('Not signed in'));
 }
 
