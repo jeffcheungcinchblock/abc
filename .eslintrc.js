@@ -1,11 +1,18 @@
 module.exports = {
 	env: {
 		'jest/globals': true,
+		'browser': true,
+		'commonjs': true,
+		'es2021': true,
 	},
 	root: true,
 	extends: [ '@react-native-community' ],
 	plugins: [ 'jest' ],
+	parserOptions: {
+		'ecmaVersion': 'latest',
+	},
 	rules: {
+		'no-console': 'off',
 		'semi': [ 'error', 'never' ],
 		'indent': [ 'error', 'tab' ],
 		'object-curly-spacing': [ 'error', 'always' ],
@@ -22,3 +29,4 @@ module.exports = {
 		},
 	},
 }
+

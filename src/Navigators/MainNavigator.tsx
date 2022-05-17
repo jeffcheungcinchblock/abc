@@ -179,7 +179,7 @@ const DrawerNavigator : FC<MainNavigatorProps> = ({ navigation }) => {
 
 			{/* <Drawer.Screen name={RouteStacks.setting} component={SettingScreen} /> */}
 			<Drawer.Screen name={RouteStacks.mainTab} component={MainTabNavigator} />
-			<Drawer.Screen name={RouteStacks.workout} component={WorkoutNavigator} />
+			{/* <Drawer.Screen name={RouteStacks.workout} component={WorkoutNavigator} /> */}
 
 	  </Drawer.Navigator>
 

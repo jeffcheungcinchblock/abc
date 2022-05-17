@@ -24,6 +24,8 @@ const styles = StyleSheet.create({
 
 	},
 	mapContentRightContainer:{
+		maxWidth: 150,
+		minWidth: 150,
 		marginLeft: 'auto',
 		marginRight: 20,
 		bottom: -20,
@@ -62,6 +64,8 @@ type MapViewProps = {
         latitudeDelta: number,
         longitudeDelta: number
     }
+	timer: number
+	speed: number
 }
 const MapContentText = (props: TextProps) => {
 	const { style, ...rest } = props
@@ -78,13 +82,12 @@ const ActiveMapView:FC<MapViewProps> = (props) => {
 	const latitude = useSelector((state:any) => state.map.latitude)
 	const longitude = useSelector((state:any) => state.map.longitude)
 	const [ totalTime, setTotalTime ] = useState(0)
+	const timer = props.timer
+	const speed = (props.speed).toFixed(1)
 	console.log(props)
 
-	const getSpeed = () => {
-		const currentTime = new Date()
-		const speed = (distance / (currentTime.getTime() - startTime.getTime()) * 3600).toFixed(2)
-		return speed
-	}
+
+
 	return (
 		<>
 			<MapView
@@ -96,12 +99,6 @@ const ActiveMapView:FC<MapViewProps> = (props) => {
 					latitudeDelta: 0.005,
 					longitudeDelta: 0.005,
 				}}
-				// region={{
-				// 	latitude: latitude,
-				// 	longitude: longitude,
-				// 	latitudeDelta: 0.005,
-				// 	longitudeDelta: 0.005,
-				// }}
 				showsUserLocation={true}
 				userLocationPriority="high"
 				userLocationUpdateInterval={4000}
@@ -141,11 +138,11 @@ const ActiveMapView:FC<MapViewProps> = (props) => {
 				<View style={[ styles.mapContentRightContainer ]} >
 					<View style={[ styles.mapContentRightLogoTextContainer ]}>
 						<Image source={SpeedLogo} style={{ width: 18.14, height: 20, resizeMode: 'contain' }} />
-						<MapContentText>Speed: {getSpeed()}</MapContentText>
+						<MapContentText>Speed: {speed}</MapContentText>
 					</View>
 					<View style={[ styles.mapContentRightLogoTextContainer ]}>
 						<Image source={TimerLogo} style={{ width: 18.14, height: 20, resizeMode: 'contain' }} />
-						<MapContentText>Time: </MapContentText>
+						<MapContentText>Time: {timer}</MapContentText>
 					</View>
 					<MapContentText>Step: {steps}</MapContentText>
 					{heartRate !== 0 && (

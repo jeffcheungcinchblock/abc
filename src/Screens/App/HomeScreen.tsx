@@ -28,6 +28,7 @@ import { RouteStacks, RouteTabs } from '@/Navigators/routes'
 import { CompositeScreenProps } from '@react-navigation/native'
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
 import { DrawerScreenProps } from '@react-navigation/drawer'
+import WorkoutNavigator from '@/Navigators/WorkoutNavigator'
 
 const Stack = createStackNavigator()
 
@@ -58,7 +59,7 @@ const HomeScreen: FC<HomeScreenNavigationProp> = (
 		<Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={RouteStacks.homeReferral}>
 			<Stack.Screen name={RouteStacks.homeReferral} component={HomeReferralScreen} />
 			<Stack.Screen name={RouteStacks.socialSignInEnterEmail} component={SocialSignInEnterEmailScreen} />
-			{/* <Stack.Screen name={RouteStacks.workout} component={ActiveScreenSolo} /> */}
+			<Stack.Screen name={RouteStacks.workout} component={WorkoutNavigator} />
 		</Stack.Navigator>
 	)
 }

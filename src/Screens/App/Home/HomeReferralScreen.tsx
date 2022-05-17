@@ -197,11 +197,11 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
 					setIstHealthKitReady(true)
 				}
 			}).then(()=>{
-				startInit()
 				dispatch({ type:'inital' })
 				console.log('set health kit readty')
 			})
 		}
+		startInit()
 	}, [])
 
 	useEffect(() => {
@@ -210,13 +210,13 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
 			triggerActivities: 'on_foot, walking, running',
 			locationAuthorizationRequest : 'WhenInUse',
 			desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
-			distanceFilter: 3,
+			distanceFilter: 5,
 			stopTimeout: 5,
 			isMoving: true,
 			reset: false,
 			debug: true,
 			disableElasticity : true,
-			speedJumpFilter:50,
+			speedJumpFilter:20,
 			logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
 			stopOnTerminate: true,
 		}).then(()=>{

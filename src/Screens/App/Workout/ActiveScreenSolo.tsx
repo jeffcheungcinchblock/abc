@@ -5,7 +5,6 @@ import {
 	StyleSheet,
 	Platform,
 	View,
-	ButtonProps,
 	TextProps,
 } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
@@ -33,6 +32,11 @@ import TokenProgressBar from '@/Components/WorkoutScreen/token_progress_bar'
 import TokenEarned from '@/Components/WorkoutScreen/token_earned'
 import NFTDisplay from '@/Components/WorkoutScreen/nft_display'
 import { use } from 'i18next'
+// @ts-ignore
+// import BackgroundTimer from 'react-native-background-timer'
+import { any } from 'prop-types'
+import moment from 'moment'
+
 
 type WorkoutScreenScreenNavigationProp = CompositeScreenProps<
     StackScreenProps<WorkoutNavigatorParamList>,
@@ -124,18 +128,45 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 	const heartRate = useSelector((state:any) => state.map.heartRate)
 	const paths = useSelector((state:any) => state.map.paths)
 	const currentState = useSelector((state:any) => state.map.currentState)
-	const latitude = useSelector((state:any) => state.map.latitude)
-	const longitude = useSelector((state:any) => state.map.longitude)
-
+	const username = useSelector((state:any)=> state.user.username)
 	const [ enabled, setEnabled ] = useState(false)
 	const [ isReady, setIsReady ] = useState(false)
 	const [ startRegion, setStartRegion ] = useState<Region|null>(null)
 	const [ isSettedRegion, setIsSettedRegion ] = useState(false)
 	const [ isStopped, setIsStopped ] = useState(false)
+	const [ timer, setTimer ] = useState(0)
+	const [ speed, setSpeed ] = useState(0)
+
+	//set a timer update every second
+	useEffect(() => {
+		const intervalId = setInterval(() => {
+			console.log(ActivityType[currentState])
+			console.log(paths)
+			let totalPauseTime = 0
+			paths.forEach((path) => {
+				if (path.pathTotalPauseTime){
+					totalPauseTime += path.pathTotalPauseTime
+				}
+			})
+			const timer_second = moment().subtract(startTime).unix() - totalPauseTime
+			if (currentState !== ActivityType.PAUSE){
+				console.log('timer_second', ActivityType[currentState], timer_second,distance)
+				setTimer(timer_second)
+				const new_speed = (distance/timer_second) * 3.6
+				console.log('new_distance', distance)
+				console.log('speed', new_speed)
+				setSpeed(new_speed)
+			}
+		}, 1000)
+		return () => {
+			clearInterval(intervalId)
+		}
+	}, [ currentState,distance ])
 
 	useEffect(()=>{
+
 		const onLocation: Subscription = BackgroundGeolocation.onLocation((location) => {
-			console.log('listening', ActivityType[currentState], location)
+			console.log('listening', ActivityType[currentState], distance)
 			if (currentState !== ActivityType.PAUSE && startTime !== null){
 				if (location.coords && location.coords.latitude && location.coords.longitude && location.is_moving === true && location.coords.speed != -1)
 				{
@@ -160,38 +191,12 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 		BackgroundGeolocation.getCurrentPosition({
 			timeout: 30,          // 30 second timeout to fetch location
 			maximumAge: 5000,
-			samples: 3,
+			samples: 1,
 		}).then((location)=>{
 			console.log('current location', location)
 			setStartRegion({ latitude:location.coords.latitude, longitude:location.coords.longitude, latitudeDelta:0.0922, longitudeDelta:0.0421 })
 			setIsSettedRegion(true)
 		})
-		// if (currentState === ActivityType.LOADING){
-		// 	BackgroundGeolocation.ready({
-		// 		triggerActivities: 'on_foot, walking, running',
-		// 		locationAuthorizationRequest : 'WhenInUse',
-		// 		desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
-		// 		distanceFilter: 3,
-		// 		stopTimeout: 5,
-		// 		isMoving: true,
-		// 		reset: false,
-		// 		debug: true,
-		// 		disableElasticity : true,
-		// 		speedJumpFilter:50,
-		// 		logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
-		// 		stopOnTerminate: true,
-		// 	}).then(()=>{
-		// 		if (currentState !== ActivityType.MOVING && currentState === ActivityType.LOADING){
-		// 			// health_kit.GetAuthorizeStatus().then((isAuthorize) => {
-		// 			// 	console.log('isAuth', isAuthorize)
-		// 			// })
-		// 			dispatch({ type:'ready' })
-		// 			setIsReady(true)
-		// 			console.log('ready in []')
-
-		// 		}
-		// 	})
-		// }
 
 		return () => {
 			onLocation.remove()
@@ -217,14 +222,17 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 	useEffect(()=>{
 		if (isStopped === false) {return}
 		try {
+			console.log('stop')
+			console.log
 			const data = {
-				startTime : startTime,
-				endTime : endTime,
+				startTime : moment(startTime).unix(),
+				endTime : moment(endTime).unix(),
 				distance: distance,
 				calories : calories,
 				steps: steps,
 				heartRate: heartRate,
 				paths: paths,
+				username: username,
 			}
 			axios({
 				method: 'post',
@@ -240,7 +248,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 		} catch (err){
 			console.log('error in ver', err)
 		}
-	})
+	}, [ isStopped ])
 
 
 
@@ -252,6 +260,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 	}
 
 	const ResumeRunningSession = async() => {
+		// onTimerStart()
 		await BackgroundGeolocation.changePace(true)
 		const curTime = new Date()
 		let location = await BackgroundGeolocation.getCurrentPosition({ samples: 1,
@@ -278,7 +287,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 			<View style={[ styles.container ]}>
 				<View style={[ styles.mapContainer ]}>
 					{startRegion && (
-						<ActiveMapView startRegion={startRegion}/>
+						<ActiveMapView startRegion={startRegion} timer={timer} speed={speed}/>
 					)}
 				</View>
 				{/* <View><Text>{ActivityType[currentState]}</Text></View> */}

@@ -11,18 +11,17 @@ type CloseButtonProps = {
     style?: object
     textStyle?: object
     onPress: () => void
-    IconName: 'close'
     isLoading?: boolean
 }
 
 let size = 30
 
 const BUTTON_STYLE: ViewStyle = {
-	backgroundColor: colors.brightTurquoise,
-	height: 30,
-	width: 30,
+	// backgroundColor: colors.brightTurquoise,
+	height: 60,
+	width: 60,
 	borderRadius: 99,
-	justifyContent: 'center',
+	// justifyContent: 'center',
 }
 
 const iconNameMap = {
@@ -30,10 +29,7 @@ const iconNameMap = {
 }
 const CloseButton = ({
 	containerStyle,
-	style,
-	textStyle,
 	onPress,
-	IconName,
 	isLoading,
 }: CloseButtonProps) => {
 	const { Layout, Images } = useTheme()
@@ -41,7 +37,7 @@ const CloseButton = ({
 	return (
 		<View style={{
 			...containerStyle,
-
+			marginTop:28,
 		}}>
 			<Pressable
 				onPress={onPress}
@@ -51,8 +47,8 @@ const CloseButton = ({
 				{
 					isLoading ? <ActivityIndicator
 						size="small" color={'#fff'}
-					/> : <View style={[ Layout.rowCenter ]}>
-						<Image source={iconNameMap[IconName]} style={{ width: 30, height: 30 }} />
+					/> : <View >
+						<Image source={iconNameMap.close} style={{ width: 60, height: 60  }} />
 					</View>
 				}
 			</Pressable>

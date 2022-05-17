@@ -1,6 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit'
 import { start, move, ready, pause, resume, stop, init } from './actions'
 import { getDistanceBetweenTwoPoints } from '../../Healthkit/utils'
+import moment from 'moment'
 
 export type State = {
 	currentState: ActivityType,
@@ -30,6 +31,7 @@ export type Path = {
 	reduceStep :number,
 	reduceCalories? :number|null,
 	endPauseTime?: Date | null,
+	pathTotalPauseTime?: number | null,
 }
 export type StartRegion = {
     latitude: number,
@@ -65,7 +67,6 @@ export default createReducer<State>(initialState, (builder) => {
 	builder
 		.addCase(start, (state, action) => {
 			const initialStateStart:State = { currentState:ActivityType.MOVING, startTime: action.payload.startTime, endTime:null, latitude:null, longitude:null, distance:0, calories:0, steps:0, heartRate :0, paths:[   { numberOfPath:0, pauseTime:null, endPauseTime:null, reduceStep:0 } ] }
-			console.log('initialStateStart', initialStateStart)
 			return initialStateStart
 		})
 	builder
@@ -81,11 +82,10 @@ export default createReducer<State>(initialState, (builder) => {
 			})
 			const newSteps = action.payload.steps! - totalReduceStep
 			const distance = getDistanceBetweenTwoPoints(state.latitude!, state.longitude!, action.payload.latitude!, action.payload.longitude!)
-			console.log('newSteps', distance)
-			if (distance > 20){
+			console.log('update distance', distance)
+			if (distance > 50){
 				return { ...state, latitude : action.payload.latitude, longitude :action.payload.longitude, calories: newCarlorieBurned, steps: newSteps }
 			}
-
 			if (distance > 0)
 			{
 				const newPaths = JSON.parse(JSON.stringify(state.paths))
@@ -123,7 +123,9 @@ export default createReducer<State>(initialState, (builder) => {
 		newPaths[lastIndexofCoordinate].endPauseTime = tempEndPauseTime!
 		newPaths[lastIndexofCoordinate].reduceStep = reduceStep!
 
-		newPaths.push({ numberOfPath: newPaths.length + 1, pauseTime: null, endPauseTime: null, reduceStep:0, coordinates:[ { latitude: action.payload.latitude, longitude: action.payload.longitude } ] })
+		const total_pause_time_in_seconds = moment(tempEndPauseTime!).unix() - moment(newPaths[lastIndexofCoordinate].pauseTime!).unix()
+		newPaths[lastIndexofCoordinate].pathTotalPauseTime = total_pause_time_in_seconds
+		newPaths.push({ numberOfPath: newPaths.length + 1, pauseTime: null, pathTotalPauseTime:null, endPauseTime: null, reduceStep:0, coordinates:[ { latitude: action.payload.latitude, longitude: action.payload.longitude } ] })
 		return { ...state, currentState:ActivityType.MOVING, paths:newPaths }
 	})
 

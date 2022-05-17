@@ -21,12 +21,14 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 
 import { colors } from '@/Utils/constants'
 import { Brand, Header } from '@/Components'
-import SpeedLogo from '@/Assets/Images/map/speed.png'
-import TimerLogo from '@/Assets/Images/map/timer.png'
+// import SpeedLogo from '@/Assets/Images/map/speed.png'
 import TurquoiseButton from '@/Components/Buttons/TurquoiseButton'
 import SocialShareButton from '@/Components/Buttons/SocialShareButton'
 import SaveScreenButton from '@/Components/Buttons/SaveScreenButton'
 import CloseButton from '@/Components/Buttons/CloseButton'
+import ConGratualtion from '@/Assets/Images/map/congratulation.png'
+import SpeedIcon from '@/Assets/Images/map/speed_crystal.png'
+import TimerLogo from '@/Assets/Images/map/timer_crystal.png'
 
 const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 	{ navigation, route }
@@ -50,36 +52,47 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 	const styles = StyleSheet.create({
 		container:{
 			flex: 1,
-			// justifyContent: 'center',
+			alignItems:'center',
 			backgroundColor: colors.darkGunmetal,
+			width: '100%',
+			justifyContent: 'center',
+			marginBottom: 50,
 		},
 		contentContainer: {
 			display: 'flex',
-			justifyContent: 'center',
-			alignContent: 'center',
-			alignItems: 'center',
+			width:'100%',
 		},
 		rowContentContainer : {
 			flexDirection: 'row',
 			alignItems:'center',
-			justifyContent: 'space-around',
+			alignContent:'center',
 			width:'100%',
 			marginTop: 20,
 			marginBottom: 20,
+			justifyContent:'center',
+		},
+		rowContentContainer2 : {
+			flexDirection: 'row',
+			justifyContent:'space-around',
+			display:'flex',
+			height:100,
+			width:'100%',
+			marginTop: 20,
+
 		},
 		colContentContainer : {
 			flexDirection: 'column',
 			alignItems:'center',
 			width:'100%',
-			marginTop: 20,
+
 		},
 		titleTextStyle : {
 			color: colors.brightTurquoise,
 			fontSize: 30,
 			lineHeight:45,
 			fontStyle:'italic',
-			fontWeight: '600',
-			paddingTop:10,
+			fontWeight: '700',
+			// width:'80%',
 		},
 		distanceTextStyle:{
 			fontSize: 100,
@@ -93,7 +106,9 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 		},
 		textStyle:{
 			color: colors.white,
-			fontSize:20,
+			fontSize:25,
+			lineHeight:45,
+			fontWeight:'700',
 			textAlign:'center',
 		},
 	})
@@ -112,9 +127,6 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 		return <Text style={[ styles.textStyle, style ]} {...rest} />
 	}
 
-	const BackToMainScreen = () => {
-		navigation.replace(RouteStacks.homeMain)
-	}
 	return (
 		<ScreenBackgrounds screenName={RouteStacks.workout}>
 			<Header
@@ -122,25 +134,24 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 				headerText={'Result'}
 				style={{ backgroundColor: colors.darkGunmetal }}
 			/>
-			<KeyboardAwareScrollView
-				style={[ Layout.fill, styles.container ]}
-				contentContainerStyle={[
-					Layout.fill,
-					Layout.colCenter,
-				]}>
-
-				<View style={[ Layout.fill, Layout.colCenter, styles.contentContainer ]}>
-					<WhiteText style={styles.titleTextStyle}>congratulations</WhiteText>
+			<View
+				style={[ styles.container ]}
+			>
+				<View style={[ Layout.colCenter, styles.contentContainer ]}>
+					<View style={[ styles.rowContentContainer, { height:45 } ]}>
+						<WhiteText style={styles.titleTextStyle}>congratulations</WhiteText>
+						<Image source={ConGratualtion} style={{ width: 18.14, height: 20, resizeMode: 'contain', alignSelf:'center' }} />
+					</View>
 					<WhiteText style={styles.distanceTextStyle}>{(distance / 1000).toFixed(2)}</WhiteText>
 					<WhiteText style={{ color:colors.crystal }}>Total Kilometers</WhiteText>
 					<WhiteText>{steps}</WhiteText>
-					<View style={[ styles.rowContentContainer ]}>
+					<View style={[ styles.rowContentContainer2 ]}>
 						<View style={[ styles.contentContainer ]}>
 							<Image source={TimerLogo} style={{ width: 18.14, height: 20, resizeMode: 'contain', alignSelf:'center' }} />
 							<WhiteText>01'30"</WhiteText>
 						</View>
 						<View style={[ styles.contentContainer ]}>
-							<Image source={SpeedLogo} style={{ width: 18.14, height: 20, resizeMode: 'contain', alignSelf:'center' }} />
+							<Image source={SpeedIcon} style={{ width: 18.14, height: 20, resizeMode: 'contain', alignSelf:'center' }} />
 							<WhiteText>3.13km/h</WhiteText>
 						</View>
 					</View>
@@ -157,20 +168,12 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 							containerStyle={[ Layout.fullWidth ]}
 						/>
 						<CloseButton
-							onPress={() => {console.log('close')}}
-							iconName = {t('close')}
+							onPress={() => {navigation.navigate(RouteStacks.homeReferral)}}
 							containerStyle={[ Layout.fullWidth ]}/>
-						<TurquoiseButton
-							text={t('close')}
-							onPress={BackToMainScreen}
-							containerStyle={{
-								width: '45%',
-							}}
-							isTransparentBackground
-						/>
+
 					</View>
 				</View>
-			</KeyboardAwareScrollView>
+			</View>
 		</ScreenBackgrounds>
 	)
 }
