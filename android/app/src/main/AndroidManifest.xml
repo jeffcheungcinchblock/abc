@@ -36,12 +36,14 @@
           <action android:name="android.intent.action.MAIN" />
           <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
-        <intent-filter>
+        <intent-filter android:autoVerify="true">
           <action android:name="android.intent.action.VIEW"/>
           <category android:name="android.intent.category.DEFAULT"/>
           <category android:name="android.intent.category.BROWSABLE"/>
-          <data android:host="test-dragon-dev.onelink.me" android:scheme="http"/>
-          <data android:host="test-dragon-dev.onelink.me" android:scheme="https"/>
+          <!-- <data android:scheme="com.fitevo" /> -->
+          <data android:scheme="https"
+            android:host="test-dragon-dev.onelink.me"
+            android:pathPrefix="/xNJK" />
           <data android:host="fitevo.page.link" android:scheme="http"/>
           <data android:host="fitevo.page.link" android:scheme="https"/>
           <data android:scheme="com.fitevo" />

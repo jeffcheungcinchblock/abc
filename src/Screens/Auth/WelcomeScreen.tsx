@@ -100,8 +100,6 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
                     getUser().then(async (userData: any) => {
                         let jwtToken = userData?.signInUserSession?.idToken?.jwtToken
 
-                        console.log('jwtToken', jwtToken)
-
                         const userProfileRes = await axios.get(config.userProfile, {
                             headers: {
                                 Authorization: jwtToken //the token is a variable which holds the token
