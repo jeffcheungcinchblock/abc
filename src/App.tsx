@@ -108,28 +108,36 @@ const getUser = () => {
 // https://www.facebook.com/log.out
 
 const urlOpener = async (url: string, redirectUrl: string) => {
-	console.log('redirectUrl ', redirectUrl, url)
-	try {
-		if (redirectUrl === `${config.urlScheme}${RouteStacks.signIn}` && await InAppBrowser.isAvailable()) {
-			const authRes: any = await InAppBrowser.openAuth(url, redirectUrl, {
-				showTitle: false,
-				enableUrlBarHiding: true,
-				enableDefaultShare: false,
-				ephemeralWebSession: false,
-			})
+  console.log('redirectUrl ', redirectUrl, url)
+  try {
+    if (redirectUrl === `${config.urlScheme}${RouteStacks.signIn}` && await InAppBrowser.isAvailable()) {
+      // const authRes: any = await InAppBrowser.open(url)
+      const authRes: any = await InAppBrowser.openAuth(url, redirectUrl, {
+        showTitle: false,
+        enableUrlBarHiding: true,
+        enableDefaultShare: false,
+        ephemeralWebSession: false,
+      });
 
-			const { type, url: newUrl } = authRes
-			if (type === 'success') {
-				Linking.openURL(newUrl)
-			} else if (type === 'cancel') {
-				store.dispatch(startLoading(false))
-			}
-		}
-	} catch (err) {
-		console.log('err ', err)
-		await InAppBrowser.close()
-		store.dispatch(startLoading(false))
-	}
+      const { type, url: newUrl } = authRes
+
+      // console.log('authRes ', authRes)
+      // await new Promise(resolve => setTimeout(() => resolve(""), 1000));
+      // const { attributes, username } = getUser()
+      // console.log("### username ", username, newUrl)
+      // console.log("### attributes ", attributes)
+
+      if (type === 'success') {
+        Linking.openURL(newUrl);
+      } else if (type === 'cancel') {
+        store.dispatch(startLoading(false))
+      }
+    }
+  } catch (err) {
+    console.log('err ', err)
+    await InAppBrowser.close()
+    store.dispatch(startLoading(false))
+  }
 
 }
 
@@ -165,9 +173,8 @@ const App = () => {
 		}
 	}
 
-	useEffect(() => {
-		console.log('Initialized firebae')
-		RNBootSplash.hide({ fade: true })
+  useEffect(() => {
+    RNBootSplash.hide({fade: true});
 
 		requestUserPermission()
 

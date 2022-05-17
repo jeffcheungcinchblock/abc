@@ -55,9 +55,10 @@ const ThirdScreen = () => (
 );
 
 const FourthScreen : FC<any> = ({navigation, Layout, t}) => {
+    const dispatch = useDispatch()
 
     const onEnterPress = async () => {
-        navigation.navigate(RouteStacks.homeReferral)
+        navigation.navigate(RouteStacks.welcome)
     }
     
     return (

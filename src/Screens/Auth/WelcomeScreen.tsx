@@ -41,7 +41,10 @@ import { startLoading } from '@/Store/UI/actions'
 // @ts-ignore
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth'
 import { emailUsernameHash } from '@/Utils/helpers'
-import Animated, { FadeIn } from 'react-native-reanimated'; 
+import Animated, { FadeIn } from 'react-native-reanimated';
+import axios from 'axios'
+import InAppBrowser from 'react-native-inappbrowser-reborn'
+import { RootState } from '@/Store'
 
 const BUTTON_VIEW = {
     marginVertical: 20
@@ -61,6 +64,11 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
         email: "",
         password: ""
     })
+
+    
+    useEffect(() => {
+            // navigation.navigate(RouteStacks.welcomeGallery)
+    }, [])
 
     const onDisplayNotification = async () => {
         // Create a channel
@@ -91,23 +99,43 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
                 .catch(() => console.log('Not signed in'));
         }
 
-        const authListener = ({ payload: { event, data } }: any) => {
+        const authListener = async ({ payload: { event, data } }: any) => {
+            console.log("event ", event)
             switch (event) {
-                case 'signIn':
+                // case 'signIn':
                 case 'cognitoHostedUI':
-                    getUser().then((userData: any) => {
-                        dispatch(login({
-                            username: userData.username,
-                            email: userData.email, // FederatedSignedIn doesnt have email exposed
-                        }))
-                        dispatch(startLoading(false))
-                    });
+
+                    await InAppBrowser.close()
+                    getUser().then(async (userData: any) => {
+                        let jwtToken = userData?.signInUserSession?.idToken?.jwtToken
+                        console.log('jwtToken', jwtToken)
+                        const userProfileRes = await axios.get(config.userProfile, {
+                            headers: {
+                                Authorization: jwtToken //the token is a variable which holds the token
+                            }
+                        })
+
+                        const { email } = userProfileRes?.data
+
+                        if (email) {
+                            dispatch(login({
+                                username: userData.username,
+                                email: userData.email, // FederatedSignedIn doesnt have email exposed
+                            }))
+                            dispatch(startLoading(false))
+                        } else {
+                            navigation.navigate(RouteStacks.provideEmail)
+                            dispatch(startLoading(false))
+                        }
+
+                    }).catch((err: any) => {
+                        console.log(JSON.stringify(err))
+                    })
                     break;
                 case 'signOut':
                     break;
                 case 'signIn_failure':
                 case 'cognitoHostedUI_failure':
-                    console.log('Sign in failure', data);
                     dispatch(startLoading(false))
                     break;
             }
@@ -120,8 +148,9 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
         }
     }, [])
 
-    const onSignInPress = () => {
+    const onSignInPress = async () => {
         navigation.navigate(RouteStacks.signIn)
+
     }
 
     const onLoginOptionPress = async (loginOpt: string) => {
@@ -200,8 +229,7 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
                     alignItems: "center",
                     width: "100%",
                     flex: 1,
-                    justifyContent: "space-around",
-                    paddingVertical: 10
+                    justifyContent: "flex-start",
                 }}>
 
                     <AppLogo style={{

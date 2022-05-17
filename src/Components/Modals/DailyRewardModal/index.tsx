@@ -37,14 +37,13 @@ const DailyRewardModal = forwardRef((props: DailyRewardModalProps, ref) => {
       swipeToClose={false}
       position="center"
       entry="bottom"
-      backdrop={false}
+      backdrop={true}
       backButtonClose={false}
-      isOpen={true}
       onClosed={onModalClose}
       keyboardTopOffset={40}
       animationDuration={500}
       style={{
-        height: '50%',
+        height: '45%',
         width: "80%",
         backgroundColor: colors.charcoal,
         borderRadius: 20,

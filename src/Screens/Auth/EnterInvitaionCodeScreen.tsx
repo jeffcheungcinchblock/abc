@@ -49,6 +49,7 @@ import ModalBox from 'react-native-modalbox';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import StandardInput from '@/Components/Inputs/StandardInput'
 import InvitationRewardModal from '@/Components/Modals/InvitationRewardModal'
+import { storeReferralCode } from '@/Store/Referral/actions'
 
 const LOGIN_BUTTON: ViewStyle = {
     height: 40,
@@ -98,10 +99,8 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
     useEffect(() => {
         if (referralCode !== "") {
             setCode(referralCode)
-        } else if (invitationCode !== "") {
-            setCode(invitationCode)
-        }
-    }, [invitationCode, referralCode])
+        } 
+    }, [referralCode])
 
     const goBack = () => {
         navigation.goBack()
@@ -109,6 +108,8 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
 
     const onStartPress = async () => {
         try {
+            let userReferralCheckRes = await axios.get(config.userReferralCheck(code))
+
             dispatch(storeInvitationCode({
                 invitationCode: code
             }))
@@ -118,7 +119,7 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
                 navigation.navigate(RouteStacks.signUpWithCode)
             }, 1000)
         } catch (err) {
-            setErrMsg(t("error.invalidInvitationCode"))
+            setErrMsg(t("error.invalidReferralCode"))
         }
     }
 
@@ -130,8 +131,8 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
         navigation.navigate(RouteStacks.welcome)
     }
 
-    const onGetActivationCodePress = () => {
-        
+    const onGetReferralCodePress = () => {
+
 
     }
 
@@ -142,6 +143,12 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
     const onCloseBtnPress = () => {
         invitationRewardModalRef?.current?.close()
     }
+
+    useEffect(() => {
+        return () => {
+            dispatch(storeReferralCode(''))
+        }
+    }, [])
 
     return (
         <ScreenBackgrounds
@@ -210,13 +217,18 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
                         <StandardInput
                             onChangeText={onCodeChange}
                             value={code}
-                            placeholder={t("activationCode")}
+                            placeholder={t("referralCode")}
                             placeholderTextColor={colors.spanishGray}
                             style={{
                                 borderBottomWidth: 1,
                                 borderColor: colors.silverSand,
                             }}
                         />
+                        {
+                            errMsg !== "" && <Text style={[{ color: colors.magicPotion, paddingHorizontal: 10 }, Fonts.textSmall, Fonts.textLeft]}>
+                                {errMsg}
+                            </Text>
+                        }
                     </View>
 
                     <View style={[Layout.fullWidth, Layout.center, Gutters.largeVPadding, { flex: 1, justifyContent: "space-between" }]}>
@@ -229,8 +241,8 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
                                 width: "45%",
                             }}
                         />
-                        <Pressable onPress={onGetActivationCodePress}>
-                            <Text style={{ textDecorationLine: "underline", color: colors.white }}>{t("getActivationCode")}</Text>
+                        <Pressable onPress={onGetReferralCodePress} style={{paddingBottom: 20}}>
+                            <Text style={{ textDecorationLine: "underline", color: colors.white }}>{t("getReferralCode")}</Text>
                         </Pressable>
                     </View>
                 </ModalBox>

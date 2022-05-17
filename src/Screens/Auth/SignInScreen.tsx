@@ -53,6 +53,7 @@ import StandardInput from '@/Components/Inputs/StandardInput'
 import ModalBox, { ModalProps } from 'react-native-modalbox'
 import { useFocusEffect } from '@react-navigation/native'
 import SlideInputModal from '@/Components/Modals/SlideInputModal'
+import axios from 'axios'
 
 
 const LOGIN_BUTTON: ViewStyle = {
@@ -128,27 +129,37 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
 				.catch(() => console.log('Not signed in'))
 		}
 
-		const authListener = ({ payload: { event, data } }: any) => {
-			switch (event) {
-			case 'signIn':
-			case 'cognitoHostedUI':
-				getUser().then(userData => {
-					dispatch(login({
-						username: userData.username,
-						email: userData.email, // FederatedSignedIn doesnt have email exposed
-					}))
-					dispatch(startLoading(false))
-				})
-				break
-			case 'signOut':
-				break
-			case 'signIn_failure':
-			case 'cognitoHostedUI_failure':
-				console.log('Sign in failure', data)
-				dispatch(startLoading(false))
-				break
-			}
-		}
+        const authListener = ({ payload: { event, data } }: any) => {
+            switch (event) {
+                case 'signIn':
+                case 'cognitoHostedUI':
+                    getUser().then(async(userData) => {
+                        let jwtToken = userData?.signInUserSession?.idToken?.jwtToken
+
+                        const userProfileRes = await axios.get(config.userProfile, {
+                            headers: {
+                                Authorization: jwtToken //the token is a variable which holds the token
+                            }
+                        })
+                        const { email, uuid } = userProfileRes?.data
+
+                        dispatch(login({
+                            username: userData.username,
+                            email: userData.email,
+                            uuid
+                        }))
+                        dispatch(startLoading(false))
+                    });
+                    break;
+                case 'signOut':
+                    break;
+                case 'signIn_failure':
+                case 'cognitoHostedUI_failure':
+                    console.log('Sign in failure', data);
+                    dispatch(startLoading(false))
+                    break;
+            }
+        }
 
 		Hub.listen('auth', authListener)
 
@@ -168,11 +179,20 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
             if (loginOpt === 'normal') {
                 const user = await Auth.signIn(emailUsernameHash(credential.email), credential.password)
                 let { attributes, username } = user
+                let jwtToken = user?.signInUserSession?.idToken?.jwtToken
 
-				dispatch(login({
-					email: attributes.email,
-					username,
-				}))
+                const userProfileRes = await axios.get(config.userProfile, {
+                    headers: {
+                        Authorization: jwtToken //the token is a variable which holds the token
+                    }
+                })
+                const { email, uuid } = userProfileRes?.data
+
+                dispatch(login({
+                    email: attributes.email,
+                    username,
+                    uuid
+                }))
 
 				setIsLoggingIn(true)
 
@@ -228,9 +248,13 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
 		navigation.navigate(RouteStacks.forgotPassword)
 	}
 
-	const goBack = () => {
-		navigation.navigate(RouteStacks.welcome)
-	}
+    const goBack = () => {
+        navigation.navigate(RouteStacks.welcome)
+    }
+
+    const onModalClose = () => {
+        navigation.navigate(RouteStacks.welcome)
+    }
 
 	const onModalClose = () => {
 		navigation.navigate(RouteStacks.welcome)
@@ -299,27 +323,51 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                             placeholderTextColor={colors.spanishGray}
 
                         />
-                         {
+                        {
                             <Text style={ERR_MSG_TEXT}>{errMsg.email}</Text>
                         }
                     </View>
-                    
 
 
-					<View style={[ Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT ]}>
-						<StandardInput
-							onChangeText={(text) => onCredentialFieldChange('password', text)}
-							value={credential.password}
-							placeholder={t('password')}
-							placeholderTextColor={colors.spanishGray}
-							secureTextEntry={!showPassword}
-							showPassword={showPassword}
-							onPasswordEyePress={onPasswordEyePress}
-						/>
-						{
-							<Text style={ERR_MSG_TEXT}>{errMsg.password}</Text>
-						}
-					</View>
+                    <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT]}>
+                        <StandardInput
+                            onChangeText={(text) => onCredentialFieldChange('password', text)}
+                            value={credential.password}
+                            placeholder={t("password")}
+                            placeholderTextColor={colors.spanishGray}
+                            secureTextEntry={!showPassword}
+                            showPassword={showPassword}
+                            onPasswordEyePress={onPasswordEyePress}
+                        />
+                        {
+                            <Text style={ERR_MSG_TEXT}>{errMsg.password}</Text>
+                        }
+                    </View>
+
+                    <View style={[Layout.fullWidth, Layout.center, Gutters.regularVPadding, { flex: 1, justifyContent: "center" }]}>
+                        <TurquoiseButton
+                            onPress={() => onLoginOptionPress("normal")}
+                            text={t("login")}
+                            isTransparentBackground
+                            containerStyle={{
+                                width: "45%",
+                            }}
+                        />
+                        <Pressable style={[Layout.fullWidth, Layout.center, { marginBottom: 30, marginTop: 10 }]}
+                            onPress={onForgotPasswordPress}
+                        >
+                            <Text style={{ color: colors.white, textDecorationLine: "underline" }}>{t("forgotPassword")}</Text>
+                        </Pressable>
+
+                        <View style={{ flexDirection: "row" }}>
+                            <Text style={{ color: colors.white }}>{t("dontHaveAnAccount")}</Text>
+                            <Pressable style={{ paddingLeft: 6 }} onPress={() => navigation.navigate(RouteStacks.signUp)}>
+                                <Text style={{ color: colors.brightTurquoise, fontWeight: "bold" }}>{t("signUp")}</Text>
+                            </Pressable>
+                        </View>
+                    </View>
+
+                </SlideInputModal>
 
 					<View style={[ Layout.fullWidth, Layout.center, Gutters.regularVPadding, { flex: 1, justifyContent: 'center' } ]}>
 						<TurquoiseButton

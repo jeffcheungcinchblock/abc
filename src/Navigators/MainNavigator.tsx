@@ -163,14 +163,8 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
 
 const DrawerNavigator : FC<MainNavigatorProps> = ({ navigation }) => {
 
-	const { t } = useTranslation()
-	const { hasLoggedInTimes } = useSelector((state: RootState) => state.user)
-	console.log('hasLoggedInTimes', hasLoggedInTimes)
-	useEffect(() => {
-	  if (hasLoggedInTimes < 3){
-			navigation.navigate(RouteStacks.welcomeGallery)
-	  }
-	}, [])
+  const { t } = useTranslation()
+  
 
 	return (
 	  <Drawer.Navigator screenOptions={{ headerShown: false }}
@@ -193,8 +187,8 @@ const MainNavigator = () => {
 		<Stack.Navigator screenOptions={{ headerShown: false }}
 			initialRouteName={RouteStacks.mainDrawer}>
 
+      <Stack.Screen name={RouteStacks.mainDrawer} component={DrawerNavigator} />
 			<Stack.Screen name={RouteStacks.mainDrawer} component={DrawerNavigator} />
-			<Stack.Screen name={RouteStacks.welcomeGallery} component={WelcomeGalleryScreen} />
 			<Stack.Screen name={RouteStacks.workout} component={WorkoutNavigator} />
 		</Stack.Navigator>
 

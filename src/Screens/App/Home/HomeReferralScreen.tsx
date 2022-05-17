@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback, FC, useRef } from 'react'
-import { StackScreenProps } from '@react-navigation/stack'
+import React, { useState, useEffect, useCallback, FC, useRef, useMemo } from 'react'
+import { StackScreenProps } from "@react-navigation/stack"
 import {
 	View,
 	ActivityIndicator,
@@ -64,17 +64,22 @@ import { GoogleFitKit } from '@/Healthkit/androidHealthKit'
 import BackgroundGeolocation, {
 	Subscription,
 } from 'react-native-background-geolocation'
+import scrollDownBtn from '@/Assets/Images/Home/scroll_down.png'
 
 const PURPLE_COLOR = {
 	color: colors.magicPotion,
 }
 
 type ReferralInfo = {
+    point: number
+    lastRank: number      // lastRank === 0 for new account
     queueNumber: number
     referral: string
     referred: number
-    username: string
     referredBy: string
+    referredEmails: string[]
+    username: string
+    uuid: string
 }
 
 type HomeReferralScreenNavigationProp = CompositeScreenProps<
@@ -84,7 +89,6 @@ type HomeReferralScreenNavigationProp = CompositeScreenProps<
         DrawerScreenProps<DrawerNavigatorParamList>
     >
 >
-
 
 const REFERRED_FRIEND_ICON: ViewStyle = {
 	borderRadius: 99, width: 40, height: 40, backgroundColor: colors.crystal, justifyContent: 'center', alignItems: 'center',
@@ -99,31 +103,30 @@ const health_kit = isIOS ? new IOSHealthKit() : new GoogleFitKit()
 const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
 	{ navigation, route }
 ) => {
-	const dailyRewardModalRef = useRef<any>(null)
-	const ruleOfReferralModalRef = useRef<any>(null)
-	const { t } = useTranslation()
-	const { Common, Fonts, Gutters, Layout } = useTheme()
-	const { invitationCode } = useSelector((state: RootState) => state.user)
-	const dispatch = useDispatch()
-	const [ isInvitingFriends, setIsInvitingFriends ] = useState(false)
-	const [ needFetchDtl, setNeedFetchDtl ] = useState(true)
-	const [ fetchedReferralInfo, setFetchedReferralInfo ] = useState(false)
-	const [ points, setPoints ] = useState(25)
-	const [ referralInfo, setReferralInfo ] = useState<ReferralInfo>({
-		queueNumber: 0,
-		referral: '',
-		referred: 0,
-		username: '',
-		referredBy: '',
-	})
-	const [ isHealthkitReady, setIstHealthKitReady ] = useState(false)
+    const keyboardAwareScrollViewRef = useRef<any>(null)
+    const dailyRewardModalRef = useRef<any>(null)
+    const ruleOfReferralModalRef = useRef<any>(null)
+    const { t } = useTranslation()
+    const { Common, Fonts, Gutters, Layout } = useTheme()
+    const { invitationCode } = useSelector((state: RootState) => state.user)
+    const dispatch = useDispatch()
+    const [isInvitingFriends, setIsInvitingFriends] = useState(false)
+    const [needFetchDtl, setNeedFetchDtl] = useState(true)
+    const [fetchedReferralInfo, setFetchedReferralInfo] = useState(false)
+    const [referralInfo, setReferralInfo] = useState<ReferralInfo>({
+        point: 0,
+        lastRank: 0,
+        queueNumber: 0,
+        referral: "",
+        referred: 0,
+        username: "",
+        referredBy: "",
+        referredEmails: [],
+        uuid: ""
+    })
 	const [ isReady, setIsReady ] = useState<Boolean>(false)
 	const [ enabled, setEnabled ] = useState(false)
-	useEffect(() => {
-		const run = async () => {
-			try {
-				let user = await Auth.currentAuthenticatedUser()
-				let jwtToken = user.signInUserSession.idToken.jwtToken
+	const [ isHealthkitReady, setIstHealthKitReady ] = useState(false)
 
 				const authRes = await axios.get(config.userAuthInfo, {
 					headers: {
@@ -132,10 +135,14 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
 				})
 				setReferralInfo(authRes.data)
 
-			} catch (err) {
-				console.log(err)
-			}
-		}
+                const authRes = await axios.get(config.userProfile, {
+                    headers: {
+                        Authorization: jwtToken //the token is a variable which holds the token
+                    }
+                })
+
+                console.log('authRes', authRes)
+                setReferralInfo(authRes.data)
 
 		if (needFetchDtl) {
 			run()
@@ -265,11 +272,11 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
 
 	const onDailyRewardModalClose = () => {
 
-	}
-
-	const onRuleOfReferralModalClose = () => {
-
-	}
+    const onLogoutPress = async () => {
+        dispatch(startLoading(true))
+        await awsLogout()
+        dispatch(startLoading(false))
+    }
 
 
 
@@ -301,7 +308,28 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
 	const onInfoBtnPress = () => {
         ruleOfReferralModalRef?.current?.open()
 
-	}
+    }
+
+    const onScrollDownPress = () => {
+        keyboardAwareScrollViewRef?.current?.scrollToEnd()
+    }
+
+    let queueNoDiff = referralInfo.lastRank - referralInfo.queueNumber
+    let referredNames = useMemo(() => {
+        return referralInfo.referredEmails.map((elem) => elem.toUpperCase())
+    }, [referralInfo.referredEmails])
+
+
+    return (
+        <ScreenBackgrounds
+            screenName={RouteStacks.homeReferral}
+        >
+            <DailyRewardModal
+                ref={dailyRewardModalRef}
+                onModalClose={onDailyRewardModalClose}
+                onActionBtnPress={onLesGoBtnPress}
+                ke={25}
+            />
 
 	return (
 		<ScreenBackgrounds
@@ -314,25 +342,29 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
 				ke={25}
 			/>
 
-			<RuleOfReferralModal
-				ref={ruleOfReferralModalRef}
-				onModalClose={onRuleOfReferralModalClose}
-				onActionBtnPress={onCloseBtnPress}
-			/>
+            <Pressable onPress={onScrollDownPress} style={{ position: "absolute", bottom: 20, right: 20, zIndex: 2 }}>
+                <Image source={scrollDownBtn} style={{}} />
+            </Pressable>
 
-			<KeyboardAwareScrollView
-				contentContainerStyle={[
-					Layout.colCenter,
-				]}
-				refreshControl={
-					<RefreshControl
-						refreshing={needFetchDtl}
-						onRefresh={onRefresh}
-						progressViewOffset={10}
-						tintColor={colors.brightTurquoise}
-					/>
-				}
-			>
+            <KeyboardAwareScrollView
+                ref={keyboardAwareScrollViewRef}
+                contentContainerStyle={[
+                    Layout.colCenter,
+                ]}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={needFetchDtl}
+                        onRefresh={onRefresh}
+                        progressViewOffset={10}
+                        tintColor={colors.brightTurquoise}
+                    />
+                }
+            >
+                <Header
+                    headerText={t("dashboard")}
+                    rightIcon={() => <MaterialCommunityIcons name="logout" color={colors.white} size={24} />}
+                    onRightPress={onLogoutPress}
+                />
 
 				<Header
 					headerText={t('dashboard')}
@@ -340,108 +372,152 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
 					onRightPress={onLogoutPress}
 				/>
 
+                <View style={{
+                    height: 220,
+                    width: "100%",
+                    alignItems: "center",
+                    justifyContent: "center"
+                }}>
+                    <CircularProgress
+                        value={referralInfo.point}
+                        radius={110}
+                        duration={2000}
+                        progressValueColor={colors.transparent}
+                        maxValue={1000}
+                        activeStrokeColor={colors.brightTurquoise}
+                        strokeLinecap={"butt"}
+                        inActiveStrokeWidth={14}
+                        activeStrokeWidth={14}
+                    >
 
-				<View style={{
-					height: 220,
-					width: '100%',
-					alignItems: 'center',
-					justifyContent: 'center',
-				}}>
-					<CircularProgress
-						value={points}
-						radius={110}
-						duration={2000}
-						progressValueColor={colors.transparent}
-						maxValue={200}
-						activeStrokeColor={colors.brightTurquoise}
-						strokeLinecap={'butt'}
-						inActiveStrokeWidth={14}
-						activeStrokeWidth={14}
-					 />
-					<View style={{
-						position: 'absolute', top: 65, width: '100%',
-					}}>
-						<Text style={{
-							color: colors.white, fontSize: 18, fontWeight: 'bold',
-							textAlign: 'center',
-						}}>{t('totalPoints')}</Text>
-						<View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
-							<AppIcon
-								style={{
-									width: 16,
-									marginRight: 6,
-								}}
-								imageStyle={{
-									width: '100%',
-								}}
-							/>
-							<Text style={{
-								color: colors.white, fontSize: 40, fontWeight: 'bold',
-								textAlign: 'center',
-							}}>{points.toFixed(2)}</Text>
-						</View>
-					</View>
+                    </CircularProgress>
+                    <View style={{
+                        position: "absolute", top: 65, width: "100%"
+                    }}>
+                        <Text style={{
+                            color: colors.white, fontSize: 18, fontWeight: "bold",
+                            textAlign: "center"
+                        }}>{t("totalPoints")}</Text>
+                        <View style={{ flexDirection: "row", justifyContent: "center", marginTop: 10, alignItems: "center" }}>
+                            <AppIcon
+                                style={{
+                                    width: 16,
+                                    marginRight: 6
+                                }}
+                                imageStyle={{
+                                    width: "100%"
+                                }}
+                            />
+                            <Text style={{
+                                color: colors.white, fontSize: 40, fontWeight: "bold",
+                                textAlign: "center"
+                            }}>{referralInfo.point.toFixed(2)}</Text>
+                        </View>
+                    </View>
 
 				</View>
 
-				<View style={[ Layout.fullWidth, { alignItems: 'center', justifyContent: 'center', height: 150 } ]}>
-					<Text style={[ { fontWeight: 'bold', color: colors.white, fontSize: 44 } ]}>{referralInfo.queueNumber}</Text>
-					<Text style={[ { paddingTop: 0, paddingBottom: 2, color: colors.white, fontSize: 20 } ]}>{t('queueNumber')}</Text>
-					<Text style={[ { fontWeight: 'bold', color: colors.brightTurquoise, fontSize: 26 } ]}>▲  {referralInfo.queueNumber}</Text>
-				</View>
+                <View style={[Layout.fullWidth, { alignItems: "center", justifyContent: "flex-end", height: 100 }]}>
+                    <Text style={[{ paddingTop: 0, paddingBottom: 2, color: colors.white, fontSize: 24 }]}>{t("queueNumber")}</Text>
+                    <View style={[Layout.fullWidth, { flexDirection: "row", alignItems: "center", justifyContent: "center" }]}>
+                        <View style={{ backgroundColor: queueNoDiff > 0 ? colors.brightTurquoise : queueNoDiff < 0 ? colors.magicPotion : colors.philippineSilver, borderRadius: 12, paddingHorizontal: 12, paddingVertical: 6, marginRight: 16 }}>
+                            <Text style={[{ color: colors.darkGunmetal, fontSize: 20 }]}>▲  {queueNoDiff}</Text>
+                            {/* <Text style={[{ color: colors.magicPotion, fontSize: 20 }]}>▼  {referralInfo.queueNumber}</Text> */}
+                            {/* <Text style={[{ color: colors.philippineSilver, fontSize: 20 }]}>+  {referralInfo.queueNumber}</Text> */}
 
-				<View style={{
-					backgroundColor: colors.jacarta,
-					borderRadius: 20,
-					height: 130,
-					marginBottom: 30,
-					marginHorizontal: 20,
-				}}>
-					<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingRight: 20 }}>
-						<Text style={[ { color: colors.white, paddingTop: 30, paddingBottom: 16, paddingHorizontal: 20 }, Fonts.textSmall ]}>{t('yourReferralCode')}</Text>
-						<Pressable onPress={onCopyPress} style={{
-							borderRadius: 10, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.darkBlueGray,
-							opacity: 0.5, width: 45, height: 30,
-						}}>
-							<MaterialCommunityIcons name="content-copy" size={20} color={colors.white} />
-						</Pressable>
-					</View>
-					<View style={[
-						{
-							flexDirection: 'row',
-							paddingHorizontal: 20,
-							position: 'relative',
-							justifyContent: 'center',
-							alignItems: 'center',
-						},
-					]}>
-						<TextInput
-							value={referralInfo.referral}
-							style={{
-								color: colors.white,
-								backgroundColor: colors.chineseBlack,
-								borderRadius: 10,
-								width: '100%',
-								paddingHorizontal: 20,
-								height: 40,
-								fontSize: 16,
-							}}
-						/>
+                        </View>
+                        <Text style={[{ fontWeight: "bold", color: colors.white, fontSize: 44 }]}>{referralInfo.queueNumber}</Text>
+                    </View>
+                </View>
 
-						<TurquoiseButton
-							text={t('share')}
-							onPress={onSharePress}
-							isTransparentBackground
-							containerStyle={{
-								position: 'absolute',
-								right: 25,
-								zIndex: 2,
-								width: 80,
-							}}
-							style={{
-								borderRadius: 10,
-							}}
-						/>
+                <View style={[Layout.fullWidth, { alignItems: "center", justifyContent: "center", height: 140 }]}>
+                    <Text style={[Layout.fullWidth, { color: colors.white, fontSize: 24, textAlign: "center" }]}>{t("top100AvgKE")}</Text>
+                    <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
+                        <AppIcon
+                            style={{
+                                width: 16,
+                                marginRight: 10
+                            }}
+                            imageStyle={{
+                                width: "100%"
+                            }}
+                        />
+                        <Text style={{
+                            color: colors.white, fontSize: 40, fontWeight: "bold",
+                            textAlign: "center"
+                        }}>{referralInfo.point}</Text>
+                    </View>
+                </View>
+
+                <View style={[Layout.fullWidth, Layout.center, { paddingBottom: 40 }]}>
+                    <Pressable style={{
+                        backgroundColor: colors.brightTurquoise, borderRadius: 16,
+                        elevation: 4,
+                        shadowOffset: { width: 0, height: 2 },
+                        shadowColor: colors.brightTurquoise,
+                        shadowOpacity: 0.5,
+                        shadowRadius: 10, paddingHorizontal: 40, paddingVertical: 4
+                    }} onPress={onTrialPlayPress}>
+                        <Text style={{ fontSize: 30, fontWeight: "bold", fontStyle: "italic", color: colors.darkGunmetal }}>{t("trialPlay")}</Text>
+                    </Pressable>
+                </View>
+
+                <View style={{
+                    backgroundColor: colors.jacarta,
+                    borderRadius: 20,
+                    height: 110,
+                    marginBottom: 30,
+                    marginHorizontal: 20
+                }}>
+                    <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingTop: 10, paddingRight: 20 }}>
+                        <Text style={[{ color: colors.white, paddingTop: 0,  paddingHorizontal: 20 }, Fonts.textSmall]}>{t("yourReferralCode")}</Text>
+                        <Pressable onPress={onCopyPress} style={{
+                            borderRadius: 10, justifyContent: "center", alignItems: "center", backgroundColor: colors.darkBlueGray,
+                            opacity: 0.5, width: 45, height: 30
+                        }}>
+                            <MaterialCommunityIcons name="content-copy" size={20} color={colors.white} />
+                        </Pressable>
+                    </View>
+
+                    <View style={[
+                        {
+                            flexDirection: "row",
+                            paddingHorizontal: 20,
+                            position: "relative",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            paddingTop: 10
+                        }
+                    ]}>
+                        <TextInput
+                            value={referralInfo.referral}
+                            editable={false}
+                            style={{
+                                color: colors.white,
+                                backgroundColor: colors.chineseBlack,
+                                borderRadius: 10,
+                                width: '100%',
+                                paddingHorizontal: 20,
+                                height: 44,
+                                fontSize: 16
+                            }}
+                        />
+
+                        <TurquoiseButton
+                            text={t("share")}
+                            onPress={onSharePress}
+                            isTransparentBackground
+                            containerStyle={{
+                                position: "absolute",
+                                right: 30,
+                                zIndex: 2,
+                                width: 80,
+                                bottom: 5
+                            }}
+                            style={{
+                                borderRadius: 10
+                            }}
+                        />
 
 					</View>
 				</View>
@@ -455,23 +531,24 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
 						</Pressable>
 					</View>
 
-					<Text style={[ Fonts.textSmall, { color: colors.brightTurquoise } ]}>{7} {t('friends')}</Text>
-				</View>
+                    <Text style={[Fonts.textSmall, { color: colors.brightTurquoise }]}>{referralInfo.referred} {t(`friend${referralInfo.referred <= 1 ? '' : 's'}`)}</Text>
+                </View>
 
-				<View style={{ height: 80, alignItems: 'flex-start', width: '85%' }}>
-					<View style={[ REFERRED_FRIEND_ICON, { top: 0, left: 0 } ]}>
-						<Text style={{ color: colors.black, fontWeight: 'bold', fontSize: 18 }}>K</Text>
-					</View>
-					<View style={[ REFERRED_FRIEND_ICON, { top: 0, left: 35 } ]}>
-						<Text style={{ color: colors.black, fontWeight: 'bold', fontSize: 18 }}>A</Text>
-					</View>
-					<View style={[ REFERRED_FRIEND_ICON, { top: 0, left: 70 } ]}>
-						<Text style={{ color: colors.black, fontWeight: 'bold', fontSize: 18 }}>B</Text>
-					</View>
-					<View style={[ REFERRED_FRIEND_ICON, { top: 0, left: 105, backgroundColor: colors.indigo } ]}>
-						<Text style={{ color: colors.white, fontWeight: 'bold', fontSize: 18 }}>+3</Text>
-					</View>
-				</View>
+                <View style={{ height: 80, alignItems: "flex-start", width: "85%" }}>
+                    {
+                        referredNames.map((elem, idx) => {
+                            return <View style={[REFERRED_FRIEND_ICON, { top: 0, left: idx * 35 }]}>
+                                <Text style={{ color: colors.black, fontWeight: "bold", fontSize: 18 }}>{elem}</Text>
+                            </View>
+                        })
+                    }
+                    {
+                        referredNames.length > 4 && <View style={[REFERRED_FRIEND_ICON, { top: 0, left: 4 * 35, backgroundColor: colors.indigo }]}>
+                            <Text style={{ color: colors.white, fontWeight: "bold", fontSize: 18 }}>+{referredNames.length - 4}</Text>
+                        </View>
+                    }
+
+                </View>
 
 				<View style={{ width: '90%', backgroundColor: colors.white, height: 1 }} />
 
@@ -489,10 +566,10 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
 					<Text style={[ { fontSize: 14, color: colors.white } ]}>{t('shareReferralLink')}</Text>
 				</View>
 
-				<View style={[ Layout.fullWidth, { height: 80, paddingHorizontal: 40, justifyContent: 'flex-start', alignItems: 'flex-start', flexDirection: 'row' } ]}>
-					<Ionicons name="people-outline" color={colors.white} size={20} style={{ marginRight: 20 }} />
-					<Text style={[ { fontSize: 14, color: colors.white, flexShrink: 1 } ]}>{t('stakeForARubyCard')}</Text>
-				</View>
+                <View style={[Layout.fullWidth, { height: 60, paddingHorizontal: 40, justifyContent: "flex-start", alignItems: "flex-start", flexDirection: "row" }]}>
+                    <Ionicons name="people-outline" color={colors.white} size={20} style={{ marginRight: 20 }} />
+                    <Text style={[{ fontSize: 14, color: colors.white, flexShrink: 1 }]}>{t("stakeForARubyCard")}</Text>
+                </View>
 
 				<View style={[ Layout.fullWidth, Layout.center, { height: 80 } ]}>
 					<Text style={[ { color: colors.brightTurquoise, fontWeight: 'bold', fontSize: 18 } ]}>{t('learnMoreAllCapital')}</Text>
@@ -505,15 +582,11 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
 					</Text>
 				</View>
 
-				<View style={[ Layout.fullWidth, Layout.center, { paddingBottom: 40 } ]}>
-					<Pressable style={{ backgroundColor: colors.brightTurquoise, borderRadius: 30, paddingHorizontal: 40, paddingVertical: 4 }} onPress={onTrialPlayPress}>
-						<Text style={{ fontSize: 30, fontWeight: 'bold', fontStyle: 'italic', color: colors.darkGunmetal }}>{t('trialPlay')}</Text>
-					</Pressable>
-				</View>
 
-			</KeyboardAwareScrollView>
-		</ScreenBackgrounds>
-	)
+
+            </KeyboardAwareScrollView>
+        </ScreenBackgrounds>
+    )
 }
 
 export default HomeReferralScreen

@@ -1,10 +1,16 @@
 
 export const config = {
-	urlScheme: 'com.fitevo://',
-	userAuthInfo: 'https://api-dev.dragonevolution.gg/users/auth',
-	onelinkUrl: 'https://test-dragon-dev.onelink.me/xNJK',
-	referralConfirmation: 'https://api-dev.dragonevolution.gg/users/referral-confirmation',
-
+    urlScheme: `com.fitevo://`,
+    userAuthInfo: `https://api-dev.dragonevolution.gg/users/auth`,
+    userProfile: `https://api-dev.dragonevolution.gg/users/profile`,
+    userReferralCheck: (referralCode: string) => {
+        return `https://api-dev.dragonevolution.gg/users/referral/${referralCode}/check`
+    },
+    emailVerification: `https://api-dev.dragonevolution.gg/users/email-verification`,
+    
+    onelinkUrl: `https://test-dragon-dev.onelink.me/xNJK`, 
+    referralConfirmation: `https://api-dev.dragonevolution.gg/users/referral-confirmation`,
+    
 }
 
 // Color naming https://www.color-name.com/hex/FF789C
@@ -30,5 +36,6 @@ export const colors = {
     darkBlueGray: "#67739E",
     darkGunmetal: "#151C35",
     jacarta: "#38405E",
+    philippineSilver: "#B5B5B5",
     
 }

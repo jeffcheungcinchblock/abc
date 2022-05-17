@@ -67,7 +67,7 @@ const CODE_FIELD_ROOT = {
 
 }
 
-const CELL : TextStyle = {
+const CELL: TextStyle = {
     width: 50,
     height: 50,
     fontSize: 24,
@@ -102,6 +102,7 @@ const VerificationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteS
     const [newPassword, setNewPassword] = useState("")
     const [canResendVeriCode, setCanResendVeriCode] = useState(false)
     const [currUntil, setCurrUntil] = useState(resendVeriCodeTime)
+    const [countDownKey, setCountDownKey] = useState(new Date().toTimeString())
     const [focusCellProps, getCellOnLayoutHandler] = useClearByFocusCell({
         value: validationCode,
         setValue: setValidationCode,
@@ -130,6 +131,33 @@ const VerificationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteS
                 validationCode,
                 email: params.email
             })
+        } else if (params.action === 'registerEmail') {
+            try {
+                dispatch(startLoading(true))
+
+                let user = await Auth.currentAuthenticatedUser()
+                let jwtToken = user.signInUserSession.idToken.jwtToken
+
+                let referralConfirmationRes = await axios.post(config.emailVerification, {
+                    emailVerificationCode: validationCode
+                }, {
+                    headers: {
+                        Authorization: jwtToken //the token is a variable which holds the token
+                    },
+                })
+
+                dispatch(login({
+                    email: params.email,
+                    username: user.username
+                }))
+
+            } catch (err) {
+                console.log('err ', err)
+                setErrMsg(t("error.invalidVerificationCode"))
+            } finally {
+                dispatch(startLoading(false))
+            }
+
         } else {
             if (params.email === "") {
                 Alert.alert("Email is empty")
@@ -148,6 +176,8 @@ const VerificationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteS
             }
         }
 
+
+
     }, [validationCode, params, newPassword])
 
     const onPasswordChange = (text: string) => {
@@ -162,29 +192,41 @@ const VerificationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteS
         setCanResendVeriCode(true)
 
     }
-    const [countDownKey, setCountDownKey] = useState(new Date().toTimeString())
 
     const onResendVerificationCodePress = async () => {
         if (!canResendVeriCode) return
-        console.log('onResendVerificationCodePress', params.email)
-
+        dispatch(startLoading(true))
         try {
             setCurrUntil(resendVeriCodeTime)
             setCanResendVeriCode(false)
             setCountDownKey(new Date().toTimeString())
-            if(params.action === 'forgotPassword'){
+            if (params.action === 'forgotPassword') {
                 await Auth.forgotPassword(emailUsernameHash(params.email))
-            }else{
+            } else if (params.action === 'registerEmail') {
+                let user = await Auth.currentAuthenticatedUser()
+                let jwtToken = user.signInUserSession.idToken.jwtToken
+
+                await axios.post(config.userProfile, {
+                    email: params.email,
+                }, {
+                    headers: {
+                        Authorization: jwtToken //the token is a variable which holds the token
+                    },
+                })
+            } else {
                 await Auth.resendSignUp(emailUsernameHash(params.email))
             }
+
         } catch (err: any) {
-            switch(err.message){
+            switch (err.message) {
                 case "Attempt limit exceeded, please try after some time.":
                 default:
                     setErrMsg(err.message)
                     break
-                
+
             }
+        } finally {
+            dispatch(startLoading(false))
         }
     }
 
@@ -266,7 +308,7 @@ const VerificationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteS
 
                     <View style={[CONTENT_ELEMENT_WRAPPER, { flex: 1, justifyContent: "flex-start" }]}>
                         {
-                            errMsg !== "" && <Text style={[{ color: colors.magicPotion }, Fonts.textSmall, Fonts.textCenter]}>
+                            errMsg !== "" && <Text style={[{ color: colors.magicPotion, paddingHorizontal: 10 }, Fonts.textSmall, Fonts.textLeft]}>
                                 {errMsg}
                             </Text>
                         }

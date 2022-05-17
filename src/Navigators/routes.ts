@@ -18,24 +18,23 @@ export enum RouteStacks {
     mainDrawer = 'mainDrawer',
 
     // auth screens
-    signIn = 'signIn',
-    signUp = 'signUp',
-    validationCode = 'validationCode',
-    welcome = 'welcome',
-    welcomeGallery = 'welcomeGallery',
-    enterInvitationCode = 'enterInvitationCode',
-    forgotPassword = 'forgotPassword',
-    signUpWithCode = 'signUpWithCode',
-    createNewPassword = 'createNewPassword',
+    signIn = "signIn",
+    signUp = "signUp",
+    validationCode = "validationCode",
+    welcome = "welcome",
+    welcomeGallery = "welcomeGallery",
+    enterInvitationCode = "enterInvitationCode",
+    forgotPassword = "forgotPassword",
+    signUpWithCode = "signUpWithCode",
+    createNewPassword = "createNewPassword", 
+    provideEmail = "provideEmail",
 
 
 
 
     // logged in app screens
 
-    socialSignInEnterEmail = 'socialSignInEnterEmail',
-
-    breedingMain = 'breedingMain',
+    breedingMain = "breedingMain",
 
     // logged in app screens
     homeMain = 'homeMain',
