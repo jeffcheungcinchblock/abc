@@ -10,7 +10,7 @@ export type UIState = {
         position: 'top' | 'bottom',
         actionText: string,
         autoHidingTime: number
-    }
+    },
 }
 
 const initialState: UIState = {
@@ -21,7 +21,7 @@ const initialState: UIState = {
         position: "top",
         actionText: "OK",
         autoHidingTime: 3000
-    }
+    },
 }
 
 export default createReducer<UIState>(initialState, (builder) => {

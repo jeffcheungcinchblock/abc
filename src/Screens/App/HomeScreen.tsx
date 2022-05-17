@@ -22,7 +22,7 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux"
 import { config } from '@/Utils/constants'
 import { DrawerNavigatorParamList, TabNavigatorParamList } from '@/Navigators/MainNavigator'
 import EncryptedStorage from 'react-native-encrypted-storage'
-import { MainScreen, HomeReferralScreen, HomeInviteStateScreen, SocialSignInEnterEmailScreen } from '@/Screens/App/Home'
+import { MainScreen, HomeReferralScreen, HomeInviteStateScreen } from '@/Screens/App/Home'
 import { RouteStacks, RouteTabs } from '@/Navigators/routes'
 import { CompositeScreenProps } from '@react-navigation/native'
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
@@ -34,9 +34,6 @@ export type HomeNavigatorParamList = {
     [RouteStacks.homeMain]: undefined
     [RouteStacks.homeReferral]: undefined
     [RouteStacks.homeInviteState]: undefined
-
-    // To be moved somewhere else
-    [RouteStacks.socialSignInEnterEmail]: undefined
 }
 
 type HomeScreenNavigationProp = CompositeScreenProps<

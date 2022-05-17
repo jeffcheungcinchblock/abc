@@ -36,5 +36,6 @@ export const colors = {
     darkBlueGray: "#67739E",
     darkGunmetal: "#151C35",
     jacarta: "#38405E",
+    philippineSilver: "#B5B5B5",
     
 }

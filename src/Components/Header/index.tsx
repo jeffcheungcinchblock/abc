@@ -69,7 +69,7 @@ const Header = (props: {
       )}
       {
         header ? <View style={TITLE_MIDDLE}>
-          <Text style={[TITLE, titleStyle, Fonts.textSmall]}>{header}</Text>
+          <Text style={[TITLE, titleStyle, Fonts.textRegular]}>{header}</Text>
         </View> : <View style={{ flex: 5 }}>
           <AppIcon />
         </View>

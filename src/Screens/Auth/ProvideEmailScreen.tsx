@@ -97,7 +97,7 @@ const ProvideEmailScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStack
     const [email, setEmail] = useState("")
 
     const goBack = () => {
-        navigation.navigate(RouteStacks.signIn)
+        navigation.replace(RouteStacks.welcome)
     }
 
     const onEmailChange = (text: string) => {
@@ -106,10 +106,9 @@ const ProvideEmailScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStack
 
     const onConfirmPress = async () => {
         try {
+            dispatch(startLoading(true))
             let user = await Auth.currentAuthenticatedUser()
             let jwtToken = user.signInUserSession.idToken.jwtToken
-            console.log('email', email)
-            console.log('jwtToken', jwtToken)
             let userProfileRes = await axios.post(config.userProfile, {
                 email
             }, {
@@ -117,8 +116,10 @@ const ProvideEmailScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStack
                     Authorization: jwtToken //the token is a variable which holds the token
                 },
             })
-            console.log('userProfileRes', userProfileRes)
             setErrMsg("")
+
+            dispatch(startLoading(false))
+
             navigation.navigate(RouteStacks.validationCode, {
                 email: email,
                 action: 'registerEmail'

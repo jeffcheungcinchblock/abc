@@ -5,7 +5,7 @@ import {
   WelcomeGalleryScreen, ForgotPasswordScreen, WelcomeScreen, CreateNewPasswordScreen
 } from '@/Screens/Auth'
 import { RouteStacks } from "@/Navigators/routes"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { login } from "@/Store/Users/actions"
 import EnterInvitaionCodeScreen from "@/Screens/Auth/EnterInvitaionCodeScreen"
 import { createStackNavigator, StackScreenProps } from "@react-navigation/stack"
@@ -47,6 +47,7 @@ const AuthNavigator = () => {
       }}
       initialRouteName={RouteStacks.welcome}
     >
+
       <Stack.Screen name={RouteStacks.signUpWithCode} component={SignUpWithCodeScreen} />
       <Stack.Screen name={RouteStacks.welcomeGallery} component={WelcomeGalleryScreen} />
       <Stack.Screen name={RouteStacks.welcome} component={WelcomeScreen} />

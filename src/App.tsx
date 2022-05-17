@@ -111,6 +111,7 @@ const urlOpener = async (url: string, redirectUrl: string) => {
   console.log('redirectUrl ', redirectUrl, url)
   try {
     if (redirectUrl === `${config.urlScheme}${RouteStacks.signIn}` && await InAppBrowser.isAvailable()) {
+      // const authRes: any = await InAppBrowser.open(url)
       const authRes: any = await InAppBrowser.openAuth(url, redirectUrl, {
         showTitle: false,
         enableUrlBarHiding: true,
@@ -119,6 +120,8 @@ const urlOpener = async (url: string, redirectUrl: string) => {
       });
 
       const { type, url: newUrl } = authRes
+
+      // console.log('authRes ', authRes)
       // await new Promise(resolve => setTimeout(() => resolve(""), 1000));
       // const { attributes, username } = getUser()
       // console.log("### username ", username, newUrl)
@@ -171,7 +174,6 @@ const App = () => {
   }
 
   useEffect(() => {
-    console.log("Initialized firebae")
     RNBootSplash.hide({fade: true});
 
     requestUserPermission()

@@ -133,13 +133,10 @@ const VerificationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteS
             })
         } else if (params.action === 'registerEmail') {
             try {
+                dispatch(startLoading(true))
+
                 let user = await Auth.currentAuthenticatedUser()
                 let jwtToken = user.signInUserSession.idToken.jwtToken
-
-                console.log("### ", {
-                    emailVerificationCode: validationCode,
-                    jwtToken
-                })
 
                 let referralConfirmationRes = await axios.post(config.emailVerification, {
                     emailVerificationCode: validationCode
@@ -149,9 +146,16 @@ const VerificationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteS
                     },
                 })
 
-                console.log('referralConfirmationRes ', referralConfirmationRes)
+                dispatch(login({
+                    email: params.email,
+                    username: user.username
+                }))
+
             } catch (err) {
                 console.log('err ', err)
+                setErrMsg(t("error.invalidVerificationCode"))
+            } finally {
+                dispatch(startLoading(false))
             }
 
         } else {
@@ -172,6 +176,8 @@ const VerificationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteS
             }
         }
 
+
+
     }, [validationCode, params, newPassword])
 
     const onPasswordChange = (text: string) => {
@@ -189,7 +195,7 @@ const VerificationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteS
 
     const onResendVerificationCodePress = async () => {
         if (!canResendVeriCode) return
-
+        dispatch(startLoading(true))
         try {
             setCurrUntil(resendVeriCodeTime)
             setCanResendVeriCode(false)
@@ -210,6 +216,7 @@ const VerificationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteS
             } else {
                 await Auth.resendSignUp(emailUsernameHash(params.email))
             }
+
         } catch (err: any) {
             switch (err.message) {
                 case "Attempt limit exceeded, please try after some time.":
@@ -218,6 +225,8 @@ const VerificationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteS
                     break
 
             }
+        } finally {
+            dispatch(startLoading(false))
         }
     }
 

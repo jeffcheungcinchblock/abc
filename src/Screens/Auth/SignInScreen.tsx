@@ -53,6 +53,7 @@ import StandardInput from '@/Components/Inputs/StandardInput'
 import ModalBox, { ModalProps } from 'react-native-modalbox';
 import { useFocusEffect } from '@react-navigation/native'
 import SlideInputModal from '@/Components/Modals/SlideInputModal'
+import axios from 'axios'
 
 
 const LOGIN_BUTTON: ViewStyle = {
@@ -132,10 +133,20 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
             switch (event) {
                 case 'signIn':
                 case 'cognitoHostedUI':
-                    getUser().then(userData => {
+                    getUser().then(async(userData) => {
+                        let jwtToken = userData?.signInUserSession?.idToken?.jwtToken
+
+                        const userProfileRes = await axios.get(config.userProfile, {
+                            headers: {
+                                Authorization: jwtToken //the token is a variable which holds the token
+                            }
+                        })
+                        const { email, uuid } = userProfileRes?.data
+
                         dispatch(login({
                             username: userData.username,
-                            email: userData.email, // FederatedSignedIn doesnt have email exposed
+                            email: userData.email,
+                            uuid
                         }))
                         dispatch(startLoading(false))
                     });
@@ -168,10 +179,19 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
             if (loginOpt === 'normal') {
                 const user = await Auth.signIn(emailUsernameHash(credential.email), credential.password)
                 let { attributes, username } = user
+                let jwtToken = user?.signInUserSession?.idToken?.jwtToken
+
+                const userProfileRes = await axios.get(config.userProfile, {
+                    headers: {
+                        Authorization: jwtToken //the token is a variable which holds the token
+                    }
+                })
+                const { email, uuid } = userProfileRes?.data
 
                 dispatch(login({
                     email: attributes.email,
                     username,
+                    uuid
                 }))
 
                 setIsLoggingIn(true)
@@ -231,7 +251,7 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
     const goBack = () => {
         navigation.navigate(RouteStacks.welcome)
     }
-    
+
     const onModalClose = () => {
         navigation.navigate(RouteStacks.welcome)
     }
@@ -299,11 +319,11 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                             placeholderTextColor={colors.spanishGray}
 
                         />
-                         {
+                        {
                             <Text style={ERR_MSG_TEXT}>{errMsg.email}</Text>
                         }
                     </View>
-                    
+
 
                     <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT]}>
                         <StandardInput
@@ -315,7 +335,7 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                             showPassword={showPassword}
                             onPasswordEyePress={onPasswordEyePress}
                         />
-                         {
+                        {
                             <Text style={ERR_MSG_TEXT}>{errMsg.password}</Text>
                         }
                     </View>
@@ -329,12 +349,12 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                                 width: "45%",
                             }}
                         />
-                        <Pressable style={[Layout.fullWidth, Layout.center, {marginBottom: 30, marginTop: 10}]}
+                        <Pressable style={[Layout.fullWidth, Layout.center, { marginBottom: 30, marginTop: 10 }]}
                             onPress={onForgotPasswordPress}
                         >
-                            <Text style={{color: colors.white, textDecorationLine: "underline"}}>{t("forgotPassword")}</Text>
+                            <Text style={{ color: colors.white, textDecorationLine: "underline" }}>{t("forgotPassword")}</Text>
                         </Pressable>
-                        
+
                         <View style={{ flexDirection: "row" }}>
                             <Text style={{ color: colors.white }}>{t("dontHaveAnAccount")}</Text>
                             <Pressable style={{ paddingLeft: 6 }} onPress={() => navigation.navigate(RouteStacks.signUp)}>
@@ -342,7 +362,7 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                             </Pressable>
                         </View>
                     </View>
-               
+
                 </SlideInputModal>
 
             </KeyboardAwareScrollView>

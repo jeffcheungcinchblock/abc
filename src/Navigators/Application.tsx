@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Dimensions, Image, ImageBackground, Linking, Pressable, SafeAreaView, StatusBar, Text, View } from 'react-native'
 import { createStackNavigator, TransitionSpecs } from '@react-navigation/stack'
-import { LinkingOptions, NavigationContainer, NavigationContainerRefWithCurrent } from '@react-navigation/native'
+import { LinkingOptions, NavigationContainer, NavigationContainerRefWithCurrent, useNavigation } from '@react-navigation/native'
 import { StartupContainer } from '@/Screens'
 import { useTheme } from '@/Hooks'
 import MainNavigator, { DrawerNavigatorParamList } from './MainNavigator'
@@ -24,16 +24,16 @@ import { startLoading } from '@/Store/UI/actions'
 import SnackBar from 'react-native-snackbar-component'
 import { RootState } from '@/Store'
 import SnackbarMsgContainer from '@/Components/SnackbarMsgContainer'
-import { colors } from '@/Utils/constants'
+import { colors, config } from '@/Utils/constants'
 
 // @ts-ignore
 import Video from 'react-native-video'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import axios from 'axios'
 
 export type ApplicationNavigatorParamList = {
   [RouteStacks.startUp]: undefined
   [RouteStacks.application]: undefined
-  BgVideo: undefined
   // 🔥 Your screens go here
 }
 const Stack = createStackNavigator<ApplicationNavigatorParamList>()
@@ -55,10 +55,27 @@ const ApplicationNavigator = () => {
 
         let { attributes, username } = user
 
-        dispatch(login({
-          email: attributes.email,
-          username,
-        }))
+        let jwtToken = user?.signInUserSession?.idToken?.jwtToken
+
+        const userProfileRes = await axios.get(config.userProfile, {
+          headers: {
+            Authorization: jwtToken //the token is a variable which holds the token
+          }
+        })
+        const { email, uuid } = userProfileRes?.data
+
+        if (email) {
+          dispatch(login({
+            username: username,
+            email: attributes.email, 
+            uuid
+          }))
+          dispatch(startLoading(false))
+        } else {
+          publicNavigationRef.navigate(RouteStacks.provideEmail)
+          dispatch(startLoading(false))
+        }
+
       } catch (err) {
         console.log(err)
       } finally {
@@ -66,7 +83,7 @@ const ApplicationNavigator = () => {
       }
     }
 
-    if(!isLoggedIn){
+    if (!isLoggedIn) {
       retrieveLoggedInUser()
     }
 

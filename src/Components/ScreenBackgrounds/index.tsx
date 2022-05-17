@@ -37,7 +37,7 @@ const ScreenImageMap: any = {
     [RouteStacks.socialMain]: bg2,
     [RouteStacks.marketplaceMain]: bg2,
     [RouteStacks.setting]: bg2,
-    [RouteStacks.socialSignInEnterEmail]: bg2,
+    [RouteStacks.provideEmail]: bg2,
 
 }
 
