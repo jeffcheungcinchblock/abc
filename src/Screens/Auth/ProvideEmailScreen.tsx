@@ -39,6 +39,7 @@ import { startLoading } from '@/Store/UI/actions'
 import WhiteInput from '@/Components/Inputs/WhiteInput'
 import StandardInput from '@/Components/Inputs/StandardInput'
 import { emailUsernameHash } from '@/Utils/helpers'
+import axios from 'axios'
 
 const TEXT_INPUT = {
     height: 40,
@@ -82,7 +83,7 @@ const FOCUSED_CELL = {
 
 }
 
-const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.validationCode>> = (
+const ProvideEmailScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.provideEmail>> = (
     { navigation, route }
 ) => {
     const { t } = useTranslation()
@@ -94,10 +95,6 @@ const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
     const ref = useBlurOnFulfill({ value: validationCode, cellCount: 6 });
     const [errMsg, setErrMsg] = useState("")
     const [email, setEmail] = useState("")
-    const [focusCellProps, getCellOnLayoutHandler] = useClearByFocusCell({
-        value: validationCode,
-        setValue: setValidationCode,
-    });
 
     const goBack = () => {
         navigation.navigate(RouteStacks.signIn)
@@ -109,13 +106,25 @@ const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
 
     const onConfirmPress = async () => {
         try {
-            await Auth.forgotPassword(emailUsernameHash(email))
+            let user = await Auth.currentAuthenticatedUser()
+            let jwtToken = user.signInUserSession.idToken.jwtToken
+            console.log('email', email)
+            console.log('jwtToken', jwtToken)
+            let userProfileRes = await axios.post(config.userProfile, {
+                email
+            }, {
+                headers: {
+                    Authorization: jwtToken //the token is a variable which holds the token
+                },
+            })
+            console.log('userProfileRes', userProfileRes)
+            setErrMsg("")
             navigation.navigate(RouteStacks.validationCode, {
                 email: email,
-                action: 'forgotPassword'
+                action: 'registerEmail'
             })
         } catch (err: any) {
-            console.log('err ', err)
+            console.log('err ', JSON.stringify(err))
             setErrMsg(err.message)
         }
     }
@@ -133,7 +142,7 @@ const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
             >
                 <Header
                     onLeftPress={goBack}
-                    headerText={t("forgotPassword")}
+                    headerText={t("enterEmail")}
                 />
                 <View style={[{
                     flexGrow: 6
@@ -141,7 +150,7 @@ const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
 
                     <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 60 }]}>
                         <Text style={[{ color: colors.white, fontWeight: "bold", lineHeight: 26 }, Fonts.textSmall, Fonts.textLeft]}>
-                            {t('forgotPasswordPrompt')}
+                            {t('enterEmailPrompt')}
                         </Text>
                     </View>
 
@@ -161,7 +170,7 @@ const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
                     </View>
 
                     <View style={[CONTENT_ELEMENT_WRAPPER, { flex: 2, justifyContent: "flex-start" }]}>
-                        
+
                     </View>
 
                 </View>
@@ -169,12 +178,12 @@ const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
                 <View style={[Layout.fullWidth, Layout.center, { flex: 1, justifyContent: "flex-start" }]}>
                     <TurquoiseButton
                         text={t("confirm")}
-                        onPress={onConfirmPress} 
+                        onPress={onConfirmPress}
                         containerStyle={{
                             width: "45%"
                         }}
                         isTransparentBackground
-                        />
+                    />
                 </View>
 
             </KeyboardAwareScrollView>
@@ -182,4 +191,4 @@ const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
     )
 }
 
-export default ForgotPasswordScreen
+export default ProvideEmailScreen

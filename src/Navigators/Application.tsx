@@ -25,6 +25,8 @@ import SnackBar from 'react-native-snackbar-component'
 import { RootState } from '@/Store'
 import SnackbarMsgContainer from '@/Components/SnackbarMsgContainer'
 import { colors } from '@/Utils/constants'
+
+// @ts-ignore
 import Video from 'react-native-video'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 

@@ -119,6 +119,11 @@ const urlOpener = async (url: string, redirectUrl: string) => {
       });
 
       const { type, url: newUrl } = authRes
+      // await new Promise(resolve => setTimeout(() => resolve(""), 1000));
+      // const { attributes, username } = getUser()
+      // console.log("### username ", username, newUrl)
+      // console.log("### attributes ", attributes)
+
       if (type === 'success') {
         Linking.openURL(newUrl);
       } else if (type === 'cancel') {

@@ -2,6 +2,12 @@
 export const config = {
     urlScheme: `com.fitevo://`,
     userAuthInfo: `https://api-dev.dragonevolution.gg/users/auth`,
+    userProfile: `https://api-dev.dragonevolution.gg/users/profile`,
+    userReferralCheck: (referralCode: string) => {
+        return `https://api-dev.dragonevolution.gg/users/referral/${referralCode}/check`
+    },
+    emailVerification: `https://api-dev.dragonevolution.gg/users/email-verification`,
+    
     onelinkUrl: `https://test-dragon-dev.onelink.me/xNJK`, 
     referralConfirmation: `https://api-dev.dragonevolution.gg/users/referral-confirmation`,
     

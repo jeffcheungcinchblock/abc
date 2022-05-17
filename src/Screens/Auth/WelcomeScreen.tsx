@@ -41,7 +41,8 @@ import { startLoading } from '@/Store/UI/actions'
 // @ts-ignore
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth'
 import { emailUsernameHash } from '@/Utils/helpers'
-import Animated, { FadeIn } from 'react-native-reanimated'; 
+import Animated, { FadeIn } from 'react-native-reanimated';
+import axios from 'axios'
 
 const BUTTON_VIEW = {
     marginVertical: 20
@@ -92,22 +93,43 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
         }
 
         const authListener = ({ payload: { event, data } }: any) => {
+            console.log("event ", event)
             switch (event) {
-                case 'signIn':
+                // case 'signIn':
                 case 'cognitoHostedUI':
-                    getUser().then((userData: any) => {
-                        dispatch(login({
-                            username: userData.username,
-                            email: userData.email, // FederatedSignedIn doesnt have email exposed
-                        }))
-                        dispatch(startLoading(false))
-                    });
+                    getUser().then(async (userData: any) => {
+                        let jwtToken = userData?.signInUserSession?.idToken?.jwtToken
+
+                        console.log('jwtToken', jwtToken)
+
+                        const userProfileRes = await axios.get(config.userProfile, {
+                            headers: {
+                                Authorization: jwtToken //the token is a variable which holds the token
+                            }
+                        })
+
+                        const { email } = userProfileRes?.data
+                        console.log('email', email)
+
+                        if (email) {
+                            dispatch(login({
+                                username: userData.username,
+                                email: userData.email, // FederatedSignedIn doesnt have email exposed
+                            }))
+                            dispatch(startLoading(false))
+                        } else{
+                            navigation.navigate(RouteStacks.provideEmail)
+                            dispatch(startLoading(false))
+                        }
+                        
+                    }).catch((err: any) => {
+                        console.log(JSON.stringify(err))
+                    })
                     break;
                 case 'signOut':
                     break;
                 case 'signIn_failure':
                 case 'cognitoHostedUI_failure':
-                    console.log('Sign in failure', data);
                     dispatch(startLoading(false))
                     break;
             }

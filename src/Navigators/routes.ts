@@ -24,16 +24,13 @@ export enum RouteStacks {
     forgotPassword = "forgotPassword",
     signUpWithCode = "signUpWithCode",
     createNewPassword = "createNewPassword", 
-    
-    
+    provideEmail = "provideEmail",
 
 
     // logged in app screens
     homeMain = "homeMain",
     homeReferral = "homeReferral",
     homeInviteState = "homeInviteState",
-
-    socialSignInEnterEmail = "socialSignInEnterEmail",
 
     breedingMain = "breedingMain",
 

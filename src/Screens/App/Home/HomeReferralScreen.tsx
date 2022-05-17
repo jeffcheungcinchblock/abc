@@ -57,17 +57,20 @@ import AppIcon from '@/Components/Icons/AppIcon'
 import reward from '@/Assets/Images/Modal/reward.png'
 import DailyRewardModal from '@/Components/Modals/DailyRewardModal'
 import RuleOfReferralModal from '@/Components/Modals/RuleOfReferralModal'
+import scrollDownBtn from '@/Assets/Images/Home/scroll_down.png'
 
 const PURPLE_COLOR = {
     color: colors.magicPotion
 }
 
 type ReferralInfo = {
+    point: number
     queueNumber: number
     referral: string
     referred: number
-    username: string
     referredBy: string
+    username: string
+    uuid: string
 }
 
 type HomeReferralScreenNavigationProp = CompositeScreenProps<
@@ -90,6 +93,7 @@ const windowHeight = Dimensions.get("window").height
 const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
     { navigation, route }
 ) => {
+    const keyboardAwareScrollViewRef = useRef<any>(null)
     const dailyRewardModalRef = useRef<any>(null)
     const ruleOfReferralModalRef = useRef<any>(null)
     const { t } = useTranslation()
@@ -99,13 +103,14 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
     const [isInvitingFriends, setIsInvitingFriends] = useState(false)
     const [needFetchDtl, setNeedFetchDtl] = useState(true)
     const [fetchedReferralInfo, setFetchedReferralInfo] = useState(false)
-    const [points, setPoints] = useState(25)
     const [referralInfo, setReferralInfo] = useState<ReferralInfo>({
+        point: 0,
         queueNumber: 0,
         referral: "",
         referred: 0,
         username: "",
-        referredBy: ""
+        referredBy: "",
+        uuid: ""
     })
 
     useEffect(() => {
@@ -114,7 +119,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                 let user = await Auth.currentAuthenticatedUser()
                 let jwtToken = user.signInUserSession.idToken.jwtToken
 
-                const authRes = await axios.get(config.userAuthInfo, {
+                const authRes = await axios.get(config.userProfile, {
                     headers: {
                         Authorization: jwtToken //the token is a variable which holds the token
                     }
@@ -205,8 +210,6 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
 
     }
 
-
-
     const onLogoutPress = async () => {
         dispatch(startLoading(true))
         await awsLogout()
@@ -227,7 +230,12 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
 
     const onInfoBtnPress = () => {
         ruleOfReferralModalRef?.current?.open()
-        
+
+    }
+
+    const onScrollDownPress = () => {
+        console.log('keyboardAwareScrollViewRef?.current', keyboardAwareScrollViewRef?.current)
+        keyboardAwareScrollViewRef?.current?.scrollToEnd()
     }
 
     return (
@@ -247,7 +255,12 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                 onActionBtnPress={onCloseBtnPress}
             />
 
+            <Pressable onPress={onScrollDownPress} style={{ position: "absolute", bottom: 20, right: 20, zIndex: 2 }}>
+                <Image source={scrollDownBtn} style={{}} />
+            </Pressable>
+
             <KeyboardAwareScrollView
+                ref={keyboardAwareScrollViewRef}
                 contentContainerStyle={[
                     Layout.colCenter,
                 ]}
@@ -260,7 +273,6 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                     />
                 }
             >
-
                 <Header
                     headerText={t("dashboard")}
                     rightIcon={() => <MaterialCommunityIcons name="logout" color={colors.white} size={24} />}
@@ -275,11 +287,11 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                     justifyContent: "center"
                 }}>
                     <CircularProgress
-                        value={points}
+                        value={referralInfo.point}
                         radius={110}
                         duration={2000}
                         progressValueColor={colors.transparent}
-                        maxValue={200}
+                        maxValue={1000}
                         activeStrokeColor={colors.brightTurquoise}
                         strokeLinecap={"butt"}
                         inActiveStrokeWidth={14}
@@ -307,7 +319,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                             <Text style={{
                                 color: colors.white, fontSize: 40, fontWeight: "bold",
                                 textAlign: "center"
-                            }}>{points.toFixed(2)}</Text>
+                            }}>{referralInfo.point.toFixed(2)}</Text>
                         </View>
                     </View>
 
@@ -346,13 +358,14 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                     ]}>
                         <TextInput
                             value={referralInfo.referral}
+                            editable={false}
                             style={{
                                 color: colors.white,
                                 backgroundColor: colors.chineseBlack,
                                 borderRadius: 10,
                                 width: '100%',
                                 paddingHorizontal: 20,
-                                height: 40,
+                                height: 44,
                                 fontSize: 16
                             }}
                         />
@@ -418,7 +431,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                     <Text style={[{ fontSize: 14, color: colors.white }]}>{t("shareReferralLink")}</Text>
                 </View>
 
-                <View style={[Layout.fullWidth, { height: 80, paddingHorizontal: 40, justifyContent: "flex-start", alignItems: "flex-start", flexDirection: "row" }]}>
+                <View style={[Layout.fullWidth, { height: 60, paddingHorizontal: 40, justifyContent: "flex-start", alignItems: "flex-start", flexDirection: "row" }]}>
                     <Ionicons name="people-outline" color={colors.white} size={20} style={{ marginRight: 20 }} />
                     <Text style={[{ fontSize: 14, color: colors.white, flexShrink: 1 }]}>{t("stakeForARubyCard")}</Text>
                 </View>

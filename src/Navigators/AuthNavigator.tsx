@@ -13,10 +13,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import { navigationRef } from "./utils"
 import { LinkingOptions, NavigationContainerRefWithCurrent, Route } from "@react-navigation/native"
 import { StartupContainer } from "@/Screens"
+import ProvideEmailScreen from "@/Screens/Auth/ProvideEmailScreen"
 
 type ValidationCodeParam = {
   email: string,
-  action: 'forgotPassword' | 'signUp' | 'resendSignUp',
+  action: 'forgotPassword' | 'signUp' | 'resendSignUp' | 'registerEmail',
   code?: string
 }
 
@@ -30,6 +31,7 @@ export type AuthNavigatorParamList = {
   [RouteStacks.forgotPassword]: undefined
   [RouteStacks.signUpWithCode]: undefined
   [RouteStacks.createNewPassword]: { validationCode: string, email: string }
+  [RouteStacks.provideEmail]: undefined
   // 🔥 Your screens go here
 }
 const Stack = createStackNavigator<AuthNavigatorParamList>()
@@ -54,6 +56,7 @@ const AuthNavigator = () => {
       <Stack.Screen name={RouteStacks.validationCode} component={ValidationCodeScreen} />
       <Stack.Screen name={RouteStacks.forgotPassword} component={ForgotPasswordScreen} />
       <Stack.Screen name={RouteStacks.createNewPassword} component={CreateNewPasswordScreen} />
+      <Stack.Screen name={RouteStacks.provideEmail} component={ProvideEmailScreen} />
     </Stack.Navigator>
   )
 }

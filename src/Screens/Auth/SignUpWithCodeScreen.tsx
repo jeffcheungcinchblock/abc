@@ -115,18 +115,7 @@ const SignUpWithCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
     const onLoginOptionPress = async (loginOpt: string) => {
         dispatch(startLoading(true))
         try {
-            if (loginOpt === 'normal') {
-                const user = await Auth.signIn(credential.username, credential.password)
-                let { attributes, username } = user
-
-                dispatch(login({
-                    email: attributes.email,
-                    username,
-                }))
-
-                setIsLoggingIn(true)
-
-            } else if (loginOpt === 'facebook') {
+            if (loginOpt === 'facebook') {
                 await Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Facebook })
             } else if (loginOpt === 'apple') {
                 await Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Apple })
@@ -134,6 +123,7 @@ const SignUpWithCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
                 await Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Google })
             }
 
+            
         } catch (err: any) {
 
             switch (err.message) {
@@ -184,7 +174,7 @@ const SignUpWithCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
                 ]}
             >
                 <Header
-                    headerText=" "
+                    headerText={t("createNewAccount")}
                     onLeftPress={goBack}
                 />
                 <View style={{
@@ -219,12 +209,12 @@ const SignUpWithCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
                                     flexDirection: "row",
                                     paddingVertical: 10,
                                     paddingHorizontal: 20,
-                                    height: 48,
+                                    height: 44,
                                     alignItems: "center",
                                 }}
                             >
-                                <Image source={googleIcon} style={{ width: 30, height: 30, resizeMode: "contain" }} />
-                                <Text style={{ color: colors.white, marginLeft: 20 }}>{t("continueWithGoogleAllCapital")}</Text>
+                                <Image source={googleIcon} style={{ width: 22, height: 22, resizeMode: "contain" }} />
+                                <Text style={{ color: colors.white, marginLeft: 20, flex: 1, textAlign: "center" }}>{t("continueWithGoogleAllCapital")}</Text>
                             </Pressable>
                         </View>
 
@@ -243,12 +233,12 @@ const SignUpWithCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
                                     flexDirection: "row",
                                     paddingVertical: 10,
                                     paddingHorizontal: 20,
-                                    height: 46,
+                                    height: 44,
                                     alignItems: "center",
                                 }}
                             >
-                                <Image source={facebookIcon} style={{ width: 30, height: 30, resizeMode: "contain" }} />
-                                <Text style={{ color: colors.white, marginLeft: 20 }}>{t("continueWithFacebookAllCapital")}</Text>
+                                <Image source={facebookIcon} style={{ width: 22, height: 22, resizeMode: "contain" }} />
+                                <Text style={{ color: colors.white, marginLeft: 20, flex: 1, textAlign: "center" }}>{t("continueWithFacebookAllCapital")}</Text>
                             </Pressable>
                         </View>
 
@@ -268,12 +258,12 @@ const SignUpWithCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
                                     flexDirection: "row",
                                     paddingVertical: 10,
                                     paddingHorizontal: 20,
-                                    height: 46,
+                                    height: 44,
                                     alignItems: "center",
                                 }}
                             >
-                                <Image source={appleIcon} style={{ width: 30, height: 30, resizeMode: "contain" }} />
-                                <Text style={{ color: colors.black, marginLeft: 20 }}>{t("continueWithAppleAllCapital")}</Text>
+                                <Image source={appleIcon} style={{ width: 22, height: 22, resizeMode: "contain" }} />
+                                <Text style={{ color: colors.black, marginLeft: 20, flex: 1, textAlign: "center" }}>{t("continueWithAppleAllCapital")}</Text>
                             </Pressable>
                         </View>
 
@@ -295,7 +285,7 @@ const SignUpWithCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
                                     flexDirection: "row",
                                     paddingVertical: 10,
                                     paddingHorizontal: 20,
-                                    height: 46,
+                                    height: 44,
                                     alignItems: "center",
                                 }}
                             >
