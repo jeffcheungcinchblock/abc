@@ -1,54 +1,22 @@
-<manifest
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.fitevo"
->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
-    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
-    <application
-      android:name=".MainApplication"
-      android:label="@string/app_name"
-      android:icon="@mipmap/ic_launcher"
-      android:roundIcon="@mipmap/ic_launcher_round"
-      android:allowBackup="false"
-      android:theme="@style/BootTheme"
-    >
-      <!-- <activity
-        android:name=".SplashActivity"
-        android:theme="@style/BootTheme"
-        android:label="@string/app_name"
-        android:exported="true"
-      >
-        <intent-filter>
-          <action android:name="android.intent.action.MAIN" />
-          <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-      </activity> -->
-
-      <activity
-          android:name=".MainActivity"
-          android:label="@string/app_name"
-          android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
-          android:launchMode="singleTask"
-          android:windowSoftInputMode="adjustResize" 
-          android:exported="true">
-        <intent-filter android:autoVerify="true">
-          <action android:name="android.intent.action.MAIN" />
-          <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-
-        <intent-filter android:autoVerify="true">
-          <action android:name="android.intent.action.VIEW"/>
-          <category android:name="android.intent.category.DEFAULT"/>
-          <category android:name="android.intent.category.BROWSABLE"/>
-          <data android:scheme="https"
-            android:host="test-dragon-dev.onelink.me"
-            android:pathPrefix="/xNJK" />
-          <data android:host="fitevo.page.link" android:scheme="http"/>
-          <data android:host="fitevo.page.link" android:scheme="https"/>
-          <data android:scheme="com.fitevo" />
-
-        </intent-filter>
-      </activity>
-    </application>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.fitevo">
+  <uses-permission android:name="android.permission.INTERNET"/>
+  <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
+  <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
+  <application android:name=".MainApplication" android:label="@string/app_name" android:icon="@mipmap/ic_launcher" android:roundIcon="@mipmap/ic_launcher_round" android:allowBackup="false" android:theme="@style/BootTheme">
+    <activity android:name=".MainActivity" android:label="@string/app_name" android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode" android:launchMode="singleTask" android:windowSoftInputMode="adjustResize" android:exported="true">
+      <intent-filter android:autoVerify="true">
+        <action android:name="android.intent.action.MAIN"/>
+        <category android:name="android.intent.category.LAUNCHER"/>
+      </intent-filter>
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <data android:scheme="com.fitevo"/>
+        <!-- <data android:scheme="https" android:host="test-dragon-dev.onelink.me" android:pathPrefix="/xNJK"/> -->
+        <!-- <data android:host="fitevo.page.link" android:scheme="http"/>
+        <data android:host="fitevo.page.link" android:scheme="https"/> -->
+      </intent-filter>
+    </activity>
+  </application>
 </manifest>

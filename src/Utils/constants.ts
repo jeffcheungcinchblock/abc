@@ -1,6 +1,7 @@
 
 export const config = {
     urlScheme: `com.fitevo://`,
+    dynamicLink: `https://fitevo.page.link/xEYL`,
     userAuthInfo: `https://api-dev.dragonevolution.gg/users/auth`,
     userProfile: `https://api-dev.dragonevolution.gg/users/profile`,
     userReferralCheck: (referralCode: string) => {
@@ -37,5 +38,5 @@ export const colors = {
     darkGunmetal: "#151C35",
     jacarta: "#38405E",
     philippineSilver: "#B5B5B5",
-    
+
 }

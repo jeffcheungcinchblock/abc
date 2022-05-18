@@ -170,7 +170,7 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
             >
 
                 <Header
-                    headerText={t("activationCode")}
+                    headerText={t("referralCode")}
                     onLeftPress={goBack}
                 />
 

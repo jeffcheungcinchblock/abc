@@ -10,7 +10,7 @@ import { config } from "@/Utils/constants";
 export const publicNavigationRef = createNavigationContainerRef<AuthNavigatorParamList>()
 export const privateNavigationRef = createNavigationContainerRef<DrawerNavigatorParamList>()
 
-const prefixes = [config.urlScheme]
+const prefixes = [config.urlScheme, config.dynamicLink]
 
 const getInitialURL = async (): Promise<string> => {
 

@@ -60,11 +60,6 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
 
 
     const [errMsg, setErrMsg] = useState(" ")
-    const [credential, setCredential] = useState({
-        email: "",
-        password: ""
-    })
-
     
     useEffect(() => {
             // navigation.navigate(RouteStacks.welcomeGallery)
@@ -100,12 +95,10 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
         }
 
         const authListener = async ({ payload: { event, data } }: any) => {
-            console.log("event ", event)
+            console.log("authListener event ", event)
             switch (event) {
-                // case 'signIn':
                 case 'cognitoHostedUI':
-
-                    await InAppBrowser.close()
+                    console.log("@@@@!")
                     getUser().then(async (userData: any) => {
                         let jwtToken = userData?.signInUserSession?.idToken?.jwtToken
                         console.log('jwtToken', jwtToken)
@@ -138,6 +131,8 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
                 case 'cognitoHostedUI_failure':
                     dispatch(startLoading(false))
                     break;
+                default:
+                    break;
             }
         }
 
@@ -156,18 +151,7 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
     const onLoginOptionPress = async (loginOpt: string) => {
         dispatch(startLoading(true))
         try {
-            if (loginOpt === 'normal') {
-                const user = await Auth.signIn(emailUsernameHash(credential.email), credential.password)
-                let { attributes, username } = user
-
-                dispatch(login({
-                    email: attributes.email,
-                    username,
-                }))
-
-                setIsLoggingIn(true)
-
-            } else if (loginOpt === 'facebook') {
+            if (loginOpt === 'facebook') {
                 await Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Facebook })
             } else if (loginOpt === 'apple') {
                 await Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Apple })
