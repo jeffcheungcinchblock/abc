@@ -6,6 +6,7 @@ import {
 	Platform,
 	View,
 	TextProps,
+	Image
 } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { StackScreenProps } from '@react-navigation/stack'
@@ -22,7 +23,7 @@ import { ActivityType } from '@/Store/Map/reducer'
 import { RouteStacks } from '@/Navigators/routes'
 import { WorkoutNavigatorParamList } from '@/Screens/App/WorkoutScreen'
 import { DrawerNavigatorParamList, TabNavigatorParamList } from '@/Navigators/MainNavigator'
-import ScreenBackgrounds from '@/Components/ScreenBackgrounds'
+import MapScreenBackgrounds from '@/Components/MapScreenBackgrounds'
 import axios from 'axios'
 import { colors, config } from '@/Utils/constants'
 
@@ -38,6 +39,11 @@ import { use } from 'i18next'
 // import BackgroundTimer from 'react-native-background-timer'
 import { any } from 'prop-types'
 import moment from 'moment'
+import SpeedIcon from '@/Assets/Images/map/speed_crystal.png'
+import TimerLogo from '@/Assets/Images/map/timer_crystal.png'
+import StepLogo from '@/Assets/Images/map/step.png'
+import {speedconst} from '@/Utils/constants'
+import { FontSize } from '@/Theme/Variables'
 
 
 type WorkoutScreenScreenNavigationProp = CompositeScreenProps<
@@ -54,11 +60,32 @@ const styles = StyleSheet.create({
 		width: 400,
 		alignItems: 'center',
 	},
-	map: {
-		...StyleSheet.absoluteFillObject,
+	header:{
+		backgroundColor:colors.darkGunmetal
+	},
+	distanceTextStyle:{
+		fontSize: 100,
+		fontWeight:'700',
+		// lineHeight:150,
+		color: colors.brightTurquoise,
+	},
+
+	mapDistanceText:{
+		alignSelf:'center',
+		alignItems:'center',
+		fontSize: 20,
+		fontWeight: 'bold',
+		color:colors.crystal
+	},
+
+	mapText : {
+		marginLeft:10,
+		fontSize: 18,
+		fontWeight: 'bold',
 	},
 	container:{
 		flex:1,
+		backgroundColor: 'transparent',
 	},
 	statusBarContainer: {
 		flexDirection: 'row',
@@ -71,6 +98,10 @@ const styles = StyleSheet.create({
 		flex:3,
 		backgroundColor: colors.darkGunmetal,
 		color:'#fff',
+		borderTopLeftRadius:10,
+		borderTopRightRadius:10,
+		// borderWidth:1,
+
 	},
 	dataPaddingContainer:{
 		flex:3,
@@ -102,11 +133,36 @@ const styles = StyleSheet.create({
 		borderWidth: 2,
 		backgroundColor:'transparent',
 		width: '40%',
-
 	},
 	stateStopButtonText:{
-		// color:'whit',
 		color:'red'
+	},
+	rowContentContainer : {
+		flexDirection: 'row',
+		alignItems:'center',
+		alignContent:'center',
+		width:'100%',
+		justifyContent:'center',
+	},
+	rowContentContainer2 : {
+		flexDirection: 'row',
+		justifyContent:'space-around',
+		display:'flex',
+		// height:100,
+		width:'100%',
+		marginTop: 20,
+
+	},
+	colContentContainer : {
+		flexDirection: 'column',
+		alignItems:'center',
+		width:'100%',
+		// height:50,
+	},
+	contentContainer: {
+		display: 'flex',
+		width:'100%',
+		
 	},
 })
 
@@ -130,15 +186,12 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 	const heartRate = useSelector((state:any) => state.map.heartRate)
 	const paths = useSelector((state:any) => state.map.paths)
 	const currentState = useSelector((state:any) => state.map.currentState)
+	const overSpeed = useSelector((state:any) => state.map.overSpeed)
+	const overSpeedPaths = useSelector((state:any) => state.map.overSpeedPaths)
 	const username = useSelector((state:any)=> state.user.uuid)
-	const [ enabled, setEnabled ] = useState(false)
-	const [ isReady, setIsReady ] = useState(false)
 	const [ startRegion, setStartRegion ] = useState<Region|null>(null)
-	const [ isSettedRegion, setIsSettedRegion ] = useState(false)
-	const [ isStopped, setIsStopped ] = useState(false)
 	const [ timer, setTimer ] = useState(0)
 	const [ speed, setSpeed ] = useState(0)
-	const [ loading, setLoading ] = useState(false)
     const endWorkoutModalRef = useRef<any>(null)
 
 	useEffect(() => {
@@ -169,16 +222,50 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 			if (currentState !== ActivityType.PAUSE && startTime !== null && startTime !== undefined){
 				if (location.coords && location.coords.latitude && location.coords.longitude && location.is_moving === true && location.coords.speed != -1)
 				{
-					if (location.coords.speed && location.coords.speed <= 12 && location.coords.speed >= 0){
-						const new_cal = health_kit.GetCaloriesBurned(new Date(startTime), new Date())
-						const new_step = health_kit.GetSteps(new Date(startTime), new Date())
-						const new_heartrate = health_kit.GetHeartRates( new Date(startTime), new Date())
+					if(!location.coords.speed){
+						return
+					}
+					console.log('speed', location.coords.speed)
+					if(location.coords.speed! <= speedconst.runningLowerLimit){
+						return
+					}
+					if (location.coords.speed! >= speedconst.runningUpperLimit && currentState !== ActivityType.OVERSPEED){
+						dispatch({type:'overSpeed',payload:{startOverSpeedTime: (new Date).getTime()}})
+						console.log('Over speed')
+						return
+					}
+					if (location.coords.speed! <= speedconst.runningUpperLimit && currentState === ActivityType.OVERSPEED){
+					
+						const pauseStateTime = paths[paths.length - 1].pauseTime
+						const ReduceStep =  health_kit.GetSteps(new Date(pauseStateTime), new Date())
+						const ReduceCalories = health_kit.GetCaloriesBurned(new Date(pauseStateTime), new Date())
+						Promise.all([ReduceStep,ReduceCalories]).then((result)=>{
+							dispatch({ type:'returnToNormalSpeed', payload:{ resumeTime:(new Date).getTime(), latitude:location.coords.latitude, longitude:location.coords.longitude, reduceStep:result[0], reduceCalories: result[1] }})
+						}).then(()=>{return})
+					}
+					// if (currentState === ActivityType.OVERSPEED && )
+					
+
+					const new_cal = health_kit.GetCaloriesBurned(new Date(startTime), new Date())
+					const new_step = health_kit.GetSteps(new Date(startTime), new Date())
+					const new_heartrate = health_kit.GetHeartRates( new Date(startTime), new Date())
+				
+					const pauseStateTime = paths[paths.length - 1].pauseTime
+					const ReduceStep =  health_kit.GetSteps(new Date(pauseStateTime), new Date())
+					const ReduceCalories =  health_kit.GetCaloriesBurned(new Date(pauseStateTime), new Date())
+
+					if (currentState === ActivityType.OVERSPEED){
+						Promise.all([ new_cal, new_step, new_heartrate ]).then((result)=>{
+							dispatch({ type:'overSpeedMoving', payload:{ latitude:location.coords.latitude, longitude:location.coords.longitude
+							} })
+						})
+						
+					}
+					if (currentState === ActivityType.MOVING){
 						Promise.all([ new_cal, new_step, new_heartrate ]).then((result)=>{
 							dispatch({ type:'move', payload:{ latitude:location.coords.latitude, longitude:location.coords.longitude,
 								calories:result[0], steps:result[1], heartRate:result[2] } })
 						})
-					} else {
-						console.log('moving too fast')
 					}
 				} else {
 					console.log('not moving')
@@ -211,17 +298,14 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 				setStartRegion({ latitude:location.coords.latitude, longitude:location.coords.longitude, latitudeDelta:0.0922, longitudeDelta:0.0421 })
 			})
 		})
-
 		return () => {
 			onLocation.remove()
 		}
 	}, [])
-
 	useEffect(()=>{
 		BackgroundGeolocation.changePace(true)
 		BackgroundGeolocation.start()
 	},[startRegion])
-
 
 	const StopRunningSession = async() => {
 		await BackgroundGeolocation.changePace(false)
@@ -229,6 +313,8 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 		dispatch({ type:'stop', payload:{ endTime: (new Date()).getTime() } })
 		// setIsStopped(true)
 		try{
+			const paths_string = JSON.stringify(paths)
+			const over_speed_paths_string = JSON.stringify(overSpeedPaths)
 			const data = {
 				startTime : startTime,
 				endTime : (new Date()).getTime(),
@@ -236,72 +322,38 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 				calories : calories,
 				steps: steps,
 				heartRate: heartRate,
-				paths: paths,
+				paths: paths_string,
 				username: username,
+				timer: timer,
+				speed: speed,
+				overSpeedPath: over_speed_paths_string
 			}
 			console.log('data get', data)
 			let response = await axios.post('https://85vamr0pne.execute-api.us-west-2.amazonaws.com/dev/sessions', data)
-			// navigation.replace(RouteStacks.endWorkout, data)
-			console.log('response', response)
-
+			navigation.replace(RouteStacks.endWorkout, data)
+		
 		}catch(err){
 			console.log('err', err)
 		}
 		
 	}
 
-	const onCloseBtnPress = async() => {
-
-	}
-	// useEffect(()=>{
-	// 	if (isStopped === false) {return}
-	// 	try {
-	// 		console.log('stop')
-	// 		const data = {
-	// 			startTime : startTime,
-	// 			endTime : endTime,
-	// 			distance: distance,
-	// 			calories : calories,
-	// 			steps: steps,
-	// 			heartRate: heartRate,
-	// 			paths: paths,
-	// 			username: username,
-	// 		}
-	// 		axios({
-	// 			method: 'post',
-	// 			url:'https://85vamr0pne.execute-api.us-west-2.amazonaws.com/dev/sessions',
-	// 			headers: {
-	// 				'Content-Type': 'application/json',
-	// 			},
-	// 			data:data,
-	// 		}).then((result)=>{
-	// 			console.log('result', result)
-	// 			navigation.replace(RouteStacks.endWorkout, data)
-	// 		})
-	// 	} catch (err){
-	// 		console.log('error in ver', err)
-	// 	}
-	// }, [ isStopped ])
-
-
-
 	const PauseRunningSession = async() => {
 		const curTime = new Date()
-		dispatch({ type:'pause', payload:{ pauseTime:curTime } })
+		dispatch({ type:'pause', payload:{ pauseTime:curTime.getTime() } })
 		await BackgroundGeolocation.changePace(false)
-		console.log('pause')
 	}
 
 	const ResumeRunningSession = async() => {
 		// onTimerStart()
-		const curTime = new Date()
 		let location = await BackgroundGeolocation.getCurrentPosition({ samples: 1,
 			persist: true })
 		const pauseStateTime = paths[paths.length - 1].pauseTime
-		const ReduceStep = await  health_kit.GetSteps(pauseStateTime, new Date())
-		await Promise.resolve(ReduceStep).then((result)=>{
-			dispatch({ type:'resume', payload:{ resumeTime:curTime, latitude : location.coords.latitude, longitude:location.coords.longitude, reduceStep:result } })
-			console.log('resumen', ActivityType[currentState])
+		const ReduceStep = await  health_kit.GetSteps(new Date(pauseStateTime), new Date())
+		const ReduceCalories = await health_kit.GetCaloriesBurned(new Date(pauseStateTime), new Date())
+		await Promise.all([ReduceStep,ReduceCalories]).then((result)=>{
+			//Resume bring to moving state
+			dispatch({ type:'resume', payload:{ resumeTime:(new Date).getTime(), latitude:location.coords.latitude, longitude:location.coords.longitude, reduceStep:result[0], reduceCalories: result[1] }})
 		})
 		await BackgroundGeolocation.changePace(true)
 
@@ -312,17 +364,11 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 	}
 
 	return (
-		<ScreenBackgrounds screenName={RouteStacks.workout}>
-			<EndWorkoutModal
-                ref={endWorkoutModalRef}
-                ke={25}
-                onModalClose={StopRunningSession}
-                onActionBtnPress={StopRunningSession}
-            />
+		<MapScreenBackgrounds screenName={RouteStacks.workout} >
+		
 			<Header
-				// onLeftPress={goBack}
 				headerText={ActivityType[currentState]}
-				style={{ backgroundColor: colors.darkGunmetal }}
+				style={styles.header}
 			/>
 			<View style={[ styles.container ]}>
 				<View style={[ styles.mapContainer ]}>
@@ -333,13 +379,31 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 				{/* <View><Text>{ActivityType[currentState]}</Text></View> */}
 				<View style={[ styles.dataContainer ]}>
 					<View style={[ styles.dataPaddingContainer ]}>
-						<View style={[ styles.statusBarContainer ]}>
+						{/* <View style={[ styles.statusBarContainer ]}>
 							<TokenProgressBar token="Token"/>
 							<EnergyProgressBar energy="Energy"/>
-						</View>
-						<TokenEarned />
-						<NFTDisplay />
+						</View> */}
+						{/* <TokenEarned /> */}
+						{/* <NFTDisplay /> */}
 						{/* <View style={[ styles.pointContainer ]}/> */}
+						<WhiteText style={styles.distanceTextStyle}>{(distance / 1000).toFixed(2)}</WhiteText>
+						<View>
+						<Text style={[ styles.mapDistanceText ]}>Total Kilometers</Text>
+						<View style={[styles.rowContentContainer]}>
+						<Image source={StepLogo} style={{ width: 18.14, height: 20, resizeMode: 'contain', alignSelf:'center' }}></Image>
+							<WhiteText> {steps.toFixed(0)}</WhiteText>
+						</View>
+						</View>
+						<View style={[ styles.rowContentContainer2 ]}>
+						<View style={[ styles.contentContainer ]}>
+							<Image source={TimerLogo} style={{ width: 18.14, height: 20, resizeMode: 'contain', alignSelf:'center' }} />
+							<WhiteText style={[{fontSize:30, fontWeight:'bold' }]}>{Math.floor(timer % 3600 / 60)}"{Math.ceil(timer % 60 )}'</WhiteText>
+						</View>
+						<View style={[ styles.contentContainer ]}>
+							<Image source={SpeedIcon} style={{ width: 18.14, height: 20, resizeMode: 'contain', alignSelf:'center' }} />
+							<View style={[ styles.rowContentContainer]} ><WhiteText style={[{fontSize:30, fontWeight:'bold' }]}>{speed.toFixed(1)}</WhiteText><WhiteText style={{ fontSize: 10, alignSelf:'flex-end' }}>km/h</WhiteText></View>
+						</View>
+						</View>
 						<View style={[ styles.stateButtonContainer ]}>
 							{ (currentState === ActivityType.PAUSE || currentState === ActivityType.MOVING) && (
 								<TouchableOpacity
@@ -350,7 +414,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 								</TouchableOpacity>
 
 							)}
-							{currentState === ActivityType.MOVING && (
+							{currentState !== ActivityType.PAUSE && (
 								<TouchableOpacity
 									style={[ Common.button.rounded, Gutters.regularBMargin, styles.statePauseResumeButton ]}
 									onPress={PauseRunningSession}
@@ -372,7 +436,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 				
 			
 			</View>
-		</ScreenBackgrounds>
+		</MapScreenBackgrounds>
 	)
 }
 

@@ -29,6 +29,7 @@ import CloseButton from '@/Components/Buttons/CloseButton'
 import ConGratualtion from '@/Assets/Images/map/congratulation.png'
 import SpeedIcon from '@/Assets/Images/map/speed_crystal.png'
 import TimerLogo from '@/Assets/Images/map/timer_crystal.png'
+import {captureScreen} from 'react-native-view-shot';
 
 const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 	{ navigation, route }
@@ -48,6 +49,10 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 	const currentState = useSelector((state:any) => state.map.currentState)
 	const latitude = useSelector((state:any) => state.map.latitude)
 	const longitude = useSelector((state:any) => state.map.longitude)
+	
+	const speed = params.speed
+	const timer = params.timer
+	const step = params.steps
 
 	const styles = StyleSheet.create({
 		container:{
@@ -126,6 +131,20 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 		const { style, ...rest } = props
 		return <Text style={[ styles.textStyle, style ]} {...rest} />
 	}
+	const takeScreenShot = () => {
+		console.log('asd')
+		captureScreen({
+		  format: 'jpg',
+		  // Quality 0.0 - 1.0 (only available for jpg)
+		  quality: 0.8, 
+		}).then(
+		  //callback function to get the result URL of the screnshot
+		  (uri) => {
+			console.log(uri)
+		  },
+		  (error) => console.error('Oops, Something Went Wrong', error),
+		);
+	  };
 
 	return (
 		<ScreenBackgrounds screenName={RouteStacks.workout}>
@@ -148,12 +167,12 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 					<View style={[ styles.rowContentContainer2 ]}>
 						<View style={[ styles.contentContainer ]}>
 							<Image source={TimerLogo} style={{ width: 18.14, height: 20, resizeMode: 'contain', alignSelf:'center' }} />
-							<WhiteText>01'30"</WhiteText>
+							<WhiteText style={[{fontSize:30, fontWeight:'bold' }]}>{Math.floor(timer % 3600 / 60)}"{Math.ceil(timer % 60 )}'</WhiteText>
 						</View>
 						<View style={[ styles.contentContainer ]}>
 							<Image source={SpeedIcon} style={{ width: 18.14, height: 20, resizeMode: 'contain', alignSelf:'center' }} />
-							<WhiteText>3.13km/h</WhiteText>
-						</View>
+							<WhiteText style={[{fontSize:30, fontWeight:'bold' }]}>{speed.toFixed(1)}</WhiteText>
+					</View>
 					</View>
 					<View style={[ styles.colContentContainer ]}>
 						<SocialShareButton
@@ -163,7 +182,7 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 							containerStyle={[ Layout.fullWidth ]}
 						/>
 						<SaveScreenButton
-							onPress={() => {console.log('saved')}}
+							onPress={() => {takeScreenShot()}} 
 							text={t('Save Screen')}
 							containerStyle={[ Layout.fullWidth ]}
 						/>

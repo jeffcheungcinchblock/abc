@@ -218,10 +218,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
 
 
 
-        const shareRes = await share({
-            url: `${config.onelinkUrl}/?screen=${RouteStacks.enterInvitationCode}&deep_link_value=${referralInfo.referral}`,
-            title: "Invite your friend", message: "Invite your friend",
-        })
+
 
 	useEffect(() => {
             setIsReady(true)
@@ -237,11 +234,11 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
 
 	const onSharePress = async () => {
 
-		const shareRes = await share({
-			url: `${config.onelinkUrl}/?screen=enterInvitationCode&deep_link_value=${referralInfo.referral}`,
-			title: 'Invite your friend', message: 'Invite your friend',
-		})
-
+	    const shareRes = await share({
+            url: `${config.onelinkUrl}/?screen=${RouteStacks.enterInvitationCode}&deep_link_value=${referralInfo.referral}`,
+            title: "Invite your friend", message: "Invite your friend",
+        })
+        
 		if (shareRes !== false) {
 			navigation.navigate(RouteTabs.home, {
 				screen: RouteStacks.homeInviteState,

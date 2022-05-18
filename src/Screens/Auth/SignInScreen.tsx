@@ -1,17 +1,17 @@
 import React, { useState, useEffect, useCallback, FC, useRef } from 'react'
-import { StackScreenProps } from '@react-navigation/stack'
+import { StackScreenProps } from "@react-navigation/stack"
 import {
-	View,
-	ActivityIndicator,
-	Text,
-	TextInput,
-	Pressable,
-	ScrollView,
-	TextStyle,
-	Alert,
-	ViewStyle,
-	Image,
-	Keyboard,
+    View,
+    ActivityIndicator,
+    Text,
+    TextInput,
+    Pressable,
+    ScrollView,
+    TextStyle,
+    Alert,
+    ViewStyle,
+    Image,
+    Keyboard,
 } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { Brand } from '@/Components'
@@ -20,7 +20,7 @@ import { useLazyFetchOneQuery } from '@/Services/modules/users'
 import { changeTheme, ThemeState } from '@/Store/Theme'
 import { login, logout } from '@/Store/Users/actions'
 import { UserState } from '@/Store/Users/reducer'
-import EncryptedStorage from 'react-native-encrypted-storage'
+import EncryptedStorage from 'react-native-encrypted-storage';
 // @ts-ignore
 import Amplify, { Auth, Hub } from 'aws-amplify';
 import { shallowEqual, useDispatch, useSelector } from "react-redux"
@@ -34,7 +34,7 @@ import { RouteStacks, RouteTabs } from '@/Navigators/routes'
 // @ts-ignore
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth'
 // @ts-ignore
-import { useWalletConnect } from '@walletconnect/react-native-dapp'
+import { useWalletConnect } from "@walletconnect/react-native-dapp";
 import ScreenBackgrounds from '@/Components/ScreenBackgrounds'
 import AppLogo from '@/Components/Icons/AppLogo'
 import backBtn from '@/Assets/Images/buttons/back.png'
@@ -42,7 +42,7 @@ import WhiteInput from '@/Components/Inputs/WhiteInput'
 import AppIcon from '@/Components/Icons/AppIcon'
 import { color } from 'react-native-reanimated'
 import TurquoiseButton from '@/Components/Buttons/TurquoiseButton'
-import { InAppBrowser } from 'react-native-inappbrowser-reborn'
+import { InAppBrowser } from 'react-native-inappbrowser-reborn';
 import { firebase } from '@react-native-firebase/messaging'
 import { showSnackbar, startLoading } from '@/Store/UI/actions'
 import SocialSignInButton from '@/Components/Buttons/SocialSignInButton'
@@ -50,37 +50,37 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { emailUsernameHash, triggerSnackbar } from '@/Utils/helpers'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import StandardInput from '@/Components/Inputs/StandardInput'
-import ModalBox, { ModalProps } from 'react-native-modalbox'
+import ModalBox, { ModalProps } from 'react-native-modalbox';
 import { useFocusEffect } from '@react-navigation/native'
 import SlideInputModal from '@/Components/Modals/SlideInputModal'
 import axios from 'axios'
 
 
 const LOGIN_BUTTON: ViewStyle = {
-	height: 40,
-	flexDirection: 'row',
+    height: 40,
+    flexDirection: "row"
 }
 
 const HEADER_TITLE: TextStyle = {
-	fontSize: 12,
-	fontWeight: 'bold',
-	letterSpacing: 1.5,
-	lineHeight: 15,
-	textAlign: 'center',
+    fontSize: 12,
+    fontWeight: "bold",
+    letterSpacing: 1.5,
+    lineHeight: 15,
+    textAlign: "center",
 }
 
 const BUTTON_ICON = {
-	width: 30,
+    width: 30
 }
 
 const BUTTON_TEXT: TextStyle = {
-	width: 100,
-	color: '#fff',
+    width: 100,
+    color: "#fff"
 }
 
 const INPUT_VIEW_LAYOUT: ViewStyle = {
-	flexBasis: 80,
-	justifyContent: 'center',
+    flexBasis: 80,
+    justifyContent: "center"
 }
 
 const ERR_MSG_TEXT: TextStyle = {
@@ -94,15 +94,15 @@ const initErrMsg = {
 }
 
 const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.signIn>> = (
-	{ navigation, route }
+    { navigation, route }
 ) => {
 
-	const modalRef = useRef<any>()
-	const { t } = useTranslation()
-	const { Common, Fonts, Gutters, Layout } = useTheme()
-	const dispatch = useDispatch()
+    const modalRef = useRef<any>()
+    const { t } = useTranslation()
+    const { Common, Fonts, Gutters, Layout } = useTheme()
+    const dispatch = useDispatch()
 
-	const connector = useWalletConnect()
+    const connector = useWalletConnect();
 
     const [isLoggingIn, setIsLoggingIn] = useState(false)
     const [errMsg, setErrMsg] = useState({
@@ -115,7 +115,7 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
         password: ""
     })
 
-	const [ socialIdentityUser, setSocialIdentityUser ] = useState(null)
+    const [socialIdentityUser, setSocialIdentityUser] = useState(null)
 
     useEffect(() => {
         setCredential({
@@ -132,17 +132,17 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
             }
         }
 
-		Hub.listen('auth', authListener)
+        Hub.listen('auth', authListener);
 
-		return () => {
-			Hub.remove('auth', authListener)
-		}
+        return () => {
+            Hub.remove('auth', authListener)
+        }
 
-	}, [])
+    }, [])
 
-	const onPasswordEyePress = () => {
-		setShowPassword(prev => !prev)
-	}
+    const onPasswordEyePress = () => {
+        setShowPassword(prev => !prev)
+    }
 
     const onLoginOptionPress = async (loginOpt: string) => {
         dispatch(startLoading(true))
@@ -167,15 +167,15 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                     uuid
                 }))
 
-				setIsLoggingIn(true)
+                setIsLoggingIn(true)
 
-			} else if (loginOpt === 'facebook') {
-				await Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Facebook })
-			} else if (loginOpt === 'apple') {
-				await Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Apple })
-			} else if (loginOpt === 'google') {
-				await Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Google })
-			}
+            } else if (loginOpt === 'facebook') {
+                await Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Facebook })
+            } else if (loginOpt === 'apple') {
+                await Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Apple })
+            } else if (loginOpt === 'google') {
+                await Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Google })
+            }
 
         } catch (err: any) {
             switch (err.message) {
@@ -212,14 +212,14 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
         setCredential(prevCredential => {
             return {
                 ...prevCredential,
-                [field]: text
+                [field]: field === 'email' ? text.toLowerCase() : text
             }
         })
     }
 
-	const onForgotPasswordPress = async () => {
-		navigation.navigate(RouteStacks.forgotPassword)
-	}
+    const onForgotPasswordPress = async () => {
+        navigation.navigate(RouteStacks.forgotPassword)
+    }
 
     const goBack = () => {
         navigation.navigate(RouteStacks.welcome)
@@ -229,14 +229,28 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
         navigation.navigate(RouteStacks.welcome)
     }
 
-	useFocusEffect(useCallback(() => {
+    useFocusEffect(useCallback(() => {
         modalRef?.current?.open()
-	}, [ modalRef ]))
+    }, [modalRef]))
+
+    // useFocusEffect(
+    //     useCallback(() => {
+    //         setErrMsg({
+    //             ...initErrMsg,
+    //         })
+    //         setCredential({
+    //             ...initErrMsg,
+    //         })
+    //     }, [])
+    // )
+
 
     return (
         <ScreenBackgrounds
             screenName={RouteStacks.signIn}
         >
+
+
             <KeyboardAwareScrollView
                 contentContainerStyle={[
                     Layout.fill,
@@ -249,26 +263,26 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                     headerText={t("login")}
                 />
 
-				<View style={[ {
-					height: '25%',
-					justifyContent: 'center',
-				}, Layout.fullWidth ]}>
+                <View style={[{
+                    height: "25%",
+                    justifyContent: "center",
+                }, Layout.fullWidth]}>
 
-					<AppIcon />
+                    <AppIcon />
 
-					<View style={[ Layout.fullWidth, { justifyContent: 'center', paddingVertical: 40, paddingHorizontal: 20 } ]}>
-						<Text style={[ { color: colors.white, fontWeight: 'bold' }, Fonts.textRegular, Fonts.textCenter ]}>
-							{t('welcomeBack')} !
-						</Text>
-					</View>
+                    <View style={[Layout.fullWidth, { justifyContent: "center", paddingVertical: 40, paddingHorizontal: 20 }]}>
+                        <Text style={[{ color: colors.white, fontWeight: "bold" }, Fonts.textRegular, Fonts.textCenter]}>
+                            {t("welcomeBack")} !
+                        </Text>
+                    </View>
 
-				</View>
+                </View>
 
 
-				<SlideInputModal
-					ref={modalRef}
-					onModalClose={onModalClose}
-				>
+                <SlideInputModal
+                    ref={modalRef}
+                    onModalClose={onModalClose}
+                >
 
                     <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT]}>
                         <StandardInput
@@ -276,7 +290,6 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                             value={credential.email}
                             placeholder={t("email")}
                             placeholderTextColor={colors.spanishGray}
-                            autoCapitalize='none'
 
                         />
                         {
@@ -324,9 +337,10 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                     </View>
 
                 </SlideInputModal>
-			</KeyboardAwareScrollView>
-		</ScreenBackgrounds>
-	)
+
+            </KeyboardAwareScrollView>
+        </ScreenBackgrounds>
+    )
 }
 
 export default SignInScreen

@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
 	},
 	map: {
 		...StyleSheet.absoluteFillObject,
+		backgroundColor:'transparent',
 	},
 })
 
@@ -80,7 +81,7 @@ const ActiveMapView:FC<MapViewProps> = (props) => {
 	const timer = props.timer
 	const speed = (props.speed).toFixed(1)
 	useEffect(() => {
-		console.log(JSON.stringify(paths))
+		// console.log(JSON.stringify(paths))
 	}, [speed, timer])
 	return (
 		<>
@@ -124,7 +125,7 @@ const ActiveMapView:FC<MapViewProps> = (props) => {
 				})}
 
 			</MapView>
-			<View style={[ styles.container ]}>
+			{/* <View style={[ styles.container ]}>
 				<View>
 					<Text style={[ styles.mapDistanceDataText ]}>{distance / 1000}</Text>
 					<Text style={[ styles.mapDistanceText ]}>Total Kilometers</Text>
@@ -147,7 +148,7 @@ const ActiveMapView:FC<MapViewProps> = (props) => {
 						<MapContentText>Heart Rates : {calories}</MapContentText>
 					)}
 				</View>
-			</View>
+			</View> */}
 		</>
 	)
 }

@@ -5,7 +5,9 @@ import { colors } from '@/Utils/constants'
 import facebookIcon from '@/Assets/Images/buttons/facebook.png'
 import appleIcon from '@/Assets/Images/buttons/apple.png'
 import googleIcon from '@/Assets/Images/buttons/google.png'
-import twitterIcon from '@/Assets/Images/buttons/twitter.png'
+import twitterIcon from '@/Assets/Images/icons/twitter.png'
+
+// import twitterIcon from '@/Assets/Images/icons/twitter2.png'
 
 type SocialShareButtonProps = {
     containerStyle?: object
@@ -17,14 +19,12 @@ type SocialShareButtonProps = {
     text?  : string
 }
 
-let size = 30
-
 const BUTTON_STYLE: ViewStyle = {
 	backgroundColor: colors.brightTurquoise,
 	height: 40,
 	width: 200,
 	borderRadius: 99,
-	justifyContent: 'center',
+	justifyContent: 'space-around',
 }
 
 const iconNameMap = {
@@ -56,9 +56,9 @@ const SocialShareButton = ({
 				{
 					isLoading ? <ActivityIndicator
 						size="small" color={'#fff'}
-					/> : <View style={[ Layout.rowCenter ]}>
+					/> : <View style={[ Layout.rowCenter, {justifyContent:'space-around'} ]}>
 						<Text style={{ fontWeight:'500', lineHeight:24, fontSize:16 }}>{text}</Text>
-						<Image source={iconNameMap[iconName]} style={{ width: 30, height: 30 }} />
+						<Image source={iconNameMap[iconName]} style={{  width:24, height: 22 }} />
 					</View>
 				}
 			</Pressable>
