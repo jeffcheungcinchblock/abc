@@ -44,6 +44,7 @@ import Clipboard from '@react-native-clipboard/clipboard';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import moment from 'moment'
 import { awsLogout, triggerSnackbar } from '@/Utils/helpers'
+import times from 'lodash/times'
 // @ts-ignore
 import { Auth } from 'aws-amplify'
 import axios from 'axios'
@@ -58,6 +59,7 @@ import reward from '@/Assets/Images/Modal/reward.png'
 import DailyRewardModal from '@/Components/Modals/DailyRewardModal'
 import RuleOfReferralModal from '@/Components/Modals/RuleOfReferralModal'
 import scrollDownBtn from '@/Assets/Images/Home/scroll_down.png'
+import avatar from '@/Assets/Images/Home/avatar.png'
 
 const PURPLE_COLOR = {
     color: colors.magicPotion
@@ -132,7 +134,6 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                     }
                 })
 
-                console.log('authRes', authRes)
                 setReferralInfo(authRes.data)
 
             } catch (err) {
@@ -184,7 +185,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
     const onSharePress = async () => {
 
         const shareRes = await share({
-            url: `${config.onelinkUrl}/?screen=enterInvitationCode&deep_link_value=${referralInfo.referral}`,
+            url: `${config.onelinkUrl}/?screen=${RouteStacks.enterInvitationCode}&deep_link_value=${referralInfo.referral}`,
             title: "Invite your friend", message: "Invite your friend",
         })
 
@@ -343,8 +344,10 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                 <View style={[Layout.fullWidth, { alignItems: "center", justifyContent: "flex-end", height: 100 }]}>
                     <Text style={[{ paddingTop: 0, paddingBottom: 2, color: colors.white, fontSize: 24 }]}>{t("queueNumber")}</Text>
                     <View style={[Layout.fullWidth, { flexDirection: "row", alignItems: "center", justifyContent: "center" }]}>
-                        <View style={{ backgroundColor: isNewAc ? colors.philippineSilver : queueNoDiff > 0 ? colors.brightTurquoise : colors.magicPotion,
-                             borderRadius: 12, paddingHorizontal: 12, paddingVertical: 6, marginRight: 16 }}>
+                        <View style={{
+                            backgroundColor: isNewAc ? colors.philippineSilver : queueNoDiff > 0 ? colors.brightTurquoise : colors.magicPotion,
+                            borderRadius: 12, paddingHorizontal: 12, paddingVertical: 6, marginRight: 16
+                        }}>
                             <Text style={[{ color: colors.darkGunmetal, fontSize: 20 }]}>{isNewAc ? "+" : queueNoDiff > 0 ? "▲" : "▼"}  {isNewAc ? 0 : queueNoDiff}</Text>
                         </View>
                         <Text style={[{ fontWeight: "bold", color: colors.white, fontSize: 44 }]}>{referralInfo.queueNumber}</Text>
@@ -371,7 +374,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                 </View>
 
                 <View style={[Layout.fullWidth, Layout.center, {
-                    paddingBottom: 40, 
+                    paddingBottom: 40,
                 }]}>
                     <View style={{
                         backgroundColor: colors.brightTurquoise,
@@ -384,7 +387,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                     }}>
                         <Pressable style={{
                             borderRadius: 16,
-                            
+
                             paddingHorizontal: 40, paddingVertical: 4
                         }} onPress={onTrialPlayPress}>
                             <Text style={{ fontSize: 30, fontWeight: "bold", fontStyle: "italic", color: colors.darkGunmetal }}>{t("trialPlay")}</Text>
@@ -474,9 +477,17 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                         })
                     }
                     {
-                        referredNames.length > 4 && <View style={[REFERRED_FRIEND_ICON, { top: 0, left: 4 * 35, backgroundColor: colors.indigo }]}>
+                        referredNames.length === 0 ? <View>
+                            {
+                                times(4).map((elem, idx) => {
+                                    return <View style={[REFERRED_FRIEND_ICON, { top: 0, left: idx * 35 }]} key={`Avatar-${idx}`}>
+                                        <Image source={avatar} style={{}}/>
+                                    </View>
+                                })
+                            }
+                        </View> : referredNames.length > 4 ? <View style={[REFERRED_FRIEND_ICON, { top: 0, left: 4 * 35, backgroundColor: colors.indigo }]}>
                             <Text style={{ color: colors.white, fontWeight: "bold", fontSize: 18 }}>+{referredNames.length - 4}</Text>
-                        </View>
+                        </View> : null
                     }
 
                 </View>
