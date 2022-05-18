@@ -94,12 +94,6 @@ export class IOSHealthKit extends GeneralHealthKit {
 			startDate: startDate.toISOString(), // required
 			endDate: endDate.toISOString(),
 		}
-		// const options = {
-		// 	startDate: startDate.toDateString(), // required
-		// 	endDate: endDate.toDateString(), // required
-		// 	basalCalculation: true, // optional, to calculate or not basalAVG over the week
-		// }
-
 		console.log('options', options)
 		return new Promise<number>(resolve => {
 			AppleHealthKit.getActiveEnergyBurned(
@@ -126,7 +120,6 @@ export class IOSHealthKit extends GeneralHealthKit {
 			AppleHealthKit.getHeartRateSamples(
 				options,
 				(err: Object, results: HealthValue[]) => {
-
 					if (err) {
 						return
 					}

@@ -75,19 +75,13 @@ const ActiveMapView:FC<MapViewProps> = (props) => {
 	const paths = useSelector((state:any) => state.map.paths)
 	const steps = useSelector((state:any) => state.map.steps)
 	const distance = useSelector((state:any) => state.map.distance).toFixed(0)
-	// const speed = useSelector((state:any) => state.map.speed)
-	const startTime = useSelector((state:any) => state.map.startTime)
 	const heartRate = useSelector((state:any) => state.map.heartRate)
 	const calories = useSelector((state:any) => state.map.calories)
-	const latitude = useSelector((state:any) => state.map.latitude)
-	const longitude = useSelector((state:any) => state.map.longitude)
-	const [ totalTime, setTotalTime ] = useState(0)
 	const timer = props.timer
 	const speed = (props.speed).toFixed(1)
-	console.log(props)
-
-
-
+	useEffect(() => {
+		console.log(JSON.stringify(paths))
+	}, [speed, timer])
 	return (
 		<>
 			<MapView

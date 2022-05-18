@@ -61,10 +61,9 @@ import RuleOfReferralModal from '@/Components/Modals/RuleOfReferralModal'
 //health kit - googlefit
 import { IOSHealthKit } from '@/Healthkit/iosHealthKit'
 import { GoogleFitKit } from '@/Healthkit/androidHealthKit'
-import BackgroundGeolocation, {
-	Subscription,
-} from 'react-native-background-geolocation'
+
 import scrollDownBtn from '@/Assets/Images/Home/scroll_down.png'
+
 
 const PURPLE_COLOR = {
 	color: colors.magicPotion,
@@ -127,36 +126,61 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
 	const [ isReady, setIsReady ] = useState<Boolean>(false)
 	const [ enabled, setEnabled ] = useState(false)
 	const [ isHealthkitReady, setIstHealthKitReady ] = useState(false)
-
-				const authRes = await axios.get(config.userAuthInfo, {
-					headers: {
-						Authorization: jwtToken, //the token is a variable which holds the token
-					},
-				})
-				setReferralInfo(authRes.data)
-
+    const startTime = useSelector((state: RootState) => state.map.startTime)
+    useEffect(() => {
+        const run = async () => {
+            try {
+                let user = await Auth.currentAuthenticatedUser()
+                let jwtToken = user.signInUserSession.idToken.jwtToken
                 const authRes = await axios.get(config.userProfile, {
                     headers: {
                         Authorization: jwtToken //the token is a variable which holds the token
                     }
                 })
-
-                console.log('authRes', authRes)
                 setReferralInfo(authRes.data)
+            } catch (err) {
+                console.log(err)
+            }
+        }
 
-		if (needFetchDtl) {
-			run()
-			setTimeout(() => {
-				setNeedFetchDtl(false)
-			}, 1000)
-			if (!fetchedReferralInfo) {
-				setFetchedReferralInfo(true)
-			}
+        if (needFetchDtl) {
+            run()
+            setTimeout(() => {
+                setNeedFetchDtl(false)
+            }, 1000)
+            if (!fetchedReferralInfo) {
+                setFetchedReferralInfo(true)
+            }
+        }
+    }, [needFetchDtl, fetchedReferralInfo])
+
+
+    useEffect(() => {
+		// setCurrentState('initialing')
+		const startInit = async () => {
+			health_kit.GetAuthorizeStatus().then((isAuthorize) => {
+				if (!isAuthorize) {
+					health_kit
+						.InitHealthKitPermission()
+						.then(val => {
+							console.log('inti health kit', val)
+						})
+						.catch(err => {
+							console.error(err)
+							setIstHealthKitReady(false)
+						})
+				} else {
+					setIstHealthKitReady(true)
+				}
+			}).then(()=>{
+				dispatch({ type:'inital' })
+				console.log('set health kit readty')
+			})
 		}
-	}, [ needFetchDtl, fetchedReferralInfo ])
-
+		startInit()
+	}, [])
+    
 	useEffect(() => {
-
 		// TBD: To be placed some where upper level component later
 		const confirmReferral = async () => {
 			let user = await Auth.currentAuthenticatedUser()
@@ -186,59 +210,19 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
 	}, [ referralInfo, fetchedReferralInfo ])
 
 
-	useEffect(() => {
-		// setCurrentState('initialing')
-		const startInit = async () => {
-			health_kit.GetAuthorizeStatus().then((isAuthorize) => {
-				if (!isAuthorize) {
-					health_kit
-						.InitHealthKitPermission()
-						.then(val => {
-							console.log('inti health kit', val)
-						})
-						.catch(err => {
-							console.error(err)
-							setIstHealthKitReady(false)
-						})
-				} else {
-					setIstHealthKitReady(true)
-				}
-			}).then(()=>{
-				dispatch({ type:'inital' })
-				console.log('set health kit readty')
-			})
-		}
-		startInit()
-	}, [])
+
 
 	useEffect(() => {
-		console.log('home ready')
-		BackgroundGeolocation.ready({
-			triggerActivities: 'on_foot, walking, running',
-			locationAuthorizationRequest : 'WhenInUse',
-			desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
-			distanceFilter: 5,
-			stopTimeout: 5,
-			isMoving: true,
-			reset: false,
-			debug: true,
-			disableElasticity : true,
-			speedJumpFilter:20,
-			logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
-			stopOnTerminate: true,
-		}).then(()=>{
-			dispatch({ type:'ready' })
-			setIsReady(true)
-		})
+            setIsReady(true)
 	}, [ isHealthkitReady ])
 
 	useEffect(() => {
-		if (enabled === true) {
-			dispatch({ type:'start', payload:{ startTime:new Date() } })
-			navigation.replace(RouteStacks.workout)
-			console.log('replace to workout')
+        console.log(startTime)
+		if (enabled === true && startTime !== undefined) {
+            navigation.replace(RouteStacks.workout)
 		}
-	}, [ enabled ])
+	}, [ startTime, enabled ])
+
 
 	const onSharePress = async () => {
 
@@ -257,13 +241,11 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
 
 	const goBack = () => {
 		navigation.navigate(RouteStacks.homeMain)
-
 	}
 
 	const onCopyPress = () => {
 		Clipboard.setString(referralInfo.referral)
 		triggerSnackbar('Invitation code copied !')
-
 	}
 
 	const onRefresh = () => {
@@ -271,29 +253,22 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
 	}
 
 	const onDailyRewardModalClose = () => {
-
+    }
     const onLogoutPress = async () => {
         dispatch(startLoading(true))
         await awsLogout()
         dispatch(startLoading(false))
     }
 
-
-
-	const onLogoutPress = async () => {
-		dispatch(startLoading(true))
-		await awsLogout()
-		dispatch(startLoading(false))
-	}
-
 	const onTrialPlayPress = async () => {
 		const authed = await health_kit.GetAuthorizeStatus()
 		console.log('auth', authed)
-		if (authed){
+		if (authed && isReady){
+            dispatch({ type:'start', payload:{ startTime: (new Date()).getTime() } })
 			setEnabled(true)
 		} else {
 			await health_kit.InitHealthKitPermission()
-			console.log('not authed health kit')
+			console.log('not ready')
 		}
 	}
 
@@ -318,18 +293,6 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
     let referredNames = useMemo(() => {
         return referralInfo.referredEmails.map((elem) => elem.toUpperCase())
     }, [referralInfo.referredEmails])
-
-
-    return (
-        <ScreenBackgrounds
-            screenName={RouteStacks.homeReferral}
-        >
-            <DailyRewardModal
-                ref={dailyRewardModalRef}
-                onModalClose={onDailyRewardModalClose}
-                onActionBtnPress={onLesGoBtnPress}
-                ke={25}
-            />
 
 	return (
 		<ScreenBackgrounds
@@ -366,11 +329,6 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                     onRightPress={onLogoutPress}
                 />
 
-				<Header
-					headerText={t('dashboard')}
-					rightIcon={() => <MaterialCommunityIcons name="logout" color={colors.white} size={24} />}
-					onRightPress={onLogoutPress}
-				/>
 
                 <View style={{
                     height: 220,
@@ -451,13 +409,14 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
 
                 <View style={[Layout.fullWidth, Layout.center, { paddingBottom: 40 }]}>
                     <Pressable style={{
-                        backgroundColor: colors.brightTurquoise, borderRadius: 16,
+                        backgroundColor: isReady? colors.brightTurquoise: colors.black, borderRadius: 16,
                         elevation: 4,
                         shadowOffset: { width: 0, height: 2 },
                         shadowColor: colors.brightTurquoise,
                         shadowOpacity: 0.5,
-                        shadowRadius: 10, paddingHorizontal: 40, paddingVertical: 4
-                    }} onPress={onTrialPlayPress}>
+                        shadowRadius: 10, paddingHorizontal: 40, paddingVertical: 4,
+                        
+                        }} onPress={onTrialPlayPress} >
                         <Text style={{ fontSize: 30, fontWeight: "bold", fontStyle: "italic", color: colors.darkGunmetal }}>{t("trialPlay")}</Text>
                     </Pressable>
                 </View>

@@ -57,9 +57,10 @@ const HomeScreen: FC<HomeScreenNavigationProp> = (
             {/* <Stack.Screen name={RouteStacks.homeMain} component={MainScreen} /> */}
             <Stack.Screen name={RouteStacks.homeReferral} component={HomeReferralScreen} />
             {/* <Stack.Screen name={RouteStacks.homeInviteState} component={HomeInviteStateScreen} /> */}
+			<Stack.Screen name={RouteStacks.workout} component={WorkoutNavigator} />
+
         </Stack.Navigator>
     )
-			<Stack.Screen name={RouteStacks.workout} component={WorkoutNavigator} />
 }
 
 export default HomeScreen

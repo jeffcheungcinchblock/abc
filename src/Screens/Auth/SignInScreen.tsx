@@ -256,10 +256,6 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
         navigation.navigate(RouteStacks.welcome)
     }
 
-	const onModalClose = () => {
-		navigation.navigate(RouteStacks.welcome)
-	}
-
 	useFocusEffect(useCallback(() => {
         modalRef?.current?.open()
 	}, [ modalRef ]))
@@ -280,8 +276,6 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
         <ScreenBackgrounds
             screenName={RouteStacks.signIn}
         >
-
-
             <KeyboardAwareScrollView
                 contentContainerStyle={[
                     Layout.fill,
@@ -368,32 +362,6 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                     </View>
 
                 </SlideInputModal>
-
-					<View style={[ Layout.fullWidth, Layout.center, Gutters.regularVPadding, { flex: 1, justifyContent: 'center' } ]}>
-						<TurquoiseButton
-							onPress={() => onLoginOptionPress('normal')}
-							text={t('login')}
-							isTransparentBackground
-							containerStyle={{
-								width: '45%',
-							}}
-						/>
-						<Pressable style={[ Layout.fullWidth, Layout.center, { marginBottom: 30, marginTop: 10 } ]}
-							onPress={onForgotPasswordPress}
-						>
-							<Text style={{ color: colors.white, textDecorationLine: 'underline' }}>{t('forgotPassword')}</Text>
-						</Pressable>
-
-						<View style={{ flexDirection: 'row' }}>
-							<Text style={{ color: colors.white }}>{t('dontHaveAnAccount')}</Text>
-							<Pressable style={{ paddingLeft: 6 }} onPress={() => navigation.navigate(RouteStacks.signUp)}>
-								<Text style={{ color: colors.brightTurquoise, fontWeight: 'bold' }}>{t('signUp')}</Text>
-							</Pressable>
-						</View>
-					</View>
-
-				</SlideInputModal>
-
 			</KeyboardAwareScrollView>
 		</ScreenBackgrounds>
 	)

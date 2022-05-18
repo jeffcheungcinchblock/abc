@@ -187,7 +187,6 @@ const MainNavigator = () => {
 		<Stack.Navigator screenOptions={{ headerShown: false }}
 			initialRouteName={RouteStacks.mainDrawer}>
 
-      <Stack.Screen name={RouteStacks.mainDrawer} component={DrawerNavigator} />
 			<Stack.Screen name={RouteStacks.mainDrawer} component={DrawerNavigator} />
 			<Stack.Screen name={RouteStacks.workout} component={WorkoutNavigator} />
 		</Stack.Navigator>

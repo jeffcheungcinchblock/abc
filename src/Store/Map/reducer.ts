@@ -50,14 +50,12 @@ export type PauseTimeType = {
 
 
 
-const initialState:State = { currentState: ActivityType.LOADING, startTime: new Date(), endTime:null, latitude:null, longitude:null, distance:0, calories:0, steps:0, heartRate :0, paths:[ { numberOfPath:0, pauseTime:null, endPauseTime:null, reduceStep:0 } ] }
+const initialState:State = { currentState: ActivityType.LOADING, startTime: null, endTime:null, latitude:null, longitude:null, distance:0, calories:0, steps:0, heartRate :0, paths:[ { numberOfPath:0, pauseTime:null, endPauseTime:null, reduceStep:0 } ] }
 
 
 export default createReducer<State>(initialState, (builder) => {
 	builder.addCase(init, (state, action)=>{
-		console.log('reducer init')
 		const initialStateStart:State = { currentState:ActivityType.LOADING, startTime: null, endTime:null, latitude:null, longitude:null, distance:0, calories:0, steps:0, heartRate :0, paths:[   { numberOfPath:0, pauseTime:null, endPauseTime:null, reduceStep:0 } ] }
-		console.log('initialStateStart', initialStateStart)
 		return initialStateStart
 	})
 	builder
@@ -71,6 +69,7 @@ export default createReducer<State>(initialState, (builder) => {
 		})
 	builder
 		.addCase(move, (state, action) => {
+			console.log('move')
 			if (!action.payload.latitude || !action.payload.longitude ) {
 				return state
 			}
@@ -82,7 +81,6 @@ export default createReducer<State>(initialState, (builder) => {
 			})
 			const newSteps = action.payload.steps! - totalReduceStep
 			const distance = getDistanceBetweenTwoPoints(state.latitude!, state.longitude!, action.payload.latitude!, action.payload.longitude!)
-			console.log('update distance', distance)
 			if (distance > 50){
 				return { ...state, latitude : action.payload.latitude, longitude :action.payload.longitude, calories: newCarlorieBurned, steps: newSteps }
 			}
@@ -106,12 +104,12 @@ export default createReducer<State>(initialState, (builder) => {
 			if (state.paths.length !== 0){
 				lastIndexofCoordinate = state.paths.length - 1
 			}
-
 			state.paths[lastIndexofCoordinate] = { ...state.paths[lastIndexofCoordinate], pauseTime: tempPauseTime }
 			return state
 		})
 
 	builder.addCase(resume, (state, action) => {
+		console.log('resume')
 		const tempEndPauseTime = action.payload.resumeTime
 		const reduceStep = action.payload.reduceStep
 		let lastIndexofCoordinate = 0
