@@ -123,39 +123,10 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
             password: ""
         })
 
-		const getUser = () => {
-			return Auth.currentAuthenticatedUser()
-				.then(userData => userData)
-				.catch(() => console.log('Not signed in'))
-		}
-
         const authListener = ({ payload: { event, data } }: any) => {
             switch (event) {
-                case 'signIn':
-                case 'cognitoHostedUI':
-                    getUser().then(async(userData) => {
-                        let jwtToken = userData?.signInUserSession?.idToken?.jwtToken
-
-                        const userProfileRes = await axios.get(config.userProfile, {
-                            headers: {
-                                Authorization: jwtToken //the token is a variable which holds the token
-                            }
-                        })
-                        const { email, uuid } = userProfileRes?.data
-
-                        dispatch(login({
-                            username: userData.username,
-                            email: userData.email,
-                            uuid
-                        }))
-                        dispatch(startLoading(false))
-                    });
-                    break;
-                case 'signOut':
-                    break;
                 case 'signIn_failure':
                 case 'cognitoHostedUI_failure':
-                    console.log('Sign in failure', data);
                     dispatch(startLoading(false))
                     break;
             }
@@ -177,7 +148,9 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
         dispatch(startLoading(true))
         try {
             if (loginOpt === 'normal') {
+                console.log('@## 1', emailUsernameHash(credential.email), credential.password)
                 const user = await Auth.signIn(emailUsernameHash(credential.email), credential.password)
+                console.log("@## ", user)
                 let { attributes, username } = user
                 let jwtToken = user?.signInUserSession?.idToken?.jwtToken
 
@@ -239,7 +212,7 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
         setCredential(prevCredential => {
             return {
                 ...prevCredential,
-                [field]: text
+                [field]: field === 'email' ? text.toLowerCase() : text
             }
         })
     }

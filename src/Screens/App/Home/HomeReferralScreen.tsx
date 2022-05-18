@@ -128,6 +128,10 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
 	const [ isHealthkitReady, setIstHealthKitReady ] = useState(false)
     const startTime = useSelector((state: RootState) => state.map.startTime)
     useEffect(() => {
+        dispatch(startLoading(false))
+    }, [])
+
+    useEffect(() => {
         const run = async () => {
             try {
                 let user = await Auth.currentAuthenticatedUser()
@@ -294,16 +298,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
         return referralInfo.referredEmails.map((elem) => elem.toUpperCase())
     }, [referralInfo.referredEmails])
 
-	return (
-		<ScreenBackgrounds
-			screenName={RouteStacks.homeReferral}
-		>
-			<DailyRewardModal
-				ref={dailyRewardModalRef}
-				onModalClose={onDailyRewardModalClose}
-				onActionBtnPress={onLesGoBtnPress}
-				ke={25}
-			/>
+    let isNewAc = referralInfo.lastRank === 0
 
             <Pressable onPress={onScrollDownPress} style={{ position: "absolute", bottom: 20, right: 20, zIndex: 2 }}>
                 <Image source={scrollDownBtn} style={{}} />
@@ -378,11 +373,9 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                 <View style={[Layout.fullWidth, { alignItems: "center", justifyContent: "flex-end", height: 100 }]}>
                     <Text style={[{ paddingTop: 0, paddingBottom: 2, color: colors.white, fontSize: 24 }]}>{t("queueNumber")}</Text>
                     <View style={[Layout.fullWidth, { flexDirection: "row", alignItems: "center", justifyContent: "center" }]}>
-                        <View style={{ backgroundColor: queueNoDiff > 0 ? colors.brightTurquoise : queueNoDiff < 0 ? colors.magicPotion : colors.philippineSilver, borderRadius: 12, paddingHorizontal: 12, paddingVertical: 6, marginRight: 16 }}>
-                            <Text style={[{ color: colors.darkGunmetal, fontSize: 20 }]}>▲  {queueNoDiff}</Text>
-                            {/* <Text style={[{ color: colors.magicPotion, fontSize: 20 }]}>▼  {referralInfo.queueNumber}</Text> */}
-                            {/* <Text style={[{ color: colors.philippineSilver, fontSize: 20 }]}>+  {referralInfo.queueNumber}</Text> */}
-
+                        <View style={{ backgroundColor: isNewAc ? colors.philippineSilver : queueNoDiff > 0 ? colors.brightTurquoise : colors.magicPotion,
+                             borderRadius: 12, paddingHorizontal: 12, paddingVertical: 6, marginRight: 16 }}>
+                            <Text style={[{ color: colors.darkGunmetal, fontSize: 20 }]}>{isNewAc ? "+" : queueNoDiff > 0 ? "▲" : "▼"}  {isNewAc ? 0 : queueNoDiff}</Text>
                         </View>
                         <Text style={[{ fontWeight: "bold", color: colors.white, fontSize: 44 }]}>{referralInfo.queueNumber}</Text>
                     </View>
@@ -407,18 +400,27 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                     </View>
                 </View>
 
-                <View style={[Layout.fullWidth, Layout.center, { paddingBottom: 40 }]}>
-                    <Pressable style={{
-                        backgroundColor: isReady? colors.brightTurquoise: colors.black, borderRadius: 16,
-                        elevation: 4,
-                        shadowOffset: { width: 0, height: 2 },
+                <View style={[Layout.fullWidth, Layout.center, {
+                    paddingBottom: 40, 
+                }]}>
+                    <View style={{
+                        backgroundColor: colors.brightTurquoise,
+                        elevation: 10,
+                        borderRadius: 16,
+                        shadowOffset: { width: 0, height: 0 },
                         shadowColor: colors.brightTurquoise,
                         shadowOpacity: 0.5,
-                        shadowRadius: 10, paddingHorizontal: 40, paddingVertical: 4,
-                        
-                        }} onPress={onTrialPlayPress} >
-                        <Text style={{ fontSize: 30, fontWeight: "bold", fontStyle: "italic", color: colors.darkGunmetal }}>{t("trialPlay")}</Text>
-                    </Pressable>
+                        shadowRadius: 10,
+                    }}>
+                        <Pressable style={{
+                            borderRadius: 16,
+                            
+                            paddingHorizontal: 40, paddingVertical: 4
+                        }} onPress={onTrialPlayPress}>
+                            <Text style={{ fontSize: 30, fontWeight: "bold", fontStyle: "italic", color: colors.darkGunmetal }}>{t("trialPlay")}</Text>
+                        </Pressable>
+                    </View>
+
                 </View>
 
                 <View style={{
@@ -429,7 +431,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                     marginHorizontal: 20
                 }}>
                     <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingTop: 10, paddingRight: 20 }}>
-                        <Text style={[{ color: colors.white, paddingTop: 0,  paddingHorizontal: 20 }, Fonts.textSmall]}>{t("yourReferralCode")}</Text>
+                        <Text style={[{ color: colors.white, paddingTop: 0, paddingHorizontal: 20 }, Fonts.textSmall]}>{t("yourReferralCode")}</Text>
                         <Pressable onPress={onCopyPress} style={{
                             borderRadius: 10, justifyContent: "center", alignItems: "center", backgroundColor: colors.darkBlueGray,
                             opacity: 0.5, width: 45, height: 30
@@ -496,7 +498,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                 <View style={{ height: 80, alignItems: "flex-start", width: "85%" }}>
                     {
                         referredNames.map((elem, idx) => {
-                            return <View style={[REFERRED_FRIEND_ICON, { top: 0, left: idx * 35 }]}>
+                            return <View style={[REFERRED_FRIEND_ICON, { top: 0, left: idx * 35 }]} key={`Friend-${idx}`}>
                                 <Text style={{ color: colors.black, fontWeight: "bold", fontSize: 18 }}>{elem}</Text>
                             </View>
                         })
