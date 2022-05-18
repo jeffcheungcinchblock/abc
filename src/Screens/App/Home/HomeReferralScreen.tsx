@@ -300,6 +300,16 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
 
     let isNewAc = referralInfo.lastRank === 0
 
+    return(
+    <ScreenBackgrounds
+            screenName={RouteStacks.homeReferral}
+        >
+            <DailyRewardModal
+                ref={dailyRewardModalRef}
+                onModalClose={onDailyRewardModalClose}
+                onActionBtnPress={onLesGoBtnPress}
+                ke={25}
+            />
             <Pressable onPress={onScrollDownPress} style={{ position: "absolute", bottom: 20, right: 20, zIndex: 2 }}>
                 <Image source={scrollDownBtn} style={{}} />
             </Pressable>
@@ -547,7 +557,8 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
 
             </KeyboardAwareScrollView>
         </ScreenBackgrounds>
-    )
+        )
+    
 }
 
 export default HomeReferralScreen
