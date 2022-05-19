@@ -38,6 +38,7 @@ export const colors = {
 	darkGunmetal: '#151C35',
 	jacarta: '#38405E',
 	philippineSilver: '#B5B5B5',
+	buleCola : '#0174E5',
 
 }
 
@@ -46,4 +47,9 @@ export const speedconst = {
 
 	runningUpperLimit: 6,
 	runningLowerLimit: 0,
+}
+
+export const mapViewConst = {
+	pathStokeWidth: 8,
+	overSpeedPathStrokeWidth: 8,
 }

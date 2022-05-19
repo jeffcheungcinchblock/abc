@@ -10,7 +10,7 @@ import {  useSelector } from 'react-redux'
 import MapView  from 'react-native-maps' // remove PROVIDER_GOOGLE import if not using Google Maps
 import { enableLatestRenderer, Polyline } from 'react-native-maps'
 import BackgroundGeolocation from 'react-native-background-geolocation'
-
+import { colors, mapViewConst } from '@/Utils/constants'
 enableLatestRenderer()
 
 const styles = StyleSheet.create({
@@ -128,7 +128,7 @@ const ActiveMapView:FC<MapViewProps> = (props) => {
 							<Polyline
 								coordinates={path.coordinates}
 								key={index}
-								strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider
+								strokeColor={colors.buleCola} // fallback for when `strokeColors` is not supported by the map-provider
 								// strokeColors={[
 								// 	'#7F0000',
 								// 	'#00000000', // no color, creates a "long" gradient between the previous and next coordinate
@@ -137,7 +137,7 @@ const ActiveMapView:FC<MapViewProps> = (props) => {
 								// 	'#238C23',
 								// 	'#7F0000',
 								// ]}
-								strokeWidth={5}/>
+								strokeWidth={mapViewConst.pathStokeWidth}/>
 						)
 					}
 				})}
@@ -148,16 +148,8 @@ const ActiveMapView:FC<MapViewProps> = (props) => {
 								<Polyline
 									coordinates={path.coordinates}
 									key={index}
-									strokeColor="red" // fallback for when `strokeColors` is not supported by the map-provider
-									// strokeColors={[
-									// 	'#7F0000',
-									// 	'#00000000', // no color, creates a "long" gradient between the previous and next coordinate
-									// 	'#B24112',
-									// 	'#E5845C',
-									// 	'#238C23',
-									// 	'#7F0000',
-									// ]}
-									strokeWidth={5}/>
+									strokeColor={colors.silverSand} // fallback for when `strokeColors` is not supported by the map-provider
+									strokeWidth={mapViewConst.overSpeedPathStrokeWidth}/>
 							)
 						}
 				})}

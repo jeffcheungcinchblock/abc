@@ -234,7 +234,6 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 					if(location.coords.speed! <= speedconst.runningLowerLimit){
 						return
 					}
-					console.log(ActivityType[currentState])
 					if (location.coords.speed! >= speedconst.runningUpperLimit && currentState !== ActivityType.OVERSPEED){
 						dispatch({type:'overSpeed',payload:{startOverSpeedTime: (new Date).getTime()}})
 						console.log('Over speed')
@@ -246,22 +245,12 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 					const ReduceStep =  health_kit.GetSteps(new Date(pauseStateTime), new Date())
 					const ReduceCalories = health_kit.GetCaloriesBurned(new Date(pauseStateTime), new Date())
 						Promise.all([ReduceStep,ReduceCalories]).then((result)=>{
-							dispatch({ type:'returnToNormalSpeed', payload:{ resumeTime:(new Date).getTime(), latitude:location.coords.latitude, longitude:location.coords.longitude, reduceStep:result[0], reduceCalories: result[1] }})
+							dispatch({ type:'returnToNormalSpeed', payload:{ resumeTime:(new Date).getTime(), latitude:location.coords.latitude, longitude:location.coords.longitude, reduceStep:Math.floor(result[0]), reduceCalories: Math.floor(result[1]) }})
 						}).then(()=>{return})
 					}
-					// if (currentState === ActivityType.OVERSPEED && )
-					
-
-					// const pauseStateTime = paths[paths.length - 1].pauseTime
-					// const ReduceStep =  health_kit.GetSteps(new Date(pauseStateTime), new Date())
-					// const ReduceCalories =  health_kit.GetCaloriesBurned(new Date(pauseStateTime), new Date())
-
+		
 					if (currentState === ActivityType.OVERSPEED){
-						// Promise.all([ new_cal, new_step, new_heartrate ]).then((result)=>{
-							dispatch({ type:'overSpeedMoving', payload:{ latitude:location.coords.latitude, longitude:location.coords.longitude
-							} })
-						// })
-						
+							dispatch({ type:'overSpeedMoving', payload:{ latitude:location.coords.latitude, longitude:location.coords.longitude} })						
 					}
 					if (currentState === ActivityType.MOVING){
 
@@ -271,7 +260,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 					
 						Promise.all([ new_cal, new_step, new_heartrate ]).then((result)=>{
 							dispatch({ type:'move', payload:{ latitude:location.coords.latitude, longitude:location.coords.longitude,
-								calories:result[0], steps:result[1], heartRate:result[2] } })
+								calories:Math.floor(result[0]), steps:Math.floor(result[1]), heartRate:result[2] } })
 						})
 					}
 				} else {
@@ -282,18 +271,31 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 
 
 		BackgroundGeolocation.ready({
+
 			triggerActivities: 'on_foot, walking, running',
 			locationAuthorizationRequest : 'WhenInUse',
+			// High accuracy + every 2 meter
 			desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
-			distanceFilter: 5,
+			distanceFilter: 2,
 			stopTimeout: 5,
 			isMoving: true,
-			reset: false,
-			debug: true,
+		
 			disableElasticity : true,
 			speedJumpFilter:20,
-			logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
+
+			//Disable location access popup
+			disableLocationAuthorizationAlert: true,
+			
+			// Prevent stop
+			disableStopDetection: true,
+			pausesLocationUpdatesAutomatically: false,
 			stopOnTerminate: true,
+
+			//Debug setting
+			reset: false,
+			debug: true,
+			logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
+
 		}).then((state)=>{
 			if(!state.enabled){
 				BackgroundGeolocation.changePace(true)
@@ -301,6 +303,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 				console.log('ready')
 			}
 		})
+		
 		return () => {
 			onLocation.remove()
 		}
@@ -309,7 +312,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 	
 	const StopRunningSession = async() => {
 		await BackgroundGeolocation.changePace(false)
-		// await BackgroundGeolocation.stop()
+		await BackgroundGeolocation.stop()
 		dispatch({ type:'stop', payload:{ endTime: (new Date()).getTime() } })
 		// setIsStopped(true)
 		try{

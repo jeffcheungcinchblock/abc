@@ -113,5 +113,11 @@
 	<false/>
 	<key>com.apple.developer.healthkit.background-delivery</key>
 	<true/>
+	  <key>LSApplicationQueriesSchemes</key>
+  <array>
+    <string>twitter</string>
+  </array>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+  <string>$(PRODUCT_NAME) wants to save photos</string>
 </dict>
 </plist>

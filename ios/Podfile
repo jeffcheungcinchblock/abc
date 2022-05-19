@@ -22,11 +22,9 @@ target 'DragonDappRN' do
   )
   permissions_path = '../node_modules/react-native-permissions/ios'
   pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse/Permission-LocationWhenInUse.podspec"
-  pod 'react-native-maps', :path => '../node_modules/react-native-maps'
 
 
 
-  pod 'RNSVG', :path => '../node_modules/react-native-svg'
 
   target 'DragonDappRNTests' do
     inherit! :complete

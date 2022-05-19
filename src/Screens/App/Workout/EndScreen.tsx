@@ -30,7 +30,8 @@ import ConGratualtion from '@/Assets/Images/map/congratulation.png'
 import SpeedIcon from '@/Assets/Images/map/speed_crystal.png'
 import TimerLogo from '@/Assets/Images/map/timer_crystal.png'
 import {captureScreen} from 'react-native-view-shot';
-
+import Share from 'react-native-share';
+// import share from '@/Utils/endshare'
 const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 	{ navigation, route }
 ) => {
@@ -54,6 +55,7 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 	const timer = params.timer
 	const step = params.steps
 
+	const [ result, setResult ] = useState<String>()
 	const styles = StyleSheet.create({
 		container:{
 			flex: 1,
@@ -131,21 +133,42 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 		const { style, ...rest } = props
 		return <Text style={[ styles.textStyle, style ]} {...rest} />
 	}
-	const takeScreenShot = () => {
-		console.log('asd')
+	const takeScreenShot = async() => {
 		captureScreen({
 		  format: 'jpg',
-		  // Quality 0.0 - 1.0 (only available for jpg)
 		  quality: 0.8, 
+		  result: 'base64',
 		}).then(
-		  //callback function to get the result URL of the screnshot
 		  (uri) => {
-			console.log(uri)
+			shareImage(uri)
 		  },
 		  (error) => console.error('Oops, Something Went Wrong', error),
 		);
-	  };
+	};
 
+	const shareImage = async(image:string) => {
+		  try {
+			const base64_encode = 'data:image/jpeg;base64,'+ image
+			console.log(typeof base64_encode)
+			// const ShareResponse = await share({
+			// 	title:'End of Workout',
+			// 	url:	base64_encode,
+			// 	type: 'image/jpg',
+			// })
+			const options = {
+				title: 'End of Workout',
+				url:	base64_encode,
+				type: 'image/jpg',
+				
+			}
+			Share.open(options)
+			// setResult(JSON.stringify(ShareResponse, null, 2));
+		  } catch (error) {
+			console.log('Error =>', error);
+			setResult('error: ');
+		  }
+	}
+	
 	return (
 		<ScreenBackgrounds screenName={RouteStacks.workout}>
 			<Header
@@ -171,7 +194,10 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 						</View>
 						<View style={[ styles.contentContainer ]}>
 							<Image source={SpeedIcon} style={{ width: 18.14, height: 20, resizeMode: 'contain', alignSelf:'center' }} />
+
+							{speed ? (
 							<WhiteText style={[{fontSize:30, fontWeight:'bold' }]}>{speed.toFixed(1)}</WhiteText>
+							):(<WhiteText style={[{fontSize:30, fontWeight:'bold' }]}>0</WhiteText>)}
 					</View>
 					</View>
 					<View style={[ styles.colContentContainer ]}>
