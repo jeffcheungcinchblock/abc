@@ -77,7 +77,6 @@ const SignUpWithCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
     const dispatch = useDispatch()
     const [isLoggingIn, setIsLoggingIn] = useState(false)
 
-    const params = route!.params || { username: null }
     const [errMsg, setErrMsg] = useState(" ")
     const [credential, setCredential] = useState({
         username: "",

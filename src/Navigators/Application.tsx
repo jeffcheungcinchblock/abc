@@ -30,6 +30,7 @@ import { colors, config } from '@/Utils/constants'
 import Video from 'react-native-video'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import axios from 'axios'
+import { Hub } from 'aws-amplify'
 
 export type ApplicationNavigatorParamList = {
   [RouteStacks.startUp]: undefined
@@ -89,6 +90,7 @@ const ApplicationNavigator = () => {
 
   }, [isLoggedIn])
 
+
   let navProps: {
     ref: NavigationContainerRefWithCurrent<any>,
     linking: LinkingOptions<any>
@@ -100,6 +102,61 @@ const ApplicationNavigator = () => {
       linking: publicLinking
     }
 
+
+  useEffect(() => {
+    const getUser = () => {
+      return Auth.currentAuthenticatedUser()
+        .then((userData: any) => userData)
+        .catch(() => console.log('Not signed in'));
+    }
+
+    const authListener = async ({ payload: { event, data } }: any) => {
+      switch (event) {
+        case 'signIn':
+        case 'cognitoHostedUI':
+          getUser().then(async (userData: any) => {
+            let jwtToken = userData?.signInUserSession?.idToken?.jwtToken
+            console.log('jwtToken', jwtToken)
+            const userProfileRes = await axios.get(config.userProfile, {
+              headers: {
+                Authorization: jwtToken
+              }
+            })
+
+            const { email } = userProfileRes?.data
+
+            if (email) {
+              dispatch(login({
+                username: userData.username,
+                email: userData.email,
+              }))
+              dispatch(startLoading(false))
+            } else {
+              publicNavigationRef.navigate(RouteStacks.provideEmail)
+              dispatch(startLoading(false))
+            }
+
+          }).catch((err: any) => {
+            console.log(JSON.stringify(err))
+          })
+          break;
+        case 'signOut':
+          break;
+        case 'signIn_failure':
+        case 'cognitoHostedUI_failure':
+          dispatch(startLoading(false))
+          break;
+        default:
+          break;
+      }
+    }
+
+    Hub.listen('auth', authListener);
+
+    return () => {
+      Hub.remove('auth', authListener)
+    }
+  }, [])
 
   return (
     <SafeAreaView style={[Layout.fill, { backgroundColor: colors.black }]}>

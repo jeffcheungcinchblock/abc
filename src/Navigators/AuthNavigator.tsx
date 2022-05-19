@@ -1,7 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import React, { FC, useEffect, useState } from "react"
 import {
-  SignInScreen, SignUpScreen, SignUpWithCodeScreen, ValidationCodeScreen,
+  SignInScreen, SignUpScreen, SignUpWithCodeScreen, ValidationCodeScreen, RegistrationCompletedScreen,
   WelcomeGalleryScreen, ForgotPasswordScreen, WelcomeScreen, CreateNewPasswordScreen
 } from '@/Screens/Auth'
 import { RouteStacks } from "@/Navigators/routes"
@@ -32,6 +32,7 @@ export type AuthNavigatorParamList = {
   [RouteStacks.signUpWithCode]: undefined
   [RouteStacks.createNewPassword]: { validationCode: string, email: string }
   [RouteStacks.provideEmail]: undefined
+  [RouteStacks.registrationCompleted]: undefined
   // 🔥 Your screens go here
 }
 const Stack = createStackNavigator<AuthNavigatorParamList>()
@@ -58,6 +59,7 @@ const AuthNavigator = () => {
       <Stack.Screen name={RouteStacks.forgotPassword} component={ForgotPasswordScreen} />
       <Stack.Screen name={RouteStacks.createNewPassword} component={CreateNewPasswordScreen} />
       <Stack.Screen name={RouteStacks.provideEmail} component={ProvideEmailScreen} />
+      <Stack.Screen name={RouteStacks.registrationCompleted} component={RegistrationCompletedScreen} />
     </Stack.Navigator>
   )
 }

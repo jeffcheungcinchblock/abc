@@ -25,6 +25,7 @@ export enum RouteStacks {
     signUpWithCode = "signUpWithCode",
     createNewPassword = "createNewPassword", 
     provideEmail = "provideEmail",
+    registrationCompleted = "registrationCompleted",
 
 
     // logged in app screens

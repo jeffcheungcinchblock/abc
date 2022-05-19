@@ -63,6 +63,8 @@ import avatar from '@/Assets/Images/Home/avatar.png'
 import InvitationRewardModal from '@/Components/Modals/InvitationRewardModal'
 import logoutBtn from '@/Assets/Images/buttons/btn_logout.png'
 import Orientation from 'react-native-orientation-locker'
+import { Canceler } from 'axios'
+import { storeReferralCode } from '@/Store/Referral/actions'
 
 const PURPLE_COLOR = {
     color: colors.magicPotion
@@ -79,6 +81,7 @@ type ReferralInfo = {
     username: string
     uuid: string
     top100AvgKE: number
+    totalPoint: number
 }
 
 type HomeReferralScreenNavigationProp = CompositeScreenProps<
@@ -122,7 +125,8 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
         referredBy: "",
         referredEmails: [],
         uuid: "",
-        top100AvgKE: 0
+        top100AvgKE: 0,
+        totalPoint: 0,
     })
 
     useEffect(() => {
@@ -131,51 +135,67 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
     }, [])
 
     useEffect(() => {
+        let cancelSourceArr : Canceler[] = []
+
+        const dailyLogin = async () => {
+            let user = await Auth.currentAuthenticatedUser()
+            let jwtToken = user.signInUserSession.idToken.jwtToken
+            let userDailyLoginRes = await axios.get(config.userDailyLogin, {
+                headers: {
+                    'Authorization': jwtToken,
+                },
+            })
+        }
+        
         const run = async () => {
             try {
                 let user = await Auth.currentAuthenticatedUser()
                 let jwtToken = user?.signInUserSession?.idToken?.jwtToken
+                
+                cancelSourceArr[0] = axios.CancelToken.source()
+                cancelSourceArr[1] = axios.CancelToken.source()
+                cancelSourceArr[2] = axios.CancelToken.source()
+                
+                const [authRes, userFitnessInfoRes, topAvgPointRes] = await Promise.all([
+                    axios.get(config.userProfile, {
+                        cancelToken: cancelSourceArr[0].token,
+                        headers: {
+                            Authorization: jwtToken
+                        }
+                    }),
+                    axios.get(config.userFitnessInfo, {
+                        headers: {
+                            'x-api-key': config.fitnesssInfoApiKey,
+                            Authorization: jwtToken
+                        }
+                    }),
+                    axios.get(config.userTopAvgPoint)
+                ])
 
-                const authRes = await axios.get(config.userProfile, {
-                    headers: {
-                        Authorization: jwtToken //the token is a variable which holds the token
-                    }
-                })
-
-                const userFitnessInfoRes = await axios.get(config.userFitnessInfo, {
-                    headers: {
-                        'x-api-key': "QEwArOceQy5zGNyisQpj71JNds2cWxzkpFRdY2S6",
-                        Authorization: jwtToken //the token is a variable which holds the token
-                    }
-                })
-
-                const topAvgPointRes = await axios.get(config.userTopAvgPoint)
-
-                const { dailyMission, isFirstLogin } = userFitnessInfoRes.data
+                const { dailyMission, loginCount, totalPoint } = userFitnessInfoRes.data
 
                 if(!fetchedReferralInfo){
-                    if(isFirstLogin){
+                    if(loginCount === 0){
+                        dailyLogin()
                         invitationRewardModalRef?.current?.open()
-                    }
-    
-                    if(!dailyMission?.isLogin){
+                    } else if(!dailyMission?.isLogin){
                         dailyRewardModalRef?.current?.open()
+                        dailyLogin()
                     }
                 }
                 
-
                 setReferralInfo({
                     ...authRes.data,
-                    top100AvgKE: topAvgPointRes.data.data.topAveragePoint
+                    totalPoint,
+                    top100AvgKE: topAvgPointRes.data.data.topAveragePoint,
                 })
-
 
                 setTimeout(() => {
                     setNeedFetchDtl(false)
                 }, 1000)
 
             } catch (err) {
-                console.log(JSON.stringify(err, null, 2))
+                // console.log(JSON.stringify(err, null, 2))
             }
         }
 
@@ -214,25 +234,9 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
         if (referralInfo.referredBy === '' && !fetchedReferralInfo) {
             // Not yet referred by anyone, if user entered invitation code, need to confirm
             confirmReferral()
+            dispatch(storeReferralCode(''))
         }
     }, [referralInfo, fetchedReferralInfo])
-
-    useEffect(() => {
-        const dailyLogin = async () => {
-            let user = await Auth.currentAuthenticatedUser()
-            let jwtToken = user.signInUserSession.idToken.jwtToken
-
-            let userDailyLoginRes = await axios.get(config.userDailyLogin, {
-                headers: {
-                    'Authorization': jwtToken,
-                },
-            })
-            console.log('userDailyLoginRes', userDailyLoginRes)
-
-        }
-
-        dailyLogin()
-    }, [])
 
     const onSharePress = async () => {
 
@@ -280,6 +284,18 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
     }
 
     const onTrialPlayPress = () => {
+        // const dailyLogin = async () => {
+        //     let user = await Auth.currentAuthenticatedUser()
+        //     let jwtToken = user.signInUserSession.idToken.jwtToken
+        //     let userDailyLoginRes = await axios.get(config.userDailyLogin, {
+        //         headers: {
+        //             'Authorization': jwtToken,
+        //         },
+        //     })
+
+        // }
+        // dailyLogin()
+        
     }
 
     const onLesGoBtnPress = () => {
@@ -317,7 +333,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                 ref={dailyRewardModalRef}
                 onModalClose={onDailyRewardModalClose}
                 onActionBtnPress={onLesGoBtnPress}
-                ke={25}
+                ke={20}
             />
 
             <RuleOfReferralModal
@@ -328,7 +344,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
 
             <InvitationRewardModal
                 ref={invitationRewardModalRef}
-                ke={25}
+                ke={20}
                 onModalClose={onInvitationRewardModalClose}
                 onActionBtnPress={onInvitationRewardModalCloseBtnPress}
             />
@@ -365,11 +381,11 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                     justifyContent: "center"
                 }}>
                     <CircularProgress
-                        value={referralInfo.point}
+                        value={referralInfo.totalPoint}
                         radius={110}
                         duration={2000}
                         progressValueColor={colors.transparent}
-                        maxValue={1000}
+                        maxValue={config.totalPointsMaxCap}
                         activeStrokeColor={colors.brightTurquoise}
                         strokeLinecap={"butt"}
                         inActiveStrokeWidth={14}
@@ -388,7 +404,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                             <Text style={{
                                 color: colors.white, fontSize: 40, fontWeight: "bold",
                                 textAlign: "center"
-                            }}>{referralInfo.point}</Text>
+                            }}>{referralInfo.totalPoint}</Text>
                         </View>
                     </View>
 

@@ -14,7 +14,8 @@ export const config = {
     emailVerification: `https://api-dev.dragonevolution.gg/users/email-verification`,
     onelinkUrl: `https://test-dragon-dev.onelink.me/xNJK`, 
     referralConfirmation: `https://api-dev.dragonevolution.gg/users/referral-confirmation`,
-    
+    fitnesssInfoApiKey: 'QEwArOceQy5zGNyisQpj71JNds2cWxzkpFRdY2S6',
+    totalPointsMaxCap: 9680,
 }
 
 // Color naming https://www.color-name.com/hex/FF789C

@@ -124,21 +124,6 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
             password: ""
         })
 
-        const authListener = ({ payload: { event, data } }: any) => {
-            switch (event) {
-                case 'signIn_failure':
-                case 'cognitoHostedUI_failure':
-                    dispatch(startLoading(false))
-                    break;
-            }
-        }
-
-        Hub.listen('auth', authListener);
-
-        return () => {
-            Hub.remove('auth', authListener)
-        }
-
     }, [])
 
     const onPasswordEyePress = () => {
@@ -172,11 +157,9 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                 let { attributes, username } = user
                 let jwtToken = user?.signInUserSession?.idToken?.jwtToken
 
-                console.log('jwttoken ', jwtToken)
-
                 const userProfileRes = await axios.get(config.userProfile, {
                     headers: {
-                        Authorization: jwtToken //the token is a variable which holds the token
+                        Authorization: jwtToken 
                     }
                 })
                 const { email, uuid } = userProfileRes?.data
@@ -204,7 +187,7 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                 case 'User does not exist.':
                     setErrMsg({
                         ...initErrMsg,
-                        email: t("error.emailUsed")
+                        email: t("error.loginInputEmpty")
                     })
                     break;
                 case 'Password did not conform with policy: Password not long enough':

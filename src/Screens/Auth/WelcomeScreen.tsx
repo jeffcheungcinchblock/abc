@@ -91,63 +91,8 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
         }
     }
 
-    useEffect(() => {
-        const getUser = () => {
-            return Auth.currentAuthenticatedUser()
-                .then((userData: any) => userData)
-                .catch(() => console.log('Not signed in'));
-        }
-
-        const authListener = async ({ payload: { event, data } }: any) => {
-            switch (event) {
-                case 'cognitoHostedUI':
-                    getUser().then(async (userData: any) => {
-                        let jwtToken = userData?.signInUserSession?.idToken?.jwtToken
-                        const userProfileRes = await axios.get(config.userProfile, {
-                            headers: {
-                                Authorization: jwtToken //the token is a variable which holds the token
-                            }
-                        })
-
-                        const { email } = userProfileRes?.data
-
-                        if (email) {
-                            dispatch(login({
-                                username: userData.username,
-                                email: userData.email, // FederatedSignedIn doesnt have email exposed
-                            }))
-                            dispatch(startLoading(false))
-                        } else {
-                            navigation.navigate(RouteStacks.provideEmail)
-                            dispatch(startLoading(false))
-                        }
-
-                    }).catch((err: any) => {
-                        console.log(JSON.stringify(err))
-                    })
-                    break;
-                case 'signOut':
-                    break;
-                case 'signIn_failure':
-                case 'cognitoHostedUI_failure':
-                    dispatch(startLoading(false))
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        Hub.listen('auth', authListener);
-
-        return () => {
-            Hub.remove('auth', authListener)
-        }
-    }, [])
-
     const onSignInPress = async () => {
-
         navigation.navigate(RouteStacks.signIn)
-
     }
 
     const onLoginOptionPress = async (loginOpt: string) => {

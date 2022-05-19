@@ -38,6 +38,7 @@ const ScreenImageMap: any = {
     [RouteStacks.marketplaceMain]: bg2,
     [RouteStacks.setting]: bg2,
     [RouteStacks.provideEmail]: bg2,
+    [RouteStacks.registrationCompleted]: bg2,
 
 }
 

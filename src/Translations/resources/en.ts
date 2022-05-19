@@ -58,6 +58,7 @@ export default {
   confirmPassword: "Confirm Password",
   lesGo: "Let's go",
   createNewAccount: "Create New Account",
+  completed: "Completed",
   snackbarMsg: {
     invitationCodeCopied: "Invitation code copied !",
   },
@@ -74,6 +75,9 @@ export default {
   readyForAnotherActiveSection: "Ready for another active section?",
   shareMsg: "Download FitEvo now and start earning KE points before anyone else!",
   logIn: "Log In",
+  congrats: "Congrats!",
+  registeredSuccess: "You have successfully registered. You can login to your account and have fun!",
+  done: "Done",
   trialPlay: "Trial Play",
   dashboard: "Dashboard",
   close: "Close",
@@ -99,7 +103,7 @@ export default {
     invalidCode: "Invalid code",
     invalidVerificationCode: "Invalid Verification Code",
     emailEmpty: "Email cannot be empty",
-    passwordPolicyErr: "Passwords must have at least 8 characters, 1 lowercase, 1 uppercase, 1 number and 1 special character",
+    passwordPolicyErr: "8 characters, 1 lowercase, 1 uppercase, 1 number, and 1 special character are required in password!",
     passwordMismatch: "Passwords don't match, please check again so i won't see you again here after 5 mins :O"
   },
   tabBarLabels: {

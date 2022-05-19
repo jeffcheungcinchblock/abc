@@ -11,6 +11,7 @@ import {
     Alert,
     ViewStyle,
     Image,
+    Linking,
 } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { Brand } from '@/Components'
@@ -108,11 +109,12 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
     const onStartPress = async () => {
         try {
             let userReferralCheckRes = await axios.get(config.userReferralCheck(code))
-
             dispatch(storeInvitationCode({
                 invitationCode: code
             }))
+            navigation.navigate(RouteStacks.signUpWithCode)
         } catch (err) {
+            console.log(err)
             setErrMsg(t("error.invalidReferralCode"))
         }
     }
@@ -126,15 +128,8 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
     }
 
     const onGetReferralCodePress = () => {
-
-
+        Linking.openURL('https://discord.gg/fitevo')
     }
-
-    useEffect(() => {
-        return () => {
-            dispatch(storeReferralCode(''))
-        }
-    }, [])
 
     return (
         <ScreenBackgrounds

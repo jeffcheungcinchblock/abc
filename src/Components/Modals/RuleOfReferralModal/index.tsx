@@ -49,11 +49,11 @@ const RuleOfReferralModal = forwardRef((props: RuleOfReferralModalProps, ref) =>
       }}
     >
       <View style={{ flex: 1, justifyContent: "center" }}>
-        <Text style={[MODAL_TEXT, { fontSize: 18, fontWeight: "bold" }]}>{t("modalPrompt.ruleOfReferral")}</Text>
+        <Text style={[MODAL_TEXT, { fontSize: 16, fontWeight: "bold" }]}>{t("modalPrompt.ruleOfReferral")}</Text>
 
       </View>
       <View style={{ flex: 1, justifyContent: "center", paddingHorizontal: 14 }}>
-        <Text style={[MODAL_TEXT, { fontSize: 18 }]}>{t("modalPrompt.maximum30Friends")}</Text>
+        <Text style={[MODAL_TEXT, { fontSize: 16 }]}>{t("modalPrompt.maximum30Friends")}</Text>
       </View>
       <View style={{
         justifyContent: "center",

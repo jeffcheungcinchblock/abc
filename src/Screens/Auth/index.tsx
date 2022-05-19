@@ -6,3 +6,6 @@ export { default as ForgotPasswordScreen } from './ForgotPasswordScreen'
 export { default as CreateNewPasswordScreen } from './CreateNewPasswordScreen'
 export { default as WelcomeGalleryScreen } from './WelcomeGalleryScreen'
 export { default as SignUpScreen } from './SignUpScreen'
+export { default as RegistrationCompletedScreen } from './RegistrationCompletedScreen'
+
+

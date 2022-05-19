@@ -173,6 +173,7 @@ const App = () => {
 
   useEffect(() => {
     RNBootSplash.hide({fade: true});
+    // Orientation lockToPortrait only work in android / ios < 15, ios >= 15 won't work
     Orientation.lockToPortrait()
 
     requestUserPermission()

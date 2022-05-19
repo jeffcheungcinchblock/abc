@@ -2,6 +2,7 @@ import { RootState, store } from "@/Store";
 import { showSnackbar } from "@/Store/UI/actions";
 import { logout } from "@/Store/Users/actions";
 import { Auth } from "aws-amplify";
+import axios, { AxiosRequestConfig } from "axios";
 import InAppBrowser from "react-native-inappbrowser-reborn";
 import { useSelector } from "react-redux";
 export const validateEmail = (email : string) => {
@@ -47,6 +48,4 @@ export const awsLogout = async() => {
     }
 }
 
-export const emailUsernameHash = (email: string) => {
-    return `Cognito_${email}`
-}
+export const emailUsernameHash = (email: string) => `Cognito_${email}`

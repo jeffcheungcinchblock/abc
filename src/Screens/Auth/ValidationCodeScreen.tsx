@@ -168,7 +168,7 @@ const VerificationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteS
             try {
                 dispatch(startLoading(true))
                 await Auth.confirmSignUp(emailUsernameHash(params.email), validationCode)
-                navigation.navigate(RouteStacks.signIn)
+                navigation.navigate(RouteStacks.registrationCompleted)
             } catch (err: any) {
                 setErrMsg(err.message)
             } finally {
