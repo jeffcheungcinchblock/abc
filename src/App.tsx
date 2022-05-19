@@ -22,7 +22,7 @@ import { RouteStacks } from './Navigators/routes'
 import { startLoading } from './Store/UI/actions'
 import { storeReferralCode } from './Store/Referral/actions'
 import RNBootSplash from "react-native-bootsplash";
-
+import Orientation from 'react-native-orientation-locker';
 // TBD: remove later
 console.warn = () => {}
 
@@ -62,11 +62,16 @@ const onAppOpenAttributionCanceller = appsFlyer.onAppOpenAttribution((res) => {
 });
 
 const onDeepLinkCanceller = appsFlyer.onDeepLink(res => {
+  console.log('onDeepLinkCanceller ', res)
+  
   if (res?.deepLinkStatus !== 'NOT_FOUND') {
     const DLValue = res?.data.deep_link_value;
     const mediaSrc = res?.data.media_source;
     const param1 = res?.data.af_sub1;
     const screen = res?.data.screen
+
+    console.log('screen ', screen)
+
     if(screen !== undefined){
       Linking.openURL(`${config.urlScheme}${screen}`)
     }
@@ -121,12 +126,6 @@ const urlOpener = async (url: string, redirectUrl: string) => {
 
       const { type, url: newUrl } = authRes
 
-      // console.log('authRes ', authRes)
-      // await new Promise(resolve => setTimeout(() => resolve(""), 1000));
-      // const { attributes, username } = getUser()
-      // console.log("### username ", username, newUrl)
-      // console.log("### attributes ", attributes)
-
       if (type === 'success') {
         Linking.openURL(newUrl);
       } else if (type === 'cancel') {
@@ -155,7 +154,7 @@ const App = () => {
   const getFcmToken = async () => {
     const fcmToken = await messaging().getToken();
     if (fcmToken) {
-      console.log("Your Firebase Token is:", fcmToken);
+      console.log("Firebase Token:", fcmToken);
     } else {
       console.log("Failed", "No token received");
     }
@@ -169,18 +168,17 @@ const App = () => {
 
     if (enabled) {
       getFcmToken()
-      console.log('Authorization status:', authStatus);
     }
   }
 
   useEffect(() => {
     RNBootSplash.hide({fade: true});
+    Orientation.lockToPortrait()
 
     requestUserPermission()
 
     let messageHandler = async(remoteMessage: any) => {
       Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
-      console.log('remoteMesg ', remoteMessage)
     }
 
     let onNotiPress = async(remoteMessage: any) => {

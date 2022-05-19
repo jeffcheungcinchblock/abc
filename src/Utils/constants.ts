@@ -3,12 +3,15 @@ export const config = {
     urlScheme: `com.fitevo://`,
     dynamicLink: `https://fitevo.page.link/xEYL`,
     userAuthInfo: `https://api-dev.dragonevolution.gg/users/auth`,
+    userDailyLogin: `https://api-dev.dragonevolution.gg/users/daily-login`,
+    userTopAvgPoint: `https://api-dev.dragonevolution.gg/users/top-average-point`,
+    userDailyShare: `https://api-dev.dragonevolution.gg/users/daily-share`,
+    userFitnessInfo: `https://api-dev.dragonevolution.gg/users/fitness-info`,
     userProfile: `https://api-dev.dragonevolution.gg/users/profile`,
     userReferralCheck: (referralCode: string) => {
         return `https://api-dev.dragonevolution.gg/users/referral/${referralCode}/check`
     },
     emailVerification: `https://api-dev.dragonevolution.gg/users/email-verification`,
-    
     onelinkUrl: `https://test-dragon-dev.onelink.me/xNJK`, 
     referralConfirmation: `https://api-dev.dragonevolution.gg/users/referral-confirmation`,
     

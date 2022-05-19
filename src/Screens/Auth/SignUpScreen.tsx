@@ -54,12 +54,12 @@ const INPUT_VIEW_LAYOUT: ViewStyle = {
 }
 
 const ERR_MSG_TEXT: TextStyle = {
-    color: colors.magicPotion
+    color: colors.magicPotion,
+    paddingTop: 4
 }
 
 const initErrMsg = {
     email: "",
-    username: "",
     password: ""
 }
 
@@ -75,9 +75,8 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
         ...initErrMsg
     })
     const [credential, setCredential] = useState({
-        username: "",
-        password: "",
         email: "",
+        password: "",
     })
     const [showPassword, setShowPassword] = useState(false)
 
@@ -124,12 +123,6 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                     setErrMsg({
                         ...errMsg,
                         password: error.message
-                    })
-                    break;
-                case 'Username cannot be empty':
-                    setErrMsg({
-                        ...errMsg,
-                        username: error.message
                     })
                     break;
                 case 'Invalid email address format.':
@@ -204,23 +197,12 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                             value={credential.email}
                             placeholder={t("email")}
                             placeholderTextColor={colors.spanishGray}
+                            autoCapitalize={"none"}
                         />
                         {
-                            <Text style={[ERR_MSG_TEXT, Gutters.smallHPadding]}>{errMsg.email}</Text>
+                            errMsg.email !== '' && <Text style={[ERR_MSG_TEXT, Gutters.smallHPadding]}>{errMsg.email}</Text>
                         }
                     </View>
-
-                    {/* <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT, { flexBasis: 80 }]}>
-                        <StandardInput
-                            onChangeText={(text) => onCredentialFieldChange('username', text)}
-                            value={credential.username}
-                            placeholder={t("username")}
-                            placeholderTextColor={colors.spanishGray}
-                        />
-                        {
-                            <Text style={[ERR_MSG_TEXT, Gutters.smallHPadding]}>{errMsg.username}</Text>
-                        }
-                    </View> */}
 
                     <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT, { flexBasis: 80 }]}>
                         <StandardInput
@@ -233,7 +215,7 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                             onPasswordEyePress={onPasswordEyePress}
                         />
                         {
-                            <Text style={[ERR_MSG_TEXT, Gutters.smallHPadding]}>{errMsg.password}</Text>
+                            errMsg.password !== '' && <Text style={[ERR_MSG_TEXT, Gutters.smallHPadding]}>{errMsg.password}</Text>
                         }
                     </View>
 

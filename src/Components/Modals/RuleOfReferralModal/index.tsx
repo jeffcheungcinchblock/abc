@@ -62,7 +62,7 @@ const RuleOfReferralModal = forwardRef((props: RuleOfReferralModalProps, ref) =>
       }}>
         <TurquoiseButton
           onPress={onActionBtnPress}
-          text={t("close")}
+          text={t("gotIt")}
           isTransparentBackground
           containerStyle={{
             width: 120,

@@ -14,12 +14,16 @@ const SnackbarMsgContainer = ({
 }: SnackbarMsgContainerProps) => {
 
     return (
-        <View style={{ flex: 1, flexDirection: "row", paddingLeft: 30, paddingRight: 10 }}>
-            <View style={{ flex: 4, justifyContent: "center" }}>
-                <Text style={{ fontFamily: "AvenirNext-Bold", fontSize: 20, color: '#fff' }}>{textMessage}</Text>
+        <View style={{
+            flex: 1, backgroundColor: colors.charcoal, flexDirection: "row",
+            paddingVertical: 16, borderRadius: 99, elevation: 4,
+            paddingLeft: 30, paddingRight: 10
+        }}>
+            <View style={{ flex: 6, justifyContent: "center" }}>
+                <Text style={{ fontSize: 18, color: '#fff' }}>{textMessage}</Text>
             </View>
             <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                <Image source={iconCheck} style={{ width: 26, height: 26, resizeMode: "contain" }} />
+                <Image source={iconCheck} style={{ width: 22, height: 22, resizeMode: "contain" }} />
             </View>
         </View>
 

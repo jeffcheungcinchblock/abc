@@ -162,6 +162,7 @@ const ProvideEmailScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStack
                             value={email}
                             placeholder={t("email")}
                             placeholderTextColor={colors.spanishGray}
+                            autoCapitalize={"none"}
                         />
                         {
                             errMsg !== "" && <Text style={[{ color: colors.magicPotion, paddingHorizontal: 10 }, Fonts.textSmall, Fonts.textLeft]}>

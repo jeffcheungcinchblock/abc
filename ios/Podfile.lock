@@ -380,6 +380,8 @@ PODS:
     - React-Core
   - react-native-netinfo (8.2.0):
     - React-Core
+  - react-native-orientation-locker (1.5.0):
+    - React-Core
   - react-native-pager-view (5.4.15):
     - React-Core
   - react-native-randombytes (3.6.1):
@@ -391,6 +393,8 @@ PODS:
     - react-native-video/Video (= 5.2.0)
   - react-native-video/Video (5.2.0):
     - React-Core
+  - react-native-view-shot (3.1.2):
+    - React
   - React-perflogger (0.66.4)
   - React-RCTActionSheet (0.66.4):
     - React-Core/RCTActionSheetHeaders (= 0.66.4)
@@ -490,6 +494,8 @@ PODS:
     - Firebase/Messaging (= 8.15.0)
     - React-Core
     - RNFBApp
+  - RNFS (2.20.0):
+    - React-Core
   - RNGestureHandler (2.3.2):
     - React-Core
   - RNInAppBrowser (3.6.3):
@@ -592,10 +598,12 @@ DEPENDENCIES:
   - react-native-encrypted-storage (from `../node_modules/react-native-encrypted-storage`)
   - react-native-flipper (from `../node_modules/react-native-flipper`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
+  - react-native-orientation-locker (from `../node_modules/react-native-orientation-locker`)
   - react-native-pager-view (from `../node_modules/react-native-pager-view`)
   - react-native-randombytes (from `../node_modules/react-native-randombytes`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-video (from `../node_modules/react-native-video`)
+  - react-native-view-shot (from `../node_modules/react-native-view-shot`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -620,6 +628,7 @@ DEPENDENCIES:
   - "RNFBAppDistribution (from `../node_modules/@react-native-firebase/app-distribution`)"
   - "RNFBDynamicLinks (from `../node_modules/@react-native-firebase/dynamic-links`)"
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
+  - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNInAppBrowser (from `../node_modules/react-native-inappbrowser-reborn`)
   - "RNNotifee (from `../node_modules/@notifee/react-native`)"
@@ -707,6 +716,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-flipper"
   react-native-netinfo:
     :path: "../node_modules/@react-native-community/netinfo"
+  react-native-orientation-locker:
+    :path: "../node_modules/react-native-orientation-locker"
   react-native-pager-view:
     :path: "../node_modules/react-native-pager-view"
   react-native-randombytes:
@@ -715,6 +726,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-video:
     :path: "../node_modules/react-native-video"
+  react-native-view-shot:
+    :path: "../node_modules/react-native-view-shot"
   React-perflogger:
     :path: "../node_modules/react-native/ReactCommon/reactperflogger"
   React-RCTActionSheet:
@@ -763,6 +776,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/dynamic-links"
   RNFBMessaging:
     :path: "../node_modules/@react-native-firebase/messaging"
+  RNFS:
+    :path: "../node_modules/react-native-fs"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNInAppBrowser:
@@ -830,10 +845,12 @@ SPEC CHECKSUMS:
   react-native-encrypted-storage: 837c733334debf626204f03d867c7e01d8741e2f
   react-native-flipper: b9e2e817604af8da0d5a9ba20a8516e780e30f3c
   react-native-netinfo: 1929cb10180c83da2f7875bef715ae482e37831f
+  react-native-orientation-locker: 851f6510d8046ea2f14aa169b1e01fcd309a94ba
   react-native-pager-view: 15ae71c52a8a40bd8a10505b5c64fb129fc437e2
   react-native-randombytes: 5fc412efe7b5c55b9002c0004d75fe5fabcaa507
   react-native-safe-area-context: 5b8a418400eb3d8364aa87300e865c0262cc17b9
   react-native-video: 77ce22be7abff9e373527ca10106a99dea3ba56c
+  react-native-view-shot: 08c46c9e8e92f6681e8f2ffa55ac3d06e7e99070
   React-perflogger: 93075d8931c32cd1fce8a98c15d2d5ccc4d891bd
   React-RCTActionSheet: 7d3041e6761b4f3044a37079ddcb156575fb6d89
   React-RCTAnimation: 743e88b55ac62511ae5c2e22803d4f503f2a3a13
@@ -858,6 +875,7 @@ SPEC CHECKSUMS:
   RNFBAppDistribution: 9dca688634f2f190a8c6c05f490f4300f82b3e11
   RNFBDynamicLinks: 6e32589c2c581208623ebd0c00c46fc61c288a82
   RNFBMessaging: 6c6016cc0b7682abacdfe3f2535134771424f976
+  RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
   RNGestureHandler: 6e757e487a4834e7280e98e9bac66d2d9c575e9c
   RNInAppBrowser: 5672feb84e731411f6911979c71649c240a90202
   RNNotifee: aa2db7658fd17b5c44ea96b7062bcade3787a10e
@@ -870,6 +888,6 @@ SPEC CHECKSUMS:
   Yoga: e7dc4e71caba6472ff48ad7d234389b91dadc280
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 9fae849695cfa524e70c0246be1e1408d84de8d2
+PODFILE CHECKSUM: b01710a7665249941021cc97724d74a9f630ec0c
 
 COCOAPODS: 1.11.3

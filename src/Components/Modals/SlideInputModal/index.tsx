@@ -41,7 +41,7 @@ const SlideInputModal = forwardRef((props: SlideInputModalProps, ref) => {
       keyboardTopOffset={40}
       animationDuration={500}
       style={{
-        height: '65%',
+        height: '60%',
         backgroundColor: colors.charcoal,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,

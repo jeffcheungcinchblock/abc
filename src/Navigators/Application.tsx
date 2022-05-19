@@ -67,7 +67,7 @@ const ApplicationNavigator = () => {
         if (email) {
           dispatch(login({
             username: username,
-            email: attributes.email, 
+            email: attributes.email,
             uuid
           }))
           dispatch(startLoading(false))
@@ -110,10 +110,7 @@ const ApplicationNavigator = () => {
             return <SnackbarMsgContainer textMessage={snackBarConfig.textMessage} />
           }}
           containerStyle={{
-            borderRadius: 16,
-            paddingHorizontal: 4,
-            paddingVertical: 16,
-            backgroundColor: '#1F2323',
+            borderRadius: 99,
           }}
           top={10}
           left={10}
@@ -122,7 +119,8 @@ const ApplicationNavigator = () => {
 
         </SnackBar>
         <NavigationContainer theme={NavigationTheme}
-          {...navProps}
+          ref={publicNavigationRef}
+          linking={publicLinking}
         >
           <StatusBar
             barStyle={darkMode ? 'light-content' : 'dark-content'} />

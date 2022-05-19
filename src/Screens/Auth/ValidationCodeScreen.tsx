@@ -270,7 +270,8 @@ const VerificationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteS
                                     alignItems: "center",
                                     justifyContent: "center",
                                     marginTop: 8,
-                                    marginRight: 10
+                                    marginRight: 10,
+                                    display: canResendVeriCode ? "none" : "flex"
                                 }}
 
                                 showSeparator
@@ -279,7 +280,10 @@ const VerificationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteS
                         </View>
                         <View style={{ justifyContent: "center", height: "100%" }}>
                             <Pressable onPress={onResendVerificationCodePress}>
-                                <Text style={[{ color: colors.white, lineHeight: 26 }, Fonts.textSmall, Fonts.textLeft]}>
+                                <Text style={[{
+                                    color: colors.white, lineHeight: 26,
+                                    textDecorationLine: canResendVeriCode ? 'underline' : "none"
+                                }, Fonts.textSmall, Fonts.textLeft]}>
                                     {t('resendVerificationCode')}
                                 </Text>
                             </Pressable>

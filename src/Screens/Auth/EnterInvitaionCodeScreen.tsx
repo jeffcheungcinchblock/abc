@@ -80,7 +80,7 @@ const INPUT_VIEW_LAYOUT: ViewStyle = {
 const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.enterInvitationCode>> = (
     { navigation, route }
 ) => {
-    const invitationRewardModalRef = useRef<any>(null)
+    const modalRef = useRef<any>()
     const { t } = useTranslation()
     const { Common, Fonts, Gutters, Layout } = useTheme()
     const dispatch = useDispatch()
@@ -89,7 +89,6 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
 
     const [isLoggingIn, setIsLoggingIn] = useState(false)
     const [errMsg, setErrMsg] = useState(" ")
-    const modalRef = useRef()
     const [code, setCode] = useState("")
 
     const { invitationCode } = useSelector((state: RootState) => state.user)
@@ -113,11 +112,6 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
             dispatch(storeInvitationCode({
                 invitationCode: code
             }))
-            invitationRewardModalRef?.current?.open()
-
-            setTimeout(() => {
-                navigation.navigate(RouteStacks.signUpWithCode)
-            }, 1000)
         } catch (err) {
             setErrMsg(t("error.invalidReferralCode"))
         }
@@ -136,14 +130,6 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
 
     }
 
-    const onInvitationRewardModalClose = () => {
-
-    }
-
-    const onCloseBtnPress = () => {
-        invitationRewardModalRef?.current?.close()
-    }
-
     useEffect(() => {
         return () => {
             dispatch(storeReferralCode(''))
@@ -154,12 +140,7 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
         <ScreenBackgrounds
             screenName={RouteStacks.enterInvitationCode}
         >
-            <InvitationRewardModal
-                ref={invitationRewardModalRef}
-                ke={25}
-                onModalClose={onInvitationRewardModalClose}
-                onActionBtnPress={onCloseBtnPress}
-            />
+            
 
             <KeyboardAwareScrollView
                 contentContainerStyle={[
@@ -182,7 +163,7 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
 
                     <AppIcon />
 
-                    <View style={[Layout.fullWidth, { justifyContent: "center", paddingVertical: 40, paddingHorizontal: 20 }]}>
+                    <View style={[Layout.fullWidth, { justifyContent: "center", paddingVertical: 40, paddingHorizontal: 40 }]}>
                         <Text style={[{ color: colors.white, lineHeight: 22 }, Fonts.textSmall, Fonts.textCenter]}>
                             {t("enterInvitationCodeDesc")}
                         </Text>

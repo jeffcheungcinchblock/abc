@@ -28,6 +28,8 @@ import { RootState } from '@/Store'
 
 const { width, height } = Dimensions.get("screen");
 
+
+
 export type TabNavigatorParamList = {
   [RouteTabs.home]: NavigatorScreenParams<HomeNavigatorParamList>
   [RouteTabs.breeding]: NavigatorScreenParams<BreedingNavigatorParamList>
@@ -37,12 +39,11 @@ export type TabNavigatorParamList = {
 }
 
 export type DrawerNavigatorParamList = {
-  [RouteStacks.setting]: undefined
+  // [RouteStacks.setting]: undefined
   [RouteStacks.mainTab]: NavigatorScreenParams<TabNavigatorParamList>
 }
 
 export type MainStackNavigatorParamList = {
-  [RouteStacks.welcomeGallery]: undefined
   [RouteStacks.mainDrawer]: NavigatorScreenParams<DrawerNavigatorParamList>
 }
 

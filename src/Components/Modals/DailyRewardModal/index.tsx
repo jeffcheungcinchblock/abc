@@ -5,7 +5,7 @@ import { Spacing } from "@/Theme/Variables"
 import { useTheme } from "@/Hooks"
 import { colors } from "@/Utils/constants"
 import ModalBox from 'react-native-modalbox';
-import reward from '@/Assets/Images/Modal/reward.png'
+import present from '@/Assets/Images/Modal/present.png'
 import TurquoiseButton from "@/Components/Buttons/TurquoiseButton"
 
 type DailyRewardModalProps = {
@@ -51,10 +51,19 @@ const DailyRewardModal = forwardRef((props: DailyRewardModalProps, ref) => {
       }}
     >
       <View style={[Layout.fullWidth, Layout.colCenter, { flex: 4 }]}>
-        <Image source={reward} />
+        <Image source={present} />
       </View>
-      <Text style={[MODAL_TEXT, { fontSize: 18, paddingHorizontal: 14, flex: 2 }]}>{t("modalPrompt.claimedDailyReward")}</Text>
-      <Text style={[MODAL_TEXT, { fontSize: 30, fontStyle: "italic", flex: 3 }]}>{ke}KE</Text>
+      <View style={{ flex: 3, paddingHorizontal: 14}}>
+        <Text style={[MODAL_TEXT, { fontFamily: "Avenir-Book", fontSize: 22}]}>{t("modalPrompt.dailyReward")}</Text>
+      </View>
+
+      <View style={{ flex: 3, paddingHorizontal: 40 }}>
+        <Text style={[MODAL_TEXT, { fontFamily: "Avenir-Book", fontSize: 18}]}>{t("modalPrompt.claimedDailyReward")}</Text>
+      </View>
+      
+      <Text style={[MODAL_TEXT, { fontSize: 30, fontStyle: "italic", fontFamily: "Poppins-Regular", flex: 3 }]}>+{ke}
+        <Text style={{ fontSize: 18, fontWeight: "400" }}> KE Points</Text>
+      </Text>
       <View style={{
         alignItems: "center",
         flex: 3

@@ -85,7 +85,8 @@ const INPUT_VIEW_LAYOUT: ViewStyle = {
 
 const ERR_MSG_TEXT: TextStyle = {
     color: colors.magicPotion,
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
+    paddingTop: 4
 }
 
 const initErrMsg = {
@@ -145,14 +146,33 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
     }
 
     const onLoginOptionPress = async (loginOpt: string) => {
+
+        let currErrMsg = {
+            email: "", password: ""
+        }
+        let frontendCheckFail = false
+        if (credential.email === '') {
+            currErrMsg.email = t("error.loginInputEmpty")
+            frontendCheckFail = true
+        }
+        if (credential.password === '') {
+            currErrMsg.password = t("error.loginInputEmpty")
+            frontendCheckFail = true
+        }
+
+        if (frontendCheckFail) {
+            setErrMsg(currErrMsg)
+        }
+
         dispatch(startLoading(true))
+
         try {
             if (loginOpt === 'normal') {
-                console.log('@## 1', emailUsernameHash(credential.email), credential.password)
                 const user = await Auth.signIn(emailUsernameHash(credential.email), credential.password)
-                console.log("@## ", user)
                 let { attributes, username } = user
                 let jwtToken = user?.signInUserSession?.idToken?.jwtToken
+
+                console.log('jwttoken ', jwtToken)
 
                 const userProfileRes = await axios.get(config.userProfile, {
                     headers: {
@@ -181,17 +201,16 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
             switch (err.message) {
                 case 'Username should be either an email or a phone number.':
                 case 'Incorrect username or password.':
-                case 'Username cannot be empty':
                 case 'User does not exist.':
                     setErrMsg({
                         ...initErrMsg,
-                        email: err.message
+                        email: t("error.emailUsed")
                     })
                     break;
                 case 'Password did not conform with policy: Password not long enough':
                     setErrMsg({
                         ...initErrMsg,
-                        password: err.message
+                        password: t('error.passwordPolicyErr')
                     })
                     break;
                 case 'User is not confirmed.':
@@ -202,6 +221,7 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                     break;
                 default:
             }
+            console.log('err', JSON.stringify(err, null, 2))
             dispatch(startLoading(false))
         } finally {
             setIsLoggingIn(false)
@@ -238,7 +258,6 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
             screenName={RouteStacks.signIn}
         >
 
-
             <KeyboardAwareScrollView
                 contentContainerStyle={[
                     Layout.fill,
@@ -262,6 +281,10 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                         <Text style={[{ color: colors.white, fontWeight: "bold" }, Fonts.textRegular, Fonts.textCenter]}>
                             {t("welcomeBack")} !
                         </Text>
+
+                        <Text style={[{ color: colors.white, fontWeight: "bold", paddingTop: 6 }, Fonts.textSmall, Fonts.textCenter]}>
+                            {t('readyForAnotherActiveSection')}
+                        </Text>
                     </View>
 
                 </View>
@@ -282,7 +305,7 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
 
                         />
                         {
-                            <Text style={ERR_MSG_TEXT}>{errMsg.email}</Text>
+                            errMsg.email !== '' && <Text style={ERR_MSG_TEXT}>{errMsg.email}</Text>
                         }
                     </View>
 
@@ -298,14 +321,14 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                             onPasswordEyePress={onPasswordEyePress}
                         />
                         {
-                            <Text style={ERR_MSG_TEXT}>{errMsg.password}</Text>
+                            errMsg.password !== '' && <Text style={ERR_MSG_TEXT}>{errMsg.password}</Text>
                         }
                     </View>
 
                     <View style={[Layout.fullWidth, Layout.center, Gutters.regularVPadding, { flex: 1, justifyContent: "center" }]}>
                         <TurquoiseButton
                             onPress={() => onLoginOptionPress("normal")}
-                            text={t("login")}
+                            text={t("logMeIn")}
                             isTransparentBackground
                             containerStyle={{
                                 width: "45%",

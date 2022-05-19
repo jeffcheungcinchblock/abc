@@ -20,7 +20,7 @@ const initialState: UIState = {
         textMessage: "",
         position: "top",
         actionText: "OK",
-        autoHidingTime: 3000
+        autoHidingTime: 30000
     },
 }
 
@@ -40,7 +40,7 @@ export default createReducer<UIState>(initialState, (builder) => {
                     textMessage: payload.textMessage ?? "",
                     position: payload.position ?? "top",
                     actionText: payload.actionText ?? "OK",
-                    autoHidingTime: payload.autoHidingTime ?? 3000
+                    autoHidingTime: payload.autoHidingTime ?? 30000
                 }
             }
         })

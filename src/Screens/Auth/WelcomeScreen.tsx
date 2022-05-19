@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, FC } from 'react'
+import React, { useState, useEffect, useCallback, FC, useRef } from 'react'
 import { StackScreenProps } from "@react-navigation/stack"
 import {
     View,
@@ -11,7 +11,8 @@ import {
     Alert,
     ViewStyle,
     ImageBackground,
-    Linking
+    Linking,
+    Image
 } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { Brand, Header } from '@/Components'
@@ -45,6 +46,9 @@ import Animated, { FadeIn } from 'react-native-reanimated';
 import axios from 'axios'
 import InAppBrowser from 'react-native-inappbrowser-reborn'
 import { RootState } from '@/Store'
+import RNFS from 'react-native-fs';
+import ViewShot from "react-native-view-shot";
+import Orientation from 'react-native-orientation-locker'
 
 const BUTTON_VIEW = {
     marginVertical: 20
@@ -60,9 +64,9 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
 
 
     const [errMsg, setErrMsg] = useState(" ")
-    
+
     useEffect(() => {
-            // navigation.navigate(RouteStacks.welcomeGallery)
+        // navigation.navigate(RouteStacks.welcomeGallery)
     }, [])
 
     const onDisplayNotification = async () => {
@@ -95,13 +99,10 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
         }
 
         const authListener = async ({ payload: { event, data } }: any) => {
-            console.log("authListener event ", event)
             switch (event) {
                 case 'cognitoHostedUI':
-                    console.log("@@@@!")
                     getUser().then(async (userData: any) => {
                         let jwtToken = userData?.signInUserSession?.idToken?.jwtToken
-                        console.log('jwtToken', jwtToken)
                         const userProfileRes = await axios.get(config.userProfile, {
                             headers: {
                                 Authorization: jwtToken //the token is a variable which holds the token
@@ -144,6 +145,7 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
     }, [])
 
     const onSignInPress = async () => {
+
         navigation.navigate(RouteStacks.signIn)
 
     }
@@ -191,6 +193,7 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
         navigation.navigate(RouteStacks.signUp)
     }
 
+
     return (
         <ScreenBackgrounds
             screenName={RouteStacks.welcome}
@@ -225,7 +228,6 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
                         justifyContent: "flex-end",
                     }, Layout.fullWidth, Layout.fill]}>
 
-
                         <View style={[
                             Layout.fullWidth,
                             Gutters.smallVPadding,
@@ -250,7 +252,9 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
                             <TurquoiseButton
                                 text={t("invitationCode")}
                                 containerStyle={{ width: "45%" }}
-                                onPress={() => navigation.navigate(RouteStacks.enterInvitationCode)}
+                                onPress={() => {
+                                    navigation.navigate(RouteStacks.enterInvitationCode)
+                                }}
                             />
                         </View>
 

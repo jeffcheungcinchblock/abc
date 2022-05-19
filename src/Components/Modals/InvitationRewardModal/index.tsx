@@ -43,7 +43,7 @@ const InvitationRewardModal = forwardRef((props: InvitationRewardModalProps, ref
       keyboardTopOffset={40}
       animationDuration={500}
       style={{
-        height: '45%',
+        height: '40%',
         width: "80%",
         backgroundColor: colors.charcoal,
         borderRadius: 20,
@@ -53,8 +53,12 @@ const InvitationRewardModal = forwardRef((props: InvitationRewardModalProps, ref
       <View style={[Layout.fullWidth, Layout.colCenter, { flex: 4 }]}>
         <Image source={reward} />
       </View>
-      <Text style={[MODAL_TEXT, { fontSize: 18, paddingHorizontal: 14, flex: 2 }]}>{t("modalPrompt.userEarned")}</Text>
-      <Text style={[MODAL_TEXT, { fontSize: 30, fontStyle: "italic", flex: 3 }]}>{ke}KE</Text>
+      <View style={{ flex: 3 }}>
+        <Text style={[MODAL_TEXT, { fontFamily: "Avenir-Book", paddingHorizontal: 40, fontSize: 18 }]}>{t("modalPrompt.userEarned")}</Text>
+      </View>
+      <View style={{ flex: 3 }}>
+        <Text style={[MODAL_TEXT, { fontFamily: "Poppins-Bold", paddingHorizontal: 40, fontSize: 30, fontStyle: "italic" }]}>+{ke}KE</Text>
+      </View>
       <View style={{
         alignItems: "center",
         flex: 3

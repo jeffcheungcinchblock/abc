@@ -115,8 +115,8 @@ const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
                 action: 'forgotPassword'
             })
         } catch (err: any) {
-            console.log('err ', err)
-            setErrMsg(err.message)
+            // setErrMsg(err.message)
+            setErrMsg(t("error.invalidEmail"))
         }
     }
 
@@ -152,6 +152,7 @@ const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
                             value={email}
                             placeholder={t("email")}
                             placeholderTextColor={colors.spanishGray}
+                            autoCapitalize={"none"}
                         />
                         {
                             errMsg !== "" && <Text style={[{ color: colors.magicPotion, paddingHorizontal: 10 }, Fonts.textSmall, Fonts.textLeft]}>

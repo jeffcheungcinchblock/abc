@@ -3,20 +3,21 @@ import { createNavigationContainerRef, LinkingOptions } from '@react-navigation/
 import { AuthNavigatorParamList } from "./AuthNavigator";
 import dynamicLinks, { FirebaseDynamicLinksTypes } from '@react-native-firebase/dynamic-links';
 import { RouteStacks, RouteTabs } from './routes'
-import { DrawerNavigatorParamList } from "./MainNavigator";
+import { DrawerNavigatorParamList, MainStackNavigatorParamList } from "./MainNavigator";
 import { config } from "@/Utils/constants";
 
 
 export const publicNavigationRef = createNavigationContainerRef<AuthNavigatorParamList>()
 export const privateNavigationRef = createNavigationContainerRef<DrawerNavigatorParamList>()
 
-const prefixes = [config.urlScheme, config.dynamicLink]
+const prefixes = ['com.fitevo://', config.dynamicLink, config.onelinkUrl]
 
 const getInitialURL = async (): Promise<string> => {
 
     // Check if the app was opened by a deep link
     const url = await Linking.getInitialURL();
     const dynamicLinkUrl = await dynamicLinks().getInitialLink();
+
     if (dynamicLinkUrl) {
         return dynamicLinkUrl.url;
     }
@@ -28,6 +29,7 @@ const getInitialURL = async (): Promise<string> => {
 }
 
 const subscribe = (listener: (deeplink: string) => void) => {
+    
     // First, you may want to do the default deep link handling
     const onReceiveURL = ({ url }: { url: string }) => {
         let urlSplit = url.split("/")
@@ -49,11 +51,46 @@ const subscribe = (listener: (deeplink: string) => void) => {
 // Screens before logging in linking options
 export const publicLinking: LinkingOptions<AuthNavigatorParamList> = {
     prefixes,
-    getInitialURL,
+    getInitialURL: async (): Promise<string> => {
+
+        // Check if the app was opened by a deep link
+        const url = await Linking.getInitialURL();
+        const dynamicLinkUrl = await dynamicLinks().getInitialLink();
+    
+        if (dynamicLinkUrl) {
+            return dynamicLinkUrl.url;
+        }
+        if (url) {
+            return url;
+        }
+        // If it was not opened by a deep link, go to the home screen
+        return `${config.urlScheme}${RouteStacks.welcome}`;
+    },
     // Custom function to subscribe to incoming links
-    subscribe,
+    subscribe: (listener: (deeplink: string) => void) => {
+    
+        // First, you may want to do the default deep link handling
+        const onReceiveURL = ({ url }: { url: string }) => {
+            let urlSplit = url.split("/")
+            return listener(url)
+        };
+        // Listen to incoming links from deep linking
+        let onReceiveURLEvent = Linking.addEventListener('url', onReceiveURL);
+    
+        const handleDynamicLink = (link: FirebaseDynamicLinksTypes.DynamicLink) => {
+            console.log("Dynamic url ", link)
+        }
+        const unsubscribeToDynamicLinks = dynamicLinks().onLink(handleDynamicLink);
+        return () => {
+            unsubscribeToDynamicLinks();
+            onReceiveURLEvent.remove()
+        };
+    },
     config: {
         screens: {
+            [RouteStacks.welcomeGallery]: {
+                path: RouteStacks.welcomeGallery,
+            },
             [RouteStacks.welcome]: {
                 path: RouteStacks.welcome,
             },
@@ -73,6 +110,21 @@ export const publicLinking: LinkingOptions<AuthNavigatorParamList> = {
             [RouteStacks.validationCode]: {
                 path: RouteStacks.validationCode,
             },
+            [RouteStacks.enterInvitationCode]: {
+                path: RouteStacks.enterInvitationCode,
+            },
+            [RouteStacks.forgotPassword]: {
+                path: RouteStacks.forgotPassword,
+            },
+            [RouteStacks.signUpWithCode]: {
+                path: RouteStacks.signUpWithCode,
+            },
+            [RouteStacks.createNewPassword]: {
+                path: RouteStacks.createNewPassword,
+            },
+            [RouteStacks.provideEmail]: {
+                path: RouteStacks.provideEmail,
+            },
         },
     },
 };
@@ -80,50 +132,50 @@ export const publicLinking: LinkingOptions<AuthNavigatorParamList> = {
 
 
 // Screens after logged in linking options
-export const privateLinking: LinkingOptions<DrawerNavigatorParamList> = {
+export const privateLinking: LinkingOptions<MainStackNavigatorParamList> = {
     prefixes,
     getInitialURL,
     // Custom function to subscribe to incoming links
     subscribe,
     config: {
         screens: {
-            [RouteStacks.setting]: {
-                path: RouteStacks.setting,
-
-            },
-            [RouteStacks.mainTab]: {
-                path: RouteStacks.mainTab,
-                initialRouteName: RouteTabs.home,
+            [RouteStacks.mainDrawer]: {
+                path: RouteStacks.mainDrawer,
                 screens: {
-                    [RouteTabs.home]: {
-                        path: RouteTabs.home,
+                    [RouteStacks.mainTab]: {
+                        path: RouteStacks.mainTab,
+                        initialRouteName: RouteTabs.home,
                         screens: {
-                            [RouteStacks.homeMain]: RouteStacks.homeMain,
-                            [RouteStacks.homeReferral]: {
-                                path: RouteStacks.homeReferral,
+                            [RouteTabs.home]: {
+                                path: RouteTabs.home,
+                                screens: {
+                                    [RouteStacks.homeReferral]: {
+                                        path: RouteStacks.homeReferral,
+                                    }
+                                }
+                            },
+                            [RouteTabs.marketplace]: {
+                                path: RouteTabs.marketplace,
+                                screens: {
+                                    [RouteStacks.marketplaceMain]: RouteStacks.marketplaceMain
+                                }
+                            },
+                            [RouteTabs.social]: {
+                                path: RouteTabs.social,
+                                screens: {
+                                    [RouteStacks.socialMain]: RouteStacks.socialMain
+                                }
+                            },
+                            [RouteTabs.breeding]: {
+                                path: RouteTabs.breeding,
+                                screens: {
+                                    [RouteStacks.breedingMain]: RouteStacks.breedingMain
+                                }
                             }
                         }
                     },
-                    [RouteTabs.marketplace]: {
-                        path: RouteTabs.marketplace,
-                        screens: {
-                            [RouteStacks.marketplaceMain]: RouteStacks.marketplaceMain
-                        }
-                    },
-                    [RouteTabs.social]: {
-                        path: RouteTabs.social,
-                        screens: {
-                            [RouteStacks.socialMain]: RouteStacks.socialMain
-                        }
-                    },
-                    [RouteTabs.breeding]: {
-                        path: RouteTabs.breeding,
-                        screens: {
-                            [RouteStacks.breedingMain]: RouteStacks.breedingMain
-                        }
-                    }
-                }
-            },
-        },
+                },
+            }
+        }
     },
 };

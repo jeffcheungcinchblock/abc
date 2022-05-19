@@ -101,7 +101,7 @@ const CreateNewPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, Route
     })
 
     const goBack = () => {
-        navigation.navigate(RouteStacks.signIn)
+        navigation.goBack()
     }
 
     const onCredentialChange = (text: string, fieldName: string) => {
@@ -113,14 +113,21 @@ const CreateNewPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, Route
 
     const onConfirmPress = async () => {
         if(credential.password !== credential.confirmPassword){
-            setErrMsg("Passwords don't match")
+            setErrMsg(t("error.passwordMismatch"))
         }
         try {
             await Auth.forgotPasswordSubmit(emailUsernameHash(params.email), params.validationCode, credential.confirmPassword)
             navigation.navigate(RouteStacks.signIn)
         } catch (err: any) {
-            console.log('err ', err)
-            setErrMsg(err.message)
+            console.log('err ', err.message)
+            switch(err.message){
+                case 'Invalid verification code provided, please try again.':
+                    setErrMsg(err.message)
+                    break;
+                default:
+                    setErrMsg(t("error.passwordPolicyErr"))
+                    break;
+            }
         }
     }
     
