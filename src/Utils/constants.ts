@@ -42,6 +42,8 @@ export const colors = {
 }
 
 export const speedconst = {
+	//in meter / second
+
 	runningUpperLimit: 6,
 	runningLowerLimit: 0,
 }

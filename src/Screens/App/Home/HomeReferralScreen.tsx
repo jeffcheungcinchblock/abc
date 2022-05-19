@@ -65,6 +65,7 @@ import { GoogleFitKit } from '@/Healthkit/androidHealthKit'
 
 import scrollDownBtn from '@/Assets/Images/Home/scroll_down.png'
 import avatar from '@/Assets/Images/Home/avatar.png'
+import BackgroundGeolocation, { Subscription } from 'react-native-background-geolocation'
 
 
 const PURPLE_COLOR = {
@@ -129,6 +130,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
 	const [ enabled, setEnabled ] = useState(false)
 	const [ isHealthkitReady, setIstHealthKitReady ] = useState(false)
     const startTime = useSelector((state: RootState) => state.map.startTime)
+
     useEffect(() => {
         dispatch(startLoading(false))
     }, [])
@@ -143,7 +145,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                         Authorization: jwtToken //the token is a variable which holds the token
                     }
                 })
-
+                console.log(authRes.data)
                 setReferralInfo(authRes.data)
             } catch (err) {
                 console.log(err)
@@ -161,31 +163,6 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
         }
     }, [needFetchDtl, fetchedReferralInfo])
 
-
-    useEffect(() => {
-		// setCurrentState('initialing')
-		const startInit = async () => {
-			health_kit.GetAuthorizeStatus().then((isAuthorize) => {
-				if (!isAuthorize) {
-					health_kit
-						.InitHealthKitPermission()
-						.then(val => {
-							console.log('inti health kit', val)
-						})
-						.catch(err => {
-							console.error(err)
-							setIstHealthKitReady(false)
-						})
-				} else {
-					setIstHealthKitReady(true)
-				}
-			}).then(()=>{
-				dispatch({ type:'inital' })
-				console.log('set health kit readty')
-			})
-		}
-		startInit()
-	}, [])
     
 	useEffect(() => {
 		// TBD: To be placed some where upper level component later
@@ -216,12 +193,16 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
 		}
 	}, [ referralInfo, fetchedReferralInfo ])
 
-
-
-
-
 	useEffect(() => {
+        if(isHealthkitReady){
+            dispatch({ type:'init' })
             setIsReady(true)
+        }else{
+            const initPermission = health_kit.InitHealthKitPermission()
+            Promise.resolve(initPermission).then(val=>{
+                setIstHealthKitReady(val)
+            })
+        }
 	}, [ isHealthkitReady ])
 
 	useEffect(() => {
@@ -270,14 +251,16 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
 
 	const onTrialPlayPress = async () => {
 		const authed = await health_kit.GetAuthorizeStatus()
-		console.log('auth', authed)
-		if (authed && isReady){
+        await BackgroundGeolocation.changePace(true)
+		await BackgroundGeolocation.start()
+        if (authed || isReady){
             dispatch({ type:'start', payload:{ startTime: (new Date()).getTime() } })
-			setEnabled(true)
-		} else {
-			await health_kit.InitHealthKitPermission()
-			console.log('not ready')
-		}
+            setEnabled(true)
+        } else {
+            health_kit.InitHealthKitPermission()
+            console.log('not ready')
+        }
+        
 	}
 
 	const onLesGoBtnPress = () => {

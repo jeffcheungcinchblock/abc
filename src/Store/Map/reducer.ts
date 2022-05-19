@@ -17,6 +17,7 @@ export type State = {
 	overSpeedPaths: Array<OverSpeedPath>,
 	startRegion?: StartRegion,
 	overSpeeding: boolean,
+
 }
 
 export enum ActivityType {
@@ -91,10 +92,12 @@ export default createReducer<State>(initialState, (builder) => {
 				heartRate :0, 
 				paths:[{ numberOfPath:0, pauseTime:null, endPauseTime:null, reduceStep:0, reduceCalories:0 }],
 				overSpeedPaths:[],
-				overSpeeding:false
+				overSpeeding:false,
 			 }
 			return initialStateStart
 		})
+
+	// Moving 
 	builder
 		.addCase(move, (state, action) => {
 			if (!action.payload.latitude || !action.payload.longitude ) {
@@ -209,12 +212,18 @@ export default createReducer<State>(initialState, (builder) => {
 	})
 
 	builder.addCase(overSpeedMoving,(state, action)=>{
+		console.log('overspeeding movinf')
 		const newOverSpeedPaths = JSON.parse(JSON.stringify(state.overSpeedPaths))
 		if (!newOverSpeedPaths[newOverSpeedPaths.length - 1].coordinates || newOverSpeedPaths[newOverSpeedPaths.length - 1].coordinates.length === 0){
+			console.log('if')
 			newOverSpeedPaths[newOverSpeedPaths.length - 1].coordinates = [{ latitude: action.payload.latitude, longitude: action.payload.longitude }]
 		}else{
+			console.log('else')
 			newOverSpeedPaths[newOverSpeedPaths.length - 1].coordinates!.push({ latitude: action.payload.latitude, longitude: action.payload.longitude })
 		}
+		console.log(newOverSpeedPaths)
+		return { ...state, latitude : action.payload.latitude, longitude :action.payload.longitude, overSpeedPaths:newOverSpeedPaths }
+
 	})
 })
 

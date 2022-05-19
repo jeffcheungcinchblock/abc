@@ -22,7 +22,7 @@ import { RouteStacks } from './Navigators/routes'
 import { startLoading } from './Store/UI/actions'
 import { storeReferralCode } from './Store/Referral/actions'
 import RNBootSplash from 'react-native-bootsplash'
-
+import BackgroundGeolocation, { Subscription } from 'react-native-background-geolocation'
 // TBD: remove later
 console.warn = () => {}
 
@@ -199,6 +199,26 @@ const App = () => {
 		return unsubscribe
 
 	}, [])
+
+	//Ready the location plugin
+	// useEffect(()=>{
+	// 	BackgroundGeolocation.ready({
+	// 		triggerActivities: 'on_foot, walking, running',
+	// 		locationAuthorizationRequest : 'WhenInUse',
+	// 		desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
+	// 		distanceFilter: 2,
+	// 		stopTimeout: 5,
+	// 		isMoving: true,
+	// 		reset: false,
+	// 		debug: true,
+	// 		disableElasticity : true,
+	// 		speedJumpFilter:20,
+	// 		logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
+	// 		stopOnTerminate: true,
+	// 	}).then((state)=>{
+	// 		if(state.enabled) console.log('ready')
+	// 	})
+	// },[])
 
 	return (
 		<Provider store={store}>

@@ -9,8 +9,8 @@ import {
 import {  useSelector } from 'react-redux'
 import MapView  from 'react-native-maps' // remove PROVIDER_GOOGLE import if not using Google Maps
 import { enableLatestRenderer, Polyline } from 'react-native-maps'
-import SpeedLogo from '@/Assets/Images/map/speed.png'
-import TimerLogo from '@/Assets/Images/map/timer.png'
+import BackgroundGeolocation from 'react-native-background-geolocation'
+
 enableLatestRenderer()
 
 const styles = StyleSheet.create({
@@ -60,11 +60,11 @@ const styles = StyleSheet.create({
 })
 
 type MapViewProps = {
-    startRegion : { latitude:number,
-        longitude:number,
-        latitudeDelta: number,
-        longitudeDelta: number
-    }
+    // startRegion : { latitude:number,
+    //     longitude:number,
+    //     latitudeDelta: number,
+    //     longitudeDelta: number
+    // }
 	timer: number
 	speed: number
 }
@@ -74,23 +74,41 @@ const MapContentText = (props: TextProps) => {
 }
 const ActiveMapView:FC<MapViewProps> = (props) => {
 	const paths = useSelector((state:any) => state.map.paths)
+	const overSpeedPaths = useSelector((state:any) => state.map.overSpeedPaths)
 	const steps = useSelector((state:any) => state.map.steps)
 	const distance = useSelector((state:any) => state.map.distance).toFixed(0)
 	const heartRate = useSelector((state:any) => state.map.heartRate)
 	const calories = useSelector((state:any) => state.map.calories)
+	const [ latitude , setLatitude ] = useState(0)
+	const [ longitude , setLongitude ] = useState(0)
 	const timer = props.timer
 	const speed = (props.speed).toFixed(1)
 	useEffect(() => {
 		// console.log(JSON.stringify(paths))
+			console.log('overSpeedPaths',JSON.stringify(overSpeedPaths))
+			console.log('path',JSON.stringify(paths))
+
 	}, [speed, timer])
+
+	useEffect(()=>{
+		BackgroundGeolocation.getCurrentPosition({
+			samples:1
+		}).then(result=>{
+			console.log('getCurrentPosition',result)
+			setLatitude(result.coords.latitude)
+			setLongitude(result.coords.longitude)
+		})
+	},[])
 	return (
 		<>
 			<MapView
 				style={styles.map}
 				mapType="mutedStandard"
 				initialRegion={{
-					latitude:props.startRegion.latitude,
-					longitude: props.startRegion.longitude,
+					// latitude:props.startRegion.latitude,
+					// longitude: props.startRegion.longitude,
+					latitude:latitude,
+					longitude:longitude,
 					latitudeDelta: 0.005,
 					longitudeDelta: 0.005,
 				}}
@@ -122,6 +140,26 @@ const ActiveMapView:FC<MapViewProps> = (props) => {
 								strokeWidth={5}/>
 						)
 					}
+				})}
+
+				{overSpeedPaths && overSpeedPaths.map((path:any, index:number) => {
+						if (path.coordinates){
+							return (
+								<Polyline
+									coordinates={path.coordinates}
+									key={index}
+									strokeColor="red" // fallback for when `strokeColors` is not supported by the map-provider
+									// strokeColors={[
+									// 	'#7F0000',
+									// 	'#00000000', // no color, creates a "long" gradient between the previous and next coordinate
+									// 	'#B24112',
+									// 	'#E5845C',
+									// 	'#238C23',
+									// 	'#7F0000',
+									// ]}
+									strokeWidth={5}/>
+							)
+						}
 				})}
 
 			</MapView>

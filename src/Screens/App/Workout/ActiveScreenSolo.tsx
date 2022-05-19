@@ -189,13 +189,15 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 	const overSpeed = useSelector((state:any) => state.map.overSpeed)
 	const overSpeedPaths = useSelector((state:any) => state.map.overSpeedPaths)
 	const username = useSelector((state:any)=> state.user.uuid)
-	const [ startRegion, setStartRegion ] = useState<Region|null>(null)
+
+
+	// const [ startRegion, setStartRegion ] = useState<Region|null>({ latitude: 0.09, longitude:0.09, latitudeDelta:0.0922, longitudeDelta:0.0421 })
 	const [ timer, setTimer ] = useState(0)
 	const [ speed, setSpeed ] = useState(0)
-    const endWorkoutModalRef = useRef<any>(null)
 
 	useEffect(() => {
 		const intervalId = setInterval(() => {
+			console.log('overSpeedPaths',overSpeedPaths)
 			let totalPauseTime = 0
 			paths.forEach((path) => {
 				if (path.pathTotalPauseTime){
@@ -216,7 +218,10 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 		}
 	}, [ currentState, distance ])
 
+	
+
 	useEffect(()=>{
+	
 		const onLocation: Subscription = BackgroundGeolocation.onLocation((location) => {
 			console.log(ActivityType[currentState], 'startTime', startTime)
 			if (currentState !== ActivityType.PAUSE && startTime !== null && startTime !== undefined){
@@ -229,16 +234,17 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 					if(location.coords.speed! <= speedconst.runningLowerLimit){
 						return
 					}
+					console.log(ActivityType[currentState])
 					if (location.coords.speed! >= speedconst.runningUpperLimit && currentState !== ActivityType.OVERSPEED){
 						dispatch({type:'overSpeed',payload:{startOverSpeedTime: (new Date).getTime()}})
 						console.log('Over speed')
 						return
 					}
 					if (location.coords.speed! <= speedconst.runningUpperLimit && currentState === ActivityType.OVERSPEED){
-					
-						const pauseStateTime = paths[paths.length - 1].pauseTime
-						const ReduceStep =  health_kit.GetSteps(new Date(pauseStateTime), new Date())
-						const ReduceCalories = health_kit.GetCaloriesBurned(new Date(pauseStateTime), new Date())
+				
+					const pauseStateTime = paths[paths.length - 1].pauseTime
+					const ReduceStep =  health_kit.GetSteps(new Date(pauseStateTime), new Date())
+					const ReduceCalories = health_kit.GetCaloriesBurned(new Date(pauseStateTime), new Date())
 						Promise.all([ReduceStep,ReduceCalories]).then((result)=>{
 							dispatch({ type:'returnToNormalSpeed', payload:{ resumeTime:(new Date).getTime(), latitude:location.coords.latitude, longitude:location.coords.longitude, reduceStep:result[0], reduceCalories: result[1] }})
 						}).then(()=>{return})
@@ -246,22 +252,23 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 					// if (currentState === ActivityType.OVERSPEED && )
 					
 
-					const new_cal = health_kit.GetCaloriesBurned(new Date(startTime), new Date())
-					const new_step = health_kit.GetSteps(new Date(startTime), new Date())
-					const new_heartrate = health_kit.GetHeartRates( new Date(startTime), new Date())
-				
-					const pauseStateTime = paths[paths.length - 1].pauseTime
-					const ReduceStep =  health_kit.GetSteps(new Date(pauseStateTime), new Date())
-					const ReduceCalories =  health_kit.GetCaloriesBurned(new Date(pauseStateTime), new Date())
+					// const pauseStateTime = paths[paths.length - 1].pauseTime
+					// const ReduceStep =  health_kit.GetSteps(new Date(pauseStateTime), new Date())
+					// const ReduceCalories =  health_kit.GetCaloriesBurned(new Date(pauseStateTime), new Date())
 
 					if (currentState === ActivityType.OVERSPEED){
-						Promise.all([ new_cal, new_step, new_heartrate ]).then((result)=>{
+						// Promise.all([ new_cal, new_step, new_heartrate ]).then((result)=>{
 							dispatch({ type:'overSpeedMoving', payload:{ latitude:location.coords.latitude, longitude:location.coords.longitude
 							} })
-						})
+						// })
 						
 					}
 					if (currentState === ActivityType.MOVING){
+
+						const new_cal = health_kit.GetCaloriesBurned(new Date(startTime), new Date())
+						const new_step = health_kit.GetSteps(new Date(startTime), new Date())
+						const new_heartrate = health_kit.GetHeartRates( new Date(startTime), new Date())
+					
 						Promise.all([ new_cal, new_step, new_heartrate ]).then((result)=>{
 							dispatch({ type:'move', payload:{ latitude:location.coords.latitude, longitude:location.coords.longitude,
 								calories:result[0], steps:result[1], heartRate:result[2] } })
@@ -274,7 +281,6 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 		})
 
 
-	
 		BackgroundGeolocation.ready({
 			triggerActivities: 'on_foot, walking, running',
 			locationAuthorizationRequest : 'WhenInUse',
@@ -288,28 +294,22 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 			speedJumpFilter:20,
 			logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
 			stopOnTerminate: true,
-		}).then(()=>{
-			console.log('ready')
-			BackgroundGeolocation.getCurrentPosition({
-				timeout: 30,          // 30 second timeout to fetch location
-				maximumAge: 5000,
-				samples: 1,
-			}).then((location)=>{
-				setStartRegion({ latitude:location.coords.latitude, longitude:location.coords.longitude, latitudeDelta:0.0922, longitudeDelta:0.0421 })
-			})
+		}).then((state)=>{
+			if(!state.enabled){
+				BackgroundGeolocation.changePace(true)
+				BackgroundGeolocation.start()
+				console.log('ready')
+			}
 		})
 		return () => {
 			onLocation.remove()
 		}
-	}, [])
-	useEffect(()=>{
-		BackgroundGeolocation.changePace(true)
-		BackgroundGeolocation.start()
-	},[startRegion])
+	}, [currentState])
 
+	
 	const StopRunningSession = async() => {
 		await BackgroundGeolocation.changePace(false)
-		await BackgroundGeolocation.stop()
+		// await BackgroundGeolocation.stop()
 		dispatch({ type:'stop', payload:{ endTime: (new Date()).getTime() } })
 		// setIsStopped(true)
 		try{
@@ -325,7 +325,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 				paths: paths_string,
 				username: username,
 				timer: timer,
-				speed: speed,
+				// speed: speed,
 				overSpeedPath: over_speed_paths_string
 			}
 			console.log('data get', data)
@@ -372,9 +372,9 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 			/>
 			<View style={[ styles.container ]}>
 				<View style={[ styles.mapContainer ]}>
-					{startRegion && (
-						<ActiveMapView startRegion={startRegion} timer={timer} speed={speed}/>
-					)}
+					{/* {startRegion && ( */}
+						<ActiveMapView timer={timer} speed={speed}/>
+					{/* )} */}
 				</View>
 				{/* <View><Text>{ActivityType[currentState]}</Text></View> */}
 				<View style={[ styles.dataContainer ]}>
@@ -405,7 +405,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 						</View>
 						</View>
 						<View style={[ styles.stateButtonContainer ]}>
-							{ (currentState === ActivityType.PAUSE || currentState === ActivityType.MOVING) && (
+							{ (currentState === ActivityType.PAUSE || currentState === ActivityType.MOVING || currentState === ActivityType.OVERSPEED) && (
 								<TouchableOpacity
 									style={[ Common.button.rounded, Gutters.regularBMargin, styles.stateStopButton ]}
 									onPress={StopRunningSession}
@@ -414,7 +414,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 								</TouchableOpacity>
 
 							)}
-							{currentState !== ActivityType.PAUSE && (
+							{currentState !== ActivityType.PAUSE && currentState !== ActivityType.ENDED && (
 								<TouchableOpacity
 									style={[ Common.button.rounded, Gutters.regularBMargin, styles.statePauseResumeButton ]}
 									onPress={PauseRunningSession}
