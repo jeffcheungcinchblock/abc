@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { start, move, ready, pause, resume, stop, init, overSpeed, overSpeedMoving,returnToNormalSpeed } from './actions'
+import { start, move, ready, pause, resume, stop, init, overSpeed, overSpeedMoving,returnToNormalSpeed,readSteps } from './actions'
 import { getDistanceBetweenTwoPoints } from '../../Healthkit/utils'
 import moment from 'moment'
 
@@ -17,7 +17,7 @@ export type State = {
 	overSpeedPaths: Array<OverSpeedPath>,
 	startRegion?: StartRegion,
 	overSpeeding: boolean,
-
+	jumpTime?: Date
 }
 
 export enum ActivityType {
@@ -114,6 +114,12 @@ export default createReducer<State>(initialState, (builder) => {
 			const reducedCarlorieBurned = action.payload.calories! - totalReduceCalories
 			const distance = getDistanceBetweenTwoPoints(state.latitude!, state.longitude!, action.payload.latitude!, action.payload.longitude!)
 			if (distance > 50){
+				const startOverSpeedTime = action.payload.jumpTime!
+				let lastIndexofCoordinate = 0
+				if (state.paths.length !== 0){
+					lastIndexofCoordinate = state.paths.length - 1
+				}
+				state.paths[lastIndexofCoordinate] = { ...state.paths[lastIndexofCoordinate], pauseTime: startOverSpeedTime }
 				return { ...state, latitude : action.payload.latitude, longitude :action.payload.longitude, calories: reducedCarlorieBurned, steps: newSteps }
 			}
 			if (distance > 0)
@@ -215,15 +221,25 @@ export default createReducer<State>(initialState, (builder) => {
 		console.log('overspeeding movinf')
 		const newOverSpeedPaths = JSON.parse(JSON.stringify(state.overSpeedPaths))
 		if (!newOverSpeedPaths[newOverSpeedPaths.length - 1].coordinates || newOverSpeedPaths[newOverSpeedPaths.length - 1].coordinates.length === 0){
-			console.log('if')
 			newOverSpeedPaths[newOverSpeedPaths.length - 1].coordinates = [{ latitude: action.payload.latitude, longitude: action.payload.longitude }]
 		}else{
-			console.log('else')
 			newOverSpeedPaths[newOverSpeedPaths.length - 1].coordinates!.push({ latitude: action.payload.latitude, longitude: action.payload.longitude })
 		}
 		console.log(newOverSpeedPaths)
 		return { ...state, latitude : action.payload.latitude, longitude :action.payload.longitude, overSpeedPaths:newOverSpeedPaths }
 
+	})
+
+	//update step without location change
+	builder.addCase(readSteps, (state,action)=>{
+		let totalReduceStep = 0
+		state.paths.forEach(path => {
+			totalReduceStep += path.reduceStep
+		})
+		const newSteps = action.payload.steps! - totalReduceStep
+		console.log('get not moving step', newSteps)
+
+		return { ...state, steps:newSteps }
 	})
 })
 

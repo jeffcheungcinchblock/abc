@@ -14,19 +14,8 @@
       <intent-filter android:autoVerify="true">
         <action android:name="android.intent.action.MAIN"/>
         <category android:name="android.intent.category.LAUNCHER"/>
-      </intent-filter>
-
-      <intent-filter>
-        <action android:name="android.intent.action.VIEW"/>
-        <category android:name="android.intent.category.DEFAULT"/>
-        <category android:name="android.intent.category.BROWSABLE"/>
-        <data android:scheme="com.fitevo"/>
-        <!-- <data android:scheme="https" android:host="test-dragon-dev.onelink.me" android:pathPrefix="/xNJK"/> -->
-        <!-- <data android:host="fitevo.page.link" android:scheme="http"/>
-        <data android:host="fitevo.page.link" android:scheme="https"/> -->
-      </intent-filter>
-
-      <intent-filter>
+<!--      </intent-filter>-->
+<!--      <intent-filter>-->
         <action android:name="android.intent.action.VIEW"/>
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
@@ -35,7 +24,6 @@
         <!-- <data android:host="fitevo.page.link" android:scheme="http"/>
         <data android:host="fitevo.page.link" android:scheme="https"/> -->
       </intent-filter>
-
     </activity>
        <meta-data
           android:name="com.google.android.geo.API_KEY"

@@ -56,9 +56,9 @@ const SocialShareButton = ({
 				{
 					isLoading ? <ActivityIndicator
 						size="small" color={'#fff'}
-					/> : <View style={[ Layout.rowCenter, {justifyContent:'space-around'} ]}>
+					/> : <View style={[ Layout.rowCenter, {justifyContent:'center'} ]}>
 						<Text style={{ fontWeight:'500', lineHeight:24, fontSize:16 }}>{text}</Text>
-						<Image source={iconNameMap[iconName]} style={{  width:24, height: 22 }} />
+						<Image source={iconNameMap[iconName]} style={{ margin:10, width:24, height: 22 }} />
 					</View>
 				}
 			</Pressable>

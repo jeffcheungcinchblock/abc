@@ -29,8 +29,12 @@ import CloseButton from '@/Components/Buttons/CloseButton'
 import ConGratualtion from '@/Assets/Images/map/congratulation.png'
 import SpeedIcon from '@/Assets/Images/map/speed_crystal.png'
 import TimerLogo from '@/Assets/Images/map/timer_crystal.png'
+import StepLogo from '@/Assets/Images/map/step.png'
+
 import {captureScreen} from 'react-native-view-shot';
 import Share from 'react-native-share';
+import { FontSize } from '@/Theme/Variables'
+
 // import share from '@/Utils/endshare'
 const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 	{ navigation, route }
@@ -56,57 +60,65 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 	const step = params.steps
 
 	const [ result, setResult ] = useState<String>()
+
+
 	const styles = StyleSheet.create({
 		container:{
-			flex: 1,
 			alignItems:'center',
 			backgroundColor: colors.darkGunmetal,
 			width: '100%',
 			justifyContent: 'center',
-			marginBottom: 50,
+			marginBottom: 100,
+			flex:1
+		},
+	
+		rowContentContainer : {
+			display:'flex',
+			flexDirection:'row',
+			alignItems:'center',
+			width:'100%',
+			justifyContent:'center',
+			marginTop: '5%'
+		},
+		// Speed and Time
+		rowContentContainer2 : {
+			display:'flex',
+			flexDirection:'row',
+			width: '100%',
+			justifyContent:'space-around',
+			alignItems:'center',
+			paddingVertical: '5%',
+		},
+
+		speedContainer : {
+			display:'flex',
+			flexDirection:'row',
+			justifyContent:'center',
+			textAlign:'flex-end',
+			alignItems:'flex-end'
+		},
+		colContentContainer : {
+			display:'flex',
+			flexDirection: 'column',
+			alignItems:'center',
+			width:'100%',
 		},
 		contentContainer: {
 			display: 'flex',
 			width:'100%',
-		},
-		rowContentContainer : {
-			flexDirection: 'row',
-			alignItems:'center',
-			alignContent:'center',
-			width:'100%',
-			marginTop: 20,
-			marginBottom: 20,
-			justifyContent:'center',
-		},
-		rowContentContainer2 : {
-			flexDirection: 'row',
-			justifyContent:'space-around',
-			display:'flex',
-			height:100,
-			width:'100%',
-			marginTop: 20,
-
-		},
-		colContentContainer : {
-			flexDirection: 'column',
-			alignItems:'center',
-			width:'100%',
-
+			justifyContent:'center'
 		},
 		titleTextStyle : {
-			color: colors.brightTurquoise,
 			fontSize: 30,
 			lineHeight:45,
 			fontStyle:'italic',
 			fontWeight: '700',
-			// width:'80%',
 		},
+
 		distanceTextStyle:{
 			fontSize: 100,
 			fontWeight:'700',
-			lineHeight:150,
 			color: colors.brightTurquoise,
-
 		},
 		lightTextStyle : {
 			color:colors.crystal,
@@ -114,7 +126,6 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 		textStyle:{
 			color: colors.white,
 			fontSize:25,
-			lineHeight:45,
 			fontWeight:'700',
 			textAlign:'center',
 		},
@@ -129,10 +140,7 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 			routes: [ { name: RouteStacks.startWorkout } ],
 		})
 	}
-	const WhiteText = (props: TextProps) => {
-		const { style, ...rest } = props
-		return <Text style={[ styles.textStyle, style ]} {...rest} />
-	}
+
 	const takeScreenShot = async() => {
 		captureScreen({
 		  format: 'jpg',
@@ -149,58 +157,80 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 	const shareImage = async(image:string) => {
 		  try {
 			const base64_encode = 'data:image/jpeg;base64,'+ image
-			console.log(typeof base64_encode)
-			// const ShareResponse = await share({
-			// 	title:'End of Workout',
-			// 	url:	base64_encode,
-			// 	type: 'image/jpg',
-			// })
 			const options = {
 				title: 'End of Workout',
 				url:	base64_encode,
-				type: 'image/jpg',
-				
+				type: 'image/jpeg',
+				// message: 'Result',	
 			}
-			Share.open(options)
-			// setResult(JSON.stringify(ShareResponse, null, 2));
+			const response = await Share.open(options)
+			setResult(JSON.stringify(response, null, 2));
 		  } catch (error) {
 			console.log('Error =>', error);
 			setResult('error: ');
 		  }
 	}
 	
+
+	const WhiteText = (props: TextProps) => {
+		const { style, ...rest } = props
+		return <Text style={[ styles.textStyle, style, {color:colors.white} ]} {...rest} />
+	}
+
+	const CrystalText = (props: TextProps) => {
+		const { style, ...rest } = props
+		return <Text style={[ styles.textStyle, style, {color:colors.crystal} ]} {...rest} />
+	}
+
+	const BrightTurquoiseText = (props: TextProps) => {
+		const { style, ...rest } = props
+		return <Text style={[ styles.textStyle, style, {color:colors.brightTurquoise} ]} {...rest} />
+	}
+
+
 	return (
 		<ScreenBackgrounds screenName={RouteStacks.workout}>
 			<Header
-				// onLeftPress={goBack}
 				headerText={'Result'}
 				style={{ backgroundColor: colors.darkGunmetal }}
 			/>
 			<View
 				style={[ styles.container ]}
 			>
-				<View style={[ Layout.colCenter, styles.contentContainer ]}>
-					<View style={[ styles.rowContentContainer, { height:45 } ]}>
-						<WhiteText style={styles.titleTextStyle}>congratulations</WhiteText>
-						<Image source={ConGratualtion} style={{ width: 18.14, height: 20, resizeMode: 'contain', alignSelf:'center' }} />
+					<View style={[ styles.rowContentContainer]}>
+						<BrightTurquoiseText style={[ styles.titleTextStyle ]}>congratulations</BrightTurquoiseText>
+						<Image source={ConGratualtion} style={{ width: 30, height: 30, marginHorizontal:10, resizeMode: 'contain' }} />
 					</View>
-					<WhiteText style={styles.distanceTextStyle}>{(distance / 1000).toFixed(2)}</WhiteText>
-					<WhiteText style={{ color:colors.crystal }}>Total Kilometers</WhiteText>
-					<WhiteText>{steps}</WhiteText>
+					<View style={[styles.colContentContainer]}>
+						<Text style={styles.distanceTextStyle}>{(distance / 1000).toFixed(2)}</Text>
+						<CrystalText style={{fontSize:20}}>Total Kilometers</CrystalText>
+					</View>
+					<View style={[styles.rowContentContainer]}>
+						<Image source={StepLogo} style={{ width: 20, height: 20, resizeMode: 'contain', alignSelf:'center',marginHorizontal:10 }} />
+						<WhiteText>{steps}</WhiteText>
+					</View>			
 					<View style={[ styles.rowContentContainer2 ]}>
 						<View style={[ styles.contentContainer ]}>
-							<Image source={TimerLogo} style={{ width: 18.14, height: 20, resizeMode: 'contain', alignSelf:'center' }} />
+							<Image source={TimerLogo} style={{ width: 30, height: 30, resizeMode: 'contain', alignSelf:'center' }} />
 							<WhiteText style={[{fontSize:30, fontWeight:'bold' }]}>{Math.floor(timer % 3600 / 60)}"{Math.ceil(timer % 60 )}'</WhiteText>
 						</View>
 						<View style={[ styles.contentContainer ]}>
-							<Image source={SpeedIcon} style={{ width: 18.14, height: 20, resizeMode: 'contain', alignSelf:'center' }} />
+							<Image source={SpeedIcon} style={{ width: 30, height: 30, resizeMode: 'contain', alignSelf:'center' }} />
 
+							<View style={[ styles.speedContainer]}>
 							{speed ? (
-							<WhiteText style={[{fontSize:30, fontWeight:'bold' }]}>{speed.toFixed(1)}</WhiteText>
-							):(<WhiteText style={[{fontSize:30, fontWeight:'bold' }]}>0</WhiteText>)}
+								<WhiteText style={[{fontSize:30, fontWeight:'bold' }]}>{speed.toFixed(1)}</WhiteText>
+								):(<WhiteText style={[{fontSize:30, fontWeight:'bold' }]}>0</WhiteText>)}
+								<CrystalText style={{fontSize:12, }}>km/h</CrystalText>
+							</View>
+						</View>
 					</View>
-					</View>
-					<View style={[ styles.colContentContainer ]}>
+
+						<View style={[ styles.contentContainer ]}>
+							<WhiteText style={[{fontSize:40, lineHeight:60, fontWeight:'bold' }]}>+ 20 KE</WhiteText>
+						</View>
+
+					<View style={[ styles.colContentContainer,{marginTop:'10%'} ]}>
 						<SocialShareButton
 							onPress={() => {console.log('share')}}
 							text={t('Share on Twitter')}
@@ -217,7 +247,6 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 							containerStyle={[ Layout.fullWidth ]}/>
 
 					</View>
-				</View>
 			</View>
 		</ScreenBackgrounds>
 	)

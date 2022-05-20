@@ -19,7 +19,7 @@ import theme from './Theme'
 import userReducer from '@/Store/Users/reducer'
 import uiReducer from '@/Store/UI/reducer'
 import referralReducer from '@/Store/Referral/reducer'
-
+import unitReducer from '@/Store/Unit/reducer'
 import mapReducer from '@/Store/Map/reducer'
 
 const reducers = combineReducers({
@@ -35,6 +35,7 @@ const reducers = combineReducers({
 	ui: uiReducer,
 	referral: referralReducer,
 	map: mapReducer,
+	unit: unitReducer
 
 	// new reducers to be added here
 
@@ -43,7 +44,7 @@ const reducers = combineReducers({
 const persistConfig = {
 	key: 'root',
 	storage: AsyncStorage,
-	whitelist: [ 'theme', 'referral', 'user', 'ui' ],
+	whitelist: [ 'theme', 'referral', 'user', 'ui', 'unit' ],
 }
 
 const persistedReducer = persistReducer(persistConfig, reducers)

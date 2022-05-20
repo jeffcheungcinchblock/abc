@@ -5,7 +5,7 @@ import { colors } from '@/Utils/constants'
 import facebookIcon from '@/Assets/Images/buttons/facebook.png'
 import appleIcon from '@/Assets/Images/buttons/apple.png'
 import googleIcon from '@/Assets/Images/buttons/google.png'
-
+import DownloadIcon from '@/Assets/Images/map/download.png'
 type SaveScreenButtonProps = {
     containerStyle?: object
     style?: object
@@ -20,7 +20,7 @@ let size = 30
 const BUTTON_STYLE: ViewStyle = {
 	backgroundColor: 'transparent',
 	height: 40,
-	width: 200,
+	width: 180,
 	borderRadius: 99,
 	justifyContent: 'center',
 	borderColor: colors.brightTurquoise,
@@ -55,8 +55,9 @@ const SaveScreenButton = ({
 				{
 					isLoading ? <ActivityIndicator
 						size="small" color={'#fff'}
-					/> : <View style={[ Layout.rowCenter ]}>
+					/> : <View style={[ Layout.rowCenter, {justifyContent:'center'} ]}>
 						<Text style={{ fontWeight:'500', lineHeight:24, fontSize:16, color:colors.brightTurquoise }}>{text}</Text>
+						<Image source={DownloadIcon} style={{margin:10}}/>
 					</View>
 				}
 			</Pressable>
