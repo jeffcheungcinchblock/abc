@@ -4,7 +4,7 @@ import { UIState } from './reducer'
 export type ShowSnackbarPayload = {
     visible: boolean,
     textMessage: string,
-    position?: string,
+    position?: 'top' | 'bottom',
     actionText?: string,
     autoHidingTime?: number
 }

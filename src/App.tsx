@@ -23,6 +23,8 @@ import { startLoading } from './Store/UI/actions'
 import { storeReferralCode } from './Store/Referral/actions'
 import RNBootSplash from "react-native-bootsplash";
 import Orientation from 'react-native-orientation-locker';
+import crashlytics from '@react-native-firebase/crashlytics';
+
 // TBD: remove later
 console.warn = () => {}
 
@@ -113,7 +115,6 @@ const getUser = () => {
 // https://www.facebook.com/log.out
 
 const urlOpener = async (url: string, redirectUrl: string) => {
-  console.log('redirectUrl ', redirectUrl, url)
   try {
     if (redirectUrl === `${config.urlScheme}${RouteStacks.signIn}` && await InAppBrowser.isAvailable()) {
       // const authRes: any = await InAppBrowser.open(url)
@@ -132,8 +133,8 @@ const urlOpener = async (url: string, redirectUrl: string) => {
         store.dispatch(startLoading(false))
       }
     }
-  } catch (err) {
-    console.log('err ', err)
+  } catch (err: any) {
+    crashlytics().recordError(err)
     await InAppBrowser.close()
     store.dispatch(startLoading(false))
   }

@@ -25,11 +25,13 @@ import SnackBar from 'react-native-snackbar-component'
 import { RootState } from '@/Store'
 import SnackbarMsgContainer from '@/Components/SnackbarMsgContainer'
 import { colors, config } from '@/Utils/constants'
+import crashlytics from '@react-native-firebase/crashlytics';
 
 // @ts-ignore
 import Video from 'react-native-video'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import axios from 'axios'
+// @ts-ignore
 import { Hub } from 'aws-amplify'
 
 export type ApplicationNavigatorParamList = {
@@ -77,8 +79,8 @@ const ApplicationNavigator = () => {
           dispatch(startLoading(false))
         }
 
-      } catch (err) {
-        console.log(err)
+      } catch (err: any) {
+        crashlytics().recordError(err)
       } finally {
         dispatch(startLoading(false))
       }
@@ -116,7 +118,6 @@ const ApplicationNavigator = () => {
         case 'cognitoHostedUI':
           getUser().then(async (userData: any) => {
             let jwtToken = userData?.signInUserSession?.idToken?.jwtToken
-            console.log('jwtToken', jwtToken)
             const userProfileRes = await axios.get(config.userProfile, {
               headers: {
                 Authorization: jwtToken
@@ -176,8 +177,7 @@ const ApplicationNavigator = () => {
 
         </SnackBar>
         <NavigationContainer theme={NavigationTheme}
-          ref={publicNavigationRef}
-          linking={publicLinking}
+          {...navProps}
         >
           <StatusBar
             barStyle={darkMode ? 'light-content' : 'dark-content'} />

@@ -26,21 +26,23 @@ const initialState: UIState = {
 
 export default createReducer<UIState>(initialState, (builder) => {
     builder
-        .addCase(startLoading, (state, action) => {
+        .addCase(startLoading, (state, action: PayloadAction<boolean>) => {
             return {
                 ...state,
                 isScreenLoading: action.payload
             }
         })
-        .addCase(showSnackbar, (state, {payload} : PayloadAction<ShowSnackbarPayload>) => {
+        .addCase(showSnackbar, (state, action
+             : PayloadAction<ShowSnackbarPayload>
+             ) => {
             return {
                 ...state,
                 snackBarConfig: {
-                    visible: payload.visible ?? false,
-                    textMessage: payload.textMessage ?? "",
-                    position: payload.position ?? "top",
-                    actionText: payload.actionText ?? "OK",
-                    autoHidingTime: payload.autoHidingTime ?? 30000
+                    visible: action.payload.visible ?? false,
+                    textMessage: action.payload.textMessage ?? "",
+                    position: action.payload.position ?? "top",
+                    actionText: action.payload.actionText ?? "OK",
+                    autoHidingTime: action.payload.autoHidingTime ?? 30000
                 }
             }
         })

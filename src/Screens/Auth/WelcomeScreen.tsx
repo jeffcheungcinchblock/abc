@@ -49,6 +49,7 @@ import { RootState } from '@/Store'
 import RNFS from 'react-native-fs';
 import ViewShot from "react-native-view-shot";
 import Orientation from 'react-native-orientation-locker'
+import crashlytics from '@react-native-firebase/crashlytics';
 
 const BUTTON_VIEW = {
     marginVertical: 20
@@ -66,7 +67,6 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
     const [errMsg, setErrMsg] = useState(" ")
 
     useEffect(() => {
-        // navigation.navigate(RouteStacks.welcomeGallery)
     }, [])
 
     const onDisplayNotification = async () => {
@@ -86,8 +86,8 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
                     smallIcon: 'ic_launcher',
                 },
             });
-        } catch (err) {
-            // console.log(err)
+        } catch (err: any) {
+            crashlytics().recordError(err)
         }
     }
 

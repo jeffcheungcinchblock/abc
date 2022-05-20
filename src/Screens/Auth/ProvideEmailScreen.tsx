@@ -110,7 +110,7 @@ const ProvideEmailScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStack
             let user = await Auth.currentAuthenticatedUser()
             let jwtToken = user.signInUserSession.idToken.jwtToken
             let userProfileRes = await axios.post(config.userProfile, {
-                email
+                email: email.toLowerCase()
             }, {
                 headers: {
                     Authorization: jwtToken //the token is a variable which holds the token

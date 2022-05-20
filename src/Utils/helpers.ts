@@ -48,4 +48,4 @@ export const awsLogout = async() => {
     }
 }
 
-export const emailUsernameHash = (email: string) => `Cognito_${email}`
+export const emailUsernameHash = (email: string) => `Cognito_${email.toLowerCase()}`

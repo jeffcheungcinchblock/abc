@@ -39,6 +39,7 @@ import { startLoading } from '@/Store/UI/actions'
 import WhiteInput from '@/Components/Inputs/WhiteInput'
 import axios from 'axios'
 import { emailUsernameHash, triggerSnackbar } from '@/Utils/helpers'
+import crashlytics from '@react-native-firebase/crashlytics';
 import CountDown from 'react-native-countdown-component';
 
 const TEXT_INPUT = {
@@ -151,8 +152,8 @@ const VerificationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteS
                     username: user.username
                 }))
 
-            } catch (err) {
-                console.log('err ', err)
+            } catch (err: any) {
+                crashlytics().recordError(err)
                 setErrMsg(t("error.invalidVerificationCode"))
             } finally {
                 dispatch(startLoading(false))
@@ -170,6 +171,7 @@ const VerificationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteS
                 await Auth.confirmSignUp(emailUsernameHash(params.email), validationCode)
                 navigation.navigate(RouteStacks.registrationCompleted)
             } catch (err: any) {
+                crashlytics().recordError(err)
                 setErrMsg(err.message)
             } finally {
                 dispatch(startLoading(false))
@@ -207,10 +209,10 @@ const VerificationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteS
                 let jwtToken = user.signInUserSession.idToken.jwtToken
 
                 await axios.post(config.userProfile, {
-                    email: params.email,
+                    email: params.email.toLowerCase(),
                 }, {
                     headers: {
-                        Authorization: jwtToken //the token is a variable which holds the token
+                        Authorization: jwtToken
                     },
                 })
             } else {

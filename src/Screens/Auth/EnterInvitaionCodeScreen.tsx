@@ -51,6 +51,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import StandardInput from '@/Components/Inputs/StandardInput'
 import InvitationRewardModal from '@/Components/Modals/InvitationRewardModal'
 import { storeReferralCode } from '@/Store/Referral/actions'
+import crashlytics from '@react-native-firebase/crashlytics';
 
 const LOGIN_BUTTON: ViewStyle = {
     height: 40,
@@ -113,8 +114,8 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
                 invitationCode: code
             }))
             navigation.navigate(RouteStacks.signUpWithCode)
-        } catch (err) {
-            console.log(err)
+        } catch (err: any) {
+            crashlytics().recordError(err)
             setErrMsg(t("error.invalidReferralCode"))
         }
     }

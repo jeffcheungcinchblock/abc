@@ -39,6 +39,7 @@ import { startLoading } from '@/Store/UI/actions'
 import WhiteInput from '@/Components/Inputs/WhiteInput'
 import StandardInput from '@/Components/Inputs/StandardInput'
 import { emailUsernameHash } from '@/Utils/helpers'
+import crashlytics from '@react-native-firebase/crashlytics';
 
 const TEXT_INPUT = {
     height: 40,
@@ -115,7 +116,7 @@ const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
                 action: 'forgotPassword'
             })
         } catch (err: any) {
-            // setErrMsg(err.message)
+            crashlytics().recordError(err)
             setErrMsg(t("error.invalidEmail"))
         }
     }

@@ -54,7 +54,7 @@ import ModalBox, { ModalProps } from 'react-native-modalbox';
 import { useFocusEffect } from '@react-navigation/native'
 import SlideInputModal from '@/Components/Modals/SlideInputModal'
 import axios from 'axios'
-
+import crashlytics from '@react-native-firebase/crashlytics';
 
 const LOGIN_BUTTON: ViewStyle = {
     height: 40,
@@ -203,8 +203,8 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                     })
                     break;
                 default:
+                    crashlytics().recordError(err)
             }
-            console.log('err', JSON.stringify(err, null, 2))
             dispatch(startLoading(false))
         } finally {
             setIsLoggingIn(false)

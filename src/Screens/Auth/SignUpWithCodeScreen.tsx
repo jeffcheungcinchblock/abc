@@ -42,6 +42,7 @@ import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth'
 import googleIcon from '@/Assets/Images/icons/google.png'
 import appleIcon from '@/Assets/Images/icons/apple.png'
 import facebookIcon from '@/Assets/Images/icons/facebook.png'
+import crashlytics from '@react-native-firebase/crashlytics';
 
 const BUTTON_VIEW = {
     marginVertical: 20
@@ -102,8 +103,8 @@ const SignUpWithCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
                     smallIcon: 'ic_launcher',
                 },
             });
-        } catch (err) {
-            // console.log(err)
+        } catch (err: any) {
+            crashlytics().recordError(err)
         }
     }
 
@@ -124,7 +125,6 @@ const SignUpWithCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
 
             
         } catch (err: any) {
-
             switch (err.message) {
                 case 'Username should be either an email or a phone number.':
                     setErrMsg(err.message)
@@ -146,7 +146,6 @@ const SignUpWithCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
                     break;
                 default:
             }
-            console.log('err ', err.message)
             dispatch(startLoading(false))
         } finally {
             setIsLoggingIn(false)

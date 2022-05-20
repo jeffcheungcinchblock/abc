@@ -20,12 +20,11 @@ import { useTheme } from '@/Hooks'
 import { changeTheme, ThemeState } from '@/Store/Theme'
 import { login, logout } from '@/Store/Users/actions'
 import { UserState } from '@/Store/Users/reducer'
-
+import AnimateNumber from 'react-native-animate-number'
 import { shallowEqual, useDispatch, useSelector } from "react-redux"
 import { colors, config } from '@/Utils/constants'
 import { HomeNavigatorParamList } from '@/Screens/App/HomeScreen'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-
 import Share from 'react-native-share';
 import share from '@/Utils/share'
 import HeaderLayout from '@/Styles/HeaderLayout'
@@ -42,12 +41,11 @@ import AvenirBoldText from '@/Components/FontText/AvenirBoldText'
 import AvenirMediumText from '@/Components/FontText/AvenirMediumText'
 import Clipboard from '@react-native-clipboard/clipboard';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import moment from 'moment'
 import { awsLogout, triggerSnackbar } from '@/Utils/helpers'
 import times from 'lodash/times'
 // @ts-ignore
 import { Auth } from 'aws-amplify'
-import axios from 'axios'
+import axios, { Canceler, CancelTokenSource } from 'axios'
 import { RootState } from '@/Store'
 import world from '@/Assets/Images/Home/world.png'
 import SlideInputModal from '@/Components/Modals/SlideInputModal'
@@ -63,8 +61,9 @@ import avatar from '@/Assets/Images/Home/avatar.png'
 import InvitationRewardModal from '@/Components/Modals/InvitationRewardModal'
 import logoutBtn from '@/Assets/Images/buttons/btn_logout.png'
 import Orientation from 'react-native-orientation-locker'
-import { Canceler } from 'axios'
 import { storeReferralCode } from '@/Store/Referral/actions'
+import emptyAvatar from '@/Assets/Images/Home/avatar_empty.png'
+import crashlytics from '@react-native-firebase/crashlytics';
 
 const PURPLE_COLOR = {
     color: colors.magicPotion
@@ -134,28 +133,27 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
 
     }, [])
 
-    useEffect(() => {
-        let cancelSourceArr : Canceler[] = []
 
-        const dailyLogin = async () => {
-            let user = await Auth.currentAuthenticatedUser()
-            let jwtToken = user.signInUserSession.idToken.jwtToken
+    useEffect(() => {
+        let cancelSourceArr: CancelTokenSource[] = []
+
+        const dailyLogin = async (jwtToken: string) => {
             let userDailyLoginRes = await axios.get(config.userDailyLogin, {
                 headers: {
                     'Authorization': jwtToken,
                 },
             })
         }
-        
+
         const run = async () => {
             try {
                 let user = await Auth.currentAuthenticatedUser()
                 let jwtToken = user?.signInUserSession?.idToken?.jwtToken
-                
+
                 cancelSourceArr[0] = axios.CancelToken.source()
                 cancelSourceArr[1] = axios.CancelToken.source()
                 cancelSourceArr[2] = axios.CancelToken.source()
-                
+
                 const [authRes, userFitnessInfoRes, topAvgPointRes] = await Promise.all([
                     axios.get(config.userProfile, {
                         cancelToken: cancelSourceArr[0].token,
@@ -171,40 +169,48 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                     }),
                     axios.get(config.userTopAvgPoint)
                 ])
+                console.log('===========fetchedReferralInfo', fetchedReferralInfo)
+                console.log('authRes', JSON.stringify(authRes.data, null, 2))
+                console.log('userFitnessInfoRes', JSON.stringify(userFitnessInfoRes.data, null, 2))
+                console.log('topAvgPointRes', JSON.stringify(topAvgPointRes.data, null, 2))
 
                 const { dailyMission, loginCount, totalPoint } = userFitnessInfoRes.data
 
-                if(!fetchedReferralInfo){
-                    if(loginCount === 0){
-                        dailyLogin()
+                dailyLogin(jwtToken)
+
+                if (!fetchedReferralInfo) {
+                    if (loginCount === 0) {
                         invitationRewardModalRef?.current?.open()
-                    } else if(!dailyMission?.isLogin){
+                    } else if (!dailyMission?.isLogin) {
                         dailyRewardModalRef?.current?.open()
-                        dailyLogin()
                     }
                 }
-                
+
                 setReferralInfo({
                     ...authRes.data,
                     totalPoint,
                     top100AvgKE: topAvgPointRes.data.data.topAveragePoint,
                 })
 
+                setFetchedReferralInfo(true)
+
                 setTimeout(() => {
                     setNeedFetchDtl(false)
                 }, 1000)
 
-            } catch (err) {
-                // console.log(JSON.stringify(err, null, 2))
+            } catch (err: any) {
+                crashlytics().recordError(err)
             }
         }
 
         if (needFetchDtl) {
             run()
-            
-            if (!fetchedReferralInfo) {
-                setFetchedReferralInfo(true)
-            }
+        }
+
+        return () => {
+            cancelSourceArr.forEach((cancelSrc) => {
+                cancelSrc.cancel()
+            })
         }
     }, [needFetchDtl, fetchedReferralInfo])
 
@@ -228,6 +234,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                     })
                 })
             } catch (err: any) {
+                crashlytics().recordError(err)
             }
         }
 
@@ -242,7 +249,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
 
         const shareRes = await share({
             url: `${config.onelinkUrl}/?screen=${RouteStacks.enterInvitationCode}&deep_link_value=${referralInfo.referral}`,
-            title: t("shareMsg"), 
+            title: t("shareMsg"),
             message: t("shareMsg"),
         })
 
@@ -284,23 +291,10 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
     }
 
     const onTrialPlayPress = () => {
-        // const dailyLogin = async () => {
-        //     let user = await Auth.currentAuthenticatedUser()
-        //     let jwtToken = user.signInUserSession.idToken.jwtToken
-        //     let userDailyLoginRes = await axios.get(config.userDailyLogin, {
-        //         headers: {
-        //             'Authorization': jwtToken,
-        //         },
-        //     })
 
-        // }
-        // dailyLogin()
-        
     }
 
-    const onLesGoBtnPress = () => {
-        dailyRewardModalRef?.current?.close()
-    }
+    const onLesGoBtnPress = () => dailyRewardModalRef?.current?.close()
 
     const onRuleOfReferralCloseBtnPress = () => ruleOfReferralModalRef?.current?.close()
 
@@ -401,10 +395,19 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                             textAlign: "center"
                         }}>{t("totalPoints")}</Text>
                         <View style={{ flexDirection: "row", justifyContent: "center", marginTop: 10, alignItems: "center" }}>
-                            <Text style={{
+                            {/* <Text style={{
                                 color: colors.white, fontSize: 40, fontWeight: "bold",
                                 textAlign: "center"
-                            }}>{referralInfo.totalPoint}</Text>
+                            }}>{referralInfo.totalPoint}</Text> */}
+                            <AnimateNumber value={referralInfo.totalPoint} style={{
+                                color: colors.white,
+                                fontSize: 40,
+                                fontWeight: "bold",
+                                textAlign: "center"
+                            }}
+                                formatter={(val: string) => {
+                                    return parseInt(val)
+                                }} />
                         </View>
                     </View>
 
@@ -420,17 +423,34 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                         }}>
                             <Text style={[{ color: colors.darkGunmetal, fontSize: 18 }]}>{isNewAc || queueNoDiff === 0 ? "+" : queueNoDiff > 0 ? "▲" : "▼"} {isNewAc ? 0 : queueNoDiff}</Text>
                         </View>
-                        <Text style={[{ fontWeight: "bold", color: colors.white, fontSize: 44 }]}>{referralInfo.queueNumber}</Text>
+                        {/* <Text style={[{ fontWeight: "bold", color: colors.white, fontSize: 44 }]}>{referralInfo.queueNumber}</Text> */}
+                        <AnimateNumber value={referralInfo.queueNumber} style={{
+                            color: colors.white,
+                            fontSize: 44,
+                            fontWeight: "bold",
+                        }}
+                            formatter={(val: string) => {
+                                return parseInt(val)
+                            }} />
                     </View>
                 </View>
 
                 <View style={[Layout.fullWidth, { alignItems: "center", justifyContent: "center", height: 140 }]}>
                     <Text style={[Layout.fullWidth, { color: colors.white, fontSize: 24, textAlign: "center" }]}>{t("top100AvgKE")}</Text>
                     <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
-                        <Text style={{
+                        {/* <Text style={{
                             color: colors.white, fontSize: 40, fontWeight: "bold",
                             textAlign: "center"
-                        }}>{referralInfo.top100AvgKE.toFixed(2)}</Text>
+                        }}>{referralInfo.top100AvgKE.toFixed(2)}</Text> */}
+                        <AnimateNumber value={referralInfo.top100AvgKE.toFixed(2)} style={{
+                            color: colors.white,
+                            fontSize: 40,
+                            fontWeight: "bold",
+                            textAlign: "center"
+                        }}
+                            formatter={(val: string) => {
+                                return parseFloat(val).toFixed(2)
+                            }} />
                     </View>
                 </View>
 
@@ -537,14 +557,8 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                         })
                     }
                     {
-                        referredNames.length === 0 ? <View>
-                            {
-                                times(4).map((elem: number, idx: number) => {
-                                    return <View style={[REFERRED_FRIEND_ICON, { top: 0, left: idx * 35 }]} key={`Avatar-${idx}`}>
-                                        <Image source={avatar} style={{}} />
-                                    </View>
-                                })
-                            }
+                        referredNames.length === 0 ? <View style={[REFERRED_FRIEND_ICON, { top: 0, left: 0 }]}>
+                            <Image source={emptyAvatar} style={{}} />
                         </View> : referredNames.length > 4 ? <View style={[REFERRED_FRIEND_ICON, { top: 0, left: 4 * 35, backgroundColor: colors.indigo }]}>
                             <Text style={{ color: colors.white, fontWeight: "bold", fontSize: 18 }}>+{referredNames.length - 4}</Text>
                         </View> : null
@@ -573,14 +587,14 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                     <Text style={[{ fontSize: 14, color: colors.white, flexShrink: 1 }]}>{t("earnKEWhenReferredFriends")}</Text>
                 </View>
 
-                <View style={[Layout.fullWidth, Layout.center, { height: 80 }]}>
+                {/* <View style={[Layout.fullWidth, Layout.center, { height: 80 }]}>
                     <Text style={[{ color: colors.brightTurquoise, fontWeight: "bold", fontSize: 18 }]}>{t("learnMoreAllCapital")}</Text>
-                </View>
+                </View> */}
 
-                <View style={[Layout.fullWidth, Layout.center, { height: 80, paddingHorizontal: 30, justifyContent: "flex-start", }]}>
-                    <Text style={[{ color: colors.white, fontSize: 14, lineHeight: 20 }]}>
+                <View style={[Layout.fullWidth, Layout.center, { height: 120, paddingBottom: 40, paddingHorizontal: 30, justifyContent: "center", }]}>
+                    <Text style={[{ color: colors.white, fontSize: 14, lineHeight: 20, textAlign: "center" }]}>
                         {t("theReferralIsGoverned")}
-                        <Text style={[{ color: colors.white, fontWeight: "bold", fontSize: 14 }]}>{t("bg25")}</Text>
+                        <Text style={[{ color: colors.white, fontWeight: "bold", fontSize: 14 }]}>{t("programTC")}</Text>
                     </Text>
                 </View>
 

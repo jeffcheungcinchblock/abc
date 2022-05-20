@@ -115,21 +115,20 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                 email: credential.email,
                 action: 'signUp',
             })
-        } catch (error: any) {
-            console.log('error.message', error.message)
-            switch (error.message) {
+        } catch (err: any) {
+            switch (err.message) {
                 case 'Password did not conform with policy: Password must have uppercase characters':
                 case 'Password cannot be empty':
                     setErrMsg({
                         ...errMsg,
-                        password: error.message
+                        password: err.message
                     })
                     break;
                 case 'Invalid email address format.':
                 default:
                     setErrMsg({
                         ...errMsg,
-                        email: error.message
+                        email: err.message
                     })
                     break;
             }

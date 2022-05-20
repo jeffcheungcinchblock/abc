@@ -1,7 +1,9 @@
 import { Platform } from 'react-native';
 import Share from 'react-native-share';
+//@ts-ignore
 import moment from 'moment'
 import { ShareOpenResult } from 'react-native-share/lib/typescript/types';
+import crashlytics from '@react-native-firebase/crashlytics';
 
 type ShareOptionsProps = {
     url: string,
@@ -73,8 +75,8 @@ export default async ({ url, title, message } : {
     const options = shareOptions({ url, title, message })
     try {
         return await Share.open(options)
-    } catch (e) {
-        // console.log('share box error:')
+    } catch (err: any) {
+        crashlytics().recordError(err)
         return false
     }
 };
