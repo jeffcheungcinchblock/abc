@@ -3,10 +3,13 @@
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
+#import "RCTAppleHealthKit.h"
+#import <TSBackgroundFetch/TSBackgroundFetch.h>
 #import <Firebase.h>
 #import <React/RCTLinkingManager.h>
 #import <RNAppsFlyer.h>
 #import "RNBootSplash.h" // <- add the header import
+#import <GoogleMaps/GoogleMaps.h>
 
 #ifdef FB_SONARKIT_ENABLED
 #import <FlipperKit/FlipperClient.h>
@@ -15,7 +18,6 @@
 #import <FlipperKitNetworkPlugin/FlipperKitNetworkPlugin.h>
 #import <SKIOSNetworkPlugin/SKIOSNetworkAdapter.h>
 #import <FlipperKitReactPlugin/FlipperKitReactPlugin.h>
-
 static void InitializeFlipper(UIApplication *application) {
   FlipperClient *client = [FlipperClient sharedClient];
   SKDescriptorMapper *layoutDescriptorMapper = [[SKDescriptorMapper alloc] initWithDefaults];
@@ -30,7 +32,9 @@ static void InitializeFlipper(UIApplication *application) {
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
+{    
+  [GMSServices provideAPIKey:@"AIzaSyDn_Bk2ihT2CPh_X79zyjsbtJ64DWjNvt4"]; // add this line using the api key obtained from Google Console
+
 #ifdef FB_SONARKIT_ENABLED
   InitializeFlipper(application);
 #endif
@@ -39,6 +43,7 @@ static void InitializeFlipper(UIApplication *application) {
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"FitEvo"
                                             initialProperties:nil];
+  [[RCTAppleHealthKit new] initializeBackgroundObservers:bridge];
 
   if (@available(iOS 13.0, *)) {
       rootView.backgroundColor = [UIColor systemBackgroundColor];
@@ -50,6 +55,8 @@ static void InitializeFlipper(UIApplication *application) {
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+  // [REQUIRED] Register BackgroundFetch
+  [[TSBackgroundFetch sharedInstance] didFinishLaunching];
   [RNBootSplash initWithStoryboard:@"BootSplash" rootView:rootView]; // <- initialization using the storyboard file name
   return YES;
 }
@@ -64,10 +71,10 @@ static void InitializeFlipper(UIApplication *application) {
 }
 
 // Open URI-scheme for iOS 8 and below
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString*)sourceApplication annotation:(id)annotation {
-  [[AppsFlyerAttribution shared] handleOpenUrl:url sourceApplication:sourceApplication annotation:annotation];
-  return YES;
-}
+// - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString*)sourceApplication annotation:(id)annotation {
+//   [[AppsFlyerAttribution shared] handleOpenUrl:url sourceApplication:sourceApplication annotation:annotation];
+//   return YES;
+// }
 
 - (BOOL)application:(UIApplication *)application continueUserActivity:(nonnull NSUserActivity *)userActivity
  restorationHandler:(nonnull void (^)(NSArray<id<UIUserActivityRestoring>> * _Nullable))restorationHandler

@@ -1,18 +1,21 @@
 
 export enum RouteTabs {
-    breeding = "breeding",
-    home = "home",
-    social = "social",
-    marketplace = "marketplace",
+    breeding = 'breeding',
+    home = 'home',
+    social = 'social',
+    marketplace = 'marketplace',
+    workoutMap = 'workoutMap',
+    litemode = 'litemode',
+    workout = 'workout',
 }
 
 // Adding new screens need to add corresponding background image in Components/ScreenBackgrounds/index.tsx
 export enum RouteStacks {
-    
-    startUp = "startUp",
-    application = "application",
 
-    mainDrawer = "mainDrawer",
+    startUp = 'startUp',
+    application = 'application',
+
+    mainDrawer = 'mainDrawer',
 
     // auth screens
     signIn = "signIn",
@@ -28,22 +31,31 @@ export enum RouteStacks {
     registrationCompleted = "registrationCompleted",
 
 
+
+
     // logged in app screens
-    homeMain = "homeMain",
-    homeReferral = "homeReferral",
-    homeInviteState = "homeInviteState",
 
     breedingMain = "breedingMain",
 
-    socialMain = "socialMain",
+    // logged in app screens
+    homeMain = 'homeMain',
+    homeReferral = 'homeReferral',
+    homeInviteState = 'homeInviteState',
 
-    marketplaceMain = "marketplaceMain",
 
-    
+    socialMain = 'socialMain',
+
+    marketplaceMain = 'marketplaceMain',
+
 
     // drawer screens
-    setting = "setting",
-    mainTab = "mainTab"
+    setting = 'setting',
+    mainTab = 'mainTab',
+
+    //start workout
+    startWorkout = 'startWorkout',
+    workout = 'workout',
+    endWorkout = 'endWorkout',
 
 }
 

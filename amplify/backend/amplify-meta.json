@@ -1,0 +1,58 @@
+{
+  "providers": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-dragonevo-dev-122509-authRole",
+      "UnauthRoleArn": "arn:aws:iam::523966993919:role/amplify-dragonevo-dev-122509-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::523966993919:role/amplify-dragonevo-dev-122509-authRole",
+      "Region": "us-west-2",
+      "DeploymentBucketName": "amplify-dragonevo-dev-122509-deployment",
+      "UnauthRoleName": "amplify-dragonevo-dev-122509-unauthRole",
+      "StackName": "amplify-dragonevo-dev-122509",
+      "StackId": "arn:aws:cloudformation:us-west-2:523966993919:stack/amplify-dragonevo-dev-122509/5cbe6c80-c774-11ec-b573-0a3baa7ea85d",
+      "AmplifyAppId": "d1kscz8c8z777g"
+    }
+  },
+  "auth": {
+    "dragonevo": {
+      "service": "Cognito",
+      "serviceType": "imported",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false,
+      "output": {
+        "UserPoolId": "us-west-2_QVyy5ZMqT",
+        "UserPoolName": "dragonevo-dev-auth-user-pool",
+        "AppClientID": "5n21gbh33o8scta9agi8o75aab",
+        "AppClientIDWeb": "5n21gbh33o8scta9agi8o75aab",
+        "HostedUIDomain": "mewo",
+        "IdentityPoolId": "us-west-2:a0a35520-2e89-4df3-98e9-8543324349e0",
+        "IdentityPoolName": "dragonevo-dev-auth-identity-pool",
+        "OAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"aws.cognito.signin.user.admin\",\"email\",\"openid\",\"phone\",\"profile\"],\"CallbackURLs\":[\"com.fitevo://signIn\"],\"LogoutURLs\":[\"com.fitevo://signOut\"]}"
+      },
+      "frontendAuthConfig": {
+        "socialProviders": [
+          "FACEBOOK",
+          "GOOGLE",
+          "APPLE"
+        ],
+        "usernameAttributes": [],
+        "signupAttributes": [],
+        "passwordProtectionSettings": {
+          "passwordPolicyMinLength": 8,
+          "passwordPolicyCharacters": [
+            "REQUIRES_LOWERCASE",
+            "REQUIRES_UPPERCASE",
+            "REQUIRES_NUMBERS",
+            "REQUIRES_SYMBOLS"
+          ]
+        },
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "lastPushTimeStamp": "2022-05-06T08:20:26.592Z"
+    }
+  }
+}

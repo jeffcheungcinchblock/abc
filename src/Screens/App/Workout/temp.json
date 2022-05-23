@@ -1,0 +1,36 @@
+[
+  {
+    "numberOfPath": 0,
+    "pauseTime": "2022-05-18T02:08:52.084Z",
+    "endPauseTime": "2022-05-18T02:09:01.296Z",
+    "reduceStep": 0,
+    "coordinates": [
+      { "latitude": 37.3246282, "longitude": -122.02331837 },
+      { "latitude": 37.32463256, "longitude": -122.02339656 },
+      { "latitude": 37.32462986, "longitude": -122.02347873 },
+      { "latitude": 37.3246286, "longitude": -122.02356127 },
+      { "latitude": 37.32463391, "longitude": -122.02364774 },
+      { "latitude": 37.32463188, "longitude": -122.02373378 },
+      { "latitude": 37.32462634, "longitude": -122.02381665 },
+      { "latitude": 37.32462327, "longitude": -122.02389086 },
+      { "latitude": 37.32462629, "longitude": -122.02395876 },
+      { "latitude": 37.32463299, "longitude": -122.02403404 },
+      { "latitude": 37.32463016, "longitude": -122.02411329 },
+      { "latitude": 37.32462846, "longitude": -122.02420475 },
+      { "latitude": 37.32461499, "longitude": -122.02429853 },
+      { "latitude": 37.3245991, "longitude": -122.02473666 }
+    ],
+    "pathTotalPauseTime": 9
+  },
+  {
+    "numberOfPath": 2,
+    "pauseTime": null,
+    "pathTotalPauseTime": null,
+    "endPauseTime": null,
+    "reduceStep": 0,
+    "coordinates": [
+      { "latitude": 37.3245991, "longitude": -122.02473666 },
+      { "latitude": 37.32459945, "longitude": -122.0248104 }
+    ]
+  }
+]

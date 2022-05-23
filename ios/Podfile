@@ -1,25 +1,33 @@
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
-platform :ios, '11.0'
+platform :ios, '12.0'
+# use_frameworks!
+source 'https://github.com/CocoaPods/Specs.git'
 
 target 'DragonDappRN' do
   config = use_native_modules!
-  pod 'react-native-pager-view', :path => '../node_modules/react-native-pager-view'
 
+  # React Native Maps dependencies
+  rn_maps_path = '../node_modules/react-native-maps'
+  pod 'react-native-google-maps', :path => rn_maps_path
+  # when not using frameworks  we can remove this line (2/4):
+
+  config = use_native_modules!
   use_react_native!(
     :path => config[:reactNativePath],
     # to enable hermes on iOS, change `false` to `true` and then install pods
     :hermes_enabled => true
   )
+  permissions_path = '../node_modules/react-native-permissions/ios'
+  pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse/Permission-LocationWhenInUse.podspec"
 
 
 
-  pod 'RNFS', :path => '../node_modules/react-native-fs'
 
   target 'DragonDappRNTests' do
     inherit! :complete
-    # Pods for testing
+
   end
 
   # Enables Flipper.

@@ -214,7 +214,7 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
         setCredential(prevCredential => {
             return {
                 ...prevCredential,
-                [field]: text
+                [field]: field === 'email' ? text.toLowerCase() : text
             }
         })
     }
@@ -234,6 +234,18 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
     useFocusEffect(useCallback(() => {
         modalRef?.current?.open()
     }, [modalRef]))
+
+    // useFocusEffect(
+    //     useCallback(() => {
+    //         setErrMsg({
+    //             ...initErrMsg,
+    //         })
+    //         setCredential({
+    //             ...initErrMsg,
+    //         })
+    //     }, [])
+    // )
+
 
     return (
         <ScreenBackgrounds
@@ -283,7 +295,6 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                             value={credential.email}
                             placeholder={t("email")}
                             placeholderTextColor={colors.spanishGray}
-                            autoCapitalize='none'
 
                         />
                         {

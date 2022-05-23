@@ -9,13 +9,13 @@ import { navigationRef } from './utils'
 import AuthNavigator, { AuthNavigatorParamList } from './AuthNavigator'
 import { useDispatch, useSelector } from 'react-redux'
 import { UserState } from '@/Store/Users/reducer'
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 // @ts-ignore
 import { Auth } from 'aws-amplify'
 import { login } from '@/Store/Users/actions'
-import messaging from '@react-native-firebase/messaging';
+import messaging from '@react-native-firebase/messaging'
 import { RouteStacks } from './routes'
-import firebase from '@react-native-firebase/app';
+import firebase from '@react-native-firebase/app'
 import LoadingScreen from '@/Components/LoadingScreen'
 import { UIState } from '@/Store/UI/reducer'
 import { privateLinking, publicLinking, publicNavigationRef, privateNavigationRef } from './LinkingOptions'
@@ -56,7 +56,7 @@ const ApplicationNavigator = () => {
           return
         }
 
-        let { attributes, username } = user
+				let { attributes, username } = user
 
         let jwtToken = user?.signInUserSession?.idToken?.jwtToken
         cancelSourceArr[0] = axios.CancelToken.source()
@@ -105,8 +105,8 @@ const ApplicationNavigator = () => {
     ref: NavigationContainerRefWithCurrent<any>,
     linking: LinkingOptions<any>
   } = isLoggedIn ? {
-    ref: privateNavigationRef,
-    linking: privateLinking
+  	ref: privateNavigationRef,
+  	linking: privateLinking,
   } : {
       ref: publicNavigationRef,
       linking: publicLinking

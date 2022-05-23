@@ -1,14 +1,14 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { combineReducers, Middleware } from 'redux'
 import {
-  persistReducer,
-  persistStore,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
+	persistReducer,
+	persistStore,
+	FLUSH,
+	REHYDRATE,
+	PAUSE,
+	PERSIST,
+	PURGE,
+	REGISTER,
 } from 'redux-persist'
 import { configureStore } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query'
@@ -19,47 +19,54 @@ import theme from './Theme'
 import userReducer from '@/Store/Users/reducer'
 import uiReducer from '@/Store/UI/reducer'
 import referralReducer from '@/Store/Referral/reducer'
+import unitReducer from '@/Store/Unit/reducer'
+import mapReducer from '@/Store/Map/reducer'
 
 const reducers = combineReducers({
-  theme,
-  ...Object.values(modules).reduce(
-    (acc, module) => ({
-      ...acc,
-      [module.reducerPath]: module.reducer,
-    }),
-    {},
-  ),
-  user: userReducer,
-  ui: uiReducer,
-  referral: referralReducer,
-  // new reducers to be added here
+	theme,
+	...Object.values(modules).reduce(
+		(acc, module) => ({
+			...acc,
+			[module.reducerPath]: module.reducer,
+		}),
+		{},
+	),
+	user: userReducer,
+	ui: uiReducer,
+	referral: referralReducer,
+	map: mapReducer,
+	unit: unitReducer
+
+	// new reducers to be added here
 
 })
 
 const persistConfig = {
-  key: 'root',
-  storage: AsyncStorage,
-  whitelist: ['theme', 'referral', 'user', 'ui'],
+	key: 'root',
+	storage: AsyncStorage,
+	whitelist: [ 'theme', 'referral', 'user', 'ui', 'unit' ],
 }
 
 const persistedReducer = persistReducer(persistConfig, reducers)
 
 const store = configureStore({
-  reducer: persistedReducer,
-  middleware: getDefaultMiddleware => {
-    const middlewares = getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
-    }).concat(api.middleware as Middleware)
+	reducer: persistedReducer,
+	middleware: getDefaultMiddleware => {
+		const middlewares = getDefaultMiddleware({
+			// serializableCheck: {
+			// 	ignoredActions: [ FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER ],
+			// 	ignoredActionPaths: [ 'payload.startTime' ],
+			// },
+			serializableCheck:false,
+		}).concat(api.middleware as Middleware)
 
-    if (__DEV__ && !process.env.JEST_WORKER_ID) {
-      const createDebugger = require('redux-flipper').default
-      middlewares.push(createDebugger())
-    }
+		if (__DEV__ && !process.env.JEST_WORKER_ID) {
+			const createDebugger = require('redux-flipper').default
+			middlewares.push(createDebugger())
+		}
 
-    return middlewares
-  },
+		return middlewares
+	},
 })
 
 const persistor = persistStore(store)
