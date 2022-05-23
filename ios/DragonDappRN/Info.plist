@@ -39,6 +39,10 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>twitter</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -52,6 +56,9 @@
 			</dict>
 		</dict>
 	</dict>
+	
+	<key>NSFaceIDUsageDescription</key>
+	<string>$(PRODUCT_NAME) requires FaceID access to allows you quick and secure access.</string>
 	<key>NSHealthClinicalHealthRecordsShareUsageDescription</key>
 	<string>Read and understand clinical health data.</string>
 	<key>NSHealthShareUsageDescription</key>
@@ -59,19 +66,17 @@
 	<key>NSHealthUpdateUsageDescription</key>
 	<string>Share workout data with other apps.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Share Location When In Use</string>
+	<string>Location required in background</string>
 	<key>NSLocationUsageDescription</key>
 	<string>Share Location When In Use</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Share Location When In Use</string>
 	<key>NSMotionUsageDescription</key>
 	<string>Accelerometer use increases battery efficiency by intelligently toggling location-tracking</string>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>remote-notification</string>
-	</array>
-	<key>NSFaceIDUsageDescription</key>
-	<string>$(PRODUCT_NAME) requires FaceID access to allows you quick and secure access.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>$(PRODUCT_NAME) wants to save photos</string>
+	<key>Privacy - Location When in Use Usage Description</key>
+	<string>Share Location When In Use</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>
@@ -96,6 +101,13 @@
 		<string>Mont Heavy DEMO.ttf</string>
 		<string>Mont-HeavyDEMO.ttf</string>
 	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>audio</string>
+		<string>fetch</string>
+		<string>location</string>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>BootSplash</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -113,11 +125,5 @@
 	<false/>
 	<key>com.apple.developer.healthkit.background-delivery</key>
 	<true/>
-	  <key>LSApplicationQueriesSchemes</key>
-  <array>
-    <string>twitter</string>
-  </array>
-    <key>NSPhotoLibraryAddUsageDescription</key>
-  <string>$(PRODUCT_NAME) wants to save photos</string>
 </dict>
 </plist>

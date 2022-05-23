@@ -26,7 +26,6 @@ export class GoogleFitKit extends GeneralHealthKit {
 				if (authResult.success) {
 					resolve(true)
 				} else {
-					console.log(authResult.message)
 					resolve(false)
 				}
 			}).catch(() => {
@@ -39,7 +38,7 @@ export class GoogleFitKit extends GeneralHealthKit {
 	GetAuthorizeStatus() {
 		return new Promise<boolean>(resolve => {
 			GoogleFit.checkIsAuthorized().then(() => {
-				console.log(GoogleFit.isAuthorized) // Then you can simply refer to `GoogleFit.isAuthorized` boolean.
+				console.log('googlefit authed',GoogleFit.isAuthorized) // Then you can simply refer to `GoogleFit.isAuthorized` boolean.
 				resolve(true)
 			})
 		})
