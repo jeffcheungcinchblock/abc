@@ -136,9 +136,10 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
         top100AvgKE: 0,
         totalPoint: 0,
     })
-    const [isReady, setIsReady] = useState<Boolean>(false)
-    const [enabled, setEnabled] = useState(false)
-    const [isHealthkitReady, setIstHealthKitReady] = useState(false)
+	const [ isReady, setIsReady ] = useState<Boolean>(false)
+	const [ enabled, setEnabled ] = useState(false)
+	const [ isHealthkitReady, setIstHealthKitReady ] = useState(false)
+    const [ isFirstLoad, setIsFirstLoad ] = useState(true)
     const startTime = useSelector((state: RootState) => state.map.startTime)
 
     useEffect(() => {
@@ -266,15 +267,37 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
         }
     }, [isHealthkitReady])
 
-    useEffect(() => {
-        console.log(startTime)
-        if (enabled === true && startTime !== undefined) {
+	useEffect(() => {
+     
+		if (enabled === true && startTime !== undefined) {
+            
             navigation.replace(RouteStacks.workout)
         }
     }, [startTime, enabled])
 
+    // useEffect(()=>{
+    //     if(isFirstLoad){
+    //         if(isIOS){
+    //             const config = {...geolocationConfig.ios, ...geolocationConfig.default}
+    //             BackgroundGeolocation.ready(config).then((state)=>{
+    //                 if(!state.enabled){
+    //                     BackgroundGeolocation.start()
+    //                     BackgroundGeolocation.changePace(true)
+    //                 }
+    //                 setIsFirstLoad(false)
+    //                 console.log('- BackgroundGeolocation is ready: ', state)
+    //             })
+    //         }else{
+    //             const config = {...geolocationConfig.android, ...geolocationConfig.default}
+    //             BackgroundGeolocation.ready(config).then((state)=>{
+    //                     setIsFirstLoad(false)
+    //             })
+    //         }        
+    //     }
+    // },[])
 
-    const onSharePress = async () => {
+
+	const onSharePress = async () => {
 
         const shareRes = await share({
             url: `${config.onelinkUrl}/?screen=${RouteStacks.enterInvitationCode}&deep_link_value=${referralInfo.referral}`,
@@ -316,23 +339,19 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
         dispatch(startLoading(false))
     }
 
-    const onTrialPlayPress = async () => {
-        try {
-            console.log('onTrialPlayPress')
-            const authed = await health_kit.GetAuthorizeStatus()
-            console.log('authed', authed, isReady)
-            await BackgroundGeolocation.changePace(true)
-            await BackgroundGeolocation.start()
-            if (authed || isReady) {
-                dispatch({ type: 'start', payload: { startTime: (new Date()).getTime() } })
-                setEnabled(true)
-            } else {
-                health_kit.InitHealthKitPermission()
-                console.log('not ready')
-            }
-
-        } catch (err: any) {
-            console.log('Error: ', err)
+	const onTrialPlayPress = async () => {
+        console.log('onTrialPlayPress')
+        // const authed = await health_kit.GetAuthorizeStatus()
+        // await BackgroundGeolocation.changePace(true)
+        // await BackgroundGeolocation.start()
+        const authed = true
+        console.log('authe', authed)
+        if (authed || isReady){
+            dispatch({ type:'start', payload:{ startTime: (new Date()).getTime() } })
+            setEnabled(true)
+        } else {
+            health_kit.InitHealthKitPermission()
+            console.log('not ready')
         }
     }
 

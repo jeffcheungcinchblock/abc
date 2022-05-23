@@ -56,6 +56,7 @@
 			</dict>
 		</dict>
 	</dict>
+	
 	<key>NSFaceIDUsageDescription</key>
 	<string>$(PRODUCT_NAME) requires FaceID access to allows you quick and secure access.</string>
 	<key>NSHealthClinicalHealthRecordsShareUsageDescription</key>
@@ -65,7 +66,7 @@
 	<key>NSHealthUpdateUsageDescription</key>
 	<string>Share workout data with other apps.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Share Location When In Use</string>
+	<string>Location required in background</string>
 	<key>NSLocationUsageDescription</key>
 	<string>Share Location When In Use</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
@@ -74,6 +75,8 @@
 	<string>Accelerometer use increases battery efficiency by intelligently toggling location-tracking</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>$(PRODUCT_NAME) wants to save photos</string>
+	<key>Privacy - Location When in Use Usage Description</key>
+	<string>Share Location When In Use</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>

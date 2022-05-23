@@ -25,7 +25,6 @@ export class IOSHealthKit extends GeneralHealthKit {
 		return new Promise<boolean>((resolve) => {
 			AppleHealthKit.initHealthKit(permissions, (error: string) => {
 				/* Called after we receive a response from the system */
-
 				if (error) {
 					console.log('[ERROR] Cannot grant permissions!')
 					resolve(false)
@@ -38,6 +37,10 @@ export class IOSHealthKit extends GeneralHealthKit {
 	GetAuthorizeStatus() {
 		return new Promise<boolean>((resolve) => {
 			AppleHealthKit.getAuthStatus(permissions, (err, results) => {
+				if(err){
+					console.log('[ERROR] Cannot get status!')
+					resolve(false)
+				}
 				resolve(true)
 			})
 		})

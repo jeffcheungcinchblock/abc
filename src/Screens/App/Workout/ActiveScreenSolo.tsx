@@ -45,6 +45,7 @@ import TimerLogo from '@/Assets/Images/map/timer_crystal.png'
 import StepLogo from '@/Assets/Images/map/step.png'
 import {speedconst} from '@/Utils/constants'
 import { FontSize } from '@/Theme/Variables'
+import { start } from '@/Store/Map/actions'
 
 
 type WorkoutScreenScreenNavigationProp = CompositeScreenProps<
@@ -170,24 +171,28 @@ const styles = StyleSheet.create({
 	},
 })
 
-const geolocationConfig = {
 
+const isIOS = Platform.OS === 'ios'
+const health_kit = isIOS ? new IOSHealthKit() : new GoogleFitKit()
+const geolocationConfig = {
 	ios:{
 		desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_NAVIGATION,
 		stationaryRadius:6,
-		disableLocationAuthorizationAlert: true,
-		showsBackgroundLocationIndicator:true
+		showsBackgroundLocationIndicator:true,
+		
+        locationAuthorizationRequest:'WhenInUse',
+        activityType:'FITNESS'
 	},
 	android:{
 		desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
 		allowIdenticalLocations:true
 	},
 	default:{
+
 		distanceFilter: 2,
 		stopTimeout: 5,
 		isMoving: true,
 		disableElasticity : true,
-		speedJumpFilter:20,
 		preventSuspend: true,
 		stopOnTerminate: true,
 		reset: false,
@@ -195,9 +200,6 @@ const geolocationConfig = {
 		logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
 	}
 }
-const isIOS = Platform.OS === 'ios'
-const health_kit = isIOS ? new IOSHealthKit() : new GoogleFitKit()
-
 export type Region = {
 	latitude: number
 	longitude: number
@@ -242,7 +244,6 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 
 	useEffect(() => {
 		const intervalId = setInterval(() => {
-			console.log('overSpeedPaths',overSpeedPaths)
 			let totalPauseTime = 0
 			let totalReduceStep = 0;
 
@@ -279,6 +280,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 
 	useEffect(()=>{
 		const onLocation: Subscription = BackgroundGeolocation.onLocation((location) => {
+			console.log(ActivityType[currentState], startTime )
 			if (currentState !== ActivityType.PAUSE && startTime !== null && startTime !== undefined){
 				if (location.coords && location.coords.latitude && location.coords.longitude && location.is_moving === true && location.coords.speed != -1)
 				{
@@ -347,10 +349,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 						}
 					})
 			}
-
 		}
-	
-		
 		return () => {
 			onLocation.remove()
 		}
@@ -375,8 +374,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 				heartRate: heartRate,
 				paths: paths_string,
 				username: username,
-				timer: timer,
-				// speed: speed,
+				timer: timer, 
 				overSpeedPath: over_speed_paths_string
 			}
 			console.log('data get', data)
