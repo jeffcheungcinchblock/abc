@@ -26,7 +26,7 @@ import Orientation from 'react-native-orientation-locker';
 import crashlytics from '@react-native-firebase/crashlytics';
 import BackgroundGeolocation, { Subscription } from 'react-native-background-geolocation'
 // TBD: remove later
-console.warn = () => {}
+console.warn = () => { }
 
 const onInstallConversionDataCanceller = appsFlyer.onInstallConversionData(
 	(res) => {
@@ -69,7 +69,7 @@ const onDeepLinkCanceller = appsFlyer.onDeepLink(res => {
 		const mediaSrc = res?.data.media_source
 		const param1 = res?.data.af_sub1
 		const screen = res?.data.screen
-		if (screen !== undefined){
+		if (screen !== undefined) {
 			Linking.openURL(`${config.urlScheme}${screen}`)
 		}
 
@@ -102,37 +102,37 @@ LogBox.ignoreLogs([
 ])
 
 const getUser = () => {
-  return Auth.currentAuthenticatedUser()
-    .then((userData : any) => userData)
-    .catch(() => {});
+	return Auth.currentAuthenticatedUser()
+		.then((userData: any) => userData)
+		.catch(() => { });
 }
 
 // https://www.facebook.com/log.out
 
 const urlOpener = async (url: string, redirectUrl: string) => {
-  try {
-    if (redirectUrl === `${config.urlScheme}${RouteStacks.signIn}` && await InAppBrowser.isAvailable()) {
-      // const authRes: any = await InAppBrowser.open(url)
-      const authRes: any = await InAppBrowser.openAuth(url, redirectUrl, {
-        showTitle: false,
-        enableUrlBarHiding: true,
-        enableDefaultShare: false,
-        ephemeralWebSession: false,
-      });
+	try {
+		if (redirectUrl === `${config.urlScheme}${RouteStacks.signIn}` && await InAppBrowser.isAvailable()) {
+			// const authRes: any = await InAppBrowser.open(url)
+			const authRes: any = await InAppBrowser.openAuth(url, redirectUrl, {
+				showTitle: false,
+				enableUrlBarHiding: true,
+				enableDefaultShare: false,
+				ephemeralWebSession: false,
+			});
 
-      const { type, url: newUrl } = authRes
+			const { type, url: newUrl } = authRes
 
-      if (type === 'success') {
-        Linking.openURL(newUrl);
-      } else if (type === 'cancel') {
-        store.dispatch(startLoading(false))
-      }
-    }
-  } catch (err: any) {
-    crashlytics().recordError(err)
-    await InAppBrowser.close()
-    store.dispatch(startLoading(false))
-  }
+			if (type === 'success') {
+				Linking.openURL(newUrl);
+			} else if (type === 'cancel') {
+				store.dispatch(startLoading(false))
+			}
+		}
+	} catch (err: any) {
+		crashlytics().recordError(err)
+		await InAppBrowser.close()
+		store.dispatch(startLoading(false))
+	}
 
 }
 
@@ -146,67 +146,59 @@ Amplify.configure({
 
 
 const App = () => {
-  
-  const getFcmToken = async () => {
-    const fcmToken = await messaging().getToken();
-    if (fcmToken) {
-      // console.log("Firebase Token:", fcmToken);
-    } else {
-      // console.log("Failed", "No token received");
-    }
-  }
 
 	const getFcmToken = async () => {
-		const fcmToken = await messaging().getToken()
+		const fcmToken = await messaging().getToken();
 		if (fcmToken) {
-			console.log('Your Firebase Token is:', fcmToken)
+			// console.log("Firebase Token:", fcmToken);
 		} else {
-			console.log('Failed', 'No token received')
+			// console.log("Failed", "No token received");
 		}
 	}
+
 
 	const requestUserPermission = async () => {
 		const authStatus = await messaging().requestPermission()
 		const enabled =
-      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-      authStatus === messaging.AuthorizationStatus.PROVISIONAL
+			authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+			authStatus === messaging.AuthorizationStatus.PROVISIONAL
 
-    if (enabled) {
-      getFcmToken()
-    }
-  }
+		if (enabled) {
+			getFcmToken()
+		}
+	}
 
-  useEffect(() => {
-    RNBootSplash.hide({fade: true});
-    // Orientation lockToPortrait only work in android / ios < 15, ios >= 15 won't work
-    Orientation.lockToPortrait()
+	useEffect(() => {
+		RNBootSplash.hide({ fade: true });
+		// Orientation lockToPortrait only work in android / ios < 15, ios >= 15 won't work
+		Orientation.lockToPortrait()
 
-    requestUserPermission()
+		requestUserPermission()
 
-    let messageHandler = async(remoteMessage: any) => {
-      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
-    }
+		let messageHandler = async (remoteMessage: any) => {
+			Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+		}
 
-    let onNotiPress = async(remoteMessage: any) => {
-      const { link } = remoteMessage.data
-      let toBeOpenURL = `${config.urlScheme}${link}`
-      Linking.openURL(toBeOpenURL)
-    }
+		let onNotiPress = async (remoteMessage: any) => {
+			const { link } = remoteMessage.data
+			let toBeOpenURL = `${config.urlScheme}${link}`
+			Linking.openURL(toBeOpenURL)
+		}
 
-    messaging().onNotificationOpenedApp(onNotiPress)
+		messaging().onNotificationOpenedApp(onNotiPress)
 
-    const unsubscribe = messaging().onMessage(messageHandler)
-    messaging().setBackgroundMessageHandler(messageHandler)
+		const unsubscribe = messaging().onMessage(messageHandler)
+		messaging().setBackgroundMessageHandler(messageHandler)
 
-    store.dispatch(startLoading(false))
+		store.dispatch(startLoading(false))
 
-    return unsubscribe;
+		return unsubscribe;
 
-  }, []);
+	}, []);
 
-  return (
-    <Provider store={store}>
-      {/**
+	return (
+		<Provider store={store}>
+			{/**
        * PersistGate delays the rendering of the app's UI until the persisted state has been retrieved
        * and saved to redux.
        * The `loading` prop can be `null` or any react instance to show during loading (e.g. a splash screen),

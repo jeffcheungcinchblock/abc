@@ -1,19 +1,19 @@
 import React, { useState, useEffect, useCallback, FC, useRef, useMemo } from 'react'
 import { StackScreenProps } from "@react-navigation/stack"
 import {
-	View,
-	ActivityIndicator,
-	Text,
-	TextInput,
-	Pressable,
-	ScrollView,
-	TextStyle,
-	Platform,
-	Alert,
-	ViewStyle,
-	RefreshControl,
-	Image,
-	Dimensions,
+    View,
+    ActivityIndicator,
+    Text,
+    TextInput,
+    Pressable,
+    ScrollView,
+    TextStyle,
+    Platform,
+    Alert,
+    ViewStyle,
+    RefreshControl,
+    Image,
+    Dimensions,
 } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { Brand, Header } from '@/Components'
@@ -73,7 +73,7 @@ import crashlytics from '@react-native-firebase/crashlytics';
 import BackgroundGeolocation, { Subscription } from 'react-native-background-geolocation'
 
 const PURPLE_COLOR = {
-	color: colors.magicPotion,
+    color: colors.magicPotion,
 }
 
 type ReferralInfo = {
@@ -99,8 +99,8 @@ type HomeReferralScreenNavigationProp = CompositeScreenProps<
 >
 
 const REFERRED_FRIEND_ICON: ViewStyle = {
-	borderRadius: 99, width: 40, height: 40, backgroundColor: colors.crystal, justifyContent: 'center', alignItems: 'center',
-	position: 'absolute',
+    borderRadius: 99, width: 40, height: 40, backgroundColor: colors.crystal, justifyContent: 'center', alignItems: 'center',
+    position: 'absolute',
 }
 
 const windowWidth = Dimensions.get('window').width
@@ -109,7 +109,7 @@ const isIOS = Platform.OS === 'ios'
 const health_kit = isIOS ? new IOSHealthKit() : new GoogleFitKit()
 
 const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
-	{ navigation, route }
+    { navigation, route }
 ) => {
     const keyboardAwareScrollViewRef = useRef<any>(null)
     const dailyRewardModalRef = useRef<any>(null)
@@ -136,9 +136,9 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
         top100AvgKE: 0,
         totalPoint: 0,
     })
-	const [ isReady, setIsReady ] = useState<Boolean>(false)
-	const [ enabled, setEnabled ] = useState(false)
-	const [ isHealthkitReady, setIstHealthKitReady ] = useState(false)
+    const [isReady, setIsReady] = useState<Boolean>(false)
+    const [enabled, setEnabled] = useState(false)
+    const [isHealthkitReady, setIstHealthKitReady] = useState(false)
     const startTime = useSelector((state: RootState) => state.map.startTime)
 
     useEffect(() => {
@@ -223,107 +223,118 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
         }
     }, [needFetchDtl, fetchedReferralInfo])
 
-    
-	useEffect(() => {
-		// TBD: To be placed some where upper level component later
-		const confirmReferral = async () => {
-			let user = await Auth.currentAuthenticatedUser()
-			let jwtToken = user.signInUserSession.idToken.jwtToken
 
-			try {
-				let referralConfirmRes = await axios({
-					method: 'post',
-					url: `${config.referralConfirmation}`,
-					headers: {
-						'Content-Type': 'application/json',
-						'Authorization': jwtToken,
-					},
-					data: JSON.stringify({
-						'referral': invitationCode,
-					}),
-				})
-			} catch (err: any) {
-				// console.log('###', err.response)
-			}
-		}
+    useEffect(() => {
+        // TBD: To be placed some where upper level component later
+        const confirmReferral = async () => {
+            let user = await Auth.currentAuthenticatedUser()
+            let jwtToken = user.signInUserSession.idToken.jwtToken
 
-		if (referralInfo.referredBy === '' && !fetchedReferralInfo) {
-			// Not yet referred by anyone, if user entered invitation code, need to confirm
-			confirmReferral()
+            try {
+                let referralConfirmRes = await axios({
+                    method: 'post',
+                    url: `${config.referralConfirmation}`,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': jwtToken,
+                    },
+                    data: JSON.stringify({
+                        'referral': invitationCode,
+                    }),
+                })
+            } catch (err: any) {
+                // console.log('###', err.response)
+            }
+        }
+
+        if (referralInfo.referredBy === '' && !fetchedReferralInfo) {
+            // Not yet referred by anyone, if user entered invitation code, need to confirm
+            confirmReferral()
             dispatch(storeReferralCode(''))
-		}
-	}, [ referralInfo, fetchedReferralInfo ])
+        }
+    }, [referralInfo, fetchedReferralInfo])
 
-	useEffect(() => {
-        if(isHealthkitReady){
-            dispatch({ type:'init' })
+    useEffect(() => {
+        if (isHealthkitReady) {
+            dispatch({ type: 'init' })
             setIsReady(true)
-        }else{
+        } else {
             const initPermission = health_kit.InitHealthKitPermission()
-            Promise.resolve(initPermission).then(val=>{
+            Promise.resolve(initPermission).then(val => {
                 setIstHealthKitReady(val)
             })
         }
-	}, [ isHealthkitReady ])
+    }, [isHealthkitReady])
 
-	useEffect(() => {
+    useEffect(() => {
         console.log(startTime)
-		if (enabled === true && startTime !== undefined) {
+        if (enabled === true && startTime !== undefined) {
             navigation.replace(RouteStacks.workout)
-		}
-	}, [ startTime, enabled ])
+        }
+    }, [startTime, enabled])
 
 
-	const onSharePress = async () => {
+    const onSharePress = async () => {
 
-	    const shareRes = await share({
+        const shareRes = await share({
             url: `${config.onelinkUrl}/?screen=${RouteStacks.enterInvitationCode}&deep_link_value=${referralInfo.referral}`,
             title: t("shareMsg"),
             message: t("shareMsg"),
         })
-        
-		if (shareRes !== false) {
-			navigation.navigate(RouteTabs.home, {
-				screen: RouteStacks.homeInviteState,
-			})
-		}
 
-	}
+        if (shareRes !== false) {
+            navigation.navigate(RouteTabs.home, {
+                screen: RouteStacks.homeInviteState,
+            })
+        }
 
-	const goBack = () => {
-		navigation.navigate(RouteStacks.homeMain)
-	}
+    }
+
+    const goBack = () => {
+        navigation.navigate(RouteStacks.homeMain)
+    }
 
     const onCopyPress = () => {
         Clipboard.setString(referralInfo.referral);
         triggerSnackbar(t("snackbarPrompt.referralCodeCopied"))
     }
 
-	const onRefresh = () => {
-		setNeedFetchDtl(true)
-	}
-
-	const onDailyRewardModalClose = () => {
+    const onRefresh = () => {
+        setNeedFetchDtl(true)
     }
+
+    const onDailyRewardModalClose = () => {
+    }
+
+    const onRuleOfReferralModalClose = () => {
+
+    }
+
     const onLogoutPress = async () => {
         dispatch(startLoading(true))
         await awsLogout()
         dispatch(startLoading(false))
     }
 
-	const onTrialPlayPress = async () => {
-		const authed = await health_kit.GetAuthorizeStatus()
-        await BackgroundGeolocation.changePace(true)
-		await BackgroundGeolocation.start()
-        if (authed || isReady){
-            dispatch({ type:'start', payload:{ startTime: (new Date()).getTime() } })
-            setEnabled(true)
-        } else {
-            health_kit.InitHealthKitPermission()
-            console.log('not ready')
+    const onTrialPlayPress = async () => {
+        try {
+            console.log('onTrialPlayPress')
+            const authed = await health_kit.GetAuthorizeStatus()
+            console.log('authed', authed, isReady)
+            await BackgroundGeolocation.changePace(true)
+            await BackgroundGeolocation.start()
+            if (authed || isReady) {
+                dispatch({ type: 'start', payload: { startTime: (new Date()).getTime() } })
+                setEnabled(true)
+            } else {
+                health_kit.InitHealthKitPermission()
+                console.log('not ready')
+            }
+
+        } catch (err: any) {
+            console.log('Error: ', err)
         }
-        
-	}
+    }
 
     const onLesGoBtnPress = () => dailyRewardModalRef?.current?.close()
 
@@ -350,8 +361,8 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
 
     let isNewAc = referralInfo.lastRank === 0
 
-    return(
-    <ScreenBackgrounds
+    return (
+        <ScreenBackgrounds
             screenName={RouteStacks.homeReferral}
         >
             <DailyRewardModal
@@ -442,7 +453,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                         </View>
                     </View>
 
-				</View>
+                </View>
 
                 <View style={[Layout.fullWidth, { alignItems: "center", justifyContent: "flex-end", height: 100 }]}>
                     <Text style={[{ paddingTop: 0, paddingBottom: 2, color: colors.white, fontSize: 24 }]}>{t("queueNumber")}</Text>
@@ -564,17 +575,17 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                             }}
                         />
 
-					</View>
-				</View>
+                    </View>
+                </View>
 
 
-				<View style={[ { height: 40, flexDirection: 'row', alignItems: 'center' }, Gutters.largeHPadding ]}>
-					<View style={{ flex: 4, flexDirection: 'row', alignItems: 'center' }}>
-						<Text style={[ Gutters.smallVPadding, { color: colors.white, fontSize: 18, marginRight: 6 } ]}>{t('totalReferred')}</Text>
-						<Pressable onPress={onInfoBtnPress}>
-							<MaterialCommunityIcons name="information-outline" color={colors.brightTurquoise} size={24} />
-						</Pressable>
-					</View>
+                <View style={[{ height: 40, flexDirection: 'row', alignItems: 'center' }, Gutters.largeHPadding]}>
+                    <View style={{ flex: 4, flexDirection: 'row', alignItems: 'center' }}>
+                        <Text style={[Gutters.smallVPadding, { color: colors.white, fontSize: 18, marginRight: 6 }]}>{t('totalReferred')}</Text>
+                        <Pressable onPress={onInfoBtnPress}>
+                            <MaterialCommunityIcons name="information-outline" color={colors.brightTurquoise} size={24} />
+                        </Pressable>
+                    </View>
 
                     <Text style={[Fonts.textSmall, { color: colors.brightTurquoise }]}>{referralInfo.referred} {t(`friend${referralInfo.referred <= 1 ? '' : 's'}`)}</Text>
                 </View>
@@ -597,16 +608,16 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
 
                 </View>
 
-				<View style={{ width: '90%', backgroundColor: colors.white, height: 1 }} />
+                <View style={{ width: '90%', backgroundColor: colors.white, height: 1 }} />
 
                 <View style={[Layout.fullWidth, Layout.center, { height: 140, justifyContent: "center", paddingHorizontal: 40 }]}>
                     <Text style={{ fontFamily: "Poppins-Bold", color: colors.brightTurquoise, fontWeight: 'bold', lineHeight: 30, paddingTop: 30, fontStyle: "italic", fontSize: 30, textAlign: "center" }}>{t("moreBonus")}</Text>
                     <Text style={{ color: colors.crystal, fontSize: 14, textAlign: "center", paddingTop: 20 }}>{t("madeItToBeta")}</Text>
                 </View>
 
-				<View style={[ Layout.fullWidth, Layout.center, { height: 300 } ]}>
-					<Image source={world} style={{ width: '100%' }} />
-				</View>
+                <View style={[Layout.fullWidth, Layout.center, { height: 300 }]}>
+                    <Image source={world} style={{ width: '100%' }} />
+                </View>
 
                 <View style={[Layout.fullWidth, { height: 50, paddingHorizontal: 40, justifyContent: "flex-start", alignItems: "center", flexDirection: "row" }]}>
                     <Ionicons name="share-outline" color={colors.white} size={20} style={{ marginRight: 20 }} />
@@ -633,8 +644,8 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
 
             </KeyboardAwareScrollView>
         </ScreenBackgrounds>
-        )
-    
+    )
+
 }
 
 export default HomeReferralScreen
