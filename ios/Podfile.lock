@@ -1,7 +1,7 @@
 PODS:
-  - AppsFlyerFramework (6.6.1):
-    - AppsFlyerFramework/Main (= 6.6.1)
-  - AppsFlyerFramework/Main (6.6.1)
+  - AppsFlyerFramework (6.5.2):
+    - AppsFlyerFramework/Main (= 6.5.2)
+  - AppsFlyerFramework/Main (6.5.2)
   - boost (1.76.0)
   - CocoaAsyncSocket (7.6.5)
   - CocoaLumberjack (3.7.4):
@@ -410,8 +410,8 @@ PODS:
   - React-jsinspector (0.66.4)
   - React-logger (0.66.4):
     - glog
-  - react-native-appsflyer (6.6.0):
-    - AppsFlyerFramework (= 6.6.1)
+  - react-native-appsflyer (6.5.21):
+    - AppsFlyerFramework (= 6.5.2)
     - React
   - react-native-background-actions (2.6.7):
     - React-Core
@@ -603,8 +603,8 @@ PODS:
     - React-RCTImage
   - RNShare (7.3.7):
     - React-Core
-  - RNSVG (12.3.0):
-    - React-Core
+  - RNSVG (12.1.0):
+    - React
   - SDWebImage (5.11.1):
     - SDWebImage/Core (= 5.11.1)
   - SDWebImage/Core (5.11.1)
@@ -902,7 +902,7 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
-  AppsFlyerFramework: 5e4b385a27dc6179e132b1617f76809412eb2f88
+  AppsFlyerFramework: 9f304d91cc80b6579b1206a59220383056b58b47
   boost: a7c83b31436843459a1961bfd74b96033dc77234
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   CocoaLumberjack: 543c79c114dadc3b1aba95641d8738b06b05b646
@@ -952,8 +952,8 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 94ce921e1d8ce7023366873ec371f3441383b396
   React-jsinspector: d0374f7509d407d2264168b6d0fad0b54e300b85
   React-logger: 933f80c97c633ee8965d609876848148e3fef438
-  react-native-appsflyer: 5990accc2e36af78770e8b7edcea0e16956ddebc
-  react-native-background-actions: 2c251c986f23347f9c1722f05fd296938f60edb1
+  react-native-appsflyer: a7a611ef9cecd150a4863bf78664a8804747deb3
+  react-native-background-actions: 4099c3d7ce664839a696814acc9fe9b1240d78a2
   react-native-background-timer: 17ea5e06803401a379ebf1f20505b793ac44d0fe
   react-native-encrypted-storage: 837c733334debf626204f03d867c7e01d8741e2f
   react-native-flipper: b9e2e817604af8da0d5a9ba20a8516e780e30f3c
@@ -962,11 +962,11 @@ SPEC CHECKSUMS:
   react-native-maps: b47dc75c161fd0460dc4985f5f897c20a885ac30
   react-native-netinfo: 1929cb10180c83da2f7875bef715ae482e37831f
   react-native-orientation-locker: 851f6510d8046ea2f14aa169b1e01fcd309a94ba
-  react-native-pager-view: b1914469643f40042e65d78cbf3d3dfebd6fb0d9
+  react-native-pager-view: 15ae71c52a8a40bd8a10505b5c64fb129fc437e2
   react-native-randombytes: 5fc412efe7b5c55b9002c0004d75fe5fabcaa507
   react-native-safe-area-context: 5b8a418400eb3d8364aa87300e865c0262cc17b9
-  react-native-video: a4c2635d0802f983594b7057e1bce8f442f0ad28
-  react-native-view-shot: 4475fde003fe8a210053d1f98fb9e06c1d834e1c
+  react-native-video: 77ce22be7abff9e373527ca10106a99dea3ba56c
+  react-native-view-shot: 08c46c9e8e92f6681e8f2ffa55ac3d06e7e99070
   React-perflogger: 93075d8931c32cd1fce8a98c15d2d5ccc4d891bd
   React-RCTActionSheet: 7d3041e6761b4f3044a37079ddcb156575fb6d89
   React-RCTAnimation: 743e88b55ac62511ae5c2e22803d4f503f2a3a13
@@ -984,7 +984,7 @@ SPEC CHECKSUMS:
   RNAWSCognito: 4bb232cc7ed978257658876ee280de9456f998a1
   RNBackgroundFetch: 1f47e8f793ad7a1ae7f0e3db5437f4feaf887a03
   RNBackgroundGeolocation: 7dde1b7d63266d91efd5a5aea60f3879a38d4335
-  RNBootSplash: 2830c475d5793d6cf12312d1e8f5f1decb0dd3e8
+  RNBootSplash: fcebe52c9fe67c082b5209e7ca9fc6b5e4f5305d
   RNCAsyncStorage: bef53cb70c06b8eff11bab4a848de86ad4488c39
   RNCClipboard: 471860adba60079ac22058c663c91b3a875a7609
   RNCMaskedView: d367b2a8df3992114e31b32b091a0c00dc800827
@@ -1004,12 +1004,12 @@ SPEC CHECKSUMS:
   RNReanimated: 58b57be69a237fb02ec8099d25171057638cf41a
   RNScreens: 40a2cb40a02a609938137a1e0acfbf8fc9eebf19
   RNShare: f116bbb04f310c665ca483d0bd1e88cf59b3b334
-  RNSVG: 302bfc9905bd8122f08966dc2ce2d07b7b52b9f8
+  RNSVG: ce9d996113475209013317e48b05c21ee988d42e
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SDWebImageWebPCoder: f93010f3f6c031e2f8fb3081ca4ee6966c539815
   Yoga: e7dc4e71caba6472ff48ad7d234389b91dadc280
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 8a9707523d7522ec07426f75183caed6ea2a35e7
+PODFILE CHECKSUM: 5c17c0c8b7a105e559cdd39cc68054231a8ddfc7
 
 COCOAPODS: 1.11.3

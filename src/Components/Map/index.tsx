@@ -103,10 +103,8 @@ const ActiveMapView:FC<MapViewProps> = (props) => {
 		<>
 			<MapView
 				style={styles.map}
-				mapType="mutedStandard"
+				mapType="standard"
 				initialRegion={{
-					// latitude:props.startRegion.latitude,
-					// longitude: props.startRegion.longitude,
 					latitude:latitude,
 					longitude:longitude,
 					latitudeDelta: 0.005,
@@ -129,14 +127,6 @@ const ActiveMapView:FC<MapViewProps> = (props) => {
 								coordinates={path.coordinates}
 								key={index}
 								strokeColor={colors.buleCola} // fallback for when `strokeColors` is not supported by the map-provider
-								// strokeColors={[
-								// 	'#7F0000',
-								// 	'#00000000', // no color, creates a "long" gradient between the previous and next coordinate
-								// 	'#B24112',
-								// 	'#E5845C',
-								// 	'#238C23',
-								// 	'#7F0000',
-								// ]}
 								strokeWidth={mapViewConst.pathStokeWidth}/>
 						)
 					}

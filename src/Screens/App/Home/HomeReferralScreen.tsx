@@ -71,6 +71,7 @@ import { storeReferralCode } from '@/Store/Referral/actions'
 import emptyAvatar from '@/Assets/Images/Home/avatar_empty.png'
 import crashlytics from '@react-native-firebase/crashlytics';
 import BackgroundGeolocation, { Subscription } from 'react-native-background-geolocation'
+import { startLoading } from '@/Store/UI/actions'
 
 const PURPLE_COLOR = {
     color: colors.magicPotion,
@@ -268,33 +269,10 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
     }, [isHealthkitReady])
 
 	useEffect(() => {
-     
-		if (enabled === true && startTime !== undefined) {
-            
+		if (enabled === true && startTime !== null) {       
             navigation.replace(RouteStacks.workout)
         }
     }, [startTime, enabled])
-
-    // useEffect(()=>{
-    //     if(isFirstLoad){
-    //         if(isIOS){
-    //             const config = {...geolocationConfig.ios, ...geolocationConfig.default}
-    //             BackgroundGeolocation.ready(config).then((state)=>{
-    //                 if(!state.enabled){
-    //                     BackgroundGeolocation.start()
-    //                     BackgroundGeolocation.changePace(true)
-    //                 }
-    //                 setIsFirstLoad(false)
-    //                 console.log('- BackgroundGeolocation is ready: ', state)
-    //             })
-    //         }else{
-    //             const config = {...geolocationConfig.android, ...geolocationConfig.default}
-    //             BackgroundGeolocation.ready(config).then((state)=>{
-    //                     setIsFirstLoad(false)
-    //             })
-    //         }        
-    //     }
-    // },[])
 
 
 	const onSharePress = async () => {
@@ -340,12 +318,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
     }
 
 	const onTrialPlayPress = async () => {
-        console.log('onTrialPlayPress')
-        // const authed = await health_kit.GetAuthorizeStatus()
-        // await BackgroundGeolocation.changePace(true)
-        // await BackgroundGeolocation.start()
         const authed = true
-        console.log('authe', authed)
         if (authed || isReady){
             dispatch({ type:'start', payload:{ startTime: (new Date()).getTime() } })
             setEnabled(true)
