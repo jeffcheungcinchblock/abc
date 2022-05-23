@@ -15,17 +15,15 @@ import {
 import { useTranslation } from 'react-i18next'
 import { Brand, Header } from '@/Components'
 import { useTheme } from '@/Hooks'
-import { useLazyFetchOneQuery } from '@/Services/modules/users'
 import { changeTheme, ThemeState } from '@/Store/Theme'
 import { login } from '@/Store/Users/actions'
 import { UserState } from '@/Store/Users/reducer'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
+// @ts-ignore
 import Amplify, { Auth } from 'aws-amplify';
-
 import { shallowEqual, useDispatch, useSelector } from "react-redux"
 import { colors, config } from '@/Utils/constants'
 import { AuthNavigatorParamList } from '@/Navigators/AuthNavigator'
-
 import { HeaderLayout } from '@/Styles'
 import { RouteStacks } from '@/Navigators/routes'
 import ScreenBackgrounds from '@/Components/ScreenBackgrounds'
@@ -90,7 +88,6 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
     }
 
     const onCreateAccountPress = useCallback(async () => {
-        console.log("onCreateAccountPress")
         if (credential.email === '') {
             setErrMsg({
                 ...initErrMsg,

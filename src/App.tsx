@@ -36,11 +36,11 @@ const onInstallConversionDataCanceller = appsFlyer.onInstallConversionData(
       if (res.data.af_status === "Non-organic") {
         const media_source = res.data.media_source;
         const campaign = res.data.campaign;
-        console.log("appsFlyer Conversion Data: ", 'This is first launch and a Non-Organic install. Media source: ' + media_source + ' Campaign: ' + campaign);
+        // console.log("appsFlyer Conversion Data: ", 'This is first launch and a Non-Organic install. Media source: ' + media_source + ' Campaign: ' + campaign);
       } else if (res.data.af_status === "Organic") {
-        console.log("appsFlyer Conversion Data: ", "This is first launch and a Organic Install")
+        // console.log("appsFlyer Conversion Data: ", "This is first launch and a Organic Install")
       } else {
-        console.log("appsFlyer Conversion Data: ", "This is not first launch")
+        // console.log("appsFlyer Conversion Data: ", "This is not first launch")
       }
     }
     const DLValue = res?.data?.deep_link_value
@@ -51,12 +51,12 @@ const onInstallConversionDataCanceller = appsFlyer.onInstallConversionData(
 )
 
 const onAppOpenAttributionCanceller = appsFlyer.onAppOpenAttribution((res) => {
-  console.log(`status: ${res.status}`);
-  console.log(`campaign: ${res.data.campaign}`);
-  console.log(`af_dp: ${res.data.af_dp}`);
-  console.log(`link: ${res.data.link}`);
-  console.log(`DL value: ${res.data.deep_link_value}`);
-  console.log(`media source: ${res.data.media_source}`);
+  // console.log(`status: ${res.status}`);
+  // console.log(`campaign: ${res.data.campaign}`);
+  // console.log(`af_dp: ${res.data.af_dp}`);
+  // console.log(`link: ${res.data.link}`);
+  // console.log(`DL value: ${res.data.deep_link_value}`);
+  // console.log(`media source: ${res.data.media_source}`);
   const DLValue = res?.data.deep_link_value
   if(DLValue) {
     store.dispatch(storeReferralCode(DLValue));
@@ -64,7 +64,7 @@ const onAppOpenAttributionCanceller = appsFlyer.onAppOpenAttribution((res) => {
 });
 
 const onDeepLinkCanceller = appsFlyer.onDeepLink(res => {
-  console.log('onDeepLinkCanceller ', res)
+  // console.log('onDeepLinkCanceller ', res)
   
   if (res?.deepLinkStatus !== 'NOT_FOUND') {
     const DLValue = res?.data.deep_link_value;
@@ -72,7 +72,7 @@ const onDeepLinkCanceller = appsFlyer.onDeepLink(res => {
     const param1 = res?.data.af_sub1;
     const screen = res?.data.screen
 
-    console.log('screen ', screen)
+    // console.log('screen ', screen)
 
     if(screen !== undefined){
       Linking.openURL(`${config.urlScheme}${screen}`)
@@ -109,7 +109,7 @@ LogBox.ignoreLogs([
 const getUser = () => {
   return Auth.currentAuthenticatedUser()
     .then((userData : any) => userData)
-    .catch(() => console.log('Not signed in'));
+    .catch(() => {});
 }
 
 // https://www.facebook.com/log.out
@@ -155,9 +155,9 @@ const App = () => {
   const getFcmToken = async () => {
     const fcmToken = await messaging().getToken();
     if (fcmToken) {
-      console.log("Firebase Token:", fcmToken);
+      // console.log("Firebase Token:", fcmToken);
     } else {
-      console.log("Failed", "No token received");
+      // console.log("Failed", "No token received");
     }
   }
 

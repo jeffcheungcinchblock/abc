@@ -1,5 +1,5 @@
-import { createReducer } from '@reduxjs/toolkit'
-import { login, logout, storeInvitationCode } from './actions'
+import { PayloadAction, createReducer } from '@reduxjs/toolkit'
+import { login, LoginPayload, logout, storeInvitationCode, StoreInvitationCodePayload } from './actions'
 
 export type UserState = {
     isLoggedIn: boolean
@@ -21,20 +21,20 @@ const initialState: UserState = {
 
 export default createReducer<UserState>(initialState, (builder) => {
     builder
-        .addCase(storeInvitationCode, (state, action) => {
+        .addCase(storeInvitationCode, (state, action: PayloadAction<StoreInvitationCodePayload>) => {
             return {
                 ...state,
                 ...action.payload,
             }
         })
-        .addCase(login, (state, action) => {
+        .addCase(login, (state, action: PayloadAction<LoginPayload>) => {
             return {
                 ...state,
                 isLoggedIn: true,
                 ...action.payload,
             }
         })
-        .addCase(logout, (state, action) => {
+        .addCase(logout, (state, action: PayloadAction<null>) => {
             return {
                 ...state,
                 isLoggedIn: false,

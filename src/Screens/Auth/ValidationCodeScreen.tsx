@@ -14,11 +14,9 @@ import {
 import { useTranslation } from 'react-i18next'
 import { Brand, Header } from '@/Components'
 import { useTheme } from '@/Hooks'
-import { useLazyFetchOneQuery } from '@/Services/modules/users'
 import { changeTheme, ThemeState } from '@/Store/Theme'
 import { login } from '@/Store/Users/actions'
 import { UserState } from '@/Store/Users/reducer'
-
 import {
     CodeField,
     Cursor,
@@ -27,7 +25,6 @@ import {
 } from 'react-native-confirmation-code-field';
 // @ts-ignore
 import Amplify, { Auth } from 'aws-amplify';
-
 import { shallowEqual, useDispatch, useSelector } from "react-redux"
 import { colors, config } from '@/Utils/constants'
 import { AuthNavigatorParamList } from '@/Navigators/AuthNavigator'

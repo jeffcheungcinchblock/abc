@@ -126,6 +126,9 @@ PODS:
     - FlipperKit/Core
     - FlipperKit/FlipperKitNetworkPlugin
   - fmt (6.2.1)
+  - GCDWebServer (3.5.4):
+    - GCDWebServer/Core (= 3.5.4)
+  - GCDWebServer/Core (3.5.4)
   - glog (0.3.5)
   - GoogleDataTransport (9.1.2):
     - GoogleUtilities/Environment (~> 7.2)
@@ -384,6 +387,8 @@ PODS:
   - react-native-appsflyer (6.5.21):
     - AppsFlyerFramework (= 6.5.2)
     - React
+  - react-native-background-actions (2.6.7):
+    - React-Core
   - react-native-encrypted-storage (4.0.2):
     - React-Core
   - react-native-flipper (0.127.0):
@@ -470,6 +475,9 @@ PODS:
     - React-jsi (= 0.66.4)
     - React-logger (= 0.66.4)
     - React-perflogger (= 0.66.4)
+  - RealmJS (10.17.0):
+    - GCDWebServer
+    - React
   - RNAWSCognito (5.2.8):
     - React-Core
   - RNBootSplash (4.1.5):
@@ -609,6 +617,7 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - react-native-appsflyer (from `../node_modules/react-native-appsflyer`)
+  - react-native-background-actions (from `../node_modules/react-native-background-actions`)
   - react-native-encrypted-storage (from `../node_modules/react-native-encrypted-storage`)
   - react-native-flipper (from `../node_modules/react-native-flipper`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
@@ -630,6 +639,7 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - RealmJS (from `../node_modules/realm`)
   - RNAWSCognito (from `../node_modules/amazon-cognito-identity-js`)
   - RNBootSplash (from `../node_modules/react-native-bootsplash`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
@@ -675,6 +685,7 @@ SPEC REPOS:
     - Flipper-RSocket
     - FlipperKit
     - fmt
+    - GCDWebServer
     - GoogleDataTransport
     - GoogleUtilities
     - hermes-engine
@@ -726,6 +737,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/logger"
   react-native-appsflyer:
     :path: "../node_modules/react-native-appsflyer"
+  react-native-background-actions:
+    :path: "../node_modules/react-native-background-actions"
   react-native-encrypted-storage:
     :path: "../node_modules/react-native-encrypted-storage"
   react-native-flipper:
@@ -768,6 +781,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/runtimeexecutor"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  RealmJS:
+    :path: "../node_modules/realm"
   RNAWSCognito:
     :path: "../node_modules/amazon-cognito-identity-js"
   RNBootSplash:
@@ -838,6 +853,7 @@ SPEC CHECKSUMS:
   Flipper-RSocket: d9d9ade67cbecf6ac10730304bf5607266dd2541
   FlipperKit: d8d346844eca5d9120c17d441a2f38596e8ed2b9
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
+  GCDWebServer: 2c156a56c8226e2d5c0c3f208a3621ccffbe3ce4
   glog: 5337263514dd6f09803962437687240c5dc39aa4
   GoogleDataTransport: 629c20a4d363167143f30ea78320d5a7eb8bd940
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
@@ -861,6 +877,7 @@ SPEC CHECKSUMS:
   React-jsinspector: d0374f7509d407d2264168b6d0fad0b54e300b85
   React-logger: 933f80c97c633ee8965d609876848148e3fef438
   react-native-appsflyer: a7a611ef9cecd150a4863bf78664a8804747deb3
+  react-native-background-actions: 4099c3d7ce664839a696814acc9fe9b1240d78a2
   react-native-encrypted-storage: 837c733334debf626204f03d867c7e01d8741e2f
   react-native-flipper: b9e2e817604af8da0d5a9ba20a8516e780e30f3c
   react-native-netinfo: 1929cb10180c83da2f7875bef715ae482e37831f
@@ -882,6 +899,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: e3ffca672dd3772536cb844274094b0e2c31b187
   React-runtimeexecutor: dec32ee6f2e2a26e13e58152271535fadff5455a
   ReactCommon: 57b69f6383eafcbd7da625bfa6003810332313c4
+  RealmJS: 1974bf10182364d33d7b2beb3442344806888995
   RNAWSCognito: 4bb232cc7ed978257658876ee280de9456f998a1
   RNBootSplash: fcebe52c9fe67c082b5209e7ca9fc6b5e4f5305d
   RNCAsyncStorage: bef53cb70c06b8eff11bab4a848de86ad4488c39

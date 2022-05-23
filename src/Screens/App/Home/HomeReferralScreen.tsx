@@ -20,6 +20,7 @@ import { useTheme } from '@/Hooks'
 import { changeTheme, ThemeState } from '@/Store/Theme'
 import { login, logout } from '@/Store/Users/actions'
 import { UserState } from '@/Store/Users/reducer'
+// @ts-ignore
 import AnimateNumber from 'react-native-animate-number'
 import { shallowEqual, useDispatch, useSelector } from "react-redux"
 import { colors, config } from '@/Utils/constants'
@@ -169,10 +170,6 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                     }),
                     axios.get(config.userTopAvgPoint)
                 ])
-                console.log('===========fetchedReferralInfo', fetchedReferralInfo)
-                console.log('authRes', JSON.stringify(authRes.data, null, 2))
-                console.log('userFitnessInfoRes', JSON.stringify(userFitnessInfoRes.data, null, 2))
-                console.log('topAvgPointRes', JSON.stringify(topAvgPointRes.data, null, 2))
 
                 const { dailyMission, loginCount, totalPoint } = userFitnessInfoRes.data
 
@@ -208,8 +205,8 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
         }
 
         return () => {
-            cancelSourceArr.forEach((cancelSrc) => {
-                cancelSrc.cancel()
+            cancelSourceArr.forEach((cancelSrc: null | CancelTokenSource) => {
+                cancelSrc?.cancel()
             })
         }
     }, [needFetchDtl, fetchedReferralInfo])

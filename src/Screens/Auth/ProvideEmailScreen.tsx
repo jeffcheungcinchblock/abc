@@ -14,7 +14,6 @@ import {
 import { useTranslation } from 'react-i18next'
 import { Brand, Header } from '@/Components'
 import { useTheme } from '@/Hooks'
-import { useLazyFetchOneQuery } from '@/Services/modules/users'
 import { changeTheme, ThemeState } from '@/Store/Theme'
 import { login } from '@/Store/Users/actions'
 import { UserState } from '@/Store/Users/reducer'
@@ -40,6 +39,7 @@ import WhiteInput from '@/Components/Inputs/WhiteInput'
 import StandardInput from '@/Components/Inputs/StandardInput'
 import { emailUsernameHash } from '@/Utils/helpers'
 import axios from 'axios'
+import crashlytics from '@react-native-firebase/crashlytics';
 
 const TEXT_INPUT = {
     height: 40,
@@ -125,7 +125,7 @@ const ProvideEmailScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStack
                 action: 'registerEmail'
             })
         } catch (err: any) {
-            console.log('err ', JSON.stringify(err))
+            crashlytics().recordError(err)
             setErrMsg(err.message)
         }
     }

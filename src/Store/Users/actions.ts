@@ -1,10 +1,14 @@
 import { createAction } from '@reduxjs/toolkit'
 
-export const login = createAction<{
+export type LoginPayload = {
     username: string
     email: string
-}>('user/login')
-export const logout = createAction('user/logout')
-export const storeInvitationCode = createAction<{
+}
+
+export type StoreInvitationCodePayload = {
     invitationCode: string
-}>('user/storeInvitationCode')
+}
+
+export const login = createAction<LoginPayload>('user/login')
+export const logout = createAction('user/logout')
+export const storeInvitationCode = createAction<StoreInvitationCodePayload>('user/storeInvitationCode')

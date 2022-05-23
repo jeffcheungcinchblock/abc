@@ -1,10 +1,13 @@
 import { RootState, store } from "@/Store";
 import { showSnackbar } from "@/Store/UI/actions";
 import { logout } from "@/Store/Users/actions";
+// @ts-ignore
 import { Auth } from "aws-amplify";
 import axios, { AxiosRequestConfig } from "axios";
 import InAppBrowser from "react-native-inappbrowser-reborn";
 import { useSelector } from "react-redux";
+import crashlytics from '@react-native-firebase/crashlytics';
+
 export const validateEmail = (email : string) => {
     return String(email)
         .toLowerCase()
@@ -40,8 +43,8 @@ export const triggerSnackbar = (textMsg: string, autoHidingTime = 1500) => {
 export const awsLogout = async() => {
     try{
         await Auth.signOut()
-    }catch(err){    
-        console.log('Error ', err)
+    }catch(err: any){    
+        crashlytics().recordError(err)
     }finally{
         store.dispatch(logout())
         await InAppBrowser.closeAuth()

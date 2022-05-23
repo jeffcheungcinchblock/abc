@@ -52,41 +52,8 @@ const subscribe = (listener: (deeplink: string) => void) => {
 // Screens before logging in linking options
 export const publicLinking: LinkingOptions<ApplicationNavigatorParamList> = {
     prefixes,
-    getInitialURL: async (): Promise<string> => {
-
-        // Check if the app was opened by a deep link
-        const url = await Linking.getInitialURL();
-        const dynamicLinkUrl = await dynamicLinks().getInitialLink();
-
-        if (dynamicLinkUrl) {
-            return dynamicLinkUrl.url;
-        }
-        if (url) {
-            return url;
-        }
-        // If it was not opened by a deep link, go to the home screen
-        return `${config.urlScheme}${RouteStacks.welcome}`;
-    },
-    // Custom function to subscribe to incoming links
-    subscribe: (listener: (deeplink: string) => void) => {
-
-        // First, you may want to do the default deep link handling
-        const onReceiveURL = ({ url }: { url: string }) => {
-            let urlSplit = url.split("/")
-            return listener(url)
-        };
-        // Listen to incoming links from deep linking
-        let onReceiveURLEvent = Linking.addEventListener('url', onReceiveURL);
-
-        const handleDynamicLink = (link: FirebaseDynamicLinksTypes.DynamicLink) => {
-            console.log("Dynamic url ", link)
-        }
-        const unsubscribeToDynamicLinks = dynamicLinks().onLink(handleDynamicLink);
-        return () => {
-            unsubscribeToDynamicLinks();
-            onReceiveURLEvent.remove()
-        };
-    },
+    getInitialURL,
+    subscribe,
     config: {
         screens: {
             [RouteStacks.startUp]: RouteStacks.startUp,
@@ -135,13 +102,10 @@ export const publicLinking: LinkingOptions<ApplicationNavigatorParamList> = {
     },
 };
 
-
-
 // Screens after logged in linking options
 export const privateLinking: LinkingOptions<ApplicationNavigatorParamList> = {
     prefixes,
     getInitialURL,
-    // Custom function to subscribe to incoming links
     subscribe,
     config: {
         screens: {

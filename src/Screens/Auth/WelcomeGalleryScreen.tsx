@@ -17,7 +17,6 @@ import {
 import { useTranslation } from 'react-i18next'
 import { Brand, Header } from '@/Components'
 import { useTheme } from '@/Hooks'
-import { useLazyFetchOneQuery } from '@/Services/modules/users'
 import { changeTheme, ThemeState } from '@/Store/Theme'
 import { login } from '@/Store/Users/actions'
 import { UserState } from '@/Store/Users/reducer'
@@ -31,8 +30,6 @@ import AppLogo from '@/Components/Icons/AppLogo'
 import AppIcon from '@/Components/Icons/AppIcon'
 import TurquoiseButton from '@/Components/Buttons/TurquoiseButton'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import notifee from '@notifee/react-native';
-import ImageViewer from 'react-native-image-zoom-viewer';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { TabView, SceneMap } from 'react-native-tab-view';
 

@@ -16,7 +16,6 @@ import {
 import { useTranslation } from 'react-i18next'
 import { Brand } from '@/Components'
 import { useTheme } from '@/Hooks'
-import { useLazyFetchOneQuery } from '@/Services/modules/users'
 import { changeTheme, ThemeState } from '@/Store/Theme'
 import { login, logout } from '@/Store/Users/actions'
 import { UserState } from '@/Store/Users/reducer'

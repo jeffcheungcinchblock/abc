@@ -17,13 +17,11 @@ import {
 import { useTranslation } from 'react-i18next'
 import { Brand, Header } from '@/Components'
 import { useTheme } from '@/Hooks'
-import { useLazyFetchOneQuery } from '@/Services/modules/users'
 import { changeTheme, ThemeState } from '@/Store/Theme'
 import { login } from '@/Store/Users/actions'
 import { UserState } from '@/Store/Users/reducer'
 // @ts-ignore
 import Amplify, { Auth, Hub } from 'aws-amplify';
-
 import { shallowEqual, useDispatch, useSelector } from "react-redux"
 import { colors, config } from '@/Utils/constants'
 import { AuthNavigatorParamList } from '@/Navigators/AuthNavigator'
@@ -35,7 +33,6 @@ import TurquoiseButton from '@/Components/Buttons/TurquoiseButton'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 // @ts-ignore
 import notifee from '@notifee/react-native';
-import ImageViewer from 'react-native-image-zoom-viewer';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import SocialSignInButton from '@/Components/Buttons/SocialSignInButton'
 import { startLoading } from '@/Store/UI/actions'
@@ -50,6 +47,8 @@ import RNFS from 'react-native-fs';
 import ViewShot from "react-native-view-shot";
 import Orientation from 'react-native-orientation-locker'
 import crashlytics from '@react-native-firebase/crashlytics';
+import BackgroundService from 'react-native-background-actions';
+import realm from 'realm'
 
 const BUTTON_VIEW = {
     marginVertical: 20
@@ -62,12 +61,7 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
     const { Common, Fonts, Gutters, Layout } = useTheme()
     const dispatch = useDispatch()
     const [isLoggingIn, setIsLoggingIn] = useState(false)
-
-
-    const [errMsg, setErrMsg] = useState(" ")
-
-    useEffect(() => {
-    }, [])
+    const [errMsg, setErrMsg] = useState("")
 
     const onDisplayNotification = async () => {
         // Create a channel
@@ -134,8 +128,41 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
         }
     }
 
-    const onSignUpPress = () => {
+    const onSignUpPress = async () => {
         navigation.navigate(RouteStacks.signUp)
+
+        // const realm = await Realm.open({
+        //     path: "myrealm",
+        //     schema: [{
+        //         name: "Task",
+        //         properties: {
+        //             _id: "int",
+        //             name: "string",
+        //             status: "string?",
+        //         },
+        //         primaryKey: "_id",
+        //     }],
+        // });
+
+
+        // const tasks = realm.objects("Task");
+        // console.log('tasks',)
+        // let task1, task2;
+        // realm.write(() => {
+        //     task1 = realm.create("Task", {
+        //         _id: 1,
+        //         name: "go grocery shopping",
+        //         status: "Open",
+        //     });
+        //     task2 = realm.create("Task", {
+        //         _id: 2,
+        //         name: "go exercise",
+        //         status: "Open",
+        //     });
+        //     console.log(`created two tasks: ${task1.name} & ${task2.name}`);
+        // });
+
+        // realm.close()
     }
 
 
@@ -202,8 +229,6 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
                                 }}
                             />
                         </View>
-
-
                     </View>
 
                     <View style={[
@@ -237,7 +262,7 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
                         <Text style={[
                             Fonts.textSmall,
                             {
-                                color: "#fff",
+                                color: colors.white,
                             }
                         ]}>{t("orViaSocialMedia")}</Text>
 

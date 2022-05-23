@@ -21,7 +21,6 @@ import { useLazyFetchOneQuery } from '@/Services/modules/users'
 import { changeTheme, ThemeState } from '@/Store/Theme'
 import { login } from '@/Store/Users/actions'
 import { UserState } from '@/Store/Users/reducer'
-
 import { shallowEqual, useDispatch, useSelector } from "react-redux"
 import { colors, config } from '@/Utils/constants'
 import { AuthNavigatorParamList } from '@/Navigators/AuthNavigator'
@@ -32,11 +31,12 @@ import AppIcon from '@/Components/Icons/AppIcon'
 import TurquoiseButton from '@/Components/Buttons/TurquoiseButton'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import notifee from '@notifee/react-native';
-import ImageViewer from 'react-native-image-zoom-viewer';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import SocialSignInButton from '@/Components/Buttons/SocialSignInButton'
 import { startLoading } from '@/Store/UI/actions'
+// @ts-ignore
 import { Auth } from 'aws-amplify'
+// @ts-ignore
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth'
 
 import googleIcon from '@/Assets/Images/icons/google.png'
@@ -91,8 +91,6 @@ const SignUpWithCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
                 id: 'default',
                 name: 'Default Channel',
             });
-
-            console.log('channelId', channelId)
 
             // Display a notification
             await notifee.displayNotification({
@@ -156,9 +154,7 @@ const SignUpWithCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
         navigation.navigate(RouteStacks.signUp)
     }
 
-    const goBack = () => {
-        navigation.goBack()
-    }
+    const goBack = () => navigation.goBack()
 
     return (
         <ScreenBackgrounds
