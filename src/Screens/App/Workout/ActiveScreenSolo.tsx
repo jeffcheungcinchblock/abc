@@ -344,7 +344,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 					setIsFirstLoad(false)
 					if(!state.enabled){
 						BackgroundGeolocation.changePace(true)
-						BackgroundGeolocation.start()
+						// BackgroundGeolocation.start()
 						console.log('ready')
 					}
 				})
@@ -354,7 +354,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 						setIsFirstLoad(false)
 						if(!state.enabled){
 							BackgroundGeolocation.changePace(true)
-							BackgroundGeolocation.start()
+							// BackgroundGeolocation.start()
 							console.log('ready')
 						}
 					})
@@ -376,7 +376,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
                     onPress: async() => {
                         dispatch(startLoading(true))
                         setIsStopping(true)
-                        await BackgroundGeolocation.changePace(false)
+                        // await BackgroundGeolocation.changePace(false)
                         await BackgroundGeolocation.stop()
                         dispatch({ type: 'stop', payload: { endTime: (new Date()).getTime() } })
                         // setIsStopped(true)
@@ -424,12 +424,12 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 	const PauseRunningSession = async() => {
 		const curTime = new Date()
 		dispatch({ type:'pause', payload:{ pauseTime:curTime.getTime() } })
-		await BackgroundGeolocation.changePace(false)
+		// await BackgroundGeolocation.changePace(false)
 	}
 
 	const ResumeRunningSession = async() => {
-		let location = await BackgroundGeolocation.getCurrentPosition({ samples: 1,
-			persist: true })
+		// await BackgroundGeolocation.changePace(true)
+		let location = await BackgroundGeolocation.getCurrentPosition({ samples: 1,timeout:10, maximumAge:5000, desiredAccuracy:5,persist:false })
 		const pauseStateTime = paths[paths.length - 1].pauseTime
 		const ReduceStep = await  health_kit.GetSteps(new Date(pauseStateTime), new Date())
 		const ReduceCalories = await health_kit.GetCaloriesBurned(new Date(pauseStateTime), new Date())
@@ -437,8 +437,6 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 			//Resume bring to moving state
 			dispatch({ type:'resume', payload:{ resumeTime:(new Date).getTime(), latitude:location.coords.latitude, longitude:location.coords.longitude, reduceStep:result[0], reduceCalories: result[1] }})
 		})
-		await BackgroundGeolocation.changePace(true)
-
 	}
 
 	const chanageSpeedUnit = () => {

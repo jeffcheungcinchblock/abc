@@ -54,61 +54,6 @@ const StartScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 	const [ isReady, setIsReady ] = useState<Boolean>(false)
 	const [ enabled, setEnabled ] = useState<Boolean>(false)
 
-	// useEffect(() => {
-	// 	const onLocation: Subscription = BackgroundGeolocation.onLocation((location) => {
-	// 		if (currentState !== ActivityType.PAUSE){
-	// 			if (location.coords && location.coords.latitude && location.coords.longitude && location.is_moving === true && location.coords.speed != -1)
-	// 			{
-	// 				if (location.coords.speed && location.coords.speed <= 12 && location.coords.speed >= 0){
-	// 					const new_cal = health_kit.GetCaloriesBurned(startTime, new Date())
-	// 					const new_step = health_kit.GetSteps(startTime, new Date())
-	// 					const new_heartrate = health_kit.GetHeartRates( startTime, new Date())
-	// 					Promise.all([ new_cal, new_step, new_heartrate ]).then((result)=>{
-	// 						console.log('result', result)
-	// 						dispatch({ type:'move', payload:{ latitude:location.coords.latitude, longitude:location.coords.longitude,
-	// 							calories:result[0], steps:result[1], heartRate:result[2] } })
-	// 					})
-	// 				} else {
-	// 					console.log('moving too fast')
-	// 				}
-	// 			} else {
-	// 				console.log('not moving')
-	// 			}
-	// 		}
-	// 	})
-	// 	if (currentState === ActivityType.LOADING){
-	// 		BackgroundGeolocation.ready({
-	// 			triggerActivities: 'on_foot, walking, running',
-	// 			locationAuthorizationRequest : 'WhenInUse',
-	// 			desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
-	// 			distanceFilter: 3,
-	// 			stopTimeout: 5,
-	// 			isMoving: true,
-	// 			reset: false,
-	// 			debug: true,
-	// 			disableElasticity : true,
-	// 			speedJumpFilter:50,
-	// 			logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
-	// 			stopOnTerminate: true,
-	// 		}).then(()=>{
-	// 			if (currentState !== ActivityType.MOVING){
-	// 				health_kit.GetAuthorizeStatus().then((isAuthorize) => {
-	// 					console.log('isAuth', isAuthorize)
-	// 				})
-	// 				dispatch({ type:'ready' })
-	// 				console.log('dispatch ready', ActivityType[currentState])
-	// 			 	BackgroundGeolocation.getCurrentPosition({ samples: 1, persist: true }).then(result => {
-	// 					setRegion({ latitude:result.coords.latitude, longitude:result.coords.longitude, latitudeDelta:0.0922, longitudeDelta:0.0421 })
-	// 					setIsReady(true)
-	// 				})
-	// 			}
-	// 		})
-	// 	}
-	// 	return () => {
-	// 		onLocation.remove()
-	// 	}
-	// }, [ isHealthkitReady ])
-
 	useEffect(() => {
 		if (enabled === true) {
 			dispatch({ type:'start', payload:{ startTime:new Date() } })

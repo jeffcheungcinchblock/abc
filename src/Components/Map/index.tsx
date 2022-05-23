@@ -89,16 +89,7 @@ const ActiveMapView:FC<MapViewProps> = (props) => {
 			console.log('path',JSON.stringify(paths))
 
 	}, [speed, timer])
-
-	useEffect(()=>{
-		BackgroundGeolocation.getCurrentPosition({
-			samples:1
-		}).then(result=>{
-			console.log('getCurrentPosition',result)
-			setLatitude(result.coords.latitude)
-			setLongitude(result.coords.longitude)
-		})
-	},[])
+	
 	return (
 		<>
 			<MapView

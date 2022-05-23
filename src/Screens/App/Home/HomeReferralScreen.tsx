@@ -71,7 +71,6 @@ import { storeReferralCode } from '@/Store/Referral/actions'
 import emptyAvatar from '@/Assets/Images/Home/avatar_empty.png'
 import crashlytics from '@react-native-firebase/crashlytics';
 import BackgroundGeolocation, { Subscription } from 'react-native-background-geolocation'
-import { startLoading } from '@/Store/UI/actions'
 
 const PURPLE_COLOR = {
     color: colors.magicPotion,
