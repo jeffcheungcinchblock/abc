@@ -16,70 +16,25 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 20,
   },
-  mapContentRightContainer: {
-    maxWidth: 150,
-    minWidth: 150,
-    marginLeft: "auto",
-    marginRight: 20,
-    bottom: -20,
-  },
-  mapContentRightLogoTextContainer: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  mapDistanceDataText: {
-    alignSelf: "flex-start",
-    alignItems: "flex-start",
-    fontSize: 64,
-    fontWeight: "bold",
-  },
-  mapDistanceText: {
-    alignSelf: "flex-start",
-    alignItems: "flex-start",
-    fontSize: 20,
-    fontWeight: "bold",
-  },
 
-  mapText: {
-    marginLeft: 10,
-    fontSize: 18,
-    fontWeight: "bold",
-  },
   map: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: "transparent",
+    width: "100%",
   },
 });
 
 type MapViewProps = {
-  // startRegion : { latitude:number,
-  //     longitude:number,
-  //     latitudeDelta: number,
-  //     longitudeDelta: number
-  // }
   timer: number;
   speed: number;
 };
-const MapContentText = (props: TextProps) => {
-  const { style, ...rest } = props;
-  return <Text style={[styles.mapText, style]} {...rest} />;
-};
+
 const ActiveMapView: FC<MapViewProps> = (props) => {
   const paths = useSelector((state: any) => state.map.paths);
   const overSpeedPaths = useSelector((state: any) => state.map.overSpeedPaths);
-  const steps = useSelector((state: any) => state.map.steps);
-  const distance = useSelector((state: any) => state.map.distance).toFixed(0);
-  const heartRate = useSelector((state: any) => state.map.heartRate);
-  const calories = useSelector((state: any) => state.map.calories);
   const [latitude, setLatitude] = useState(0);
   const [longitude, setLongitude] = useState(0);
-  const timer = props.timer;
-  const speed = props.speed.toFixed(1);
-
-  //   console.log("normal", JSON.stringify(paths));
-  //   console.log("over", JSON.stringify(overSpeedPaths));
-
+  const [followsUserLocation, setFollowsUserLocation] = useState(true);
   return (
     <>
       <MapView
@@ -94,7 +49,7 @@ const ActiveMapView: FC<MapViewProps> = (props) => {
         showsUserLocation={true}
         userLocationPriority="high"
         userLocationUpdateInterval={4000}
-        followsUserLocation={true}
+        followsUserLocation={followsUserLocation}
         showsMyLocationButton={true}
         showsBuildings={true}
         showsCompass={true}
@@ -127,30 +82,6 @@ const ActiveMapView: FC<MapViewProps> = (props) => {
             }
           })}
       </MapView>
-      {/* <View style={[ styles.container ]}>
-				<View>
-					<Text style={[ styles.mapDistanceDataText ]}>{distance / 1000}</Text>
-					<Text style={[ styles.mapDistanceText ]}>Total Kilometers</Text>
-				</View>
-				<View style={[ styles.mapContentRightContainer ]} >
-					<View style={[ styles.mapContentRightLogoTextContainer ]}>
-						<Image source={SpeedLogo} style={{ width: 18.14, height: 20, resizeMode: 'contain' }} />
-						<MapContentText>Speed: {speed}</MapContentText>
-					</View>
-					<View style={[ styles.mapContentRightLogoTextContainer ]}>
-						<Image source={TimerLogo} style={{ width: 18.14, height: 20, resizeMode: 'contain' }} />
-						<MapContentText>Time: {timer}</MapContentText>
-					</View>
-					<MapContentText>Step: {steps}</MapContentText>
-					{heartRate !== 0 && (
-						<MapContentText>Heart Rates : {heartRate}</MapContentText>
-					)}
-
-					{calories !== 0 && (
-						<MapContentText>Heart Rates : {calories}</MapContentText>
-					)}
-				</View>
-			</View> */}
     </>
   );
 };

@@ -66,8 +66,7 @@ type WorkoutScreenScreenNavigationProp = CompositeScreenProps<
 const styles = StyleSheet.create({
   mapContainer: {
     flex: 3,
-    height: 300,
-    width: 400,
+    width: "100%",
     alignItems: "center",
   },
   header: {
@@ -96,6 +95,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "transparent",
+    width: "100%",
   },
   statusBarContainer: {
     flexDirection: "row",
@@ -251,6 +251,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({
 
   let timerIntervalId: NodeJS.Timer;
   let stepIntervalId: NodeJS.Timer;
+
   useEffect(() => {
     timerIntervalId = setInterval(() => {
       let totalPauseTime = 0;
@@ -497,7 +498,6 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({
 
   const ResumeRunningSession = async () => {
     await BackgroundGeolocation.changePace(true);
-
     let location = await BackgroundGeolocation.getCurrentPosition({
       samples: 1,
       timeout: 10,
@@ -551,11 +551,29 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({
       });
     }
   };
+
+  const BrightTurquoiseText = (props: TextProps) => {
+    const { style, ...rest } = props;
+    return (
+      <Text
+        style={[
+          styles.textStyle,
+          style,
+          { color: colors.brightTurquoise, fontFamily: "Poppins-Bold" },
+        ]}
+        {...rest}
+      />
+    );
+  };
   const WhiteText = (props: TextProps) => {
     const { style, ...rest } = props;
     return (
       <Text
-        style={[styles.textStyle, style, { color: colors.white }]}
+        style={[
+          styles.textStyle,
+          style,
+          { color: colors.white, fontFamily: "Poppins-Bold" },
+        ]}
         {...rest}
       />
     );
@@ -565,7 +583,11 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({
     const { style, ...rest } = props;
     return (
       <Text
-        style={[styles.textStyle, style, { color: colors.crystal }]}
+        style={[
+          styles.textStyle,
+          style,
+          { color: colors.crystal, fontFamily: "Poppins" },
+        ]}
         {...rest}
       />
     );
@@ -591,9 +613,9 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({
             {/* <NFTDisplay /> */}
             {/* <View style={[ styles.pointContainer ]}/> */}
             <View style={[styles.distanceContainer]}>
-              <WhiteText style={styles.distanceTextStyle}>
+              <BrightTurquoiseText style={styles.distanceTextStyle}>
                 {(distance / 1000).toFixed(2)}
-              </WhiteText>
+              </BrightTurquoiseText>
               <Text style={[styles.mapDistanceText]}>Total Kilometers</Text>
             </View>
             <View style={[styles.rowContentContainer, { paddingTop: 20 }]}>
@@ -676,9 +698,9 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({
               </View>
             </View>
             <View style={[styles.stateButtonContainer]}>
-              {(currentState === ActivityType.PAUSE ||
-                currentState === ActivityType.MOVING ||
-                currentState === ActivityType.OVERSPEED) &&
+              {currentState === ActivityType.PAUSE &&
+                // currentState === ActivityType.MOVING ||
+                // currentState === ActivityType.OVERSPEED) &&
                 !isStopping && (
                   <Pressable
                     style={[
@@ -689,7 +711,15 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({
                     onPress={StopRunningSession}
                   >
                     <Text
-                      style={[Fonts.textRegular, styles.stateStopButtonText]}
+                      style={[
+                        Fonts.textRegular,
+                        styles.stateStopButtonText,
+                        {
+                          fontFamily: "Poppins",
+                          fontWeight: "600",
+                          fontSize: 16,
+                        },
+                      ]}
                     >
                       Stop
                     </Text>
@@ -706,7 +736,18 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({
                     ]}
                     onPress={PauseRunningSession}
                   >
-                    <Text style={Fonts.textRegular}>Pause</Text>
+                    <Text
+                      style={
+                        (Fonts.textRegular,
+                        {
+                          fontFamily: "Poppins",
+                          fontWeight: "600",
+                          fontSize: 16,
+                        })
+                      }
+                    >
+                      Pause
+                    </Text>
                   </Pressable>
                 )}
               {currentState === ActivityType.PAUSE && !isStopping && (
@@ -718,7 +759,18 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({
                   ]}
                   onPress={ResumeRunningSession}
                 >
-                  <Text style={Fonts.textRegular}>Resume</Text>
+                  <Text
+                    style={
+                      (Fonts.textRegular,
+                      {
+                        fontFamily: "Poppins",
+                        fontWeight: "600",
+                        fontSize: 16,
+                      })
+                    }
+                  >
+                    Resume
+                  </Text>
                 </Pressable>
               )}
             </View>
