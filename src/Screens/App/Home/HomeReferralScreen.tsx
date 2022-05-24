@@ -13,6 +13,7 @@ import {
     RefreshControl,
     Image,
     Dimensions,
+    Linking,
 } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { Brand, Header } from '@/Components'
@@ -570,9 +571,9 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
 
                 <View style={{ width: '90%', backgroundColor: colors.white, height: 1 }} />
 
-                <View style={[Layout.fullWidth, Layout.center, { height: 140, justifyContent: "center", paddingHorizontal: 40 }]}>
+                <View style={[Layout.fullWidth, Layout.center, { justifyContent: "center", paddingHorizontal: 40 }]}>
                     <Text style={{ fontFamily: "Poppins-Bold", color: colors.brightTurquoise, fontWeight: 'bold', lineHeight: 30, paddingTop: 30, fontStyle: "italic", fontSize: 30, textAlign: "center" }}>{t("moreBonus")}</Text>
-                    <Text style={{ color: colors.crystal, fontSize: 14, textAlign: "center", paddingTop: 20 }}>{t("madeItToBeta")}</Text>
+                    <Text style={{ color: colors.crystal, fontSize: 14, textAlign: "center", paddingVertical: 16 }}>{t("madeItToBeta")}</Text>
                 </View>
 
                 <View style={[Layout.fullWidth, Layout.center, { height: 300 }]}>
@@ -598,7 +599,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                         <Image source={communityIcon} style={{resizeMode: "contain", width: 20, height: 20, marginRight: 20}} />
                         <Text style={[{ fontSize: 14, color: colors.white, flexShrink: 1 }]}>{t("earnKEWhenReferredFriends")}</Text>
                     </View>
-                    <Text style={[{paddingLeft: 80, marginTop: 4, fontSize: 14, color: colors.crystal}]}>{t("maxReferral30Friends")}</Text>
+                    <Text style={[{paddingLeft: 80, paddingRight: 40, marginTop: 4, fontSize: 14, color: colors.crystal}]}>{t("maxReferral30Friends")}</Text>
                 </View>
 
                 <View style={[Layout.fullWidth, { height: 60, paddingHorizontal: 40, justifyContent: "flex-start", alignItems: "center", flexDirection: "row" }]}>
@@ -608,13 +609,13 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
 
                 <View style={[Layout.fullWidth, Layout.center, { paddingVertical: 10, paddingHorizontal: 0, alignItems: "flex-start", }]}>
                     <View style={[Layout.fullWidth, { paddingHorizontal: 40, justifyContent: "flex-start", alignItems: "center", flexDirection: "row" }]}>
-                        <Image source={communityIcon} style={{resizeMode: "contain", width: 20, height: 20, marginRight: 20}} />
+                        <Image source={infoIcon} style={{resizeMode: "contain", width: 20, height: 20, marginRight: 20}} />
                         <Text style={[{ fontSize: 14, color: colors.white, flexShrink: 1 }]}>{t("whatIsKE")}</Text>
                     </View>
-                    <Text style={[{paddingLeft: 80, marginTop: 4, fontSize: 14, color: colors.white}]}>{t("KEDesc")}</Text>
+                    <Text style={[{paddingLeft: 80, paddingRight: 40, marginTop: 4, fontSize: 14, color: colors.white}]}>{t("KEDesc")}</Text>
                 </View>
 
-                <View style={[Layout.fullWidth, { paddingTop: 20, paddingBottom: 40, paddingHorizontal: 40, justifyContent: "flex-start", }]}>
+                <View style={[Layout.fullWidth, { paddingTop: 20, paddingBottom: 30, paddingHorizontal: 40, justifyContent: "flex-start", }]}>
                     <Text style={[{ color: colors.white, fontSize: 16, lineHeight: 20, textAlign: "left", fontWeight: "bold" }]}>
                         {t("inGameToken")}
                     </Text>
@@ -624,7 +625,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                     </Text>
                 </View>
 
-                <View style={[Layout.fullWidth, { paddingVertical: 0, paddingBottom: 40, paddingHorizontal: 40, justifyContent: "flex-start", }]}>
+                <View style={[Layout.fullWidth, { paddingVertical: 0, paddingBottom: 30, paddingHorizontal: 40, justifyContent: "flex-start", }]}>
                     <Text style={[{ color: colors.white, fontSize: 16, lineHeight: 20, textAlign: "left", fontWeight: "bold" }]}>
                         {t("NFTCompanions")}
                     </Text>
@@ -634,7 +635,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                     </Text>
                 </View>
 
-                <View style={[Layout.fullWidth, { paddingVertical: 0, paddingBottom: 40, paddingHorizontal: 40, justifyContent: "flex-start", }]}>
+                <View style={[Layout.fullWidth, { paddingVertical: 0, paddingBottom: 30, paddingHorizontal: 40, justifyContent: "flex-start", }]}>
                     <Text style={[{ color: colors.white, fontSize: 16, lineHeight: 20, textAlign: "left", fontWeight: "bold" }]}>
                         {t("exclusiveDrops")}
                     </Text>
@@ -656,16 +657,16 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
 
               
                 <View style={[Layout.fullWidth, Layout.center, { paddingTop: 60, paddingBottom: 30, paddingHorizontal: 30, justifyContent: "center", }]}>
-                    <Text style={[{ color: colors.brightTurquoise, fontSize: 20, textDecorationLine: "underline", lineHeight: 20, textAlign: "center" }]}>
+                    <Text style={[{ color: colors.brightTurquoise, fontSize: 18, textDecorationLine: "underline", lineHeight: 20, textAlign: "center" }]}>
                         {t("tAndC")}
                     </Text>
                 </View>
 
                 <View style={[Layout.fullWidth, Layout.center, { paddingBottom: 60, paddingHorizontal: 30, justifyContent: "center", }]}>
-                    <Text style={[{ color: colors.white, fontSize: 18, lineHeight: 20, textAlign: "center" }]}>
+                    <Text style={[{ color: colors.white, fontSize: 14, lineHeight: 20, textAlign: "center" }]}>
                         {t("effectiveDate")}: 20th May 2022
                     </Text>
-                    <Text style={[{ color: colors.white, fontSize: 18, lineHeight: 20, textAlign: "center" }]}>
+                    <Text style={[{ color: colors.white, fontSize: 14, lineHeight: 20, textAlign: "center" }]}>
                         {t("lastUpdated")}: 1st June 2022
                     </Text>
                 </View>
