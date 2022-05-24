@@ -30,33 +30,31 @@ type MapViewProps = {
 const ActiveMapView: FC<MapViewProps> = (props) => {
   const paths = useSelector((state: any) => state.map.paths);
   const overSpeedPaths = useSelector((state: any) => state.map.overSpeedPaths);
-  const [latitude, setLatitude] = useState(0);
-  const [longitude, setLongitude] = useState(0);
+  const latitude = useSelector((state: any) => state.map.latitude);
+  const longitude = useSelector((state: any) => state.map.longitude);
+//   const [latitude, setLatitude] = useState(0);
+//   const [longitude, setLongitude] = useState(0);
   const [followsUserLocation, setFollowsUserLocation] = useState(true);
-  const [paddingTop, setPaddingTop ] = useState(10)
   return (
-    <>
-
-      <MapView
-        style={[styles.map,{flex : 1}]}
+    <>{latitude && longitude && (
+		<MapView
+        style={[styles.map, { flex : 1 }]}
 		provider={PROVIDER_GOOGLE}
         mapType="standard"
         initialRegion={{
           latitude: latitude,
           longitude: longitude,
-          latitudeDelta: 0.015,
-          longitudeDelta: 0.015,
+          latitudeDelta: 0.005,
+          longitudeDelta: 0.005,
         }}
 		showsUserLocation={true}
 		showsMyLocationButton={true}
         userLocationPriority="high"
-        // followsUserLocation={followsUserLocation}r
-		showsCompass={true}
-		showsScale={true}
+        followsUserLocation={followsUserLocation}
 		pitchEnabled={false}
-        showsBuildings={true}
-		showsIndoors={false}
-		// onPanDrag={() => setFollowsUserLocation(false)}
+		onPanDrag={()=>setFollowsUserLocation(false)}
+		// onLongPress={()=>setFollowsUserLocation(true)}
+		// onDoublePress={()=>setFollowsUserLocation(true)}
 		// onRegionChange={() => setFollowsUserLocation(true)}
       >
         {paths &&
@@ -87,6 +85,8 @@ const ActiveMapView: FC<MapViewProps> = (props) => {
             }
           })}
       </MapView>
+	)}
+     
     </>
   );
 };
