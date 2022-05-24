@@ -31,7 +31,7 @@ import SpeedIcon from '@/Assets/Images/map/speed_crystal.png'
 import TimerLogo from '@/Assets/Images/map/timer_crystal.png'
 import StepLogo from '@/Assets/Images/map/step.png'
 
-import {captureScreen} from 'react-native-view-shot';
+import { captureScreen } from 'react-native-view-shot';
 import Share from 'react-native-share';
 import { FontSize } from '@/Theme/Variables'
 
@@ -44,147 +44,142 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 	const params = route?.params || { username: '' }
 	// console.log('route', route.params)
 
-	const startTime = useSelector((state:any) => state.map.startTime)
-	const endTime = useSelector((state:any) => state.map.endTime)
-	const steps = useSelector((state:any) => state.map.steps)
-	const calories = useSelector((state:any) => state.map.calories)
-	const distance = useSelector((state:any) => state.map.distance)
-	const heartRate = useSelector((state:any) => state.map.heartRate)
-	const paths = useSelector((state:any) => state.map.paths)
-	const currentState = useSelector((state:any) => state.map.currentState)
-	const latitude = useSelector((state:any) => state.map.latitude)
-	const longitude = useSelector((state:any) => state.map.longitude)
-	
+	const startTime = useSelector((state: any) => state.map.startTime)
+	const endTime = useSelector((state: any) => state.map.endTime)
+	const steps = useSelector((state: any) => state.map.steps)
+	const calories = useSelector((state: any) => state.map.calories)
+	const distance = useSelector((state: any) => state.map.distance)
+	const heartRate = useSelector((state: any) => state.map.heartRate)
+	const paths = useSelector((state: any) => state.map.paths)
+	const currentState = useSelector((state: any) => state.map.currentState)
+	const latitude = useSelector((state: any) => state.map.latitude)
+	const longitude = useSelector((state: any) => state.map.longitude)
+
 	const speed = params.speed
 	const timer = params.timer
 	const step = params.steps
 
-	const [ result, setResult ] = useState<String>()
+	const [result, setResult] = useState<String>()
 
 
 	const styles = StyleSheet.create({
-		container:{
-			alignItems:'center',
+		container: {
+			alignItems: 'center',
 			backgroundColor: colors.darkGunmetal,
-			width: '100%',
 			justifyContent: 'center',
-			marginBottom: 100,
-			flex:1
-		},
-	
-		rowContentContainer : {
-			display:'flex',
-			flexDirection:'row',
-			alignItems:'center',
-			width:'100%',
-			justifyContent:'center',
-			marginTop: '5%'
-		},
-		// Speed and Time
-		rowContentContainer2 : {
-			display:'flex',
-			flexDirection:'row',
-			width: '100%',
-			justifyContent:'space-around',
-			alignItems:'center',
-			paddingVertical: '5%',
 		},
 
-		speedContainer : {
-			display:'flex',
-			flexDirection:'row',
-			justifyContent:'center',
-			textAlign:'flex-end',
-			alignItems:'flex-end'
+		rowContentContainer: {
+			display: 'flex',
+			flexDirection: 'row',
+			alignItems: 'center',
+			width: '100%',
+			justifyContent: 'center',
 		},
-		colContentContainer : {
-			display:'flex',
+		// Speed and Time
+		rowContentContainer2: {
+			display: 'flex',
+			flexDirection: 'row',
+			width: '100%',
+			justifyContent: 'space-around',
+			alignItems: 'center',
+		},
+
+		speedContainer: {
+			display: 'flex',
+			flexDirection: 'row',
+			justifyContent: 'center',
+			textAlign: 'flex-end',
+			alignItems: 'flex-end'
+		},
+		colContentContainer: {
+			display: 'flex',
 			flexDirection: 'column',
-			alignItems:'center',
-			width:'100%',
+			alignItems: 'center',
+			width: '100%',
 		},
 		contentContainer: {
 			display: 'flex',
-			width:'100%',
-			justifyContent:'center'
+			width: '100%',
+			justifyContent: 'center'
 		},
-		titleTextStyle : {
+		titleTextStyle: {
 			fontSize: 30,
-			lineHeight:45,
-			fontStyle:'italic',
+			lineHeight: 45,
+			fontStyle: 'italic',
 			fontWeight: '700',
 		},
 
-		distanceTextStyle:{
+		distanceTextStyle: {
 			fontSize: 100,
-			fontWeight:'700',
+			fontWeight: '700',
 			color: colors.brightTurquoise,
 		},
-		lightTextStyle : {
-			color:colors.crystal,
+		lightTextStyle: {
+			color: colors.crystal,
 		},
-		textStyle:{
+		textStyle: {
 			color: colors.white,
-			fontSize:25,
-			fontWeight:'700',
-			textAlign:'center',
+			fontSize: 25,
+			fontWeight: '700',
+			textAlign: 'center',
 		},
 	})
 
 
-	const [ isLoggingIn, setIsLoggingIn ] = useState(false)
-	const [ errMsg, setErrMsg ] = useState(' ')
+	const [isLoggingIn, setIsLoggingIn] = useState(false)
+	const [errMsg, setErrMsg] = useState(' ')
 	const returnStart = () => {
 		navigation.reset({
 			index: 0,
-			routes: [ { name: RouteStacks.startWorkout } ],
+			routes: [{ name: RouteStacks.startWorkout }],
 		})
 	}
 
-	const takeScreenShot = async() => {
+	const takeScreenShot = async () => {
 		captureScreen({
-		  format: 'jpg',
-		  quality: 0.8, 
-		  result: 'base64',
+			format: 'jpg',
+			quality: 0.8,
+			result: 'base64',
 		}).then(
-		  (uri) => {
-			shareImage(uri)
-		  },
-		  (error) => console.error('Oops, Something Went Wrong', error),
+			(uri) => {
+				shareImage(uri)
+			},
+			(error) => console.error('Oops, Something Went Wrong', error),
 		);
 	};
 
-	const shareImage = async(image:string) => {
-		  try {
-			const base64_encode = 'data:image/jpeg;base64,'+ image
+	const shareImage = async (image: string) => {
+		try {
+			const base64_encode = 'data:image/jpeg;base64,' + image
 			const options = {
 				title: 'End of Workout',
-				url:	base64_encode,
+				url: base64_encode,
 				type: 'image/jpeg',
 				// message: 'Result',	
 			}
 			const response = await Share.open(options)
 			setResult(JSON.stringify(response, null, 2));
-		  } catch (error) {
+		} catch (error) {
 			console.log('Error =>', error);
 			setResult('error: ');
-		  }
+		}
 	}
-	
+
 
 	const WhiteText = (props: TextProps) => {
 		const { style, ...rest } = props
-		return <Text style={[ styles.textStyle, style, {color:colors.white} ]} {...rest} />
+		return <Text style={[styles.textStyle, style, { color: colors.white }]} {...rest} />
 	}
 
 	const CrystalText = (props: TextProps) => {
 		const { style, ...rest } = props
-		return <Text style={[ styles.textStyle, style, {color:colors.crystal} ]} {...rest} />
+		return <Text style={[styles.textStyle, style, { color: colors.crystal }]} {...rest} />
 	}
 
 	const BrightTurquoiseText = (props: TextProps) => {
 		const { style, ...rest } = props
-		return <Text style={[ styles.textStyle, style, {color:colors.brightTurquoise} ]} {...rest} />
+		return <Text style={[styles.textStyle, style, { color: colors.brightTurquoise }]} {...rest} />
 	}
 
 
@@ -194,60 +189,65 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 				headerText={'Result'}
 				style={{ backgroundColor: colors.darkGunmetal }}
 			/>
-			<View
-				style={[ styles.container ]}
+			<KeyboardAwareScrollView
+				contentContainerStyle={[styles.container, { flex: 1 }]}
 			>
-					<View style={[ styles.rowContentContainer]}>
-						<BrightTurquoiseText style={[ styles.titleTextStyle ]}>congratulations</BrightTurquoiseText>
-						<Image source={ConGratualtion} style={{ width: 30, height: 30, marginHorizontal:10, resizeMode: 'contain' }} />
-					</View>
-					<View style={[styles.colContentContainer]}>
-						<Text style={styles.distanceTextStyle}>{(distance / 1000).toFixed(2)}</Text>
-						<CrystalText style={{fontSize:20}}>Total Kilometers</CrystalText>
-					</View>
+				<View style={[styles.rowContentContainer, { flexBasis: 60 }]}>
+					<BrightTurquoiseText style={[styles.titleTextStyle]}>{t('congratulations')}</BrightTurquoiseText>
+					<Image source={ConGratualtion} style={{ width: 30, height: 30, marginHorizontal: 10, resizeMode: 'contain' }} />
+				</View>
+
+				<View style={[styles.colContentContainer, { flexBasis: 120 }]}>
+					<Text style={styles.distanceTextStyle}>{(distance / 1000).toFixed(2)}</Text>
+				</View>
+
+				<View style={[styles.colContentContainer, { flexBasis: 100, justifyContent: "center" }]}>
+					<CrystalText style={{ fontSize: 20, width: "100%" }}>{t("totalKilo")}</CrystalText>
 					<View style={[styles.rowContentContainer]}>
-						<Image source={StepLogo} style={{ width: 20, height: 20, resizeMode: 'contain', alignSelf:'center',marginHorizontal:10 }} />
+						<Image source={StepLogo} style={{ width: 20, height: 20, resizeMode: 'contain', alignSelf: 'center', marginHorizontal: 10 }} />
 						<WhiteText>{steps}</WhiteText>
-					</View>			
-					<View style={[ styles.rowContentContainer2 ]}>
-						<View style={[ styles.contentContainer ]}>
-							<Image source={TimerLogo} style={{ width: 30, height: 30, resizeMode: 'contain', alignSelf:'center' }} />
-							<WhiteText style={[{fontSize:30, fontWeight:'bold' }]}>{Math.floor(timer % 3600 / 60)}"{Math.ceil(timer % 60 )}'</WhiteText>
-						</View>
-						<View style={[ styles.contentContainer ]}>
-							<Image source={SpeedIcon} style={{ width: 30, height: 30, resizeMode: 'contain', alignSelf:'center' }} />
+					</View>
+				</View>
 
-							<View style={[ styles.speedContainer]}>
+				<View style={[styles.rowContentContainer2, { flexBasis: 80 }]}>
+					<View style={[styles.contentContainer]}>
+						<Image source={TimerLogo} style={{ width: 30, height: 30, resizeMode: 'contain', alignSelf: 'center' }} />
+						<WhiteText style={[{ fontSize: 30, fontWeight: 'bold' }]}>{Math.floor(timer % 3600 / 60)}"{Math.ceil(timer % 60)}'</WhiteText>
+					</View>
+					<View style={[styles.contentContainer]}>
+						<Image source={SpeedIcon} style={{ width: 30, height: 30, resizeMode: 'contain', alignSelf: 'center' }} />
+
+						<View style={[styles.speedContainer]}>
 							{speed ? (
-								<WhiteText style={[{fontSize:30, fontWeight:'bold' }]}>{speed.toFixed(1)}</WhiteText>
-								):(<WhiteText style={[{fontSize:30, fontWeight:'bold' }]}>0</WhiteText>)}
-								<CrystalText style={{fontSize:12, }}>km/h</CrystalText>
-							</View>
+								<WhiteText style={[{ fontSize: 30, fontWeight: 'bold' }]}>{speed.toFixed(1)}</WhiteText>
+							) : (<WhiteText style={[{ fontSize: 30, fontWeight: 'bold' }]}>0</WhiteText>)}
+							<CrystalText style={{ fontSize: 12, }}>km/h</CrystalText>
 						</View>
 					</View>
+				</View>
 
-						<View style={[ styles.contentContainer ]}>
-							<WhiteText style={[{fontSize:40, lineHeight:60, fontWeight:'bold' }]}>+ 20 KE</WhiteText>
-						</View>
+				<View style={[styles.contentContainer, { flexBasis: 80 }]}>
+					<WhiteText style={[{ fontSize: 40, lineHeight: 60, fontWeight: 'bold' }]}>+ 20 KE</WhiteText>
+				</View>
 
-					<View style={[ styles.colContentContainer,{marginTop:'10%'} ]}>
-						<SocialShareButton
-							onPress={() => {console.log('share')}}
-							text={t('Share on Twitter')}
-							iconName="twitter"
-							containerStyle={[ Layout.fullWidth ]}
-						/>
-						<SaveScreenButton
-							onPress={() => {takeScreenShot()}} 
-							text={t('Save Screen')}
-							containerStyle={[ Layout.fullWidth ]}
-						/>
-						<CloseButton
-							onPress={() => {navigation.navigate(RouteStacks.homeReferral)}}
-							containerStyle={[ Layout.fullWidth ]}/>
+				<View style={[styles.colContentContainer, { flex: 8, justifyContent: "center" }]}>
+					<SocialShareButton
+						onPress={() => { console.log('share') }}
+						text={t('shareOnTwitter')}
+						iconName="twitter"
+						containerStyle={[Layout.rowCenter, Layout.fullWidth]}
+					/>
+					<SaveScreenButton
+						onPress={() => { takeScreenShot() }}
+						text={t('saveScreen')}
+						containerStyle={[Layout.rowCenter, Layout.fullWidth, Gutters.regularVPadding]}
+					/>
+					<CloseButton
+						onPress={() => { navigation.navigate(RouteStacks.homeReferral) }}
+						containerStyle={[Layout.fullWidth, Layout.rowCenter]} />
 
-					</View>
-			</View>
+				</View>
+			</KeyboardAwareScrollView>
 		</ScreenBackgrounds>
 	)
 }

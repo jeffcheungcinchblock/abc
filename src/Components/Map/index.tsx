@@ -104,8 +104,6 @@ const ActiveMapView:FC<MapViewProps> = (props) => {
 	// },[])
 
 
-	console.log('latitude', latitude, longitude)
-
 	return (
 		<>
 			<MapView

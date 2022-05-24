@@ -36,6 +36,9 @@ export default {
   shareReferralLink: "Share your referral code with friends",
   earnKEWhenReferredFriends: "When each of your friends register an account using your code, you'll earn 50KE points while your friends earn 25KE points. Refer max. 30 friends and earn over 1000KE!",
   learnMoreAllCapital: "LEARN MORE",
+  shareOnTwitter: "Share on Twitter",
+  saveScreen: "Save Screen",
+  result: "Result",
   theReferralIsGoverned: "This Referral Programme is governed by the ",
   programTC: "Program T&Cs",
   yourReferralCode: "Your Referral Code",
@@ -84,6 +87,8 @@ export default {
   gotIt: "Got it!",
   logMeIn: "Log me in!",
   areYouSureToStop: "Are you sure to stop?",
+  totalKilo: "Total Kilometers",
+  congratulations: "congratulations",
   snackbarPrompt: {
     referralCodeCopied: 'Referral code copied !',
   },

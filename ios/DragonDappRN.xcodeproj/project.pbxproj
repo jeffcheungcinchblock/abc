@@ -10,7 +10,7 @@
 		00E356F31AD99517003FC87E /* DragonDappRNTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* DragonDappRNTests.m */; };
 		011408FFC1C84EA48D6D40CC /* Poppins-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A77D9E926BA8439999CE7CB7 /* Poppins-Thin.ttf */; };
 		0303D1DEF9AF4545935525F1 /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F736A330FA9541D6B427BF4E /* Poppins-SemiBold.ttf */; };
-		0ABFF4E57ABBF7C2A9517EF9 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		0ABFF4E57ABBF7C2A9517EF9 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
 		0F0BBFA861BE45D582DC6CF9 /* Poppins-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 707FE37C147840959D575428 /* Poppins-MediumItalic.ttf */; };
 		1011A9CDACD542AEA8C263D8 /* Poppins-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DD100D05C0824FC0B66AA8BE /* Poppins-ExtraLight.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
@@ -232,7 +232,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0ABFF4E57ABBF7C2A9517EF9 /* (null) in Frameworks */,
+				0ABFF4E57ABBF7C2A9517EF9 /* BuildFile in Frameworks */,
 				799D0C3145754A7421C23CF1 /* libPods-DragonDappRN-DragonDappRNTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

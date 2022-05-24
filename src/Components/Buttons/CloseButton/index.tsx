@@ -35,10 +35,7 @@ const CloseButton = ({
 	const { Layout, Images } = useTheme()
 
 	return (
-		<View style={{
-			...containerStyle,
-			marginTop:28,
-		}}>
+		<View style={[containerStyle]}>
 			<Pressable
 				onPress={onPress}
 				style={[ BUTTON_STYLE, {

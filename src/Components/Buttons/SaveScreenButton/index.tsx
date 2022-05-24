@@ -20,7 +20,7 @@ let size = 30
 const BUTTON_STYLE: ViewStyle = {
 	backgroundColor: 'transparent',
 	height: 40,
-	width: 180,
+	width: 170,
 	borderRadius: 99,
 	justifyContent: 'center',
 	borderColor: colors.brightTurquoise,
@@ -43,10 +43,7 @@ const SaveScreenButton = ({
 	const { Layout } = useTheme()
 
 	return (
-		<View style={{
-			...containerStyle,
-			marginBottom:10,
-		}}>
+		<View style={[containerStyle]}>
 			<Pressable
 				onPress={onPress}
 				style={[ BUTTON_STYLE, {
@@ -55,9 +52,9 @@ const SaveScreenButton = ({
 				{
 					isLoading ? <ActivityIndicator
 						size="small" color={'#fff'}
-					/> : <View style={[ Layout.rowCenter, {justifyContent:'center'} ]}>
-						<Text style={{ fontWeight:'500', lineHeight:24, fontSize:16, color:colors.brightTurquoise }}>{text}</Text>
-						<Image source={DownloadIcon} style={{margin:10}}/>
+					/> : <View style={[ Layout.center, Layout.row ]}>
+						<Text style={{ fontWeight:'500', lineHeight:24, fontSize:16, color:colors.brightTurquoise, flex: 1, textAlign: "center" }}>{text}</Text>
+						<Image source={DownloadIcon} style={{width: 20, marginRight: 20}}/>
 					</View>
 				}
 			</Pressable>

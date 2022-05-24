@@ -10,6 +10,7 @@ import {
 	Pressable,
 	Alert
 } from 'react-native'
+import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { StackScreenProps } from '@react-navigation/stack'
 import { CompositeScreenProps } from '@react-navigation/native'
@@ -46,9 +47,8 @@ import TimerLogo from '@/Assets/Images/map/timer_crystal.png'
 import StepLogo from '@/Assets/Images/map/step.png'
 import { speedconst } from '@/Utils/constants'
 import { FontSize } from '@/Theme/Variables'
+import { start } from '@/Store/Map/actions'
 import { startLoading } from '@/Store/UI/actions'
-import { useTranslation } from 'react-i18next'
-
 
 type WorkoutScreenScreenNavigationProp = CompositeScreenProps<
 	StackScreenProps<WorkoutNavigatorParamList>,
@@ -173,24 +173,26 @@ const styles = StyleSheet.create({
 	},
 })
 
+const isIOS = Platform.OS === 'ios'
+const health_kit = isIOS ? new IOSHealthKit() : new GoogleFitKit()
 const geolocationConfig = {
-
-	ios: {
+	ios:{
 		desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_NAVIGATION,
-		stationaryRadius: 6,
-		disableLocationAuthorizationAlert: true,
-		showsBackgroundLocationIndicator: true
+		stationaryRadius:6,
+		showsBackgroundLocationIndicator:true,
+        locationAuthorizationRequest:'WhenInUse',
+        activityType:'FITNESS',
+		disableLocationAuthorizationAlert:true
 	},
 	android: {
 		desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
 		allowIdenticalLocations: true
 	},
-	default: {
-		distanceFilter: 2,
+	default:{
+		distanceFilter: 10,
 		stopTimeout: 5,
 		isMoving: true,
-		disableElasticity: true,
-		speedJumpFilter: 20,
+		disableElasticity : true,
 		preventSuspend: true,
 		stopOnTerminate: true,
 		reset: false,
@@ -198,9 +200,6 @@ const geolocationConfig = {
 		logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
 	}
 }
-const isIOS = Platform.OS === 'ios'
-const health_kit = isIOS ? new IOSHealthKit() : new GoogleFitKit()
-
 export type Region = {
 	latitude: number
 	longitude: number
@@ -224,39 +223,36 @@ let intervalId: NodeJS.Timer
 
 const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, route }) => {
 	const dispatch = useDispatch()
-    const { t } = useTranslation()
 	const { Common, Fonts, Gutters, Layout } = useTheme()
-	// Redux
-	const startTime = useSelector((state: any) => state.map.startTime)
-	const steps = useSelector((state: any) => state.map.steps)
-	const calories = useSelector((state: any) => state.map.calories)
-	const distance = useSelector((state: any) => state.map.distance)
-	const heartRate = useSelector((state: any) => state.map.heartRate)
-	const paths = useSelector((state: any) => state.map.paths)
-	const currentState = useSelector((state: any) => state.map.currentState)
-	const overSpeedPaths = useSelector((state: any) => state.map.overSpeedPaths)
-	const username = useSelector((state: any) => state.user.uuid)
+	const { t } = useTranslation()
 
-	const speedUnit = useSelector((state: any) => state.unit.speedUnit)
+	// Redux
+	const startTime = useSelector((state:any) => state.map.startTime)
+	const steps = useSelector((state:any) => state.map.steps)
+	const calories = useSelector((state:any) => state.map.calories)
+	const distance = useSelector((state:any) => state.map.distance)
+	const heartRate = useSelector((state:any) => state.map.heartRate)
+	const paths = useSelector((state:any) => state.map.paths)
+	const currentState = useSelector((state:any) => state.map.currentState)
+	const overSpeedPaths = useSelector((state:any) => state.map.overSpeedPaths)
+	const username = useSelector((state:any)=> state.user.uuid)
+	const speedUnit = useSelector((state:any) => state.unit.speedUnit)
 
 
 	// const [ startRegion, setStartRegion ] = useState<Region|null>({ latitude: 0.09, longitude:0.09, latitudeDelta:0.0922, longitudeDelta:0.0421 })
 	const [timer, setTimer] = useState(0)
 	const [speed, setSpeed] = useState(0)
 	// const [ speedUnit, setSpeedUnit ] = useState(SpeedUnit.KILOMETRE_PER_HOUR) 
-	const [isFirstLoad, setIsFirstLoad] = useState(true)
-	const [isStopping, setIsStopping] = useState(false)
-
+	const [ isFirstLoad, setIsFirstLoad ] = useState(true)
+	const [ isStopping, setIsStopping ] = useState(false)
+	let timerIntervalId: NodeJS.Timer
+	let stepIntervalId: NodeJS.Timer
 	useEffect(() => {
-		intervalId = setInterval(() => {
-			console.log('overSpeedPaths', overSpeedPaths)
+		timerIntervalId = setInterval(() => {
 			let totalPauseTime = 0
-			let totalReduceStep = 0;
-
-			paths.forEach((path: { pathTotalPauseTime: number, pathTotalReduceStep: number }) => {
-				if (path.pathTotalPauseTime) {
+			paths.forEach((path:{pathTotalPauseTime:number,pathTotalReduceStep:number}) => {
+				if (path.pathTotalPauseTime){
 					totalPauseTime += path.pathTotalPauseTime
-					totalReduceStep += path.pathTotalReduceStep
 				}
 			})
 			const cur_timestamp = moment(new Date()).unix()
@@ -266,29 +262,42 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 			if (currentState !== ActivityType.PAUSE) {
 				setTimer(Math.floor(timer_second))
 				setSpeed(new_speed)
-				if (currentState !== ActivityType.OVERSPEED && startTime !== undefined) {
-					const temp_step = health_kit.GetSteps(new Date(startTime), new Date())
-					Promise.resolve(temp_step).then((step) => {
-						dispatch({ type: 'readSteps', payload: { steps: Math.floor(step) } })
-					}).catch((err: any) => {
-						return
-					})
-				}
 			}
-
 		}, 1000)
 		return () => {
-			clearInterval(intervalId)
+			clearInterval(timerIntervalId)
 		}
-	}, [currentState, distance, speedUnit, steps])
+	}, [ currentState, distance, speedUnit, steps ])
 
+	useEffect(()=>{
+		stepIntervalId = setInterval(() => {
+		let totalReduceStep = 0;
+		paths.forEach((path:{pathTotalPauseTime:number,pathTotalReduceStep:number}) => {
+				if (path.pathTotalPauseTime){
+					totalReduceStep += path.pathTotalReduceStep
+				}
+			})
+		if(currentState!==ActivityType.PAUSE && currentState !== ActivityType.OVERSPEED && startTime !== undefined){
+			const temp_step =  health_kit.GetSteps(new Date(startTime), new Date())
+			Promise.resolve(temp_step).then((step) => {
+				dispatch({type:'readSteps',payload:{steps:Math.floor(step)}})
+			})
+			}
+		},10000)
+		return () => {
+			clearInterval(stepIntervalId)
+		}
+	},[currentState])
+	
 
 
 	useEffect(() => {
 		const onLocation: Subscription = BackgroundGeolocation.onLocation((location) => {
-			if (currentState !== ActivityType.PAUSE && startTime !== null && startTime !== undefined) {
-				if (location.coords && location.coords.latitude && location.coords.longitude && location.is_moving === true && location.coords.speed != -1) {
-					if (!location.coords.speed) {
+			console.log(ActivityType[currentState], startTime )
+			if (currentState !== ActivityType.PAUSE && startTime !== null && startTime !== undefined){
+				if (location.coords && location.coords.latitude && location.coords.longitude && location.is_moving === true && location.coords.speed != -1)
+				{
+					if(!location.coords.speed){
 						return
 					}
 					console.log('speed', location.coords.speed)
@@ -300,18 +309,19 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 						console.log('Over speed')
 						return
 					}
-					if (location.coords.speed! <= speedconst.runningUpperLimit && currentState === ActivityType.OVERSPEED) {
-
+					if (location.coords.speed! <= speedconst.runningUpperLimit && currentState === ActivityType.OVERSPEED){
 						const pauseStateTime = paths[paths.length - 1].pauseTime
 						const ReduceStep = health_kit.GetSteps(new Date(pauseStateTime), new Date())
 						const ReduceCalories = health_kit.GetCaloriesBurned(new Date(pauseStateTime), new Date())
-						Promise.all([ReduceStep, ReduceCalories]).then((result) => {
-							dispatch({ type: 'returnToNormalSpeed', payload: { resumeTime: (new Date).getTime(), latitude: location.coords.latitude, longitude: location.coords.longitude, reduceStep: Math.floor(result[0]), reduceCalories: Math.floor(result[1]) } })
-						}).then(() => { return })
+						Promise.all([ReduceStep,ReduceCalories]).then((result)=>{
+							dispatch({ type:'returnToNormalSpeed', payload:{ resumeTime:(new Date).getTime(), latitude:location.coords.latitude, longitude:location.coords.longitude, reduceStep:Math.floor(result[0]), reduceCalories: Math.floor(result[1]) }})
+						}).then(()=>{
+							return
+						})
 					}
-
-					if (currentState === ActivityType.OVERSPEED) {
-						dispatch({ type: 'overSpeedMoving', payload: { latitude: location.coords.latitude, longitude: location.coords.longitude } })
+		
+					if (currentState === ActivityType.OVERSPEED){
+							dispatch({ type:'overSpeedMoving', payload:{ latitude:location.coords.latitude, longitude:location.coords.longitude} })	
 					}
 					if (currentState === ActivityType.MOVING) {
 
@@ -334,10 +344,10 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 			}
 		})
 
-		if (isFirstLoad) {
-			if (isIOS) {
-				const config = { ...geolocationConfig.ios, ...geolocationConfig.default }
-				BackgroundGeolocation.ready(config).then((state) => {
+		if(isFirstLoad){
+			if(isIOS){
+				const config = {...geolocationConfig.ios, ...geolocationConfig.default}
+				BackgroundGeolocation.ready(config).then((state)=>{
 					setIsFirstLoad(false)
 					if (!state.enabled) {
 						BackgroundGeolocation.changePace(true)
@@ -351,89 +361,82 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 					setIsFirstLoad(false)
 					if (!state.enabled) {
 						BackgroundGeolocation.changePace(true)
-						BackgroundGeolocation.start()
+						// BackgroundGeolocation.start()
 						console.log('ready')
 					}
 				})
 			}
-
 		}
-
-
 		return () => {
 			onLocation.remove()
 		}
 	}, [currentState])
 
+	
 	const StopRunningSession = async () => {
-
-		Alert.alert(
-			t("areYouSureToStop"),
-			"",
-			[
-				{
-					text: "OK",
-					onPress: async() => {
-						dispatch(startLoading(true))
-						setIsStopping(true)
-						await BackgroundGeolocation.changePace(false)
-						await BackgroundGeolocation.stop()
-						dispatch({ type: 'stop', payload: { endTime: (new Date()).getTime() } })
-						// setIsStopped(true)
-						try {
-							const paths_string = JSON.stringify(paths)
-							const over_speed_paths_string = JSON.stringify(overSpeedPaths)
-							const data = {
-								startTime: startTime,
-								endTime: (new Date()).getTime(),
-								distance: distance,
-								calories: calories,
-								steps: steps,
-								heartRate: heartRate,
-								paths: paths_string,
-								username: username,
-								timer: timer,
-								// speed: speed,
-								overSpeedPath: over_speed_paths_string
-							}
-							console.log('data get', JSON.stringify(data, null, 2))
-							let response = await axios.post('https://85vamr0pne.execute-api.us-west-2.amazonaws.com/dev/sessions', data)
-							if (response) {
-								setIsStopping(false)
-								navigation.replace(RouteStacks.endWorkout, data)
-								clearInterval(intervalId)
-
-							}
-						} catch (err) {
-							console.log('err', err)
-							navigation.replace(RouteStacks.endWorkout)
-						} finally {
-							dispatch(startLoading(false))
-
-						}
-					}
-				},
-				{
-					text: "Cancel",
-					onPress: () => {},
-					style: "destructive"
-				},
-			]
-		)
-
-	}
+        Alert.alert(
+            t("areYouSureToStop"),
+            "",
+            [
+                {
+                    text: "OK",
+                    onPress: async() => {
+                        dispatch(startLoading(true))
+                        setIsStopping(true)
+                        // await BackgroundGeolocation.changePace(false)
+                        await BackgroundGeolocation.stop()
+                        dispatch({ type: 'stop', payload: { endTime: (new Date()).getTime() } })
+                        // setIsStopped(true)
+                        try {
+                            const paths_string = JSON.stringify(paths)
+                            const over_speed_paths_string = JSON.stringify(overSpeedPaths)
+                            const data = {
+                                startTime: startTime,
+                                endTime: (new Date()).getTime(),
+                                distance: distance,
+                                calories: calories,
+                                steps: steps,
+                                heartRate: heartRate,
+                                paths: paths_string,
+                                username: username,
+                                timer: timer,
+                                // speed: speed,
+                                overSpeedPath: over_speed_paths_string
+                            }
+                            console.log('data get', JSON.stringify(data, null, 2))
+                            let response = await axios.post('https://85vamr0pne.execute-api.us-west-2.amazonaws.com/dev/sessions', data)
+                            if (response) {
+                                setIsStopping(false)
+                                navigation.replace(RouteStacks.endWorkout, data)
+                                clearInterval(timerIntervalId)
+								clearInterval(stepIntervalId)
+                            }
+                        } catch (err) {
+                            console.log('err', err)
+                            navigation.replace(RouteStacks.endWorkout)
+                        } finally {
+                            dispatch(startLoading(false))
+                        }
+                    }
+                },
+                {
+                    text: "Cancel",
+                    onPress: () => {},
+                    style: "destructive"
+                },
+            ]
+        )
+    }
 
 	const PauseRunningSession = async () => {
 		const curTime = new Date()
-		dispatch({ type: 'pause', payload: { pauseTime: curTime.getTime() } })
-		await BackgroundGeolocation.changePace(false)
+		dispatch({ type:'pause', payload:{ pauseTime:curTime.getTime() } })
+		// await BackgroundGeolocation.changePace(false)
 	}
 
-	const ResumeRunningSession = async () => {
-		let location = await BackgroundGeolocation.getCurrentPosition({
-			samples: 1,
-			persist: true
-		})
+	const ResumeRunningSession = async() => {
+		// await BackgroundGeolocation.changePace(true)
+		let location = await BackgroundGeolocation.getCurrentPosition({ samples: 1,timeout:10, maximumAge:5000, desiredAccuracy:5,persist:false })
 		const pauseStateTime = paths[paths.length - 1].pauseTime
 		const ReduceStep = await health_kit.GetSteps(new Date(pauseStateTime), new Date())
 		const ReduceCalories = await health_kit.GetCaloriesBurned(new Date(pauseStateTime), new Date())
@@ -441,8 +444,6 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 			//Resume bring to moving state
 			dispatch({ type: 'resume', payload: { resumeTime: (new Date).getTime(), latitude: location.coords.latitude, longitude: location.coords.longitude, reduceStep: result[0], reduceCalories: result[1] } })
 		})
-		await BackgroundGeolocation.changePace(true)
-
 	}
 
 	const chanageSpeedUnit = () => {

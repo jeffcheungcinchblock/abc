@@ -65,7 +65,7 @@
 	<key>NSHealthUpdateUsageDescription</key>
 	<string>Share workout data with other apps.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Share Location When In Use</string>
+	<string>Location required in background</string>
 	<key>NSLocationUsageDescription</key>
 	<string>Share Location When In Use</string>
 	<key>NSLocationWhenInUseUsageDescription</key>

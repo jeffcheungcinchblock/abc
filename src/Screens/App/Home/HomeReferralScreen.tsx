@@ -136,9 +136,10 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
         top100AvgKE: 0,
         totalPoint: 0,
     })
-    const [isReady, setIsReady] = useState<Boolean>(false)
-    const [enabled, setEnabled] = useState(false)
-    const [isHealthkitReady, setIstHealthKitReady] = useState(false)
+	const [ isReady, setIsReady ] = useState<Boolean>(false)
+	const [ enabled, setEnabled ] = useState(false)
+	const [ isHealthkitReady, setIstHealthKitReady ] = useState(false)
+    const [ isFirstLoad, setIsFirstLoad ] = useState(true)
     const startTime = useSelector((state: RootState) => state.map.startTime)
 
 
@@ -277,14 +278,14 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
         }
     }, [isHealthkitReady])
 
-    useEffect(() => {
-        if (enabled === true && startTime !== null) {
+	useEffect(() => {
+		if (enabled === true && startTime !== null) {       
             navigation.replace(RouteStacks.workout)
         }
     }, [startTime, enabled])
 
 
-    const onSharePress = async () => {
+	const onSharePress = async () => {
 
         const shareRes = await share({
             url: `${config.onelinkUrl}/?screen=${RouteStacks.enterInvitationCode}&deep_link_value=${referralInfo.referral}`,
@@ -316,25 +317,14 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
         dispatch(startLoading(false))
     }
 
-    const onTrialPlayPress = async () => {
-
-        try {
-            const authed = await health_kit.GetAuthorizeStatus()
-            // BackgroundGeolocation.ready(config).then(async(state)=>{
-            //     await BackgroundGeolocation.changePace(true)
-            //     await BackgroundGeolocation.start()
-            // })
-
-            if (authed || isReady) {
-                setEnabled(true)
-                dispatch({ type: 'start', payload: { startTime: (new Date()).getTime() } })
-            } else {
-                health_kit.InitHealthKitPermission()
-                console.log('not ready')
-            }
-
-        } catch (err: any) {
-            console.log('Error: ', err)
+	const onTrialPlayPress = async () => {
+        const authed = true
+        if (authed || isReady){
+            dispatch({ type:'start', payload:{ startTime: (new Date()).getTime() } })
+            setEnabled(true)
+        } else {
+            health_kit.InitHealthKitPermission()
+            console.log('not ready')
         }
     }
 
