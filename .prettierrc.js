@@ -10,16 +10,15 @@ module.exports = {
   },
   rules: {
     "no-console": "off",
-
     indent: ["error", 2],
     "import/no-extraneous-dependencies": "off",
     "no-plusplus": "off",
-    bracketSameLine: true,
-    singleQuote: true,
-    arrowParens: "avoid",
-    bracketSpacing: true,
-    requirePragma: false,
-    trailingComma: "all",
-    semi: false,
   },
+  bracketSameLine: true,
+  singleQuote: true,
+  semi: false,
+  arrowParens: 'avoid',
+  bracketSpacing:true,
+  requirePragma: true,
+  trailingComma: 'all',
 };
