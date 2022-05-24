@@ -1,11 +1,19 @@
-import React, { useState, useEffect, FC } from "react";
-import { View, Text, StyleSheet, TextProps, Image } from "react-native";
-import { useSelector } from "react-redux";
-import MapView from "react-native-maps"; // remove PROVIDER_GOOGLE import if not using Google Maps
-import { enableLatestRenderer, Polyline } from "react-native-maps";
-import BackgroundGeolocation from "react-native-background-geolocation";
-import { colors, mapViewConst } from "@/Utils/constants";
-enableLatestRenderer();
+import React, { useState, useEffect, FC, useRef } from 'react'
+import {
+	View,
+	Text,
+	StyleSheet,
+	TextProps,
+	Image,
+	Platform,
+	Pressable,
+} from 'react-native'
+import {  useSelector } from 'react-redux'
+import MapView  from 'react-native-maps' // remove PROVIDER_GOOGLE import if not using Google Maps
+import { enableLatestRenderer, Polyline } from 'react-native-maps'
+import BackgroundGeolocation from 'react-native-background-geolocation'
+import { colors, mapViewConst } from '@/Utils/constants'
+enableLatestRenderer()
 
 const styles = StyleSheet.create({
   container: {

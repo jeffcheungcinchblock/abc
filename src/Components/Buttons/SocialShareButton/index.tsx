@@ -22,7 +22,7 @@ type SocialShareButtonProps = {
 const BUTTON_STYLE: ViewStyle = {
 	backgroundColor: colors.brightTurquoise,
 	height: 40,
-	width: 200,
+	width: 190,
 	borderRadius: 99,
 	justifyContent: 'space-around',
 }
@@ -43,11 +43,9 @@ const SocialShareButton = ({
 }: SocialShareButtonProps) => {
 	const { Layout, Images } = useTheme()
 
+	
 	return (
-		<View style={{
-			...containerStyle,
-			marginBottom:10,
-		}}>
+		<View style={[containerStyle]}>
 			<Pressable
 				onPress={onPress}
 				style={[ BUTTON_STYLE, {
@@ -57,8 +55,8 @@ const SocialShareButton = ({
 					isLoading ? <ActivityIndicator
 						size="small" color={'#fff'}
 					/> : <View style={[ Layout.rowCenter, {justifyContent:'center'} ]}>
-						<Text style={{ fontWeight:'500', lineHeight:24, fontSize:16 }}>{text}</Text>
-						<Image source={iconNameMap[iconName]} style={{ margin:10, width:24, height: 22 }} />
+						<Text style={{ fontWeight:'500', lineHeight:24, fontSize:16, flex: 1, textAlign: "center" }}>{text}</Text>
+						<Image source={iconNameMap[iconName]} style={{ marginRight: 10, width:24, resizeMode: "contain" }} />
 					</View>
 				}
 			</Pressable>

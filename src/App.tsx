@@ -1,11 +1,11 @@
-import "react-native-gesture-handler";
-import React, { useEffect } from "react";
-import { Provider, useDispatch } from "react-redux";
-import { PersistGate } from "redux-persist/lib/integration/react";
-import { store, persistor } from "@/Store";
-import ApplicationNavigator from "@/Navigators/Application";
-import "./Translations";
-import { LogBox, Linking, Alert } from "react-native";
+import 'react-native-gesture-handler'
+import React, { useEffect } from 'react'
+import { Provider, useDispatch } from 'react-redux'
+import { PersistGate } from 'redux-persist/lib/integration/react'
+import { store, persistor } from '@/Store'
+import ApplicationNavigator from '@/Navigators/Application'
+import './Translations'
+import { LogBox, Linking, Alert, Platform } from 'react-native';
 // @ts-ignore
 import WalletConnectProvider from "@walletconnect/react-native-dapp";
 import AsyncStorage from "@react-native-async-storage/async-storage";
