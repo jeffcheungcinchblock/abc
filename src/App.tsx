@@ -7,27 +7,53 @@ import ApplicationNavigator from '@/Navigators/Application'
 import './Translations'
 import { LogBox, Linking, Alert, Platform } from 'react-native';
 // @ts-ignore
-import WalletConnectProvider from '@walletconnect/react-native-dapp'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import WalletConnectProvider from "@walletconnect/react-native-dapp";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 // @ts-ignore
-import Amplify, { Auth } from 'aws-amplify'
-import { credentials } from './Utils/firebase'
-import awsconfig from '@/aws-exports'
-import { InAppBrowser } from 'react-native-inappbrowser-reborn'
-import messaging from '@react-native-firebase/messaging'
-import firebase from '@react-native-firebase/app'
-import appsFlyer from 'react-native-appsflyer'
-import { config } from './Utils/constants'
-import { RouteStacks } from './Navigators/routes'
-import { startLoading } from './Store/UI/actions'
-import { storeReferralCode } from './Store/Referral/actions'
+import Amplify, { Auth } from "aws-amplify";
+import { credentials } from "./Utils/firebase";
+import awsconfig from "@/aws-exports";
+import { InAppBrowser } from "react-native-inappbrowser-reborn";
+import messaging from "@react-native-firebase/messaging";
+import firebase from "@react-native-firebase/app";
+import appsFlyer from "react-native-appsflyer";
+import { config } from "./Utils/constants";
+import { RouteStacks } from "./Navigators/routes";
+import { startLoading } from "./Store/UI/actions";
+import { storeReferralCode } from "./Store/Referral/actions";
 import RNBootSplash from "react-native-bootsplash";
-import Orientation from 'react-native-orientation-locker';
-import crashlytics from '@react-native-firebase/crashlytics';
-import BackgroundGeolocation, { Subscription } from 'react-native-background-geolocation'
+import Orientation from "react-native-orientation-locker";
+import crashlytics from "@react-native-firebase/crashlytics";
+import BackgroundGeolocation, {
+  Subscription,
+} from "react-native-background-geolocation";
 // TBD: remove later
-console.warn = () => { }
-
+console.warn = () => {};
+const geolocationConfig = {
+  ios: {
+    desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_NAVIGATION,
+    stationaryRadius: 6,
+    showsBackgroundLocationIndicator: true,
+    locationAuthorizationRequest: "WhenInUse",
+    activityType: "FITNESS",
+    disableLocationAuthorizationAlert: true,
+  },
+  android: {
+    desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
+    allowIdenticalLocations: true,
+  },
+  default: {
+    distanceFilter: 10,
+    stopTimeout: 5,
+    isMoving: true,
+    disableElasticity: true,
+    preventSuspend: true,
+    stopOnTerminate: true,
+    reset: false,
+    debug: true,
+    logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
+  },
+};
 const onInstallConversionDataCanceller = appsFlyer.onInstallConversionData(
   (res) => {
     const isFirstLaunch = res?.data?.is_first_launch;
@@ -36,122 +62,126 @@ const onInstallConversionDataCanceller = appsFlyer.onInstallConversionData(
       if (res.data.af_status === "Non-organic") {
         const media_source = res.data.media_source;
         const campaign = res.data.campaign;
-        // console.log("appsFlyer Conversion Data: ", 'This is first launch and a Non-Organic install. Media source: ' + media_source + ' Campaign: ' + campaign);
+        console.log(
+          "appsFlyer Conversion Data: ",
+          "This is first launch and a Non-Organic install. Media source: " +
+            media_source +
+            " Campaign: " +
+            campaign
+        );
       } else if (res.data.af_status === "Organic") {
-        // console.log("appsFlyer Conversion Data: ", "This is first launch and a Organic Install")
+        console.log(
+          "appsFlyer Conversion Data: ",
+          "This is first launch and a Organic Install"
+        );
       } else {
-        // console.log("appsFlyer Conversion Data: ", "This is not first launch")
+        console.log("appsFlyer Conversion Data: ", "This is not first launch");
       }
     }
-    const DLValue = res?.data?.deep_link_value
+    const DLValue = res?.data?.deep_link_value;
     if (DLValue) {
       store.dispatch(storeReferralCode(DLValue));
     }
   }
-)
+);
 
 const onAppOpenAttributionCanceller = appsFlyer.onAppOpenAttribution((res) => {
-  // console.log(`status: ${res.status}`);
-  // console.log(`campaign: ${res.data.campaign}`);
-  // console.log(`af_dp: ${res.data.af_dp}`);
-  // console.log(`link: ${res.data.link}`);
-  // console.log(`DL value: ${res.data.deep_link_value}`);
-  // console.log(`media source: ${res.data.media_source}`);
-  const DLValue = res?.data.deep_link_value
+  console.log(`status: ${res.status}`);
+  console.log(`campaign: ${res.data.campaign}`);
+  console.log(`af_dp: ${res.data.af_dp}`);
+  console.log(`link: ${res.data.link}`);
+  console.log(`DL value: ${res.data.deep_link_value}`);
+  console.log(`media source: ${res.data.media_source}`);
+  const DLValue = res?.data.deep_link_value;
   if (DLValue) {
     store.dispatch(storeReferralCode(DLValue));
   }
 });
 
-const onDeepLinkCanceller = appsFlyer.onDeepLink(res => {
-  // console.log('onDeepLinkCanceller ', res)
-
-  if (res?.deepLinkStatus !== 'NOT_FOUND') {
+const onDeepLinkCanceller = appsFlyer.onDeepLink((res) => {
+  if (res?.deepLinkStatus !== "NOT_FOUND") {
     const DLValue = res?.data.deep_link_value;
     const mediaSrc = res?.data.media_source;
     const param1 = res?.data.af_sub1;
-    const screen = res?.data.screen
-
-    // console.log('screen ', screen)
-
+    const screen = res?.data.screen;
     if (screen !== undefined) {
-      Linking.openURL(`${config.urlScheme}${screen}`)
+      Linking.openURL(`${config.urlScheme}${screen}`);
     }
 
     if (DLValue) {
       store.dispatch(storeReferralCode(DLValue));
     }
   }
-})
+});
 
 appsFlyer.initSdk(
-	{
-		devKey: 'xLdsHZT9juiWRAjhGsjdSV',
-		isDebug: false,
-		appId: '1618412167',
-		onInstallConversionDataListener: true,
-		onDeepLinkListener: true,
-		timeToWaitForATTUserAuthorization: 10,
-	},
-	(result) => {
-		// console.log("appsFlyer Result: ", result);
-	},
-	(error) => {
-		// console.log("appsFlyer Error: ", error);
-	}
-)
+  {
+    devKey: "xLdsHZT9juiWRAjhGsjdSV",
+    isDebug: false,
+    appId: "1618412167",
+    onInstallConversionDataListener: true,
+    onDeepLinkListener: true,
+    timeToWaitForATTUserAuthorization: 10,
+  },
+  (result) => {
+    // console.log("appsFlyer Result: ", result);
+  },
+  (error) => {
+    // console.log("appsFlyer Error: ", error);
+  }
+);
 
 // This is to supress the error coming from unknown lib who is using react-native-gesture-handler
 LogBox.ignoreLogs([
-	"[react-native-gesture-handler] Seems like you\'re using an old API with gesture components, check out new Gestures system!",
-])
+  "[react-native-gesture-handler] Seems like you're using an old API with gesture components, check out new Gestures system!",
+]);
 
 const getUser = () => {
   return Auth.currentAuthenticatedUser()
     .then((userData: any) => userData)
-    .catch(() => { });
-}
+    .catch(() => {});
+};
 
 // https://www.facebook.com/log.out
 
 const urlOpener = async (url: string, redirectUrl: string) => {
-	try {
-		if (redirectUrl === `${config.urlScheme}${RouteStacks.signIn}` && await InAppBrowser.isAvailable()) {
-			// const authRes: any = await InAppBrowser.open(url)
-			const authRes: any = await InAppBrowser.openAuth(url, redirectUrl, {
-				showTitle: false,
-				enableUrlBarHiding: true,
-				enableDefaultShare: false,
-				ephemeralWebSession: false,
-			});
+  try {
+    if (
+      redirectUrl === `${config.urlScheme}${RouteStacks.signIn}` &&
+      (await InAppBrowser.isAvailable())
+    ) {
+      // const authRes: any = await InAppBrowser.open(url)
+      const authRes: any = await InAppBrowser.openAuth(url, redirectUrl, {
+        showTitle: false,
+        enableUrlBarHiding: true,
+        enableDefaultShare: false,
+        ephemeralWebSession: false,
+      });
 
-			const { type, url: newUrl } = authRes
+      const { type, url: newUrl } = authRes;
 
-			if (type === 'success') {
-				Linking.openURL(newUrl);
-			} else if (type === 'cancel') {
-				store.dispatch(startLoading(false))
-			}
-		}
-	} catch (err: any) {
-		crashlytics().recordError(err)
-		await InAppBrowser.close()
-		store.dispatch(startLoading(false))
-	}
-
-}
+      if (type === "success") {
+        Linking.openURL(newUrl);
+      } else if (type === "cancel") {
+        store.dispatch(startLoading(false));
+      }
+    }
+  } catch (err: any) {
+    crashlytics().recordError(err);
+    await InAppBrowser.close();
+    store.dispatch(startLoading(false));
+  }
+};
 
 Amplify.configure({
-	...awsconfig,
-	oauth: {
-		...awsconfig.oauth,
-		urlOpener,
-	},
-})
-
+  ...awsconfig,
+  oauth: {
+    ...awsconfig.oauth,
+    urlOpener,
+  },
+});
 
 const App = () => {
-
   const getFcmToken = async () => {
     const fcmToken = await messaging().getToken();
     if (fcmToken) {
@@ -159,7 +189,7 @@ const App = () => {
     } else {
       // console.log("Failed", "No token received");
     }
-  }
+  };
 
   const requestUserPermission = async () => {
     const authStatus = await messaging().requestPermission();
@@ -168,37 +198,56 @@ const App = () => {
       authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
     if (enabled) {
-      getFcmToken()
+      getFcmToken();
     }
-  }
+  };
 
   useEffect(() => {
     RNBootSplash.hide({ fade: true });
+    // Orientation lockToPortrait only work in android / ios < 15, ios >= 15 won't work
+    Orientation.lockToPortrait();
 
-    requestUserPermission()
+    requestUserPermission();
 
     let messageHandler = async (remoteMessage: any) => {
-      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
-    }
+      Alert.alert("A new FCM message arrived!", JSON.stringify(remoteMessage));
+    };
 
     let onNotiPress = async (remoteMessage: any) => {
-      const { link } = remoteMessage.data
-      let toBeOpenURL = `${config.urlScheme}${link}`
-      Linking.openURL(toBeOpenURL)
-    }
+      const { link } = remoteMessage.data;
+      let toBeOpenURL = `${config.urlScheme}${link}`;
+      Linking.openURL(toBeOpenURL);
+    };
 
-    messaging().onNotificationOpenedApp(onNotiPress)
+    messaging().onNotificationOpenedApp(onNotiPress);
 
-    const unsubscribe = messaging().onMessage(messageHandler)
-    messaging().setBackgroundMessageHandler(messageHandler)
+    const unsubscribe = messaging().onMessage(messageHandler);
+    messaging().setBackgroundMessageHandler(messageHandler);
 
-    store.dispatch(startLoading(false))
+    store.dispatch(startLoading(false));
 
     return unsubscribe;
-
   }, []);
 
-  console.log('store ', store)
+  useEffect(() => {
+    const run = async () => {
+      const iOSConfig = {
+        ...geolocationConfig.ios,
+        ...geolocationConfig.default,
+      };
+      const androidConfig = {
+        ...geolocationConfig.android,
+        ...geolocationConfig.default,
+      };
+
+      await BackgroundGeolocation.ready(
+        // isIOS ? iOSConfig : androidConfig
+        iOSConfig
+      );
+    };
+
+    run();
+  }, []);
 
   return (
     <Provider store={store}>
@@ -210,18 +259,18 @@ const App = () => {
        * @see https://github.com/rt2zz/redux-persist/blob/master/docs/PersistGate.md
        */}
 
-			<WalletConnectProvider
-				redirectUrl={`${config.urlScheme}${RouteStacks.homeMain}`}
-				storageOptions={{
-					asyncStorage: AsyncStorage,
-				}}>
+      <WalletConnectProvider
+        redirectUrl={`${config.urlScheme}${RouteStacks.homeMain}`}
+        storageOptions={{
+          asyncStorage: AsyncStorage,
+        }}
+      >
+        <PersistGate loading={null} persistor={persistor}>
+          <ApplicationNavigator />
+        </PersistGate>
+      </WalletConnectProvider>
+    </Provider>
+  );
+};
 
-				<PersistGate loading={null} persistor={persistor}>
-					<ApplicationNavigator />
-				</PersistGate>
-			</WalletConnectProvider>
-		</Provider>
-	)
-}
-
-export default App
+export default App;

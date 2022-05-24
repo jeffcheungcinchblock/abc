@@ -18,8 +18,8 @@ let size = 30
 
 const BUTTON_STYLE: ViewStyle = {
 	// backgroundColor: colors.brightTurquoise,
-	height: 60,
-	width: 60,
+	height: 50,
+	width: 50,
 	borderRadius: 99,
 	// justifyContent: 'center',
 }
@@ -45,7 +45,7 @@ const CloseButton = ({
 					isLoading ? <ActivityIndicator
 						size="small" color={'#fff'}
 					/> : <View >
-						<Image source={iconNameMap.close} style={{ width: 60, height: 60  }} />
+						<Image source={iconNameMap.close} style={{ width: 50, height: 50  }} />
 					</View>
 				}
 			</Pressable>

@@ -1,26 +1,22 @@
-import React, { useState, useEffect, FC } from 'react'
-import { StackScreenProps } from '@react-navigation/stack'
-import {
-	View,
-	Text,
-	StyleSheet, Image, TextProps,
-} from 'react-native'
-import { useTranslation } from 'react-i18next'
-import { useTheme } from '@/Hooks'
+import React, { useState, useEffect, FC } from "react";
+import { StackScreenProps } from "@react-navigation/stack";
+import { View, Text, StyleSheet, Image, TextProps } from "react-native";
+import { useTranslation } from "react-i18next";
+import { useTheme } from "@/Hooks";
 // @ts-ignore
-import { shallowEqual, useDispatch, useSelector } from 'react-redux'
-import { WorkoutNavigatorParamList } from '@/Navigators/WorkoutNavigator'
-import { RouteStacks, RouteTabs } from '@/Navigators/routes'
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { WorkoutNavigatorParamList } from "@/Navigators/WorkoutNavigator";
+import { RouteStacks, RouteTabs } from "@/Navigators/routes";
 // @ts-ignore
 // @ts-ignore
-import { useWalletConnect } from '@walletconnect/react-native-dapp'
+import { useWalletConnect } from "@walletconnect/react-native-dapp";
 
-import ScreenBackgrounds from '@/Components/ScreenBackgrounds'
+import ScreenBackgrounds from "@/Components/ScreenBackgrounds";
 
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-import { colors } from '@/Utils/constants'
-import { Brand, Header } from '@/Components'
+import { colors } from "@/Utils/constants";
+import { Brand, Header } from "@/Components";
 // import SpeedLogo from '@/Assets/Images/map/speed.png'
 import TurquoiseButton from '@/Components/Buttons/TurquoiseButton'
 import SocialShareButton from '@/Components/Buttons/SocialShareButton'
@@ -201,9 +197,9 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 					<Text style={styles.distanceTextStyle}>{(distance / 1000).toFixed(2)}</Text>
 				</View>
 
-				<View style={[styles.colContentContainer, { flexBasis: 100, justifyContent: "center" }]}>
+				<View style={[styles.colContentContainer, { flexBasis: 60, justifyContent: "center" }]}>
 					<CrystalText style={{ fontSize: 20, width: "100%" }}>{t("totalKilo")}</CrystalText>
-					<View style={[styles.rowContentContainer]}>
+					<View style={[styles.rowContentContainer, {paddingTop: 10}]}>
 						<Image source={StepLogo} style={{ width: 20, height: 20, resizeMode: 'contain', alignSelf: 'center', marginHorizontal: 10 }} />
 						<WhiteText>{steps}</WhiteText>
 					</View>
@@ -226,8 +222,10 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 					</View>
 				</View>
 
-				<View style={[styles.contentContainer, { flexBasis: 80 }]}>
-					<WhiteText style={[{ fontSize: 40, lineHeight: 60, fontWeight: 'bold' }]}>+ 20 KE</WhiteText>
+				<View style={[styles.contentContainer, { flexBasis: 100, }]}>
+					<WhiteText style={[{ fontSize: 40, lineHeight: 40, fontWeight: 'bold' }]}>+ 20 KE
+					</WhiteText>
+					<WhiteText style={{fontSize: 24, fontWeight: "400" }}>{t("points")}</WhiteText>
 				</View>
 
 				<View style={[styles.colContentContainer, { flex: 8, justifyContent: "center" }]}>
