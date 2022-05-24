@@ -69,6 +69,7 @@ const ApplicationNavigator = () => {
 
         const { email, uuid } = userProfileRes?.data
 
+
         if (email) {
           dispatch(login({
             username: username,
@@ -132,12 +133,13 @@ const ApplicationNavigator = () => {
               }
             })
 
-            const { email } = userProfileRes?.data
+            const { email, uuid } = userProfileRes?.data
 
             if (email) {
               dispatch(login({
                 username: userData.username,
                 email: userData.email,
+                uuid
               }))
               dispatch(startLoading(false))
             } else {

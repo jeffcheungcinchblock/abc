@@ -83,6 +83,7 @@ export default {
   close: "Close",
   gotIt: "Got it!",
   logMeIn: "Log me in!",
+  areYouSureToStop: "Are you sure to stop?",
   snackbarPrompt: {
     referralCodeCopied: 'Referral code copied !',
   },

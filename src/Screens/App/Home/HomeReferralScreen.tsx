@@ -141,11 +141,11 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
     const [isHealthkitReady, setIstHealthKitReady] = useState(false)
     const startTime = useSelector((state: RootState) => state.map.startTime)
 
+
     useEffect(() => {
         dispatch(startLoading(false))
 
     }, [])
-
 
     useEffect(() => {
         let cancelSourceArr: CancelTokenSource[] = []
@@ -225,13 +225,18 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
 
 
     useEffect(() => {
+
+        let cancelSource : CancelTokenSource
         // TBD: To be placed some where upper level component later
         const confirmReferral = async () => {
             let user = await Auth.currentAuthenticatedUser()
             let jwtToken = user.signInUserSession.idToken.jwtToken
 
+            cancelSource = axios.CancelToken.source()
+
             try {
                 let referralConfirmRes = await axios({
+                    cancelToken: cancelSource.token,
                     method: 'post',
                     url: `${config.referralConfirmation}`,
                     headers: {
@@ -251,7 +256,13 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
             // Not yet referred by anyone, if user entered invitation code, need to confirm
             confirmReferral()
             dispatch(storeReferralCode(''))
+
+            return () => {
+                cancelSource.cancel()
+            }
         }
+
+        
     }, [referralInfo, fetchedReferralInfo])
 
     useEffect(() => {
@@ -267,8 +278,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
     }, [isHealthkitReady])
 
     useEffect(() => {
-        console.log(startTime)
-        if (enabled === true && startTime !== undefined) {
+        if (enabled === true && startTime !== null) {
             navigation.replace(RouteStacks.workout)
         }
     }, [startTime, enabled])
@@ -282,16 +292,6 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
             message: t("shareMsg"),
         })
 
-        if (shareRes !== false) {
-            navigation.navigate(RouteTabs.home, {
-                screen: RouteStacks.homeInviteState,
-            })
-        }
-
-    }
-
-    const goBack = () => {
-        navigation.navigate(RouteStacks.homeMain)
     }
 
     const onCopyPress = () => {
@@ -317,15 +317,17 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
     }
 
     const onTrialPlayPress = async () => {
+
         try {
-            console.log('onTrialPlayPress')
             const authed = await health_kit.GetAuthorizeStatus()
-            console.log('authed', authed, isReady)
-            await BackgroundGeolocation.changePace(true)
-            await BackgroundGeolocation.start()
+            // BackgroundGeolocation.ready(config).then(async(state)=>{
+            //     await BackgroundGeolocation.changePace(true)
+            //     await BackgroundGeolocation.start()
+            // })
+
             if (authed || isReady) {
-                dispatch({ type: 'start', payload: { startTime: (new Date()).getTime() } })
                 setEnabled(true)
+                dispatch({ type: 'start', payload: { startTime: (new Date()).getTime() } })
             } else {
                 health_kit.InitHealthKitPermission()
                 console.log('not ready')
@@ -408,7 +410,6 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                     rightIcon={() => <Image source={logoutBtn} />}
                     onRightPress={onLogoutPress}
                 />
-
 
                 <View style={{
                     height: 220,
@@ -500,8 +501,8 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                     paddingBottom: 40,
                 }]}>
                     <View style={{
-                        backgroundColor: colors.jacarta,
-                        shadowColor: colors.jacarta,
+                        backgroundColor: colors.brightTurquoise,
+                        shadowColor: colors.brightTurquoise,
                         elevation: 10,
                         borderRadius: 30,
                         shadowOffset: { width: 0, height: 0 },

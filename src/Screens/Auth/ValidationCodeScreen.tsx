@@ -116,8 +116,6 @@ const VerificationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteS
         run()
     }, [params])
 
-
-
     const onVerifyAccountPress = useCallback(async () => {
         if (validationCode.length !== 6) {
             setErrMsg(t("error.invalidVerificationCode"))
@@ -136,17 +134,27 @@ const VerificationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteS
                 let user = await Auth.currentAuthenticatedUser()
                 let jwtToken = user.signInUserSession.idToken.jwtToken
 
-                let referralConfirmationRes = await axios.post(config.emailVerification, {
-                    emailVerificationCode: validationCode
-                }, {
-                    headers: {
-                        Authorization: jwtToken //the token is a variable which holds the token
-                    },
-                })
+                let [referralConfirmationRes, userProfileRes] = await Promise.all([
+                    axios.post(config.emailVerification, {
+                        emailVerificationCode: validationCode
+                    }, {
+                        headers: {
+                            Authorization: jwtToken //the token is a variable which holds the token
+                        },
+                    }),
+                    axios.get(config.userProfile, {
+                        headers: {
+                            Authorization: jwtToken //the token is a variable which holds the token
+                        }
+                    })
+                ])
+
+                const { email, uuid } = userProfileRes?.data
 
                 dispatch(login({
                     email: params.email,
-                    username: user.username
+                    username: user.username,
+                    uuid
                 }))
 
             } catch (err: any) {
@@ -174,8 +182,6 @@ const VerificationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteS
                 dispatch(startLoading(false))
             }
         }
-
-
 
     }, [validationCode, params, newPassword])
 

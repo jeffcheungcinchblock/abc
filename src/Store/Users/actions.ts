@@ -3,6 +3,7 @@ import { createAction } from '@reduxjs/toolkit'
 export type LoginPayload = {
     username: string
     email: string
+    uuid: string
 }
 
 export type StoreInvitationCodePayload = {

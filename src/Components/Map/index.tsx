@@ -1,10 +1,12 @@
-import React, { useState, useEffect, FC } from 'react'
+import React, { useState, useEffect, FC, useRef } from 'react'
 import {
 	View,
 	Text,
 	StyleSheet,
 	TextProps,
 	Image,
+	Platform,
+	Pressable,
 } from 'react-native'
 import {  useSelector } from 'react-redux'
 import MapView  from 'react-native-maps' // remove PROVIDER_GOOGLE import if not using Google Maps
@@ -73,14 +75,15 @@ const MapContentText = (props: TextProps) => {
 	return <Text style={[ styles.mapText, style ]} {...rest} />
 }
 const ActiveMapView:FC<MapViewProps> = (props) => {
+	const mapViewRef = useRef<any>()
 	const paths = useSelector((state:any) => state.map.paths)
 	const overSpeedPaths = useSelector((state:any) => state.map.overSpeedPaths)
 	const steps = useSelector((state:any) => state.map.steps)
 	const distance = useSelector((state:any) => state.map.distance).toFixed(0)
 	const heartRate = useSelector((state:any) => state.map.heartRate)
 	const calories = useSelector((state:any) => state.map.calories)
-	const [ latitude , setLatitude ] = useState(0)
-	const [ longitude , setLongitude ] = useState(0)
+	const [ latitude , setLatitude ] = useState(22.44)
+	const [ longitude , setLongitude ] = useState(112.24)
 	const timer = props.timer
 	const speed = (props.speed).toFixed(1)
 	useEffect(() => {
@@ -90,20 +93,25 @@ const ActiveMapView:FC<MapViewProps> = (props) => {
 
 	}, [speed, timer])
 
-	useEffect(()=>{
-		BackgroundGeolocation.getCurrentPosition({
-			samples:1
-		}).then(result=>{
-			console.log('getCurrentPosition',result)
-			setLatitude(result.coords.latitude)
-			setLongitude(result.coords.longitude)
-		})
-	},[])
+	// useEffect(()=>{
+	// 	BackgroundGeolocation.getCurrentPosition({
+	// 		samples:1
+	// 	}).then(result=>{
+	// 		console.log('getCurrentPosition',result)
+	// 		setLatitude(result.coords.latitude)
+	// 		setLongitude(result.coords.longitude)
+	// 	})
+	// },[])
+
+
+	console.log('latitude', latitude, longitude)
+
 	return (
 		<>
 			<MapView
+			ref={mapViewRef}
 				style={styles.map}
-				mapType="mutedStandard"
+				mapType={Platform.OS === 'ios' ? "mutedStandard" : "standard"}
 				initialRegion={{
 					// latitude:props.startRegion.latitude,
 					// longitude: props.startRegion.longitude,
@@ -153,6 +161,10 @@ const ActiveMapView:FC<MapViewProps> = (props) => {
 							)
 						}
 				})}
+
+				<Pressable onPress={() => {
+					mapViewRef.current?.animateToCoordinate({coordinate: [{latitude: 22.29, longitude: 114.168}]})
+				}}><Text style={{color: "#000"}}>ABC</Text></Pressable>
 
 			</MapView>
 			{/* <View style={[ styles.container ]}>

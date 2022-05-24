@@ -40,7 +40,8 @@ export default createReducer<UserState>(initialState, (builder) => {
                 isLoggedIn: false,
                 username: "",
                 email: "",
-                cognitoUser: null
+                cognitoUser: null,
+                uuid: "",
             }
         })
 
