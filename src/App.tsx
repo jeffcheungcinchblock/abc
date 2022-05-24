@@ -5,7 +5,7 @@ import { PersistGate } from 'redux-persist/lib/integration/react'
 import { store, persistor } from '@/Store'
 import ApplicationNavigator from '@/Navigators/Application'
 import './Translations'
-import { LogBox, Linking, Alert } from 'react-native';
+import { LogBox, Linking, Alert, Platform } from 'react-native';
 // @ts-ignore
 import WalletConnectProvider from '@walletconnect/react-native-dapp';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -26,7 +26,7 @@ import Orientation from 'react-native-orientation-locker';
 import crashlytics from '@react-native-firebase/crashlytics';
 
 // TBD: remove later
-console.warn = () => {}
+console.warn = () => { }
 
 const onInstallConversionDataCanceller = appsFlyer.onInstallConversionData(
   (res) => {
@@ -44,7 +44,7 @@ const onInstallConversionDataCanceller = appsFlyer.onInstallConversionData(
       }
     }
     const DLValue = res?.data?.deep_link_value
-    if(DLValue) {
+    if (DLValue) {
       store.dispatch(storeReferralCode(DLValue));
     }
   }
@@ -58,14 +58,14 @@ const onAppOpenAttributionCanceller = appsFlyer.onAppOpenAttribution((res) => {
   // console.log(`DL value: ${res.data.deep_link_value}`);
   // console.log(`media source: ${res.data.media_source}`);
   const DLValue = res?.data.deep_link_value
-  if(DLValue) {
+  if (DLValue) {
     store.dispatch(storeReferralCode(DLValue));
   }
 });
 
 const onDeepLinkCanceller = appsFlyer.onDeepLink(res => {
   // console.log('onDeepLinkCanceller ', res)
-  
+
   if (res?.deepLinkStatus !== 'NOT_FOUND') {
     const DLValue = res?.data.deep_link_value;
     const mediaSrc = res?.data.media_source;
@@ -74,7 +74,7 @@ const onDeepLinkCanceller = appsFlyer.onDeepLink(res => {
 
     // console.log('screen ', screen)
 
-    if(screen !== undefined){
+    if (screen !== undefined) {
       Linking.openURL(`${config.urlScheme}${screen}`)
     }
 
@@ -108,8 +108,8 @@ LogBox.ignoreLogs([
 
 const getUser = () => {
   return Auth.currentAuthenticatedUser()
-    .then((userData : any) => userData)
-    .catch(() => {});
+    .then((userData: any) => userData)
+    .catch(() => { });
 }
 
 // https://www.facebook.com/log.out
@@ -151,7 +151,7 @@ Amplify.configure({
 
 
 const App = () => {
-  
+
   const getFcmToken = async () => {
     const fcmToken = await messaging().getToken();
     if (fcmToken) {
@@ -173,17 +173,15 @@ const App = () => {
   }
 
   useEffect(() => {
-    RNBootSplash.hide({fade: true});
-    // Orientation lockToPortrait only work in android / ios < 15, ios >= 15 won't work
-    Orientation.lockToPortrait()
+    RNBootSplash.hide({ fade: true });
 
     requestUserPermission()
 
-    let messageHandler = async(remoteMessage: any) => {
+    let messageHandler = async (remoteMessage: any) => {
       Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
     }
 
-    let onNotiPress = async(remoteMessage: any) => {
+    let onNotiPress = async (remoteMessage: any) => {
       const { link } = remoteMessage.data
       let toBeOpenURL = `${config.urlScheme}${link}`
       Linking.openURL(toBeOpenURL)
@@ -199,6 +197,8 @@ const App = () => {
     return unsubscribe;
 
   }, []);
+
+  console.log('store ', store)
 
   return (
     <Provider store={store}>

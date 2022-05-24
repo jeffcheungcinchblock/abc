@@ -65,6 +65,11 @@ import Orientation from 'react-native-orientation-locker'
 import { storeReferralCode } from '@/Store/Referral/actions'
 import emptyAvatar from '@/Assets/Images/Home/avatar_empty.png'
 import crashlytics from '@react-native-firebase/crashlytics';
+import shareIcon from '@/Assets/Images/Home/share.png'
+import moneyIcon from '@/Assets/Images/Home/money.png'
+import infoIcon from '@/Assets/Images/Home/info.png'
+import communityIcon from '@/Assets/Images/Home/community.png'
+
 
 const PURPLE_COLOR = {
     color: colors.magicPotion
@@ -359,7 +364,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                 }
             >
                 <Header
-                    headerText={t("dashboard")}
+                    headerText={t("home")}
                     rightIcon={() => <Image source={logoutBtn} />}
                     onRightPress={onLogoutPress}
                 />
@@ -574,28 +579,96 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                     <Image source={world} style={{ width: "100%" }} />
                 </View>
 
-                <View style={[Layout.fullWidth, { height: 50, paddingHorizontal: 40, justifyContent: "flex-start", alignItems: "center", flexDirection: "row" }]}>
-                    <Ionicons name="share-outline" color={colors.white} size={20} style={{ marginRight: 20 }} />
-                    <Text style={[{ fontSize: 14, color: colors.white }]}>{t("shareReferralLink")}</Text>
-                </View>
-
-                <View style={[Layout.fullWidth, { height: 120, paddingHorizontal: 40, justifyContent: "flex-start", alignItems: "center", flexDirection: "row" }]}>
-                    <Ionicons name="people-outline" color={colors.white} size={20} style={{ marginRight: 20 }} />
-                    <Text style={[{ fontSize: 14, color: colors.white, flexShrink: 1 }]}>{t("earnKEWhenReferredFriends")}</Text>
-                </View>
-
-                {/* <View style={[Layout.fullWidth, Layout.center, { height: 80 }]}>
-                    <Text style={[{ color: colors.brightTurquoise, fontWeight: "bold", fontSize: 18 }]}>{t("learnMoreAllCapital")}</Text>
-                </View> */}
-
-                <View style={[Layout.fullWidth, Layout.center, { height: 120, paddingBottom: 40, paddingHorizontal: 30, justifyContent: "center", }]}>
-                    <Text style={[{ color: colors.white, fontSize: 14, lineHeight: 20, textAlign: "center" }]}>
-                        {t("theReferralIsGoverned")}
-                        <Text style={[{ color: colors.white, fontWeight: "bold", fontSize: 14 }]}>{t("programTC")}</Text>
+                <View style={[Layout.fullWidth, Layout.center, { paddingVertical: 10, paddingHorizontal: 40, alignItems: "flex-start", }]}>
+                    <Text style={[{ color: colors.white, fontSize: 14, lineHeight: 20, textAlign: "left" }]}>
+                        {t("whatIsFitEvoBeta")}
+                    </Text>
+                    <Text style={[{ color: colors.white, fontSize: 14, lineHeight: 20, textAlign: "left" }]}>
+                        {t("FitEvoBetaDesc")}
                     </Text>
                 </View>
 
+                <View style={[Layout.fullWidth, { height: 50, paddingHorizontal: 40, justifyContent: "flex-start", alignItems: "center", flexDirection: "row" }]}>
+                    <Image source={shareIcon} style={{resizeMode: "contain", width: 20, height: 20, marginRight: 20}} />
+                    <Text style={[{ fontSize: 14, color: colors.white }]}>{t("shareReferralLink")}</Text>
+                </View>
 
+                <View style={[Layout.fullWidth, Layout.center, { paddingVertical: 10, paddingHorizontal: 0, alignItems: "flex-start", }]}>
+                    <View style={[Layout.fullWidth, { paddingHorizontal: 40, justifyContent: "flex-start", alignItems: "center", flexDirection: "row" }]}>
+                        <Image source={communityIcon} style={{resizeMode: "contain", width: 20, height: 20, marginRight: 20}} />
+                        <Text style={[{ fontSize: 14, color: colors.white, flexShrink: 1 }]}>{t("earnKEWhenReferredFriends")}</Text>
+                    </View>
+                    <Text style={[{paddingLeft: 80, marginTop: 4, fontSize: 14, color: colors.crystal}]}>{t("maxReferral30Friends")}</Text>
+                </View>
+
+                <View style={[Layout.fullWidth, { height: 60, paddingHorizontal: 40, justifyContent: "flex-start", alignItems: "center", flexDirection: "row" }]}>
+                    <Image source={moneyIcon} style={{resizeMode: "contain", width: 20, height: 20, marginRight: 20}} />
+                    <Text style={[{ fontSize: 14, color: colors.white, flexShrink: 1 }]}>{t("dailyLogIn")}</Text>
+                </View>
+
+                <View style={[Layout.fullWidth, Layout.center, { paddingVertical: 10, paddingHorizontal: 0, alignItems: "flex-start", }]}>
+                    <View style={[Layout.fullWidth, { paddingHorizontal: 40, justifyContent: "flex-start", alignItems: "center", flexDirection: "row" }]}>
+                        <Image source={communityIcon} style={{resizeMode: "contain", width: 20, height: 20, marginRight: 20}} />
+                        <Text style={[{ fontSize: 14, color: colors.white, flexShrink: 1 }]}>{t("whatIsKE")}</Text>
+                    </View>
+                    <Text style={[{paddingLeft: 80, marginTop: 4, fontSize: 14, color: colors.white}]}>{t("KEDesc")}</Text>
+                </View>
+
+                <View style={[Layout.fullWidth, { paddingTop: 20, paddingBottom: 40, paddingHorizontal: 40, justifyContent: "flex-start", }]}>
+                    <Text style={[{ color: colors.white, fontSize: 16, lineHeight: 20, textAlign: "left", fontWeight: "bold" }]}>
+                        {t("inGameToken")}
+                    </Text>
+
+                    <Text style={[{ color: colors.white, fontSize: 14, lineHeight: 20, textAlign: "left"}]}>
+                        {t("KEPointsTransfer")}
+                    </Text>
+                </View>
+
+                <View style={[Layout.fullWidth, { paddingVertical: 0, paddingBottom: 40, paddingHorizontal: 40, justifyContent: "flex-start", }]}>
+                    <Text style={[{ color: colors.white, fontSize: 16, lineHeight: 20, textAlign: "left", fontWeight: "bold" }]}>
+                        {t("NFTCompanions")}
+                    </Text>
+
+                    <Text style={[{ color: colors.white, fontSize: 14, lineHeight: 20, textAlign: "left"}]}>
+                        {t("NFTMint")}
+                    </Text>
+                </View>
+
+                <View style={[Layout.fullWidth, { paddingVertical: 0, paddingBottom: 40, paddingHorizontal: 40, justifyContent: "flex-start", }]}>
+                    <Text style={[{ color: colors.white, fontSize: 16, lineHeight: 20, textAlign: "left", fontWeight: "bold" }]}>
+                        {t("exclusiveDrops")}
+                    </Text>
+
+                    <Text style={[{ color: colors.white, fontSize: 14, lineHeight: 20, textAlign: "left"}]}>
+                        {t("higherKE")}
+                    </Text>
+                </View>
+
+                <View style={[Layout.fullWidth, { paddingVertical: 0, paddingHorizontal: 40, justifyContent: "flex-start", }]}>
+                    <Text style={[{ color: colors.white, fontSize: 16, lineHeight: 20, textAlign: "left", fontWeight: "bold" }]}>
+                        {t("privilegedAppAccess")}
+                    </Text>
+
+                    <Text style={[{ color: colors.white, fontSize: 14, lineHeight: 20, textAlign: "left"}]}>
+                        {t("unlockGameAccess")}
+                    </Text>
+                </View>
+
+              
+                <View style={[Layout.fullWidth, Layout.center, { paddingTop: 60, paddingBottom: 30, paddingHorizontal: 30, justifyContent: "center", }]}>
+                    <Text style={[{ color: colors.brightTurquoise, fontSize: 20, textDecorationLine: "underline", lineHeight: 20, textAlign: "center" }]}>
+                        {t("tAndC")}
+                    </Text>
+                </View>
+
+                <View style={[Layout.fullWidth, Layout.center, { paddingBottom: 60, paddingHorizontal: 30, justifyContent: "center", }]}>
+                    <Text style={[{ color: colors.white, fontSize: 18, lineHeight: 20, textAlign: "center" }]}>
+                        {t("effectiveDate")}: 20th May 2022
+                    </Text>
+                    <Text style={[{ color: colors.white, fontSize: 18, lineHeight: 20, textAlign: "center" }]}>
+                        {t("lastUpdated")}: 1st June 2022
+                    </Text>
+                </View>
 
             </KeyboardAwareScrollView>
         </ScreenBackgrounds>

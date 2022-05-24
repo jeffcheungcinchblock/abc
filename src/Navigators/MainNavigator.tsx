@@ -39,7 +39,7 @@ export type TabNavigatorParamList = {
 }
 
 export type DrawerNavigatorParamList = {
-  // [RouteStacks.setting]: undefined
+  [RouteStacks.setting]: undefined
   [RouteStacks.mainTab]: NavigatorScreenParams<TabNavigatorParamList>
 }
 
@@ -154,7 +154,7 @@ const DrawerNavigator : FC<MainNavigatorProps> = ({navigation}) => {
   
 
   return (
-    <Drawer.Navigator screenOptions={{ headerShown: false }}
+    <Drawer.Navigator screenOptions={{ headerShown: false, swipeEnabled: false }}
       drawerContent={(props) => <CustomDrawerContent {...props} />}
       initialRouteName={RouteStacks.mainTab}>
 
