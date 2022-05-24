@@ -227,7 +227,7 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 					</View>
 
 						<View style={[ styles.contentContainer ]}>
-							<WhiteText style={[{fontSize:40, lineHeight:60, fontWeight:'bold' }]}>+ 20 KE</WhiteText>
+							{distance > 2000 ? (<WhiteText style={[{fontSize:40, lineHeight:60, fontWeight:'bold' }]}>+ 20 KE</WhiteText>) : <WhiteText style={[{fontSize:40, lineHeight:60, fontWeight:'bold' }]}>+ 0 KE</WhiteText>}
 						</View>
 
 					<View style={[ styles.colContentContainer,{marginTop:'10%'} ]}>

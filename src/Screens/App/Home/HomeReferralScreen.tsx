@@ -70,7 +70,8 @@ import Orientation from 'react-native-orientation-locker'
 import { storeReferralCode } from '@/Store/Referral/actions'
 import emptyAvatar from '@/Assets/Images/Home/avatar_empty.png'
 import crashlytics from '@react-native-firebase/crashlytics';
-import BackgroundGeolocation, { Subscription } from 'react-native-background-geolocation'
+import  { check, request, RESULTS, PERMISSIONS } from 'react-native-permissions'
+import { Results } from 'realm'
 
 const PURPLE_COLOR = {
     color: colors.magicPotion,
@@ -316,13 +317,18 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
         dispatch(startLoading(false))
     }
 
-	const onTrialPlayPress = async () => {
-        const authed = true
-        if (authed || isReady){
+    const onTrialPlayPress = async () => {
+        const LocationpermissionStatus = await check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE);
+        const authed = await health_kit.GetAuthorizeStatus()
+      
+        if(LocationpermissionStatus !== RESULTS.GRANTED) {
+            await request(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE)
+        }
+        if (authed && isReady && LocationpermissionStatus === RESULTS.GRANTED) {
             dispatch({ type:'start', payload:{ startTime: (new Date()).getTime() } })
             setEnabled(true)
         } else {
-            health_kit.InitHealthKitPermission()
+            await health_kit.InitHealthKitPermission()
             console.log('not ready')
         }
     }

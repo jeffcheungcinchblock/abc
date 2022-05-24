@@ -235,6 +235,8 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 	const overSpeedPaths = useSelector((state:any) => state.map.overSpeedPaths)
 	const username = useSelector((state:any)=> state.user.uuid)
 	const speedUnit = useSelector((state:any) => state.unit.speedUnit)
+	const latitude = useSelector((state:any) => state.map.latitude)
+	const longitude = useSelector((state:any) => state.map.longitude)
 
 
 	// const [ startRegion, setStartRegion ] = useState<Region|null>({ latitude: 0.09, longitude:0.09, latitudeDelta:0.0922, longitudeDelta:0.0421 })
@@ -335,16 +337,32 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 					console.log('not moving')
 				}
 			}
+		
 		})
 
 		if(isFirstLoad){
 			if(isIOS){
-				const config = {...geolocationConfig.ios, ...geolocationConfig.default}
-				BackgroundGeolocation.ready(config).then((state)=>{
+				// const config = {...geolocationConfig.ios, ...geolocationConfig.default}
+				BackgroundGeolocation.ready({
+					desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_NAVIGATION,
+					stationaryRadius:6,
+					showsBackgroundLocationIndicator:true,
+					locationAuthorizationRequest:'WhenInUse',
+					disableLocationAuthorizationAlert:true,
+					distanceFilter: 10,
+					stopTimeout: 5,
+					isMoving: true,
+					disableElasticity : true,
+					preventSuspend: true,
+					stopOnTerminate: true,
+					reset: false,
+					debug: true,
+					logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
+				}).then((state)=>{
 					setIsFirstLoad(false)
 					if(!state.enabled){
 						BackgroundGeolocation.changePace(true)
-						// BackgroundGeolocation.start()
+						BackgroundGeolocation.start()
 						console.log('ready')
 					}
 				})
@@ -354,7 +372,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 						setIsFirstLoad(false)
 						if(!state.enabled){
 							BackgroundGeolocation.changePace(true)
-							// BackgroundGeolocation.start()
+							BackgroundGeolocation.start()
 							console.log('ready')
 						}
 					})
@@ -363,7 +381,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 		return () => {
 			onLocation.remove()
 		}
-	}, [currentState])
+	}, [])
 
 	
 	const StopRunningSession = async () => {
@@ -422,21 +440,23 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
     }
 
 	const PauseRunningSession = async() => {
+		await BackgroundGeolocation.changePace(false)
 		const curTime = new Date()
 		dispatch({ type:'pause', payload:{ pauseTime:curTime.getTime() } })
-		// await BackgroundGeolocation.changePace(false)
 	}
 
 	const ResumeRunningSession = async() => {
-		// await BackgroundGeolocation.changePace(true)
-		let location = await BackgroundGeolocation.getCurrentPosition({ samples: 1,timeout:10, maximumAge:5000, desiredAccuracy:5,persist:false })
+		let location = await BackgroundGeolocation.getCurrentPosition({ samples: 1,timeout:10, maximumAge:5000, desiredAccuracy:5, persist:false })
 		const pauseStateTime = paths[paths.length - 1].pauseTime
 		const ReduceStep = await  health_kit.GetSteps(new Date(pauseStateTime), new Date())
 		const ReduceCalories = await health_kit.GetCaloriesBurned(new Date(pauseStateTime), new Date())
 		await Promise.all([ReduceStep,ReduceCalories]).then((result)=>{
 			//Resume bring to moving state
 			dispatch({ type:'resume', payload:{ resumeTime:(new Date).getTime(), latitude:location.coords.latitude, longitude:location.coords.longitude, reduceStep:result[0], reduceCalories: result[1] }})
+			// dispatch({ type:'resume', payload:{ resumeTime:(new Date).getTime(), latitude:latitude, longitude:longitude, reduceStep:result[0], reduceCalories: result[1] }})
 		})
+		await BackgroundGeolocation.changePace(true)
+
 	}
 
 	const chanageSpeedUnit = () => {

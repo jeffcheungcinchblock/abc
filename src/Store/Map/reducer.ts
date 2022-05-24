@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { start, move, ready, pause, resume, stop, init, overSpeed, overSpeedMoving,returnToNormalSpeed,readSteps } from './actions'
+import { start, move, ready, pause, resume, stop, init, overSpeed, overSpeedMoving,returnToNormalSpeed,readSteps,updateLocation } from './actions'
 import { getDistanceBetweenTwoPoints } from '../../Healthkit/utils'
-import moment from 'moment'
+import moment, { updateLocale } from 'moment'
 
 export type State = {
 	currentState: ActivityType,
@@ -96,6 +96,7 @@ export default createReducer<State>(initialState, (builder) => {
 			 }
 			return initialStateStart
 		})
+
 
 	// Moving 
 	builder
@@ -218,7 +219,7 @@ export default createReducer<State>(initialState, (builder) => {
 	})
 
 	builder.addCase(overSpeedMoving,(state, action)=>{
-		console.log('overspeeding movinf')
+		console.log('overspeeding moving')
 		const newOverSpeedPaths = JSON.parse(JSON.stringify(state.overSpeedPaths))
 		if (!newOverSpeedPaths[newOverSpeedPaths.length - 1].coordinates || newOverSpeedPaths[newOverSpeedPaths.length - 1].coordinates.length === 0){
 			newOverSpeedPaths[newOverSpeedPaths.length - 1].coordinates = [{ latitude: action.payload.latitude, longitude: action.payload.longitude }]
