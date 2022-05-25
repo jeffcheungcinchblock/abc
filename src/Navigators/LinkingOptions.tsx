@@ -11,7 +11,7 @@ import { ApplicationNavigatorParamList } from "./Application";
 export const publicNavigationRef = createNavigationContainerRef<AuthNavigatorParamList>()
 export const privateNavigationRef = createNavigationContainerRef<DrawerNavigatorParamList>()
 
-const prefixes = ['com.fitevo://', config.dynamicLink, config.onelinkUrl]
+const prefixes = [config.urlScheme, config.dynamicLink, config.onelinkUrl]
 
 const getInitialURL = async (): Promise<string> => {
 

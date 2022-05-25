@@ -112,8 +112,6 @@ const getUser = () => {
     .catch(() => { });
 }
 
-// https://www.facebook.com/log.out
-
 const urlOpener = async (url: string, redirectUrl: string) => {
   try {
     if (redirectUrl === `${config.urlScheme}${RouteStacks.signIn}` && await InAppBrowser.isAvailable()) {

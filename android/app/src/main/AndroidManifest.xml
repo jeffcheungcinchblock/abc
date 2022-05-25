@@ -1,4 +1,4 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.fitevo" android:versionCode="2"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.fitnessevo" android:versionCode="2"
     android:versionName="1.0.0">
   <uses-permission android:name="android.permission.INTERNET"/>
   <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
@@ -18,7 +18,7 @@
         <action android:name="android.intent.action.VIEW"/>
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
-        <data android:scheme="com.fitevo"/>
+        <data android:scheme="com.fitnessevo"/>
       </intent-filter>
 
       <intent-filter>

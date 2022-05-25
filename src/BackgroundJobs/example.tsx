@@ -25,7 +25,7 @@ const options = {
         type: 'mipmap',
     },
     color: '#ff00ff',
-    linkingURI: 'com.fitevo://signIn', // See Deep Linking for more info
+    linkingURI: 'com.fitnessevo://signIn', // See Deep Linking for more info
     parameters: {
         delay: 4000,
     },

@@ -139,7 +139,7 @@ android {
     
 
     defaultConfig {
-        applicationId "com.fitevo"
+        applicationId "com.fitnessevo"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

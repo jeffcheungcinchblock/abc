@@ -170,7 +170,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = (
                     }),
                     axios.get(config.userFitnessInfo, {
                         headers: {
-                            'x-api-key': config.fitnesssInfoApiKey,
+                            'x-api-key': config.fitnessInfoApiKey,
                             Authorization: jwtToken
                         }
                     }),

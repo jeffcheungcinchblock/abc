@@ -73,10 +73,13 @@
 		D49AE2FA37854816A7C6943F /* Poppins-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 50DA38B3470840078D954869 /* Poppins-BlackItalic.ttf */; };
 		DF51CEAF46C3483A9E7A8A7F /* Poppins-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 569C1599401945429EC1E395 /* Poppins-ThinItalic.ttf */; };
 		E35D9210282CA4C0000CD920 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E35D920F282CA4C0000CD920 /* BootSplash.storyboard */; };
-		E391E5BA28164994009DD23B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E391E5B928164994009DD23B /* GoogleService-Info.plist */; };
-		E391E5BB28164994009DD23B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E391E5B928164994009DD23B /* GoogleService-Info.plist */; };
-		E391E5BC28164994009DD23B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E391E5B928164994009DD23B /* GoogleService-Info.plist */; };
-		E391E5BD28164994009DD23B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E391E5B928164994009DD23B /* GoogleService-Info.plist */; };
+		E36243EF283E04C20098154B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E36243EE283E04C10098154B /* GoogleService-Info.plist */; };
+		E36243F0283E04C20098154B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E36243EE283E04C10098154B /* GoogleService-Info.plist */; };
+		E36243F1283E04C20098154B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E36243EE283E04C10098154B /* GoogleService-Info.plist */; };
+		E36243F2283E04C20098154B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E36243EE283E04C10098154B /* GoogleService-Info.plist */; };
+		E36243F3283E04C20098154B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E36243EE283E04C10098154B /* GoogleService-Info.plist */; };
+		E36243F4283E04C20098154B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E36243EE283E04C10098154B /* GoogleService-Info.plist */; };
+		E36243F5283E04C20098154B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E36243EE283E04C10098154B /* GoogleService-Info.plist */; };
 		ED552533436A4875A2D4C5E8 /* Poppins-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 98159A6563AE4D13823F8B63 /* Poppins-BoldItalic.ttf */; };
 		FE05D5C2EBFF464F96598A91 /* Poppins-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 367457BE5B8A46B2892C99B3 /* Poppins-ExtraBoldItalic.ttf */; };
 		FE1D5DE19AA08312850D98FD /* libPods-DragonDappRN-DragonDappRNTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 207DA1B9B00977D51EA7531E /* libPods-DragonDappRN-DragonDappRNTests.a */; };
@@ -211,7 +214,7 @@
 		D7FFCDA71C08410E888B233C /* Poppins-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Italic.ttf"; path = "../src/Assets/Fonts/Poppins-Italic.ttf"; sourceTree = "<group>"; };
 		DD100D05C0824FC0B66AA8BE /* Poppins-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-ExtraLight.ttf"; path = "../src/Assets/Fonts/Poppins-ExtraLight.ttf"; sourceTree = "<group>"; };
 		E35D920F282CA4C0000CD920 /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = DragonDappRN/BootSplash.storyboard; sourceTree = "<group>"; };
-		E391E5B928164994009DD23B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		E36243EE283E04C10098154B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		F736A330FA9541D6B427BF4E /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-SemiBold.ttf"; path = "../src/Assets/Fonts/Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
@@ -366,8 +369,8 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				E36243EE283E04C10098154B /* GoogleService-Info.plist */,
 				C4EE769D28227579003F6C95 /* afdevkey_donotpush.plist */,
-				E391E5B928164994009DD23B /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* DragonDappRN */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* DragonDappRNTests */,
@@ -677,7 +680,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C4EE769F28227579003F6C95 /* afdevkey_donotpush.plist in Resources */,
-				E391E5BB28164994009DD23B /* GoogleService-Info.plist in Resources */,
+				E36243F0283E04C20098154B /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -706,7 +709,6 @@
 				1F5B4F2227FEBA92009618AF /* Fontisto.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				A14492FCF150478097DBCCED /* AvenirNext-Bold.ttf in Resources */,
-				E391E5BA28164994009DD23B /* GoogleService-Info.plist in Resources */,
 				213E7A665B734DA594729590 /* AvenirNext-Medium.ttf in Resources */,
 				5E19A14138774B5E899B912A /* Virus-Killer.ttf in Resources */,
 				6D514CADD27F4C7387C2C28D /* Mont-HeavyDEMO.ttf in Resources */,
@@ -727,6 +729,7 @@
 				0F0BBFA861BE45D582DC6CF9 /* Poppins-MediumItalic.ttf in Resources */,
 				0303D1DEF9AF4545935525F1 /* Poppins-SemiBold.ttf in Resources */,
 				8DDD228272DA4DCCABCE30B2 /* Poppins-SemiBoldItalic.ttf in Resources */,
+				E36243EF283E04C20098154B /* GoogleService-Info.plist in Resources */,
 				011408FFC1C84EA48D6D40CC /* Poppins-Thin.ttf in Resources */,
 				DF51CEAF46C3483A9E7A8A7F /* Poppins-ThinItalic.ttf in Resources */,
 			);
@@ -738,7 +741,7 @@
 			files = (
 				C4EE76A028227579003F6C95 /* afdevkey_donotpush.plist in Resources */,
 				2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */,
-				E391E5BC28164994009DD23B /* GoogleService-Info.plist in Resources */,
+				E36243F1283E04C20098154B /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -747,7 +750,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C4EE76A128227579003F6C95 /* afdevkey_donotpush.plist in Resources */,
-				E391E5BD28164994009DD23B /* GoogleService-Info.plist in Resources */,
+				E36243F2283E04C20098154B /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -757,6 +760,7 @@
 			files = (
 				C4EE76A228227579003F6C95 /* afdevkey_donotpush.plist in Resources */,
 				C4114DCC282258E100074A62 /* LaunchScreen.storyboard in Resources */,
+				E36243F3283E04C20098154B /* GoogleService-Info.plist in Resources */,
 				C4114DC9282258E100074A62 /* Assets.xcassets in Resources */,
 				C4114DC7282258E000074A62 /* Main.storyboard in Resources */,
 			);
@@ -767,6 +771,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C4EE76A328227579003F6C95 /* afdevkey_donotpush.plist in Resources */,
+				E36243F4283E04C20098154B /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -775,6 +780,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C4EE76A428227579003F6C95 /* afdevkey_donotpush.plist in Resources */,
+				E36243F5283E04C20098154B /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1197,14 +1203,15 @@
 				INFOPLIST_FILE = DragonDappRN/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.fitevo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fitnessevo;
 				PRODUCT_NAME = DragonDappRN;
-				PROVISIONING_PROFILE_SPECIFIER = com.fitevo.profile;
+				PROVISIONING_PROFILE_SPECIFIER = com.fitnessevo.profile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1229,14 +1236,15 @@
 				INFOPLIST_FILE = DragonDappRN/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.fitevo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fitnessevo;
 				PRODUCT_NAME = DragonDappRN;
-				PROVISIONING_PROFILE_SPECIFIER = com.fitevo.profile;
+				PROVISIONING_PROFILE_SPECIFIER = com.fitnessevo.profile;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1501,7 +1509,7 @@
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.fitevo.Clip;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fitnessevo.Clip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1552,7 +1560,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.fitevo.Clip;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fitnessevo.Clip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -1583,7 +1591,7 @@
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.fitevo.DragonDappRNClipTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fitnessevo.DragonDappRNClipTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -1616,7 +1624,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				MARKETING_VERSION = 1.0;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.fitevo.DragonDappRNClipTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fitnessevo.DragonDappRNClipTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -1647,7 +1655,7 @@
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.fitevo.DragonDappRNClipUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fitnessevo.DragonDappRNClipUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -1679,7 +1687,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				MARKETING_VERSION = 1.0;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.fitevo.DragonDappRNClipUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fitnessevo.DragonDappRNClipUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
