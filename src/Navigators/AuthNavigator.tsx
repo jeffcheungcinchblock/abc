@@ -47,11 +47,12 @@ const AuthNavigator = () => {
         headerShown: false,
       }}
       initialRouteName={RouteStacks.welcome}
+      // initialRouteName={RouteStacks.welcomeGallery}
     >
 
-      <Stack.Screen name={RouteStacks.signUpWithCode} component={SignUpWithCodeScreen} />
       <Stack.Screen name={RouteStacks.welcomeGallery} component={WelcomeGalleryScreen} />
       <Stack.Screen name={RouteStacks.welcome} component={WelcomeScreen} />
+      <Stack.Screen name={RouteStacks.signUpWithCode} component={SignUpWithCodeScreen} />
       <Stack.Screen name={RouteStacks.signIn} component={SignInScreen} />
       <Stack.Screen name={RouteStacks.signUp} component={SignUpScreen} />
       <Stack.Screen name={RouteStacks.enterInvitationCode} component={EnterInvitaionCodeScreen} />

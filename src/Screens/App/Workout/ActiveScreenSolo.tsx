@@ -663,8 +663,8 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({
             <View style={[styles.distanceContainer]}>
               <BrightTurquoiseText style={styles.distanceTextStyle}>
                 {(distance / 1000).toFixed(2)}
-              </BrightTurquoiseText>
-              <Text style={[styles.mapDistanceText]}>Total Kilometers</Text>
+				</BrightTurquoiseText>
+              <Text style={[styles.mapDistanceText]}>{t("totalKilo")}</Text>
             </View>
             <View style={[styles.rowStepContentContainer]}>
               <Image
@@ -759,8 +759,9 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({
                           fontWeight: '600',
                           fontSize: 16,
                         },
-                      ]}>
-                      Stop
+                      ]}
+                    >
+                      {t("stop")}
                     </Text>
                   </Pressable>
                 )}
@@ -782,8 +783,9 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({
                           fontWeight: '600',
                           fontSize: 16,
                         })
-                      }>
-                      Pause
+                      }
+                    >
+                      {t("pause")}
                     </Text>
                   </Pressable>
                 )}
@@ -803,8 +805,9 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({
                         fontWeight: '600',
                         fontSize: 16,
                       })
-                    }>
-                    Resume
+                    }
+                  >
+                    {t("resume")}
                   </Text>
                 </Pressable>
               )}

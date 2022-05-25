@@ -20,7 +20,7 @@ let size = 30
 const BUTTON_STYLE: ViewStyle = {
 	backgroundColor: 'transparent',
 	height: 40,
-	width: 170,
+	width: 190,
 	borderRadius: 99,
 	justifyContent: 'center',
 	borderColor: colors.brightTurquoise,
@@ -54,7 +54,7 @@ const SaveScreenButton = ({
 						size="small" color={'#fff'}
 					/> : <View style={[ Layout.center, Layout.row ]}>
 						<Text style={{ fontWeight:'500', lineHeight:24, fontSize:16, color:colors.brightTurquoise, flex: 1, textAlign: "center" }}>{text}</Text>
-						<Image source={DownloadIcon} style={{width: 20, marginRight: 20}}/>
+						<Image source={DownloadIcon} style={{marginRight: 20}}/>
 					</View>
 				}
 			</Pressable>

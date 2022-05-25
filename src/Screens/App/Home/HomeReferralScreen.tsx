@@ -432,7 +432,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({
                 }
             >
                 <Header
-                    headerText={t("dashboard")}
+                    headerText={t("home")}
                     rightIcon={() => <Image source={logoutBtn} />}
                     onRightPress={onLogoutPress}
                 />
@@ -588,10 +588,6 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({
                             alignItems: "center",
                         }}
                     >
-                        {/* <Text style={{
-                            color: colors.white, fontSize: 40, fontWeight: "bold",
-                            textAlign: "center"
-                        }}>{referralInfo.top100AvgKE.toFixed(2)}</Text> */}
                         <AnimateNumber
                             value={referralInfo.top100AvgKE.toFixed(2)}
                             style={{

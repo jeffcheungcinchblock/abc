@@ -18,7 +18,7 @@ export const config = {
     totalPointsMaxCap: 9680,
 }
 
-// Color naming https://www.color-name.com/hex/FF789C
+// Color naming https://www.color-name.com/hex/749597
 export const colors = {
 	frenchPink: '#FF789C',
 
@@ -43,6 +43,7 @@ export const colors = {
 	jacarta: '#38405E',
 	philippineSilver: '#B5B5B5',
 	buleCola : '#0174E5',
+	lightSlateGray: "#749597",
 
 }
 
