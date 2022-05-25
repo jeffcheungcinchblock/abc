@@ -1,6 +1,6 @@
 
 export const config = {
-    urlScheme: `com.fitevo://`,
+    urlScheme: `com.fitnessevo://`,
     dynamicLink: `https://fitevo.page.link/xEYL`,
     userAuthInfo: `https://api-dev.dragonevolution.gg/users/auth`,
     userDailyLogin: `https://api-dev.dragonevolution.gg/users/daily-login`,
@@ -14,7 +14,7 @@ export const config = {
     emailVerification: `https://api-dev.dragonevolution.gg/users/email-verification`,
     onelinkUrl: `https://test-dragon-dev.onelink.me/xNJK`, 
     referralConfirmation: `https://api-dev.dragonevolution.gg/users/referral-confirmation`,
-    fitnesssInfoApiKey: 'QEwArOceQy5zGNyisQpj71JNds2cWxzkpFRdY2S6',
+    fitnessInfoApiKey: 'QEwArOceQy5zGNyisQpj71JNds2cWxzkpFRdY2S6',
     totalPointsMaxCap: 9680,
 }
 

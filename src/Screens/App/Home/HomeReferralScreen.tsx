@@ -21,6 +21,7 @@ import {
     RefreshControl,
     Image,
     Dimensions,
+<<<<<<< HEAD
 } from "react-native";
 import { useTranslation } from "react-i18next";
 import { Brand, Header } from "@/Components";
@@ -28,6 +29,16 @@ import { useTheme } from "@/Hooks";
 import { changeTheme, ThemeState } from "@/Store/Theme";
 import { login, logout } from "@/Store/Users/actions";
 import { UserState } from "@/Store/Users/reducer";
+=======
+    Linking,
+} from 'react-native'
+import { useTranslation } from 'react-i18next'
+import { Brand, Header } from '@/Components'
+import { useTheme } from '@/Hooks'
+import { changeTheme, ThemeState } from '@/Store/Theme'
+import { login, logout } from '@/Store/Users/actions'
+import { UserState } from '@/Store/Users/reducer'
+>>>>>>> b3845ebc3c596287972923ec2a78969dec95ed79
 // @ts-ignore
 import AnimateNumber from "react-native-animate-number";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
@@ -188,35 +199,32 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({
 
         const run = async () => {
             try {
-                let user = await Auth.currentAuthenticatedUser();
-                let jwtToken = user?.signInUserSession?.idToken?.jwtToken;
+                let user = await Auth.currentAuthenticatedUser()
+                let jwtToken = user?.signInUserSession?.idToken?.jwtToken
 
-                cancelSourceArr[0] = axios.CancelToken.source();
-                cancelSourceArr[1] = axios.CancelToken.source();
-                cancelSourceArr[2] = axios.CancelToken.source();
+                cancelSourceArr[0] = axios.CancelToken.source()
+                cancelSourceArr[1] = axios.CancelToken.source()
+                cancelSourceArr[2] = axios.CancelToken.source()
 
-                const [authRes, userFitnessInfoRes, topAvgPointRes] = await Promise.all(
-                    [
-                        axios.get(config.userProfile, {
-                            cancelToken: cancelSourceArr[0].token,
-                            headers: {
-                                Authorization: jwtToken,
-                            },
-                        }),
-                        axios.get(config.userFitnessInfo, {
-                            headers: {
-                                "x-api-key": config.fitnesssInfoApiKey,
-                                Authorization: jwtToken,
-                            },
-                        }),
-                        axios.get(config.userTopAvgPoint),
-                    ]
-                );
+                const [authRes, userFitnessInfoRes, topAvgPointRes] = await Promise.all([
+                    axios.get(config.userProfile, {
+                        cancelToken: cancelSourceArr[0].token,
+                        headers: {
+                            Authorization: jwtToken
+                        }
+                    }),
+                    axios.get(config.userFitnessInfo, {
+                        headers: {
+                            'x-api-key': config.fitnessInfoApiKey,
+                            Authorization: jwtToken
+                        }
+                    }),
+                    axios.get(config.userTopAvgPoint)
+                ])
 
-                const { dailyMission, loginCount, totalPoint } =
-                    userFitnessInfoRes.data;
+                const { dailyMission, loginCount, totalPoint } = userFitnessInfoRes.data
 
-                dailyLogin(jwtToken);
+                dailyLogin(jwtToken)
 
                 if (!fetchedReferralInfo) {
                     if (loginCount === 0) {
@@ -781,51 +789,62 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({
                     {referredNames.length === 0 ? (
                         <View style={[REFERRED_FRIEND_ICON, { top: 0, left: 0 }]}>
                             <Image source={emptyAvatar} style={{}} />
-                        </View>
-                    ) : referredNames.length > 4 ? (
-                        <View
-                            style={[
-                                REFERRED_FRIEND_ICON,
-                                { top: 0, left: 4 * 35, backgroundColor: colors.indigo },
-                            ]}
-                        >
-                            <Text
-                                style={{
-                                    color: colors.white,
-                                    fontWeight: "bold",
-                                    fontSize: 18,
-                                }}
-                            >
-                                +{referredNames.length - 4}
-                            </Text>
-                        </View>
-                    ) : null}
+                        </View> : referredNames.length > 4 ? <View style={[REFERRED_FRIEND_ICON, { top: 0, left: 4 * 35, backgroundColor: colors.indigo }]}>
+                            <Text style={{ color: colors.white, fontWeight: "bold", fontSize: 18 }}>+{referredNames.length - 4}</Text>
+                        </View> : null
+                    }
+
                 </View>
 
-                <View
-                    style={{ width: "90%", backgroundColor: colors.white, height: 1 }}
-                />
+                <View style={{ width: '90%', backgroundColor: colors.white, height: 1 }} />
 
-                <View
-                    style={[
-                        Layout.fullWidth,
-                        Layout.center,
-                        { height: 140, justifyContent: "center", paddingHorizontal: 40 },
-                    ]}
-                >
-                    <Text
-                        style={{
-                            fontFamily: "Poppins-Bold",
-                            color: colors.brightTurquoise,
-                            fontWeight: "bold",
-                            lineHeight: 30,
-                            paddingTop: 30,
-                            fontStyle: "italic",
-                            fontSize: 30,
-                            textAlign: "center",
-                        }}
-                    >
-                        {t("moreBonus")}
+                <View style={[Layout.fullWidth, Layout.center, { justifyContent: "center", paddingHorizontal: 40 }]}>
+                    <Text style={{ fontFamily: "Poppins-Bold", color: colors.brightTurquoise, fontWeight: 'bold', lineHeight: 30, paddingTop: 30, fontStyle: "italic", fontSize: 30, textAlign: "center" }}>{t("moreBonus")}</Text>
+                    <Text style={{ color: colors.crystal, fontSize: 14, textAlign: "center", paddingVertical: 16 }}>{t("madeItToBeta")}</Text>
+                </View>
+
+                <View style={[Layout.fullWidth, Layout.center, { height: 300 }]}>
+                    <Image source={world} style={{ width: "100%" }} />
+                </View>
+
+                <View style={[Layout.fullWidth, Layout.center, { paddingVertical: 10, paddingHorizontal: 40, alignItems: "flex-start", }]}>
+                    <Text style={[{ color: colors.white, fontSize: 14, lineHeight: 20, textAlign: "left" }]}>
+                        {t("whatIsFitEvoBeta")}
+                    </Text>
+                    <Text style={[{ color: colors.white, fontSize: 14, lineHeight: 20, textAlign: "left" }]}>
+                        {t("FitEvoBetaDesc")}
+                    </Text>
+                </View>
+
+                <View style={[Layout.fullWidth, { height: 50, paddingHorizontal: 40, justifyContent: "flex-start", alignItems: "center", flexDirection: "row" }]}>
+                    <Image source={shareIcon} style={{resizeMode: "contain", width: 20, height: 20, marginRight: 20}} />
+                    <Text style={[{ fontSize: 14, color: colors.white }]}>{t("shareReferralLink")}</Text>
+                </View>
+
+                <View style={[Layout.fullWidth, Layout.center, { paddingVertical: 10, paddingHorizontal: 0, alignItems: "flex-start", }]}>
+                    <View style={[Layout.fullWidth, { paddingHorizontal: 40, justifyContent: "flex-start", alignItems: "center", flexDirection: "row" }]}>
+                        <Image source={communityIcon} style={{resizeMode: "contain", width: 20, height: 20, marginRight: 20}} />
+                        <Text style={[{ fontSize: 14, color: colors.white, flexShrink: 1 }]}>{t("earnKEWhenReferredFriends")}</Text>
+                    </View>
+                    <Text style={[{paddingLeft: 80, paddingRight: 40, marginTop: 4, fontSize: 14, color: colors.crystal}]}>{t("maxReferral30Friends")}</Text>
+                </View>
+
+                <View style={[Layout.fullWidth, { height: 60, paddingHorizontal: 40, justifyContent: "flex-start", alignItems: "center", flexDirection: "row" }]}>
+                    <Image source={moneyIcon} style={{resizeMode: "contain", width: 20, height: 20, marginRight: 20}} />
+                    <Text style={[{ fontSize: 14, color: colors.white, flexShrink: 1 }]}>{t("dailyLogIn")}</Text>
+                </View>
+
+                <View style={[Layout.fullWidth, Layout.center, { paddingVertical: 10, paddingHorizontal: 0, alignItems: "flex-start", }]}>
+                    <View style={[Layout.fullWidth, { paddingHorizontal: 40, justifyContent: "flex-start", alignItems: "center", flexDirection: "row" }]}>
+                        <Image source={infoIcon} style={{resizeMode: "contain", width: 20, height: 20, marginRight: 20}} />
+                        <Text style={[{ fontSize: 14, color: colors.white, flexShrink: 1 }]}>{t("whatIsKE")}</Text>
+                    </View>
+                    <Text style={[{paddingLeft: 80, paddingRight: 40, marginTop: 4, fontSize: 14, color: colors.white}]}>{t("KEDesc")}</Text>
+                </View>
+
+                <View style={[Layout.fullWidth, { paddingTop: 20, paddingBottom: 30, paddingHorizontal: 40, justifyContent: "flex-start", }]}>
+                    <Text style={[{ color: colors.white, fontSize: 16, lineHeight: 20, textAlign: "left", fontWeight: "bold" }]}>
+                        {t("inGameToken")}
                     </Text>
                     <Text
                         style={{
@@ -839,30 +858,23 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({
                     </Text>
                 </View>
 
-                <View style={[Layout.fullWidth, Layout.center, { height: 300 }]}>
-                    <Image source={world} style={{ width: "100%" }} />
+                <View style={[Layout.fullWidth, { paddingVertical: 0, paddingBottom: 30, paddingHorizontal: 40, justifyContent: "flex-start", }]}>
+                    <Text style={[{ color: colors.white, fontSize: 16, lineHeight: 20, textAlign: "left", fontWeight: "bold" }]}>
+                        {t("NFTCompanions")}
+                    </Text>
+
+                    <Text style={[{ color: colors.white, fontSize: 14, lineHeight: 20, textAlign: "left"}]}>
+                        {t("NFTMint")}
+                    </Text>
                 </View>
 
-                <View
-                    style={[
-                        Layout.fullWidth,
-                        {
-                            height: 50,
-                            paddingHorizontal: 40,
-                            justifyContent: "flex-start",
-                            alignItems: "center",
-                            flexDirection: "row",
-                        },
-                    ]}
-                >
-                    <Ionicons
-                        name="share-outline"
-                        color={colors.white}
-                        size={20}
-                        style={{ marginRight: 20 }}
-                    />
-                    <Text style={[{ fontSize: 14, color: colors.white }]}>
-                        {t("shareReferralLink")}
+                <View style={[Layout.fullWidth, { paddingVertical: 0, paddingBottom: 30, paddingHorizontal: 40, justifyContent: "flex-start", }]}>
+                    <Text style={[{ color: colors.white, fontSize: 16, lineHeight: 20, textAlign: "left", fontWeight: "bold" }]}>
+                        {t("exclusiveDrops")}
+                    </Text>
+
+                    <Text style={[{ color: colors.white, fontSize: 14, lineHeight: 20, textAlign: "left"}]}>
+                        {t("higherKE")}
                     </Text>
                 </View>
 
@@ -889,40 +901,19 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({
                     </Text>
                 </View>
 
-                {/* <View style={[Layout.fullWidth, Layout.center, { height: 80 }]}>
-                    <Text style={[{ color: colors.brightTurquoise, fontWeight: "bold", fontSize: 18 }]}>{t("learnMoreAllCapital")}</Text>
-                </View> */}
+              
+                <View style={[Layout.fullWidth, Layout.center, { paddingTop: 60, paddingBottom: 30, paddingHorizontal: 30, justifyContent: "center", }]}>
+                    <Text style={[{ color: colors.brightTurquoise, fontSize: 18, textDecorationLine: "underline", lineHeight: 20, textAlign: "center" }]}>
+                        {t("tAndC")}
+                    </Text>
+                </View>
 
-                <View
-                    style={[
-                        Layout.fullWidth,
-                        Layout.center,
-                        {
-                            height: 120,
-                            paddingBottom: 40,
-                            paddingHorizontal: 30,
-                            justifyContent: "center",
-                        },
-                    ]}
-                >
-                    <Text
-                        style={[
-                            {
-                                color: colors.white,
-                                fontSize: 14,
-                                lineHeight: 20,
-                                textAlign: "center",
-                            },
-                        ]}
-                    >
-                        {t("theReferralIsGoverned")}
-                        <Text
-                            style={[
-                                { color: colors.white, fontWeight: "bold", fontSize: 14 },
-                            ]}
-                        >
-                            {t("programTC")}
-                        </Text>
+                <View style={[Layout.fullWidth, Layout.center, { paddingBottom: 60, paddingHorizontal: 30, justifyContent: "center", }]}>
+                    <Text style={[{ color: colors.white, fontSize: 14, lineHeight: 20, textAlign: "center" }]}>
+                        {t("effectiveDate")}: 20th May 2022
+                    </Text>
+                    <Text style={[{ color: colors.white, fontSize: 14, lineHeight: 20, textAlign: "center" }]}>
+                        {t("lastUpdated")}: 1st June 2022
                     </Text>
                 </View>
             </KeyboardAwareScrollView>

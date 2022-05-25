@@ -1,4 +1,4 @@
-package com.fitevo;
+package com.fitnessevo;
 
 import android.os.Bundle;
 import com.facebook.react.ReactActivity;
