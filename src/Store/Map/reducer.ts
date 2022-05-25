@@ -335,11 +335,10 @@ export default createReducer<State>(initialState, (builder) => {
     newPaths[lastIndexofCoordinate].reduceStep = reduceStep!;
     newPaths[lastIndexofCoordinate].reduceCalories = reduceCalories!;
 
-    const total_pause_time_in_seconds =
-      moment(tempEndPauseTime!).unix() -
-      moment(newPaths[lastIndexofCoordinate].pauseTime!).unix();
+    // const total_pause_time_in_seconds =
+    //   moment(tempEndPauseTime!).unix() -
+    //   moment(newPaths[lastIndexofCoordinate].pauseTime!).unix();
 
-    console.log("total_pause_time_in_seconds", total_pause_time_in_seconds);
     newPaths[lastIndexofCoordinate].pathTotalPauseTime = 0;
     newPaths.push({
       numberOfPath: newPaths.length + 1,

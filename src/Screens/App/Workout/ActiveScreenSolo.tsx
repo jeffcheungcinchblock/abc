@@ -1,15 +1,19 @@
 import React, { useState, useEffect, FC, useRef } from "react";
 import {
   Text,
-  TouchableOpacity,
+  ViewStyle,
   StyleSheet,
   Platform,
   View,
   TextProps,
+  ViewProps,
   Image,
   Pressable,
   Alert,
+  TextStyle
 } from "react-native";
+import { Spacing } from "@/Theme/Variables"
+
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { StackScreenProps } from "@react-navigation/stack";
@@ -66,18 +70,17 @@ type WorkoutScreenScreenNavigationProp = CompositeScreenProps<
 const styles = StyleSheet.create({
   mapContainer: {
     flex: 3,
-    height: 300,
-    width: 400,
-    alignItems: "center",
   },
   header: {
-    backgroundColor: colors.darkGunmetal,
+    color:colors.white,
+    fontFamily: "Avenir",
+    fontWeight:'bold'
   },
   distanceTextStyle: {
     fontSize: 100,
     fontWeight: "700",
-    // lineHeight:150,
     color: colors.brightTurquoise,
+	flex:4
   },
 
   mapDistanceText: {
@@ -86,6 +89,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     color: colors.crystal,
+	flex:1
   },
 
   mapText: {
@@ -95,7 +99,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: "transparent",
   },
   statusBarContainer: {
     flexDirection: "row",
@@ -112,31 +115,31 @@ const styles = StyleSheet.create({
     // borderWidth:1,
   },
   dataPaddingContainer: {
-    flex: 3,
-    margin: 15,
+    flex: 1,
+	marginHorizontal:15,
   },
   distanceContainer: {
     flex: 2,
     display: "flex",
     flexDirection: "column",
-    marginBottom: 20,
   },
   textStyle: {
-    fontSize: 20,
+    fontSize: 18,
     textAlign: "center",
     alignSelf: "center",
     fontWeight: "bold",
+	
   },
   stateButtonContainer: {
     flex: 1,
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-around",
-    marginTop: 15,
+	alignItems:'flex-end',
     width: "100%",
   },
   statePauseResumeButton: {
-    backgroundColor: "#00F2DE",
+    backgroundColor: colors.crystal,
     height: 40,
     color: colors.brightTurquoise,
     width: "40%",
@@ -151,23 +154,21 @@ const styles = StyleSheet.create({
   stateStopButtonText: {
     color: "red",
   },
-  rowContentContainer: {
+  rowStepContentContainer: {
+	flex:0.5,
     flexDirection: "row",
-    alignItems: "center",
-    alignContent: "center",
     width: "100%",
     justifyContent: "center",
   },
-  rowContentContainer2: {
+  rowSpeedTextContentContainer: {
     flexDirection: "row",
     width: "100%",
-    marginTop: 20,
+    justifyContent: "center",
   },
-  colContentContainer: {
-    flexDirection: "column",
-    alignItems: "center",
+  timerSpeedRowContentContainer: {
+    flexDirection: "row",
     width: "100%",
-    height: 50,
+	flex:1,
   },
   contentContainer: {
     display: "flex",
@@ -179,31 +180,7 @@ const styles = StyleSheet.create({
 
 const isIOS = Platform.OS === "ios";
 const health_kit = isIOS ? new IOSHealthKit() : new GoogleFitKit();
-const geolocationConfig = {
-  ios: {
-    desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_NAVIGATION,
-    stationaryRadius: 6,
-    showsBackgroundLocationIndicator: true,
-    locationAuthorizationRequest: "WhenInUse",
-    activityType: "FITNESS",
-    disableLocationAuthorizationAlert: true,
-  },
-  android: {
-    desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
-    allowIdenticalLocations: true,
-  },
-  default: {
-    distanceFilter: 10,
-    stopTimeout: 5,
-    isMoving: true,
-    disableElasticity: true,
-    preventSuspend: true,
-    stopOnTerminate: true,
-    reset: false,
-    debug: true,
-    logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
-  },
-};
+
 export type Region = {
   latitude: number;
   longitude: number;
@@ -241,16 +218,14 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({
   const overSpeedPaths = useSelector((state: any) => state.map.overSpeedPaths);
   const username = useSelector((state: any) => state.user.uuid);
   const speedUnit = useSelector((state: any) => state.unit.speedUnit);
-  const latitude = useSelector((state: any) => state.map.latitude);
-  const longitude = useSelector((state: any) => state.map.longitude);
 
   const [timer, setTimer] = useState(0);
   const [speed, setSpeed] = useState(0);
   const [isStopping, setIsStopping] = useState(false);
-  const [isFirstLoad, setIsFirstLoad] = useState(true);
 
   let timerIntervalId: NodeJS.Timer;
   let stepIntervalId: NodeJS.Timer;
+
   useEffect(() => {
     timerIntervalId = setInterval(() => {
       let totalPauseTime = 0;
@@ -497,7 +472,6 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({
 
   const ResumeRunningSession = async () => {
     await BackgroundGeolocation.changePace(true);
-
     let location = await BackgroundGeolocation.getCurrentPosition({
       samples: 1,
       timeout: 10,
@@ -551,11 +525,29 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({
       });
     }
   };
+
+  const BrightTurquoiseText = (props: TextProps) => {
+    const { style, ...rest } = props;
+    return (
+      <Text
+        style={[
+          styles.textStyle,
+          style,
+          { color: colors.brightTurquoise, fontFamily: "Poppins-Bold" },
+        ]}
+        {...rest}
+      />
+    );
+  };
   const WhiteText = (props: TextProps) => {
     const { style, ...rest } = props;
     return (
       <Text
-        style={[styles.textStyle, style, { color: colors.white }]}
+        style={[
+          styles.textStyle,
+          style,
+          { color: colors.white, fontFamily: "Poppins-Bold" },
+        ]}
         {...rest}
       />
     );
@@ -565,15 +557,48 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({
     const { style, ...rest } = props;
     return (
       <Text
-        style={[styles.textStyle, style, { color: colors.crystal }]}
+        style={[
+          styles.textStyle,
+          style,
+          { color: colors.crystal, fontFamily: "Poppins" },
+        ]}
         {...rest}
       />
     );
   };
+  const TITLE_MIDDLE: ViewStyle = { flex: 3, justifyContent: "center", alignItems: "center", flexDirection:'row' }
+  const ROOT: ViewStyle = {
+	flexDirection: "row",
+	paddingHorizontal: Spacing[4],
+	alignItems: "center",
+	paddingTop: Spacing[5],
+	paddingBottom: Spacing[5],
+	justifyContent: "flex-start",
+  backgroundColor:colors.darkGunmetal
+  }
 
+  const HEADER: TextStyle = {
+	paddingBottom: Spacing[5] - 1,
+	paddingHorizontal: Spacing[4],
+	paddingTop: Spacing[4],
+	height: 80,
+  }
+  const StatusDot = (props: ViewProps) => {
+    const { style, ...rest } = props;
+    return <View style={[style,{height:10, width:10, borderRadius:50, margin:10}]}></View>
+  }
   return (
     <MapScreenBackgrounds screenName={RouteStacks.workout}>
-      <Header headerText={ActivityType[currentState]} style={styles.header} />
+      {/* <Header headerText={ActivityType[currentState]} style={styles.header} /> */}
+	  <View style={[ROOT, HEADER]}>
+	   <View style={TITLE_MIDDLE}>
+		   {currentState === ActivityType.OVERSPEED && <><View style={[{height:5, width:5, backgroundColor:'red'}]}></View><Text style={[Fonts.textRegular,styles.header]}>{t("movingStatus.Overspeed")}</Text></>}
+		   {currentState === ActivityType.PAUSE && <><StatusDot style={{backgroundColor:'red'}}/><Text style={[Fonts.textRegular,styles.header]}>{t("movingStatus.Pause")}</Text></>}
+		   {currentState === ActivityType.MOVING && <><StatusDot style={{backgroundColor:'green'}}/><Text style={[Fonts.textRegular,styles.header]}>{t("movingStatus.Running")}</Text></>}
+       {currentState === ActivityType.LOADING && <><StatusDot style={{backgroundColor:'red'}}/><Text style={[Fonts.textRegular,styles.header]}>{t("movingStatus.Loading")}</Text></>}
+		   {currentState === ActivityType.ENDED && <><StatusDot style={{backgroundColor:'red'}}/><Text style={[Fonts.textRegular,styles.header]}>{t("movingStatus.Ended")}</Text></>}
+        </View>
+		</View>
       <View style={[styles.container]}>
         <View style={[styles.mapContainer]}>
           {/* {startRegion && ( */}
@@ -591,12 +616,12 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({
             {/* <NFTDisplay /> */}
             {/* <View style={[ styles.pointContainer ]}/> */}
             <View style={[styles.distanceContainer]}>
-              <WhiteText style={styles.distanceTextStyle}>
+              <BrightTurquoiseText style={styles.distanceTextStyle}>
                 {(distance / 1000).toFixed(2)}
-              </WhiteText>
+				</BrightTurquoiseText>
               <Text style={[styles.mapDistanceText]}>{t("totalKilo")}</Text>
             </View>
-            <View style={[styles.rowContentContainer, { paddingTop: 20 }]}>
+            <View style={[styles.rowStepContentContainer]}>
               <Image
                 source={StepLogo}
                 style={{
@@ -608,21 +633,20 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({
               ></Image>
               <WhiteText> {steps}</WhiteText>
             </View>
-            <View style={[styles.rowContentContainer2]}>
+            <View style={[styles.timerSpeedRowContentContainer]}>
               <View style={[styles.contentContainer]}>
-                <Pressable>
+                <Pressable style={{ flex:1 }}>
                   <Image
                     source={TimerLogo}
                     style={{
-                      width: 30,
-                      height: 30,
                       resizeMode: "contain",
                       alignSelf: "center",
+					  flex:2
                     }}
                   />
                   <WhiteText
                     style={[
-                      { lineHeight: 30, fontSize: 30, fontWeight: "bold" },
+                      { lineHeight: 30, fontSize: 25, fontWeight: "bold" },
                     ]}
                   >
                     {Math.floor((timer % 3600) / 60)}"{Math.ceil(timer % 60)}'
@@ -630,21 +654,20 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({
                 </Pressable>
               </View>
               <View style={[styles.contentContainer]}>
-                <Pressable onPress={chanageSpeedUnit}>
+                <Pressable onPress={chanageSpeedUnit} style={{ flex:1 }}>
                   <Image
                     source={SpeedIcon}
                     style={{
-                      width: 30,
-                      height: 30,
                       resizeMode: "contain",
                       alignSelf: "center",
+					  flex:2
                     }}
                   />
-                  <View style={[styles.rowContentContainer]}>
+                  <View style={[styles.rowSpeedTextContentContainer]}>
                     {speedUnit === SpeedUnit.KILOMETRE_PER_HOUR && (
                       <WhiteText
                         style={[
-                          { lineHeight: 30, fontSize: 30, fontWeight: "bold" },
+                          { lineHeight: 30, fontSize: 25, fontWeight: "bold" },
                         ]}
                       >
                         {metersecond_2_kmhour(speed).toFixed(1)}
@@ -653,7 +676,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({
                     {speedUnit === SpeedUnit.MILE_PER_HOUR && (
                       <WhiteText
                         style={[
-                          { lineHeight: 30, fontSize: 30, fontWeight: "bold" },
+                          { lineHeight: 30, fontSize: 25, fontWeight: "bold" },
                         ]}
                       >
                         {metersecond_2_milehour(speed).toFixed(1)}
@@ -662,7 +685,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({
                     {speedUnit === SpeedUnit.METER_PER_SECOND && (
                       <WhiteText
                         style={[
-                          { lineHeight: 30, fontSize: 30, fontWeight: "bold" },
+                          { lineHeight: 30, fontSize: 25, fontWeight: "bold" },
                         ]}
                       >
                         {speed.toFixed(1)}
@@ -676,9 +699,9 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({
               </View>
             </View>
             <View style={[styles.stateButtonContainer]}>
-              {(currentState === ActivityType.PAUSE ||
-                currentState === ActivityType.MOVING ||
-                currentState === ActivityType.OVERSPEED) &&
+              {currentState === ActivityType.PAUSE &&
+                // currentState === ActivityType.MOVING ||
+                // currentState === ActivityType.OVERSPEED) &&
                 !isStopping && (
                   <Pressable
                     style={[
@@ -689,7 +712,15 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({
                     onPress={StopRunningSession}
                   >
                     <Text
-                      style={[Fonts.textRegular, styles.stateStopButtonText]}
+                      style={[
+                        Fonts.textRegular,
+                        styles.stateStopButtonText,
+                        {
+                          fontFamily: "Poppins",
+                          fontWeight: "600",
+                          fontSize: 16,
+                        },
+                      ]}
                     >
                       {t("stop")}
                     </Text>
@@ -706,7 +737,18 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({
                     ]}
                     onPress={PauseRunningSession}
                   >
-                    <Text style={Fonts.textRegular}>{t("pause")}</Text>
+                    <Text
+                      style={
+                        (Fonts.textRegular,
+                        {
+                          fontFamily: "Poppins",
+                          fontWeight: "600",
+                          fontSize: 16,
+                        })
+                      }
+                    >
+                      {t("pause")}
+                    </Text>
                   </Pressable>
                 )}
               {currentState === ActivityType.PAUSE && !isStopping && (
@@ -718,7 +760,18 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({
                   ]}
                   onPress={ResumeRunningSession}
                 >
-                  <Text style={Fonts.textRegular}>{t("resume")}</Text>
+                  <Text
+                    style={
+                      (Fonts.textRegular,
+                      {
+                        fontFamily: "Poppins",
+                        fontWeight: "600",
+                        fontSize: 16,
+                      })
+                    }
+                  >
+                    {t("resume")}
+                  </Text>
                 </Pressable>
               )}
             </View>

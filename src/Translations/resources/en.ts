@@ -156,4 +156,11 @@ export default {
   signUpScreen: {
     screenTitle: "Sign Up"
   },
+  movingStatus:{
+    Running: "Running",
+    Overspeed: "Overspeed",
+    Pause: "Pause",
+    Ended: "End",
+    Loading: "Loading",
+  }
 }
