@@ -146,7 +146,6 @@ const getUser = () => {
 };
 
 const urlOpener = async (url: string, redirectUrl: string) => {
-	console.log('redirectUrl', redirectUrl)
   try {
     if (
       redirectUrl === `${config.urlScheme}${RouteStacks.signIn}` &&
@@ -187,9 +186,9 @@ const App = () => {
   const getFcmToken = async () => {
     const fcmToken = await messaging().getToken();
     if (fcmToken) {
-      // console.log("Firebase Token:", fcmToken);
+      console.log("Firebase Token:", fcmToken);
     } else {
-      // console.log("Failed", "No token received");
+      console.log("Failed", "No token received");
     }
   };
 

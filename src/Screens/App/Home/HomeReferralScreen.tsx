@@ -184,7 +184,9 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({
         let cancelSourceArr: CancelTokenSource[] = [];
 
         const dailyLogin = async (jwtToken: string) => {
+            cancelSourceArr[3] = axios.CancelToken.source()
             let userDailyLoginRes = await axios.get(config.userDailyLogin, {
+                cancelToken: cancelSourceArr[3].token,
                 headers: {
                     Authorization: jwtToken,
                 },

@@ -63,6 +63,21 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
     const [isLoggingIn, setIsLoggingIn] = useState(false)
     const [errMsg, setErrMsg] = useState("")
 
+    useEffect(() => {
+        const run = async () => {
+            try {
+                let rawFirstVisit = await AsyncStorage.getItem("firstVisit") ?? 'true'
+                let firstVisit = JSON.parse(rawFirstVisit)
+                if (firstVisit) {
+                    navigation.replace(RouteStacks.welcomeGallery)
+                }
+            } catch (err: any) {
+                crashlytics().recordError(err)
+            }
+        }
+        run()
+    }, [])
+
     const onDisplayNotification = async () => {
         // Create a channel
         try {
