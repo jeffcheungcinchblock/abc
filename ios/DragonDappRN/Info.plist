@@ -24,6 +24,10 @@
 	<string>1.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>${PRODUCT_NAME} needs permission to access photos</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>${PRODUCT_NAME} needs permission to write photos</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

@@ -27,6 +27,9 @@ import crashlytics from "@react-native-firebase/crashlytics";
 import BackgroundGeolocation, {
   Subscription,
 } from "react-native-background-geolocation";
+import CameraRoll from "@react-native-community/cameraroll";
+import {hasAndroidPermission} from '@/Utils/permissionHandlers'
+
 // TBD: remove later
 console.warn = () => {};
 const geolocationConfig = {
@@ -204,8 +207,6 @@ const App = () => {
 
   useEffect(() => {
     RNBootSplash.hide({ fade: true });
-    // Orientation lockToPortrait only work in android / ios < 15, ios >= 15 won't work
-    Orientation.lockToPortrait();
 
     requestUserPermission();
 

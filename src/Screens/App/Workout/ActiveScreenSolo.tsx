@@ -594,7 +594,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({
               <WhiteText style={styles.distanceTextStyle}>
                 {(distance / 1000).toFixed(2)}
               </WhiteText>
-              <Text style={[styles.mapDistanceText]}>Total Kilometers</Text>
+              <Text style={[styles.mapDistanceText]}>{t("totalKilo")}</Text>
             </View>
             <View style={[styles.rowContentContainer, { paddingTop: 20 }]}>
               <Image
@@ -691,7 +691,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({
                     <Text
                       style={[Fonts.textRegular, styles.stateStopButtonText]}
                     >
-                      Stop
+                      {t("stop")}
                     </Text>
                   </Pressable>
                 )}
@@ -706,7 +706,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({
                     ]}
                     onPress={PauseRunningSession}
                   >
-                    <Text style={Fonts.textRegular}>Pause</Text>
+                    <Text style={Fonts.textRegular}>{t("pause")}</Text>
                   </Pressable>
                 )}
               {currentState === ActivityType.PAUSE && !isStopping && (
@@ -718,7 +718,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({
                   ]}
                   onPress={ResumeRunningSession}
                 >
-                  <Text style={Fonts.textRegular}>Resume</Text>
+                  <Text style={Fonts.textRegular}>{t("resume")}</Text>
                 </Pressable>
               )}
             </View>

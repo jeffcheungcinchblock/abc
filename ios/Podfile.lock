@@ -419,6 +419,8 @@ PODS:
     - React-Core
   - react-native-background-timer (2.4.1):
     - React-Core
+  - react-native-cameraroll (4.1.2):
+    - React-Core
   - react-native-encrypted-storage (4.0.2):
     - React-Core
   - react-native-flipper (0.127.0):
@@ -667,6 +669,7 @@ DEPENDENCIES:
   - react-native-appsflyer (from `../node_modules/react-native-appsflyer`)
   - react-native-background-actions (from `../node_modules/react-native-background-actions`)
   - react-native-background-timer (from `../node_modules/react-native-background-timer`)
+  - "react-native-cameraroll (from `../node_modules/@react-native-community/cameraroll`)"
   - react-native-encrypted-storage (from `../node_modules/react-native-encrypted-storage`)
   - react-native-flipper (from `../node_modules/react-native-flipper`)
   - react-native-geolocation-service (from `../node_modules/react-native-geolocation-service`)
@@ -803,6 +806,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-background-actions"
   react-native-background-timer:
     :path: "../node_modules/react-native-background-timer"
+  react-native-cameraroll:
+    :path: "../node_modules/@react-native-community/cameraroll"
   react-native-encrypted-storage:
     :path: "../node_modules/react-native-encrypted-storage"
   react-native-flipper:
@@ -961,6 +966,7 @@ SPEC CHECKSUMS:
   react-native-appsflyer: 5990accc2e36af78770e8b7edcea0e16956ddebc
   react-native-background-actions: 2c251c986f23347f9c1722f05fd296938f60edb1
   react-native-background-timer: 17ea5e06803401a379ebf1f20505b793ac44d0fe
+  react-native-cameraroll: 2957f2bce63ae896a848fbe0d5352c1bd4d20866
   react-native-encrypted-storage: 837c733334debf626204f03d867c7e01d8741e2f
   react-native-flipper: b9e2e817604af8da0d5a9ba20a8516e780e30f3c
   react-native-geolocation-service: c0efb872258ed9240f1003a70fca9e9757e5c785
