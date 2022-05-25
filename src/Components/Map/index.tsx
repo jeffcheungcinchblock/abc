@@ -27,6 +27,7 @@ type MapViewProps = {
   speed: number;
 };
 
+
 const ActiveMapView: FC<MapViewProps> = (props) => {
   const paths = useSelector((state: any) => state.map.paths);
   const overSpeedPaths = useSelector((state: any) => state.map.overSpeedPaths);
@@ -35,27 +36,38 @@ const ActiveMapView: FC<MapViewProps> = (props) => {
 //   const [latitude, setLatitude] = useState(0);
 //   const [longitude, setLongitude] = useState(0);
   const [followsUserLocation, setFollowsUserLocation] = useState(true);
+  const isIOS = Platform.OS === "ios";
+
+
   return (
     <>{latitude && longitude && (
 		<MapView
         style={[styles.map, { flex : 1 }]}
-		provider={PROVIDER_GOOGLE}
+		    // provider={PROVIDER_GOOGLE}
         mapType="standard"
+
         initialRegion={{
           latitude: latitude,
           longitude: longitude,
           latitudeDelta: 0.005,
           longitudeDelta: 0.005,
         }}
-		showsUserLocation={true}
-		showsMyLocationButton={true}
-        userLocationPriority="high"
-        followsUserLocation={followsUserLocation}
-		pitchEnabled={false}
-		onPanDrag={()=>setFollowsUserLocation(false)}
-		// onLongPress={()=>setFollowsUserLocation(true)}
-		// onDoublePress={()=>setFollowsUserLocation(true)}
-		// onRegionChange={() => setFollowsUserLocation(true)}
+        // iOS Config
+        followsUserLocation={true}
+        showsUserLocation={true}
+        showsCompass={true}
+        // scrollEnabled={false}
+        //Android config
+        // userLocationFastestInterval={10000}
+        userLocationUpdateInterval={10000}
+        userLocationPriority={'high'}
+        liteMode={false}
+        // region={{latitude:latitude, longitude:longitude, latitudeDelta: 0.005, longitudeDelta: 0.005}}
+        region={isIOS? undefined: {latitude:latitude, longitude:longitude, latitudeDelta: 0.005, longitudeDelta: 0.005}}
+        // Default config
+        showsMyLocationButton={true}
+
+
       >
         {paths &&
           paths.map((path: any, index: number) => {

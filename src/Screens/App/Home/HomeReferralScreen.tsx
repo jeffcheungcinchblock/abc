@@ -78,6 +78,7 @@ import { startLoading } from "@/Store/UI/actions";
 import AppIcon from "@/Components/Icons/AppIcon";
 import reward from "@/Assets/Images/Modal/reward.png";
 import DailyRewardModal from "@/Components/Modals/DailyRewardModal";
+import GoogleFitModal from "@/Components/Modals/GoogleFitModal";
 import RuleOfReferralModal from "@/Components/Modals/RuleOfReferralModal";
 //health kit - googlefit
 import { IOSHealthKit } from '@/Healthkit/iosHealthKit'
@@ -96,11 +97,12 @@ import moneyIcon from '@/Assets/Images/Home/money.png'
 import infoIcon from '@/Assets/Images/Home/info.png'
 import communityIcon from '@/Assets/Images/Home/community.png'
 
-import { check, request, RESULTS, PERMISSIONS } from "react-native-permissions";
+import { check, request, RESULTS, PERMISSIONS, checkMultiple, requestMultiple } from "react-native-permissions";
 import { Results } from "realm";
 import BackgroundGeolocation, {
     Subscription,
 } from "react-native-background-geolocation";
+import { forEach } from "lodash";
 const PURPLE_COLOR = {
     color: colors.magicPotion,
 };
@@ -154,6 +156,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({
     const dailyRewardModalRef = useRef<any>(null);
     const ruleOfReferralModalRef = useRef<any>(null);
     const invitationRewardModalRef = useRef<any>(null);
+    const googleFitModalRef = useRef<any>(null);
 
     const { t } = useTranslation();
     const { Common, Fonts, Gutters, Layout } = useTheme();
@@ -291,18 +294,6 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({
         }
     }, [referralInfo, fetchedReferralInfo]);
 
-    //   useEffect(() => {
-    //     if (isHealthkitReady) {
-    //       dispatch({ type: "init" });
-    //       setIsReady(true);
-    //     } else {
-    //       const initPermission = health_kit.InitHealthKitPermission();
-    //       Promise.resolve(initPermission).then((val) => {
-    //         setIstHealthKitReady(val);
-    //       });
-    //     }
-    //   }, [isHealthkitReady]);
-
     const onSharePress = async () => {
         const shareRes = await share({
             url: `${config.onelinkUrl}/?screen=${RouteStacks.enterInvitationCode}&deep_link_value=${referralInfo.referral}`,
@@ -334,6 +325,9 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({
 
     const onRuleOfReferralModalClose = () => { };
 
+    const onGoogleFitModalClose = () => { console.log('closed') }
+    const onGoogleFitModalCloseBtnPress = () => { googleFitModalRef?.current?.close() }
+
     const onLogoutPress = async () => {
         dispatch(startLoading(true));
         await awsLogout();
@@ -347,23 +341,33 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({
     }, [startTime, enabled]);
 
     const onTrialPlayPress = async () => {
-        const LocationpermissionStatus = await check(
-            PERMISSIONS.IOS.LOCATION_WHEN_IN_USE
-        );
-        const authed = await health_kit.GetAuthorizeStatus();
+        await health_kit.InitHealthKitPermission()
 
-        if (LocationpermissionStatus !== RESULTS.GRANTED) {
-            await request(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE);
+        const LocationpermissionStatus = await checkMultiple([PERMISSIONS.IOS.LOCATION_WHEN_IN_USE, PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION, PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION, PERMISSIONS.ANDROID.ACCESS_BACKGROUND_LOCATION]);
+        let locationPermission = false;
+        if (isIOS) {
+            if (LocationpermissionStatus[PERMISSIONS.IOS.LOCATION_WHEN_IN_USE] === 'granted') {
+                locationPermission = true
+            }
+        } else {
+            if (LocationpermissionStatus[PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION] === 'granted' &&
+                LocationpermissionStatus[PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION] === 'granted') {
+                locationPermission = true
+            }
         }
-        if (authed && LocationpermissionStatus === RESULTS.GRANTED) {
+        const authed = await health_kit.GetAuthorizeStatus()
+
+        if (!authed) {
+            googleFitModalRef?.current?.open()
+        }
+        if (authed && LocationpermissionStatus) {
             dispatch({ type: "start", payload: { startTime: new Date().getTime() } });
             await BackgroundGeolocation.start();
             await BackgroundGeolocation.changePace(true);
             setEnabled(true);
-        } else {
-            await health_kit.InitHealthKitPermission();
-            console.log("not ready");
         }
+
+
     };
 
     const onLesGoBtnPress = () => dailyRewardModalRef?.current?.close();
@@ -404,7 +408,11 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({
                 onModalClose={onRuleOfReferralModalClose}
                 onActionBtnPress={onRuleOfReferralCloseBtnPress}
             />
-
+            <GoogleFitModal
+                ref={googleFitModalRef}
+                onModalClose={onGoogleFitModalClose}
+                onActionBtnPress={onGoogleFitModalCloseBtnPress}
+            />
             <InvitationRewardModal
                 ref={invitationRewardModalRef}
                 ke={20}
@@ -436,7 +444,6 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({
                     rightIcon={() => <Image source={logoutBtn} />}
                     onRightPress={onLogoutPress}
                 />
-
                 <View
                     style={{
                         height: 220,

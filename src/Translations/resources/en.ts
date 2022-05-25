@@ -131,6 +131,8 @@ export default {
     claimedDailyReward: "You have claimed your daily reward!",
     ruleOfReferral: "Rule of referral",
     maximum30Friends: "Invite a Maximum of 30 friends and earn a over 1500 KE points and other exclusive rewards!",
+    notReady: "Google Fit is not ready yet. Please try again later.",
+    installApp: "Install App",
   },
   error: {
     emailUsed: "This email has been used already ;(",
