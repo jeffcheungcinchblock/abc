@@ -164,4 +164,5 @@ export class IOSHealthKit extends GeneralHealthKit {
 	StartListenDistance(setLatitude: Function, setLongitude: Function) {
 		throw new Error('Not implemented')
 	}
+
 }

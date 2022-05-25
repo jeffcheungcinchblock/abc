@@ -20,26 +20,22 @@ export class GoogleFitKit extends GeneralHealthKit {
 
 
 	InitHealthKitPermission() {
-		console.log('init, permission')
 		return new Promise<boolean>((resolve) => {
-			GoogleFit.authorize(options).then((authResult: any) => {
-				if (authResult.success) {
-					resolve(true)
-				} else {
-					resolve(false)
-				}
-			}).catch(() => {
-				resolve(false)
+			GoogleFit.authorize(options).then(() => {
+				resolve(GoogleFit.isAuthorized)
 			})
 		})
 	}
-
 
 	GetAuthorizeStatus() {
 		return new Promise<boolean>(resolve => {
 			GoogleFit.checkIsAuthorized().then(() => {
 				console.log('googlefit authed',GoogleFit.isAuthorized) // Then you can simply refer to `GoogleFit.isAuthorized` boolean.
-				resolve(true)
+				if(GoogleFit.isAuthorized){
+					resolve(true)
+				}else{
+					resolve(false)
+				}
 			})
 		})
 	}
@@ -98,14 +94,8 @@ export class GoogleFitKit extends GeneralHealthKit {
 
 	GetCaloriesBurned(startDate: Date, endDate: Date) {
 		if (!GoogleFit.isAuthorized){
-			GoogleFit.authorize(options).then((authResult: any) => {
-				console.log('authResult', authResult)
-				return authResult
-			})
 			return new Promise<number>(resolve => resolve(-1))
 		}
-
-
 	  const opt = {
 			startDate: startDate.toISOString(), // required
 			endDate: endDate.toISOString(), // required
@@ -131,12 +121,7 @@ export class GoogleFitKit extends GeneralHealthKit {
 	}
 
 	GetHeartRates(startDate: Date, endDate: Date) {
-
 		if (!GoogleFit.isAuthorized){
-			GoogleFit.authorize(options).then((authResult: any) => {
-				console.log('authResult', authResult)
-				return authResult
-			})
 			return new Promise<number>(resolve => resolve(-1))
 		}
 		const opt = {
@@ -193,42 +178,39 @@ export class GoogleFitKit extends GeneralHealthKit {
 			}
 		})
 
-		GoogleFit.checkIsAuthorized()
-			.then(() => {
-				if (!GoogleFit.isAuthorized){
-					return this.InitHealthKitPermission()
-				}}).then(()=>{
-				GoogleFit.startRecording(function(result){
-					console.log(result)
-					let step = 0
-					if (result.recording === true){
-						console.log('start record distance')
-						GoogleFit.observeSteps(function(res:any, isError){
-							if (isError){
-								console.log(isError)
-							}
-							const distOption = {
-								startDate: startDate.toISOString(),
-								endDate : new Date().toISOString(),
-							}
-							step = step + res.steps
-							if (step > 10){
-								console.log('backgound')
-							}
-							GoogleFit.getDailyDistanceSamples(distOption).then((dist:any)=>{
-								console.log('dist', dist.distance)
-								setDist(dist[0].distance)
-								setStep(step)
-
-							})
-						})
+	
+		GoogleFit.startRecording(function(result){
+			console.log(result)
+			let step = 0
+			if (result.recording === true){
+				console.log('start record distance')
+				GoogleFit.observeSteps(function(res:any, isError){
+					if (isError){
+						console.log(isError)
 					}
-				}, [ 'distance' ])
-			})
+					const distOption = {
+						startDate: startDate.toISOString(),
+						endDate : new Date().toISOString(),
+					}
+					step = step + res.steps
+					if (step > 10){
+						console.log('backgound')
+					}
+					GoogleFit.getDailyDistanceSamples(distOption).then((dist:any)=>{
+						console.log('dist', dist.distance)
+						setDist(dist[0].distance)
+						setStep(step)
+
+					})
+				})
+			}
+		}, [ 'distance' ])
+			
 	}
 
 	StopWorkoutSession(){
 		GoogleFit.unsubscribeListeners()
 		console.log('end')
 	}
+	
 }

@@ -3,7 +3,7 @@ import { View, Image, Text, ActivityIndicator, Pressable, PressableProps, ViewSt
 import { useTheme } from '@/Hooks'
 import { colors } from '@/Utils/constants'
 import facebookIcon from '@/Assets/Images/buttons/facebook.png'
-import closeIcon from '@/Assets/Images/buttons/btn_cross.png'
+import closeIcon from '@/Assets/Images/buttons/btn_cross_2.png'
 import { Icon } from 'react-native-vector-icons/Icon'
 
 type CloseButtonProps = {

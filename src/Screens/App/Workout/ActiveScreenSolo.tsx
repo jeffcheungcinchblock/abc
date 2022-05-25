@@ -1,4 +1,4 @@
-import React, { useState, useEffect, FC, useRef } from "react";
+import React, { useState, useEffect, FC, useRef } from 'react'
 import {
   Text,
   ViewStyle,
@@ -10,55 +10,55 @@ import {
   Image,
   Pressable,
   Alert,
-  TextStyle
-} from "react-native";
-import { Spacing } from "@/Theme/Variables"
+  TextStyle,
+} from 'react-native'
+import { Spacing } from '@/Theme/Variables'
 
-import { useTranslation } from "react-i18next";
-import { useDispatch, useSelector } from "react-redux";
-import { StackScreenProps } from "@react-navigation/stack";
-import { CompositeScreenProps } from "@react-navigation/native";
-import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
-import { DrawerScreenProps } from "@react-navigation/drawer";
-import { useTheme } from "@/Hooks";
-import { Brand, Header } from "@/Components";
+import { useTranslation } from 'react-i18next'
+import { useDispatch, useSelector } from 'react-redux'
+import { StackScreenProps } from '@react-navigation/stack'
+import { CompositeScreenProps } from '@react-navigation/native'
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
+import { DrawerScreenProps } from '@react-navigation/drawer'
+import { useTheme } from '@/Hooks'
+import { Brand, Header } from '@/Components'
 
-import { IOSHealthKit } from "../../../Healthkit/iosHealthKit";
-import { GoogleFitKit } from "../../../Healthkit/androidHealthKit";
+import { IOSHealthKit } from '../../../Healthkit/iosHealthKit'
+import { GoogleFitKit } from '../../../Healthkit/androidHealthKit'
 import BackgroundGeolocation, {
   Subscription,
-} from "react-native-background-geolocation";
-import { ActivityType } from "@/Store/Map/reducer";
-import { store } from "@/Store";
-import { RouteStacks } from "@/Navigators/routes";
-import { WorkoutNavigatorParamList } from "@/Screens/App/WorkoutScreen";
+} from 'react-native-background-geolocation'
+import { ActivityType } from '@/Store/Map/reducer'
+import { store } from '@/Store'
+import { RouteStacks } from '@/Navigators/routes'
+import { WorkoutNavigatorParamList } from '@/Screens/App/WorkoutScreen'
 import {
   DrawerNavigatorParamList,
   TabNavigatorParamList,
-} from "@/Navigators/MainNavigator";
-import MapScreenBackgrounds from "@/Components/MapScreenBackgrounds";
-import axios from "axios";
-import { colors, config } from "@/Utils/constants";
+} from '@/Navigators/MainNavigator'
+import MapScreenBackgrounds from '@/Components/MapScreenBackgrounds'
+import axios from 'axios'
+import { colors, config } from '@/Utils/constants'
 
-import ActiveMapView from "@/Components/Map/index";
-import EnergyProgressBar from "@/Components/WorkoutScreen/energy_progress_bar";
-import TokenProgressBar from "@/Components/WorkoutScreen/token_progress_bar";
-import TokenEarned from "@/Components/WorkoutScreen/token_earned";
-import NFTDisplay from "@/Components/WorkoutScreen/nft_display";
-import { metersecond_2_kmhour, metersecond_2_milehour } from "./utils";
-import EndWorkoutModal from "@/Components/Modals/EndWorkoutModal";
-import { use } from "i18next";
+import ActiveMapView from '@/Components/Map/index'
+import EnergyProgressBar from '@/Components/WorkoutScreen/energy_progress_bar'
+import TokenProgressBar from '@/Components/WorkoutScreen/token_progress_bar'
+import TokenEarned from '@/Components/WorkoutScreen/token_earned'
+import NFTDisplay from '@/Components/WorkoutScreen/nft_display'
+import { metersecond_2_kmhour, metersecond_2_milehour } from './utils'
+import EndWorkoutModal from '@/Components/Modals/EndWorkoutModal'
+import { use } from 'i18next'
 // @ts-ignore
 // import BackgroundTimer from 'react-native-background-timer'
-import { any } from "prop-types";
-import moment from "moment";
-import SpeedIcon from "@/Assets/Images/map/speed_crystal.png";
-import TimerLogo from "@/Assets/Images/map/timer_crystal.png";
-import StepLogo from "@/Assets/Images/map/step.png";
-import { speedconst } from "@/Utils/constants";
-import { FontSize } from "@/Theme/Variables";
-import { startLoading } from "@/Store/UI/actions";
-import mapReducer from "@/Store/Map/reducer";
+import { any } from 'prop-types'
+import moment from 'moment'
+import SpeedIcon from '@/Assets/Images/map/speed_crystal.png'
+import TimerLogo from '@/Assets/Images/map/timer_crystal.png'
+import StepLogo from '@/Assets/Images/map/step.png'
+import { speedconst } from '@/Utils/constants'
+import { FontSize } from '@/Theme/Variables'
+import { startLoading } from '@/Store/UI/actions'
+import mapReducer from '@/Store/Map/reducer'
 
 type WorkoutScreenScreenNavigationProp = CompositeScreenProps<
   StackScreenProps<WorkoutNavigatorParamList>,
@@ -66,132 +66,130 @@ type WorkoutScreenScreenNavigationProp = CompositeScreenProps<
     BottomTabScreenProps<TabNavigatorParamList>,
     DrawerScreenProps<DrawerNavigatorParamList>
   >
->;
+>
 const styles = StyleSheet.create({
   mapContainer: {
     flex: 3,
   },
   header: {
-    color:colors.white,
-    fontFamily: "Avenir",
-    fontWeight:'bold'
+    color: colors.white,
+    fontFamily: 'Avenir',
+    fontWeight: 'bold',
   },
   distanceTextStyle: {
-    fontSize: 100,
-    fontWeight: "700",
+    fontSize: 85,
+    fontWeight: '700',
     color: colors.brightTurquoise,
-	flex:4
+    flex: 4,
   },
 
   mapDistanceText: {
-    alignSelf: "center",
-    alignItems: "center",
+    alignSelf: 'center',
+    alignItems: 'center',
     fontSize: 20,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     color: colors.crystal,
-	flex:1
+    flex: 1,
   },
-
   mapText: {
     marginLeft: 10,
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   container: {
     flex: 1,
   },
   statusBarContainer: {
-    flexDirection: "row",
-    width: "100%",
+    flexDirection: 'row',
+    width: '100%',
     marginTop: 20,
   },
 
   dataContainer: {
     flex: 3,
     backgroundColor: colors.darkGunmetal,
-    color: "#fff",
+    color: '#fff',
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
     // borderWidth:1,
   },
   dataPaddingContainer: {
     flex: 1,
-	marginHorizontal:15,
+    marginHorizontal: 15,
   },
   distanceContainer: {
     flex: 2,
-    display: "flex",
-    flexDirection: "column",
+    display: 'flex',
+    flexDirection: 'column',
   },
   textStyle: {
     fontSize: 18,
-    textAlign: "center",
-    alignSelf: "center",
-    fontWeight: "bold",
-	
+    textAlign: 'center',
+    alignSelf: 'center',
+    fontWeight: 'bold',
   },
   stateButtonContainer: {
     flex: 1,
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-around",
-	alignItems:'flex-end',
-    width: "100%",
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'flex-end',
+    width: '100%',
   },
   statePauseResumeButton: {
-    backgroundColor: colors.crystal,
+    backgroundColor: colors.brightTurquoise,
     height: 40,
-    color: colors.brightTurquoise,
-    width: "40%",
+    color: colors.black,
+    width: '40%',
   },
   stateStopButton: {
-    borderStyle: "solid",
-    borderColor: "red",
+    borderStyle: 'solid',
+    borderColor: 'red',
     borderWidth: 2,
-    backgroundColor: "transparent",
-    width: "40%",
+    backgroundColor: 'transparent',
+    width: '40%',
   },
   stateStopButtonText: {
-    color: "red",
+    color: 'red',
   },
   rowStepContentContainer: {
-	flex:0.5,
-    flexDirection: "row",
-    width: "100%",
-    justifyContent: "center",
+    flex: 0.5,
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'center',
   },
   rowSpeedTextContentContainer: {
-    flexDirection: "row",
-    width: "100%",
-    justifyContent: "center",
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'center',
   },
   timerSpeedRowContentContainer: {
-    flexDirection: "row",
-    width: "100%",
-	flex:1,
+    flexDirection: 'row',
+    width: '100%',
+    flex: 1,
   },
   contentContainer: {
-    display: "flex",
-    width: "100%",
+    display: 'flex',
+    width: '100%',
     flex: 1,
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
   },
-});
+})
 
-const isIOS = Platform.OS === "ios";
-const health_kit = isIOS ? new IOSHealthKit() : new GoogleFitKit();
+const isIOS = Platform.OS === 'ios'
+const health_kit = isIOS ? new IOSHealthKit() : new GoogleFitKit()
 
 export type Region = {
-  latitude: number;
-  longitude: number;
-  latitudeDelta: number;
-  longitudeDelta: number;
-};
+  latitude: number
+  longitude: number
+  latitudeDelta: number
+  longitudeDelta: number
+}
 
 export enum SpeedUnit {
-  KILOMETRE_PER_HOUR = "km/h",
-  METER_PER_SECOND = "m/s",
-  MILE_PER_HOUR = "m/h",
+  KILOMETRE_PER_HOUR = 'km/h',
+  METER_PER_SECOND = 'm/s',
+  MILE_PER_HOUR = 'm/h',
 }
 
 export enum TimeUnit {
@@ -203,96 +201,94 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({
   navigation,
   route,
 }) => {
-  const dispatch = useDispatch();
-  const { Common, Fonts, Gutters, Layout } = useTheme();
-  const { t } = useTranslation();
+  const dispatch = useDispatch()
+  const { Common, Fonts, Gutters, Layout } = useTheme()
+  const { t } = useTranslation()
 
   // Redux
-  const startTime = useSelector((state: any) => state.map.startTime);
-  const steps = useSelector((state: any) => state.map.steps);
-  const calories = useSelector((state: any) => state.map.calories);
-  const distance = useSelector((state: any) => state.map.distance);
-  const heartRate = useSelector((state: any) => state.map.heartRate);
-  const paths = useSelector((state: any) => state.map.paths);
-  const currentState = useSelector((state: any) => state.map.currentState);
-  const overSpeedPaths = useSelector((state: any) => state.map.overSpeedPaths);
-  const username = useSelector((state: any) => state.user.uuid);
-  const speedUnit = useSelector((state: any) => state.unit.speedUnit);
+  const startTime = useSelector((state: any) => state.map.startTime)
+  const steps = useSelector((state: any) => state.map.steps)
+  const calories = useSelector((state: any) => state.map.calories)
+  const distance = useSelector((state: any) => state.map.distance)
+  const heartRate = useSelector((state: any) => state.map.heartRate)
+  const paths = useSelector((state: any) => state.map.paths)
+  const currentState = useSelector((state: any) => state.map.currentState)
+  const overSpeedPaths = useSelector((state: any) => state.map.overSpeedPaths)
+  const username = useSelector((state: any) => state.user.uuid)
+  const speedUnit = useSelector((state: any) => state.unit.speedUnit)
 
-  const [timer, setTimer] = useState(0);
-  const [speed, setSpeed] = useState(0);
-  const [isStopping, setIsStopping] = useState(false);
+  const [timer, setTimer] = useState(0)
+  const [speed, setSpeed] = useState(0)
+  const [isStopping, setIsStopping] = useState(false)
 
-  let timerIntervalId: NodeJS.Timer;
-  let stepIntervalId: NodeJS.Timer;
+  let timerIntervalId: NodeJS.Timer
+  let stepIntervalId: NodeJS.Timer
 
   useEffect(() => {
     timerIntervalId = setInterval(() => {
-      let totalPauseTime = 0;
+      let totalPauseTime = 0
       paths.forEach(
         (path: { pathTotalPauseTime: number; pathTotalReduceStep: number }) => {
           if (path.pathTotalPauseTime) {
-            totalPauseTime += path.pathTotalPauseTime;
+            totalPauseTime += path.pathTotalPauseTime
           }
-        }
-      );
-      const cur_timestamp = moment(new Date()).unix();
-      const start_timestamp = moment(startTime).unix();
-      const timer_second = cur_timestamp - start_timestamp - totalPauseTime;
-      let new_speed = distance / timer_second;
+        },
+      )
+      const cur_timestamp = moment(new Date()).unix()
+      const start_timestamp = moment(startTime).unix()
+      const timer_second = cur_timestamp - start_timestamp - totalPauseTime
+      let new_speed = distance / timer_second
       if (currentState !== ActivityType.PAUSE) {
-        setTimer(Math.floor(timer_second));
-        setSpeed(new_speed);
+        setTimer(Math.floor(timer_second))
+        setSpeed(new_speed)
       }
-    }, 1000);
+    }, 1000)
     return () => {
-      clearInterval(timerIntervalId);
-    };
-  }, [currentState, distance, speedUnit, steps]);
+      clearInterval(timerIntervalId)
+    }
+  }, [currentState, distance, speedUnit, steps])
 
   useEffect(() => {
     stepIntervalId = setInterval(() => {
-      console.log("path", JSON.stringify(paths));
-      let totalReduceStep = 0;
+      console.log('path', JSON.stringify(paths))
+      let totalReduceStep = 0
       paths.forEach(
         (path: { pathTotalPauseTime: number; pathTotalReduceStep: number }) => {
           if (path.pathTotalPauseTime) {
-            totalReduceStep += path.pathTotalReduceStep;
+            totalReduceStep += path.pathTotalReduceStep
           }
-        }
-      );
+        },
+      )
       if (
         currentState !== ActivityType.PAUSE &&
         currentState !== ActivityType.OVERSPEED &&
         startTime !== undefined
       ) {
-        const temp_step = health_kit.GetSteps(new Date(startTime), new Date());
-        Promise.resolve(temp_step).then((step) => {
-          dispatch({ type: "readSteps", payload: { steps: Math.floor(step) } });
-        });
+        const temp_step = health_kit.GetSteps(new Date(startTime), new Date())
+        Promise.resolve(temp_step).then(step => {
+          dispatch({ type: 'readSteps', payload: { steps: Math.floor(step) } })
+        })
       }
-    }, 10000);
+    }, 10000)
     return () => {
-      clearInterval(stepIntervalId);
-    };
-  }, [currentState]);
+      clearInterval(stepIntervalId)
+    }
+  }, [currentState])
 
-  const SUBSCRIPTIONS: Subscription[] = [];
+  const SUBSCRIPTIONS: Subscription[] = []
   const subscribe = (subscription: Subscription) => {
-    SUBSCRIPTIONS.push(subscription);
-  };
+    SUBSCRIPTIONS.push(subscription)
+  }
   const unsubscribe = () => {
-    SUBSCRIPTIONS.forEach((subscription: Subscription) =>
-      subscription.remove()
-    );
-  };
+    SUBSCRIPTIONS.forEach((subscription: Subscription) => subscription.remove())
+  }
   const initLocation = () => {
     // console.log("temp_current_state", temp_current_state);
     subscribe(
-      BackgroundGeolocation.onLocation((location) => {
-        const temp_currentState = store.getState().map.currentState;
-        console.log(ActivityType[temp_currentState]);
-        console.log(ActivityType[temp_currentState], startTime);
+      BackgroundGeolocation.onLocation(location => {
+        const temp_currentState = store.getState().map.currentState
+        console.log(ActivityType[temp_currentState])
+        console.log(ActivityType[temp_currentState], startTime)
         if (
           temp_currentState !== ActivityType.PAUSE &&
           startTime !== null &&
@@ -306,41 +302,41 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({
             location.coords.speed != -1
           ) {
             if (!location.coords.speed) {
-              return;
+              return
             }
-            console.log("speed", location.coords.speed);
+            console.log('speed', location.coords.speed)
             if (location.coords.speed! <= speedconst.runningLowerLimit) {
-              return;
+              return
             }
             if (
               location.coords.speed! >= speedconst.runningUpperLimit &&
               temp_currentState !== ActivityType.OVERSPEED
             ) {
               dispatch({
-                type: "overSpeed",
+                type: 'overSpeed',
                 payload: { startOverSpeedTime: new Date().getTime() },
-              });
-              console.log("Over speed");
-              return;
+              })
+              console.log('Over speed')
+              return
             }
             if (
               location.coords.speed! <= speedconst.runningUpperLimit &&
               temp_currentState === ActivityType.OVERSPEED
             ) {
-              const resumeTime = new Date();
-              const pauseStateTime = paths[paths.length - 1].pauseTime;
+              const resumeTime = new Date()
+              const pauseStateTime = paths[paths.length - 1].pauseTime
               const ReduceStep = health_kit.GetSteps(
                 new Date(pauseStateTime),
-                resumeTime
-              );
+                resumeTime,
+              )
               const ReduceCalories = health_kit.GetCaloriesBurned(
                 new Date(pauseStateTime),
-                resumeTime
-              );
+                resumeTime,
+              )
               Promise.all([ReduceStep, ReduceCalories])
-                .then((result) => {
+                .then(result => {
                   dispatch({
-                    type: "returnToNormalSpeed",
+                    type: 'returnToNormalSpeed',
                     payload: {
                       resumeTime: resumeTime.getTime(),
                       latitude: location.coords.latitude,
@@ -348,38 +344,38 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({
                       reduceStep: Math.floor(result[0]),
                       reduceCalories: Math.floor(result[1]),
                     },
-                  });
+                  })
                 })
                 .then(() => {
-                  return;
-                });
+                  return
+                })
             }
 
             if (temp_currentState === ActivityType.OVERSPEED) {
               dispatch({
-                type: "overSpeedMoving",
+                type: 'overSpeedMoving',
                 payload: {
                   latitude: location.coords.latitude,
                   longitude: location.coords.longitude,
                 },
-              });
+              })
             }
             if (temp_currentState === ActivityType.MOVING) {
               const new_cal = health_kit.GetCaloriesBurned(
                 new Date(startTime),
-                new Date()
-              );
+                new Date(),
+              )
               const new_step = health_kit.GetSteps(
                 new Date(startTime),
-                new Date()
-              );
+                new Date(),
+              )
               const new_heartrate = health_kit.GetHeartRates(
                 new Date(startTime),
-                new Date()
-              );
-              Promise.all([new_cal, new_step, new_heartrate]).then((result) => {
+                new Date(),
+              )
+              Promise.all([new_cal, new_step, new_heartrate]).then(result => {
                 dispatch({
-                  type: "move",
+                  type: 'move',
                   payload: {
                     latitude: location.coords.latitude,
                     longitude: location.coords.longitude,
@@ -388,42 +384,42 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({
                     heartRate: result[2],
                     firstLoad: false,
                   },
-                });
-              });
+                })
+              })
             }
           } else {
-            console.log("not moving");
+            console.log('not moving')
           }
         }
-      })
-    );
-  };
+      }),
+    )
+  }
 
   useEffect(() => {
-    initLocation();
+    initLocation()
     return () => {
-      unsubscribe();
-    };
-  }, []);
+      unsubscribe()
+    }
+  }, [])
 
   const StopRunningSession = async () => {
-    Alert.alert(t("areYouSureToStop"), "", [
+    Alert.alert(t('areYouSureToStop'), '', [
       {
-        text: "OK",
+        text: 'OK',
         onPress: async () => {
-          dispatch(startLoading(true));
-          setIsStopping(true);
+          dispatch(startLoading(true))
+          setIsStopping(true)
           // await BackgroundGeolocation.changePace(false)
-          await BackgroundGeolocation.stop();
+          await BackgroundGeolocation.stop()
           // await BackgroundGeolocation.changePace(false)
           dispatch({
-            type: "stop",
+            type: 'stop',
             payload: { endTime: new Date().getTime() },
-          });
+          })
           // setIsStopped(true)
           try {
-            const paths_string = JSON.stringify(paths);
-            const over_speed_paths_string = JSON.stringify(overSpeedPaths);
+            const paths_string = JSON.stringify(paths)
+            const over_speed_paths_string = JSON.stringify(overSpeedPaths)
             const data = {
               startTime: startTime,
               endTime: new Date().getTime(),
@@ -436,62 +432,62 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({
               timer: timer,
               // speed: speed,
               overSpeedPath: over_speed_paths_string,
-            };
-            console.log("data get", JSON.stringify(data, null, 2));
+            }
+            console.log('data get', JSON.stringify(data, null, 2))
             let response = await axios.post(
-              "https://85vamr0pne.execute-api.us-west-2.amazonaws.com/dev/sessions",
-              data
-            );
+              'https://85vamr0pne.execute-api.us-west-2.amazonaws.com/dev/sessions',
+              data,
+            )
             if (response) {
-              setIsStopping(false);
-              navigation.navigate(RouteStacks.endWorkout, data);
-              clearInterval(timerIntervalId);
-              clearInterval(stepIntervalId);
+              setIsStopping(false)
+              navigation.navigate(RouteStacks.endWorkout, data)
+              clearInterval(timerIntervalId)
+              clearInterval(stepIntervalId)
             }
           } catch (err) {
-            console.log("err", err);
-            navigation.replace(RouteStacks.endWorkout);
+            console.log('err', err)
+            navigation.replace(RouteStacks.endWorkout)
           } finally {
-            dispatch(startLoading(false));
+            dispatch(startLoading(false))
           }
         },
       },
       {
-        text: "Cancel",
-        onPress: () => {},
-        style: "destructive",
+        text: 'Cancel',
+        onPress: () => { },
+        style: 'destructive',
       },
-    ]);
-  };
+    ])
+  }
 
   const PauseRunningSession = async () => {
-    await BackgroundGeolocation.changePace(false);
-    const curTime = new Date();
-    dispatch({ type: "pause", payload: { pauseTime: curTime.getTime() } });
-  };
+    await BackgroundGeolocation.changePace(false)
+    const curTime = new Date()
+    dispatch({ type: 'pause', payload: { pauseTime: curTime.getTime() } })
+  }
 
   const ResumeRunningSession = async () => {
-    await BackgroundGeolocation.changePace(true);
+    await BackgroundGeolocation.changePace(true)
     let location = await BackgroundGeolocation.getCurrentPosition({
       samples: 1,
       timeout: 10,
       maximumAge: 5000,
       desiredAccuracy: 5,
       persist: false,
-    });
-    const pauseStateTime = paths[paths.length - 1].pauseTime;
+    })
+    const pauseStateTime = paths[paths.length - 1].pauseTime
     const ReduceStep = await health_kit.GetSteps(
       new Date(pauseStateTime),
-      new Date()
-    );
+      new Date(),
+    )
     const ReduceCalories = await health_kit.GetCaloriesBurned(
       new Date(pauseStateTime),
-      new Date()
-    );
-    await Promise.all([ReduceStep, ReduceCalories]).then((result) => {
+      new Date(),
+    )
+    await Promise.all([ReduceStep, ReduceCalories]).then(result => {
       //Resume bring to moving state
       dispatch({
-        type: "resume",
+        type: 'resume',
         payload: {
           resumeTime: new Date().getTime(),
           latitude: location.coords.latitude,
@@ -499,106 +495,155 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({
           reduceStep: result[0],
           reduceCalories: result[1],
         },
-      });
+      })
       // dispatch({ type:'resume', payload:{ resumeTime:(new Date).getTime(), latitude:latitude, longitude:longitude, reduceStep:result[0], reduceCalories: result[1] }})
-    });
-  };
+    })
+  }
 
   const chanageSpeedUnit = () => {
     if (speedUnit === SpeedUnit.KILOMETRE_PER_HOUR) {
       // setSpeedUnit(SpeedUnit.MILE_PER_HOUR)
       dispatch({
-        type: "changeSpeedUnit",
+        type: 'changeSpeedUnit',
         payload: { speedUnit: SpeedUnit.MILE_PER_HOUR },
-      });
+      })
     } else if (speedUnit === SpeedUnit.MILE_PER_HOUR) {
       // setSpeedUnit(SpeedUnit.METER_PER_SECOND)
       dispatch({
-        type: "changeSpeedUnit",
+        type: 'changeSpeedUnit',
         payload: { speedUnit: SpeedUnit.METER_PER_SECOND },
-      });
+      })
     } else if (speedUnit === SpeedUnit.METER_PER_SECOND) {
       // setSpeedUnit(SpeedUnit.KILOMETRE_PER_HOUR)
       dispatch({
-        type: "changeSpeedUnit",
+        type: 'changeSpeedUnit',
         payload: { speedUnit: SpeedUnit.KILOMETRE_PER_HOUR },
-      });
+      })
     }
-  };
+  }
 
   const BrightTurquoiseText = (props: TextProps) => {
-    const { style, ...rest } = props;
+    const { style, ...rest } = props
     return (
       <Text
         style={[
           styles.textStyle,
           style,
-          { color: colors.brightTurquoise, fontFamily: "Poppins-Bold" },
+          { color: colors.brightTurquoise, fontFamily: 'Poppins-Bold' },
         ]}
         {...rest}
       />
-    );
-  };
+    )
+  }
   const WhiteText = (props: TextProps) => {
-    const { style, ...rest } = props;
+    const { style, ...rest } = props
     return (
       <Text
         style={[
           styles.textStyle,
           style,
-          { color: colors.white, fontFamily: "Poppins-Bold" },
+          { color: colors.white, fontFamily: 'Poppins-Bold' },
         ]}
         {...rest}
       />
-    );
-  };
+    )
+  }
 
   const CrystalText = (props: TextProps) => {
-    const { style, ...rest } = props;
+    const { style, ...rest } = props
     return (
       <Text
         style={[
           styles.textStyle,
           style,
-          { color: colors.crystal, fontFamily: "Poppins" },
+          { color: colors.crystal, fontFamily: 'Poppins' },
         ]}
         {...rest}
       />
-    );
-  };
-  const TITLE_MIDDLE: ViewStyle = { flex: 3, justifyContent: "center", alignItems: "center", flexDirection:'row' }
+    )
+  }
+  const TITLE_MIDDLE: ViewStyle = {
+    flex: 3,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+  }
   const ROOT: ViewStyle = {
-	flexDirection: "row",
-	paddingHorizontal: Spacing[4],
-	alignItems: "center",
-	paddingTop: Spacing[5],
-	paddingBottom: Spacing[5],
-	justifyContent: "flex-start",
-  backgroundColor:colors.darkGunmetal
+    flexDirection: 'row',
+    paddingHorizontal: Spacing[4],
+    alignItems: 'center',
+    paddingTop: Spacing[5],
+    paddingBottom: Spacing[5],
+    justifyContent: 'flex-start',
+    backgroundColor: colors.darkGunmetal,
   }
 
   const HEADER: TextStyle = {
-	paddingBottom: Spacing[5] - 1,
-	paddingHorizontal: Spacing[4],
-	paddingTop: Spacing[4],
-	height: 80,
+    paddingBottom: Spacing[5] - 1,
+    paddingHorizontal: Spacing[4],
+    paddingTop: Spacing[4],
+    height: 80,
   }
   const StatusDot = (props: ViewProps) => {
-    const { style, ...rest } = props;
-    return <View style={[style,{height:10, width:10, borderRadius:50, margin:10}]}></View>
+    const { style, ...rest } = props
+    return (
+      <View
+        style={[
+          style,
+          { height: 10, width: 10, borderRadius: 50, margin: 10 },
+        ]}></View>
+    )
   }
   return (
     <MapScreenBackgrounds screenName={RouteStacks.workout}>
       {/* <Header headerText={ActivityType[currentState]} style={styles.header} /> */}
-	  <View style={[ROOT, HEADER]}>
-	   <View style={TITLE_MIDDLE}>
-		   {currentState === ActivityType.OVERSPEED && <><View style={[{height:5, width:5, backgroundColor:'red'}]}></View><Text style={[Fonts.textRegular,styles.header]}>{t("movingStatus.Overspeed")}</Text></>}
-		   {currentState === ActivityType.PAUSE && <><StatusDot style={{backgroundColor:'red'}}/><Text style={[Fonts.textRegular,styles.header]}>{t("movingStatus.Pause")}</Text></>}
-		   {currentState === ActivityType.MOVING && <><StatusDot style={{backgroundColor:'green'}}/><Text style={[Fonts.textRegular,styles.header]}>{t("movingStatus.Running")}</Text></>}
-       {currentState === ActivityType.LOADING && <><StatusDot style={{backgroundColor:'red'}}/><Text style={[Fonts.textRegular,styles.header]}>{t("movingStatus.Loading")}</Text></>}
-		   {currentState === ActivityType.ENDED && <><StatusDot style={{backgroundColor:'red'}}/><Text style={[Fonts.textRegular,styles.header]}>{t("movingStatus.Ended")}</Text></>}
+      <View style={[ROOT, HEADER]}>
+        <View style={TITLE_MIDDLE}>
+          {currentState === ActivityType.OVERSPEED && (
+            <>
+              <View
+                style={[
+                  { height: 5, width: 5, backgroundColor: 'red' },
+                ]}></View>
+              <Text style={[Fonts.textRegular, styles.header]}>
+                {t('movingStatus.Overspeed')}
+              </Text>
+            </>
+          )}
+          {currentState === ActivityType.PAUSE && (
+            <>
+              <StatusDot style={{ backgroundColor: 'red' }} />
+              <Text style={[Fonts.textRegular, styles.header]}>
+                {t('movingStatus.Pause')}
+              </Text>
+            </>
+          )}
+          {currentState === ActivityType.MOVING && (
+            <>
+              <StatusDot style={{ backgroundColor: 'green' }} />
+              <Text style={[Fonts.textRegular, styles.header]}>
+                {t('movingStatus.Running')}
+              </Text>
+            </>
+          )}
+          {currentState === ActivityType.LOADING && (
+            <>
+              <StatusDot style={{ backgroundColor: 'red' }} />
+              <Text style={[Fonts.textRegular, styles.header]}>
+                {t('movingStatus.Loading')}
+              </Text>
+            </>
+          )}
+          {currentState === ActivityType.ENDED && (
+            <>
+              <StatusDot style={{ backgroundColor: 'red' }} />
+              <Text style={[Fonts.textRegular, styles.header]}>
+                {t('movingStatus.Ended')}
+              </Text>
+            </>
+          )}
         </View>
-		</View>
+      </View>
       <View style={[styles.container]}>
         <View style={[styles.mapContainer]}>
           {/* {startRegion && ( */}
@@ -627,67 +672,62 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({
                 style={{
                   width: 20,
                   height: 20,
-                  resizeMode: "contain",
-                  alignSelf: "center",
-                }}
-              ></Image>
+                  resizeMode: 'contain',
+                  alignSelf: 'center',
+                }}></Image>
               <WhiteText> {steps}</WhiteText>
             </View>
             <View style={[styles.timerSpeedRowContentContainer]}>
               <View style={[styles.contentContainer]}>
-                <Pressable style={{ flex:1 }}>
+                <Pressable style={{ flex: 1 }}>
                   <Image
                     source={TimerLogo}
                     style={{
-                      resizeMode: "contain",
-                      alignSelf: "center",
-					  flex:2
+                      resizeMode: 'contain',
+                      alignSelf: 'center',
+                      flex: 2,
                     }}
                   />
                   <WhiteText
                     style={[
-                      { lineHeight: 30, fontSize: 25, fontWeight: "bold" },
-                    ]}
-                  >
+                      { lineHeight: 30, fontSize: 25, fontWeight: 'bold' },
+                    ]}>
                     {Math.floor((timer % 3600) / 60)}"{Math.ceil(timer % 60)}'
                   </WhiteText>
                 </Pressable>
               </View>
               <View style={[styles.contentContainer]}>
-                <Pressable onPress={chanageSpeedUnit} style={{ flex:1 }}>
+                <Pressable onPress={chanageSpeedUnit} style={{ flex: 1 }}>
                   <Image
                     source={SpeedIcon}
                     style={{
-                      resizeMode: "contain",
-                      alignSelf: "center",
-					  flex:2
+                      resizeMode: 'contain',
+                      alignSelf: 'center',
+                      flex: 2,
                     }}
                   />
                   <View style={[styles.rowSpeedTextContentContainer]}>
                     {speedUnit === SpeedUnit.KILOMETRE_PER_HOUR && (
                       <WhiteText
                         style={[
-                          { lineHeight: 30, fontSize: 25, fontWeight: "bold" },
-                        ]}
-                      >
+                          { lineHeight: 30, fontSize: 25, fontWeight: 'bold' },
+                        ]}>
                         {metersecond_2_kmhour(speed).toFixed(1)}
                       </WhiteText>
                     )}
                     {speedUnit === SpeedUnit.MILE_PER_HOUR && (
                       <WhiteText
                         style={[
-                          { lineHeight: 30, fontSize: 25, fontWeight: "bold" },
-                        ]}
-                      >
+                          { lineHeight: 30, fontSize: 25, fontWeight: 'bold' },
+                        ]}>
                         {metersecond_2_milehour(speed).toFixed(1)}
                       </WhiteText>
                     )}
                     {speedUnit === SpeedUnit.METER_PER_SECOND && (
                       <WhiteText
                         style={[
-                          { lineHeight: 30, fontSize: 25, fontWeight: "bold" },
-                        ]}
-                      >
+                          { lineHeight: 30, fontSize: 25, fontWeight: 'bold' },
+                        ]}>
                         {speed.toFixed(1)}
                       </WhiteText>
                     )}
@@ -709,19 +749,17 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({
                       Gutters.regularBMargin,
                       styles.stateStopButton,
                     ]}
-                    onPress={StopRunningSession}
-                  >
+                    onPress={StopRunningSession}>
                     <Text
                       style={[
                         Fonts.textRegular,
                         styles.stateStopButtonText,
                         {
-                          fontFamily: "Poppins",
-                          fontWeight: "600",
+                          fontFamily: 'Poppins-Bold',
+                          fontWeight: '600',
                           fontSize: 16,
                         },
-                      ]}
-                    >
+                      ]}>
                       Stop
                     </Text>
                   </Pressable>
@@ -735,18 +773,16 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({
                       Gutters.regularBMargin,
                       styles.statePauseResumeButton,
                     ]}
-                    onPress={PauseRunningSession}
-                  >
+                    onPress={PauseRunningSession}>
                     <Text
                       style={
                         (Fonts.textRegular,
                         {
-                          fontFamily: "Poppins",
-                          fontWeight: "600",
+                          fontFamily: 'Poppins-Bold',
+                          fontWeight: '600',
                           fontSize: 16,
                         })
-                      }
-                    >
+                      }>
                       Pause
                     </Text>
                   </Pressable>
@@ -758,18 +794,16 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({
                     Gutters.regularBMargin,
                     styles.statePauseResumeButton,
                   ]}
-                  onPress={ResumeRunningSession}
-                >
+                  onPress={ResumeRunningSession}>
                   <Text
                     style={
                       (Fonts.textRegular,
                       {
-                        fontFamily: "Poppins",
-                        fontWeight: "600",
+                        fontFamily: 'Poppins-Bold',
+                        fontWeight: '600',
                         fontSize: 16,
                       })
-                    }
-                  >
+                    }>
                     Resume
                   </Text>
                 </Pressable>
@@ -779,7 +813,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({
         </View>
       </View>
     </MapScreenBackgrounds>
-  );
-};
+  )
+}
 
-export default ActiveScreenSolo;
+export default ActiveScreenSolo

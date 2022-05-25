@@ -228,7 +228,7 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 					<WhiteText style={{fontSize: 24, fontWeight: "400" }}>{t("points")}</WhiteText>
 				</View>
 
-				<View style={[styles.colContentContainer, { flex: 8, justifyContent: "center" }]}>
+				<View style={[styles.colContentContainer, { flex: 8, justifyContent: "center", marginBottom:10 }]}>
 					<SocialShareButton
 						onPress={() => { console.log('share') }}
 						text={t('shareOnTwitter')}

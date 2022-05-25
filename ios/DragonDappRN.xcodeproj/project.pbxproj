@@ -10,13 +10,14 @@
 		00E356F31AD99517003FC87E /* DragonDappRNTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* DragonDappRNTests.m */; };
 		011408FFC1C84EA48D6D40CC /* Poppins-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A77D9E926BA8439999CE7CB7 /* Poppins-Thin.ttf */; };
 		0303D1DEF9AF4545935525F1 /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F736A330FA9541D6B427BF4E /* Poppins-SemiBold.ttf */; };
-		0ABFF4E57ABBF7C2A9517EF9 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
+		0ABFF4E57ABBF7C2A9517EF9 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		0F0BBFA861BE45D582DC6CF9 /* Poppins-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 707FE37C147840959D575428 /* Poppins-MediumItalic.ttf */; };
 		1011A9CDACD542AEA8C263D8 /* Poppins-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DD100D05C0824FC0B66AA8BE /* Poppins-ExtraLight.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		1C0B3AA02825000F005158C6 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C7C45D52800148300F60685 /* HealthKit.framework */; };
+		1C42EA51283DC4A500C69A14 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C42EA50283DC4A500C69A14 /* MapKit.framework */; };
 		1F5B4F1527FEBA92009618AF /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F5B4F0527FEBA92009618AF /* Zocial.ttf */; };
 		1F5B4F1627FEBA92009618AF /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F5B4F0627FEBA92009618AF /* Foundation.ttf */; };
 		1F5B4F1727FEBA92009618AF /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F5B4F0727FEBA92009618AF /* Ionicons.ttf */; };
@@ -152,6 +153,7 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = DragonDappRN/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = DragonDappRN/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = DragonDappRN/main.m; sourceTree = "<group>"; };
+		1C42EA50283DC4A500C69A14 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		1F5B4F0527FEBA92009618AF /* Zocial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		1F5B4F0627FEBA92009618AF /* Foundation.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		1F5B4F0727FEBA92009618AF /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
@@ -232,7 +234,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0ABFF4E57ABBF7C2A9517EF9 /* BuildFile in Frameworks */,
+				0ABFF4E57ABBF7C2A9517EF9 /* (null) in Frameworks */,
 				799D0C3145754A7421C23CF1 /* libPods-DragonDappRN-DragonDappRNTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -242,6 +244,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1C0B3AA02825000F005158C6 /* HealthKit.framework in Frameworks */,
+				1C42EA51283DC4A500C69A14 /* MapKit.framework in Frameworks */,
 				65D4CC40D7DD3FBCDB3975E4 /* libPods-DragonDappRN.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -362,6 +365,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1C42EA50283DC4A500C69A14 /* MapKit.framework */,
 				6C7C45D52800148300F60685 /* HealthKit.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
