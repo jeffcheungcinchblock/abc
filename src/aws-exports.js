@@ -16,8 +16,8 @@ const awsmobile = {
             "phone",
             "profile"
         ],
-        "redirectSignIn": "com.fitevo://signIn",
-        "redirectSignOut": "com.fitevo://signOut",
+        "redirectSignIn": "com.fitnessevo://signIn",
+        "redirectSignOut": "com.fitnessevo://signOut",
         "responseType": "code"
     },
     "federationTarget": "COGNITO_USER_POOLS",

@@ -38,6 +38,7 @@ export default {
   learnMoreAllCapital: "LEARN MORE",
   shareOnTwitter: "Share on Twitter",
   saveToPhotos: "Save to Photos",
+  saveToPhotosSuccess: "Save to Photos successfully",
   extra: "EXTRA!",
   gallerySlides: {
     slide0Title: "REFERRAL SYSTEM:",

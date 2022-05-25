@@ -21,7 +21,8 @@ import {
     RefreshControl,
     Image,
     Dimensions,
-<<<<<<< HEAD
+    Linking,
+
 } from "react-native";
 import { useTranslation } from "react-i18next";
 import { Brand, Header } from "@/Components";
@@ -29,16 +30,6 @@ import { useTheme } from "@/Hooks";
 import { changeTheme, ThemeState } from "@/Store/Theme";
 import { login, logout } from "@/Store/Users/actions";
 import { UserState } from "@/Store/Users/reducer";
-=======
-    Linking,
-} from 'react-native'
-import { useTranslation } from 'react-i18next'
-import { Brand, Header } from '@/Components'
-import { useTheme } from '@/Hooks'
-import { changeTheme, ThemeState } from '@/Store/Theme'
-import { login, logout } from '@/Store/Users/actions'
-import { UserState } from '@/Store/Users/reducer'
->>>>>>> b3845ebc3c596287972923ec2a78969dec95ed79
 // @ts-ignore
 import AnimateNumber from "react-native-animate-number";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
@@ -366,8 +357,6 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({
             await BackgroundGeolocation.changePace(true);
             setEnabled(true);
         }
-
-
     };
 
     const onLesGoBtnPress = () => dailyRewardModalRef?.current?.close();
@@ -796,7 +785,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({
                     {referredNames.length === 0 ? (
                         <View style={[REFERRED_FRIEND_ICON, { top: 0, left: 0 }]}>
                             <Image source={emptyAvatar} style={{}} />
-                        </View> : referredNames.length > 4 ? <View style={[REFERRED_FRIEND_ICON, { top: 0, left: 4 * 35, backgroundColor: colors.indigo }]}>
+                        </View>) : referredNames.length > 4 ? <View style={[REFERRED_FRIEND_ICON, { top: 0, left: 4 * 35, backgroundColor: colors.indigo }]}>
                             <Text style={{ color: colors.white, fontWeight: "bold", fontSize: 18 }}>+{referredNames.length - 4}</Text>
                         </View> : null
                     }

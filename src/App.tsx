@@ -146,6 +146,7 @@ const getUser = () => {
 };
 
 const urlOpener = async (url: string, redirectUrl: string) => {
+	console.log('redirectUrl', redirectUrl)
   try {
     if (
       redirectUrl === `${config.urlScheme}${RouteStacks.signIn}` &&

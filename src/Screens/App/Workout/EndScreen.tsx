@@ -32,6 +32,7 @@ import Share from 'react-native-share';
 import { FontSize } from '@/Theme/Variables'
 import { hasAndroidPermission } from "@/Utils/permissionHandlers";
 import crashlytics from '@react-native-firebase/crashlytics';
+import { triggerSnackbar } from "@/Utils/helpers";
 
 // import share from '@/Utils/endshare'
 const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
@@ -180,7 +181,8 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 				result: 'tmpfile',
 			})
 	
-			CameraRoll.save(uri, { type: "photo" })
+			await CameraRoll.save(uri, { type: "photo" })
+			triggerSnackbar(t("saveToPhotosSuccess"))
 		}catch(err: any){
 			crashlytics().recordError(err)
 		}
