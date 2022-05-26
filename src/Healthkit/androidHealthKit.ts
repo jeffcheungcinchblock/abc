@@ -3,6 +3,7 @@
 import GoogleFit, { Scopes } from 'react-native-google-fit'
 import { GeneralHealthKit } from './generalHealthKit'
 import  { check, request, RESULTS, PERMISSIONS } from 'react-native-permissions'
+import { is } from 'immer/dist/internal'
 // import Geolocation from 'react-native-geolocation-service'
 
 const options = {
@@ -20,9 +21,10 @@ export class GoogleFitKit extends GeneralHealthKit {
 
 
 	InitHealthKitPermission() {
-		return new Promise<boolean>((resolve) => {
-			GoogleFit.authorize(options).then(() => {
-				resolve(GoogleFit.isAuthorized)
+		return new Promise<boolean>(async (resolve) => {
+			await GoogleFit.authorize(options).then((authResult) => {
+				console.log('authResult', authResult)
+				resolve(authResult.success)
 			})
 		})
 	}
@@ -30,10 +32,9 @@ export class GoogleFitKit extends GeneralHealthKit {
 	GetAuthorizeStatus() {
 		return new Promise<boolean>(resolve => {
 			GoogleFit.checkIsAuthorized().then(() => {
-				console.log('googlefit authed',GoogleFit.isAuthorized) // Then you can simply refer to `GoogleFit.isAuthorized` boolean.
-				if(GoogleFit.isAuthorized){
+				if (GoogleFit.isAuthorized){
 					resolve(true)
-				}else{
+				} else {
 					resolve(false)
 				}
 			})
@@ -41,6 +42,7 @@ export class GoogleFitKit extends GeneralHealthKit {
 	}
 
 	GetSteps(startDate: Date, endDate: Date) {
+		console.log('getstep',startDate)
 		if (!GoogleFit.isAuthorized){
 			GoogleFit.authorize(options).then((authResult: any) => {
 				console.log('authResult', authResult)
@@ -178,7 +180,7 @@ export class GoogleFitKit extends GeneralHealthKit {
 			}
 		})
 
-	
+
 		GoogleFit.startRecording(function(result){
 			console.log(result)
 			let step = 0
@@ -205,12 +207,12 @@ export class GoogleFitKit extends GeneralHealthKit {
 				})
 			}
 		}, [ 'distance' ])
-			
+
 	}
 
 	StopWorkoutSession(){
 		GoogleFit.unsubscribeListeners()
 		console.log('end')
 	}
-	
+
 }

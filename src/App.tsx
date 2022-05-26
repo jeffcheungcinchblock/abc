@@ -30,8 +30,7 @@ import BackgroundGeolocation, {
 } from "react-native-background-geolocation";
 
 // TBD: remove later
-console.warn = () => { };
-
+console.warn = () => {};
 type geoConfigProps = {
 	[k in keyof Config]: Config[k]
 }
@@ -42,29 +41,30 @@ const geolocationConfig: {
 	default: geoConfigProps,
 
 } = {
-	ios: {
-		desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_NAVIGATION,
-		stationaryRadius: 6,
-		showsBackgroundLocationIndicator: true,
-		locationAuthorizationRequest: "WhenInUse",
-		activityType: BackgroundGeolocation.ACTIVITY_TYPE_FITNESS,
-		disableLocationAuthorizationAlert: true,
-	},
-	android: {
-		desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
-		allowIdenticalLocations: true,
-	},
-	default: {
-		distanceFilter: 10,
-		stopTimeout: 5,
-		isMoving: true,
-		disableElasticity: true,
-		preventSuspend: true,
-		stopOnTerminate: true,
-		reset: false,
-		debug: true,
-		logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
-	},
+  ios: {
+    desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_NAVIGATION,
+    stationaryRadius: 6,
+    showsBackgroundLocationIndicator: true,
+    locationAuthorizationRequest: "WhenInUse",
+    activityType: BackgroundGeolocation.ACTIVITY_TYPE_FITNESS,
+    disableLocationAuthorizationAlert: true,
+  },
+  android: {
+    desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
+    allowIdenticalLocations: true,
+    locationAuthorizationRequest: "WhenInUse",
+  },
+  default: {
+    distanceFilter: 2,
+    stopTimeout: 5,
+    isMoving: true,
+    disableElasticity: true,
+    preventSuspend: true,
+    stopOnTerminate: true,
+    reset: false,
+    debug: true,
+    logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
+  },
 };
 const onInstallConversionDataCanceller = appsFlyer.onInstallConversionData(
 	(res) => {
@@ -193,99 +193,103 @@ Amplify.configure({
 });
 
 const App = () => {
-	const getFcmToken = async () => {
-		const fcmToken = await messaging().getToken();
-		if (fcmToken) {
-			console.log("Firebase Token:", fcmToken);
-		} else {
-			console.log("Failed", "No token received");
-		}
-	};
+  const getFcmToken = async () => {
+    const fcmToken = await messaging().getToken();
+    if (fcmToken) {
+      console.log("Firebase Token:", fcmToken);
+    } else {
+      console.log("Failed", "No token received");
+    }
+  };
 
-	const requestUserPermission = async () => {
-		const authStatus = await messaging().requestPermission();
-		const enabled =
-			authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-			authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+  const requestUserPermission = async () => {
+    const authStatus = await messaging().requestPermission();
+    const enabled =
+      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
-		if (enabled) {
-			getFcmToken();
-		}
-	};
+    if (enabled) {
+      getFcmToken();
+    }
+  };
 
-	useEffect(() => {
-		try {
-			const run = async () => {
-				const iOSConfig = {
-					...geolocationConfig.ios,
-					...geolocationConfig.default,
-				};
-				const androidConfig = {
-					...geolocationConfig.android,
-					...geolocationConfig.default,
-				};
+  useEffect(() => {
+    RNBootSplash.hide({ fade: true });
 
-				await BackgroundGeolocation.ready(
-					// isIOS ? iOSConfig : androidConfig
-					iOSConfig
-				);
-			};
+    requestUserPermission();
 
-			RNBootSplash.hide({ fade: true });
+    let messageHandler = async (remoteMessage: any) => {
+      Alert.alert("A new FCM message arrived!", JSON.stringify(remoteMessage));
+    };
 
-			run()
+    let onNotiPress = async (remoteMessage: any) => {
+      const { link } = remoteMessage.data;
+      let toBeOpenURL = `${config.urlScheme}${link}`;
+      Linking.openURL(toBeOpenURL);
+    };
 
-			requestUserPermission();
+    messaging().onNotificationOpenedApp(onNotiPress);
 
-			let messageHandler = async (remoteMessage: any) => {
-				Alert.alert("A new FCM message arrived!", JSON.stringify(remoteMessage));
-			};
+    const unsubscribe = messaging().onMessage(messageHandler);
+    messaging().setBackgroundMessageHandler(messageHandler);
 
-			let onNotiPress = async (remoteMessage: any) => {
-				const { link } = remoteMessage.data;
-				let toBeOpenURL = `${config.urlScheme}${link}`;
-				Linking.openURL(toBeOpenURL);
-			};
+    store.dispatch(startLoading(false));
 
-			messaging().onNotificationOpenedApp(onNotiPress);
+    return unsubscribe;
+  }, []);
 
-			const unsubscribe = messaging().onMessage(messageHandler);
-			messaging().setBackgroundMessageHandler(messageHandler);
+  useEffect(() => {
+    const run = async () => {
+      const iOSConfig = {
+        ...geolocationConfig.ios,
+        ...geolocationConfig.default,
+      };
+      const androidConfig = {
+        ...geolocationConfig.android,
+        ...geolocationConfig.default,
+      };
 
-			store.dispatch(startLoading(false));
+      if(Platform.OS === 'ios') {
+        await BackgroundGeolocation.ready(
+          // isIOS ? iOSConfig : androidConfig
+          iOSConfig
+        );
+      }
+      else{
+        await BackgroundGeolocation.ready(
+          // isIOS ? iOSConfig : androidConfig
+          androidConfig
+        );
+      }
+     console.log('ready geolocation')
+    };
 
-			return unsubscribe;
+    run();
+    
+  }, []);
 
-		} catch (err: any) {
-			console.log('err ', err)
-		}
+  return (
+    <Provider store={store}>
+      {/**
+       * PersistGate delays the rendering of the app's UI until the persisted state has been retrieved
+       * and saved to redux.
+       * The `loading` prop can be `null` or any react instance to show during loading (e.g. a splash screen),
+       * for example `loading={<SplashScreen />}`.
+       * @see https://github.com/rt2zz/redux-persist/blob/master/docs/PersistGate.md
+       */}
 
-	}, []);
-
-
-
-	return (
-		<Provider store={store}>
-			{/**
-			 * PersistGate delays the rendering of the app's UI until the persisted state has been retrieved
-			 * and saved to redux.
-			 * The `loading` prop can be `null` or any react instance to show during loading (e.g. a splash screen),
-			 * for example `loading={<SplashScreen />}`.
-			 * @see https://github.com/rt2zz/redux-persist/blob/master/docs/PersistGate.md
-			 */}
-
-			<WalletConnectProvider
-				redirectUrl={`${config.urlScheme}${RouteStacks.homeMain}`}
-				storageOptions={{
-					asyncStorage: AsyncStorage as any, // latest version of asyncstorage doesnt conforms to the IAsyncStorage interface declaration, without store, size and getStore properties
-				}}
-			>
-				<PersistGate loading={null} persistor={persistor}>
-					<ApplicationNavigator />
-				</PersistGate>
-			</WalletConnectProvider>
-		</Provider>
-	);
+      <WalletConnectProvider
+        redirectUrl={`${config.urlScheme}${RouteStacks.homeMain}`}
+        storageOptions={{
+			asyncStorage: AsyncStorage as any, // latest version of asyncstorage doesnt conforms to the IAsyncStorage interface declaration, without store, size and getStore properties
+        }}
+      >
+        <PersistGate loading={null} persistor={persistor}>
+          <ApplicationNavigator />
+        </PersistGate>
+      </WalletConnectProvider>
+    </Provider>
+  );
 };
 
 export default App;

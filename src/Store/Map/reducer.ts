@@ -33,6 +33,7 @@ export type State = {
   startRegion?: StartRegion;
   overSpeeding: boolean;
   jumpTime?: Date;
+  curTime?: Date;
 };
 
 export enum ActivityType {
@@ -155,7 +156,6 @@ export default createReducer<State>(initialState, (builder) => {
   // Moving
   builder.addCase(move, (state, action) => {
     if (!action.payload.latitude || !action.payload.longitude) {
-      console.log("return");
       return state;
     }
     //sum of an array
@@ -173,9 +173,11 @@ export default createReducer<State>(initialState, (builder) => {
       state.longitude!,
       action.payload.latitude!,
       action.payload.longitude!
-    );
+    )
+
     if (distance > 30) {
-      const startOverSpeedTime = action.payload.jumpTime!;
+      state.currentState = ActivityType.OVERSPEED;
+      const startOverSpeedTime = action.payload.curTime;
       let lastIndexofCoordinate = 0;
       if (state.paths.length !== 0) {
         lastIndexofCoordinate = state.paths.length - 1;
@@ -184,14 +186,17 @@ export default createReducer<State>(initialState, (builder) => {
         ...state.paths[lastIndexofCoordinate],
         pauseTime: startOverSpeedTime,
       };
-      return {
-        ...state,
-        latitude: action.payload.latitude,
-        longitude: action.payload.longitude,
-        calories: reducedCarlorieBurned,
-        steps: newSteps,
+      let lastIndexofSpeedCoordinate = 0;
+      if (state.overSpeedPaths.length !== 0) {
+        lastIndexofSpeedCoordinate = state.paths.length - 1;
+      }
+      state.overSpeedPaths[lastIndexofSpeedCoordinate] = {
+        ...state.overSpeedPaths[lastIndexofSpeedCoordinate],
+        startOverSpeedTime: startOverSpeedTime,
       };
+      return state;
     }
+
     if (distance > 0) {
       const newPaths = JSON.parse(JSON.stringify(state.paths));
       if (
@@ -319,6 +324,7 @@ export default createReducer<State>(initialState, (builder) => {
   });
 
   builder.addCase(returnToNormalSpeed, (state, action) => {
+    console.log('return to normal speed')
     const tempEndPauseTime = action.payload.resumeTime;
     const reduceStep = action.payload.reduceStep;
     const reduceCalories = action.payload.reduceCalories;
@@ -355,9 +361,8 @@ export default createReducer<State>(initialState, (builder) => {
     });
     const newOverSpeedPath = JSON.parse(JSON.stringify(state.overSpeedPaths));
 
-    newOverSpeedPath[lastIndexofSpeedCoordinate].endOverSpeedTime =
-      tempEndPauseTime!;
-
+    newOverSpeedPath[lastIndexofSpeedCoordinate].endOverSpeedTime = tempEndPauseTime!;
+    console.log('newPaths',newPaths)
     return { ...state, currentState: ActivityType.MOVING, paths: newPaths };
   });
 

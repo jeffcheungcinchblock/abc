@@ -13,6 +13,8 @@ import MapView,{PROVIDER_GOOGLE}  from 'react-native-maps' // remove PROVIDER_GO
 import { enableLatestRenderer, Polyline } from 'react-native-maps'
 import BackgroundGeolocation from 'react-native-background-geolocation'
 import { colors, mapViewConst } from '@/Utils/constants'
+import { store } from '@/Store'
+
 enableLatestRenderer()
 
 const styles = StyleSheet.create({
@@ -38,7 +40,7 @@ const ActiveMapView: FC<MapViewProps> = (props) => {
   const [followsUserLocation, setFollowsUserLocation] = useState(true);
   const isIOS = Platform.OS === "ios";
 
-
+  console.log('paths', JSON.stringify(paths))
   return (
     <>{latitude && longitude && (
 		<MapView
