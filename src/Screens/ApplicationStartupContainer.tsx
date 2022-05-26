@@ -17,13 +17,13 @@ import Animated, { EasingNode, timing, useAnimatedStyle, useSharedValue, withTim
 import { AuthNavigatorParamList } from '@/Navigators/AuthNavigator'
 
 const appLogoHeight = 150
-let nodeJsTimeout : NodeJS.Timeout
+let nodeJsTimeout: NodeJS.Timeout
 
-const StartupContainer: FC<StackScreenProps<ApplicationNavigatorParamList, RouteStacks.startUp>> = ({ navigation }) => {
+const ApplicationStartupContainer: FC<StackScreenProps<ApplicationNavigatorParamList, RouteStacks.application>> = ({ navigation }) => {
   const { Layout, Gutters, Fonts } = useTheme()
-  const windowHeight = Dimensions.get('window').height;
+  const windowHeight = Dimensions.get('window').height
   const { t } = useTranslation()
-  const topAnimatedVal = new Animated.Value(200);
+  const topAnimatedVal = new Animated.Value(200)
   const animation = useSharedValue({ top: windowHeight / 2 - appLogoHeight / 2 })
   const animationStyle = useAnimatedStyle(() => {
     return {
@@ -33,48 +33,45 @@ const StartupContainer: FC<StackScreenProps<ApplicationNavigatorParamList, Route
     }
   })
 
-  console.log("@@@@@@@@startup")
-
   useEffect(() => {
     animation.value = { top: 80 }
     nodeJsTimeout = setTimeout(() => {
-      navigation.replace(RouteStacks.application)
+      navigation.replace(RouteStacks.mainNavigator)
     }, 2000)
 
     return () => {
       clearTimeout(nodeJsTimeout)
     }
-  }, []);
-
+  }, [])
 
   return (
     <View style={[Layout.fill, Layout.colCenter]}>
       <Video
         style={{
-          height: Dimensions.get("window").height,
-          position: "absolute",
+          height: Dimensions.get('window').height,
+          position: 'absolute',
           top: 0,
           left: 0,
-          alignItems: "stretch",
+          alignItems: 'stretch',
           bottom: 0,
-          right: 0
+          right: 0,
         }}
-        source={require("../Assets/Videos/sample-5s.mp4")}
-        resizeMode="cover"
+        source={require('../Assets/Videos/sample-5s.mp4')}
+        resizeMode='cover'
         rate={1.0}
         muted={true}
         repeat={true}
-        ignoreSilentSwitch="obey"
+        ignoreSilentSwitch='obey'
       />
-      <Animated.View
-        style={[{ position: "absolute" }, animationStyle]}
-      >
-        <AppLogo style={{
-          height: appLogoHeight,
-        }} />
+      <Animated.View style={[{ position: 'absolute' }, animationStyle]}>
+        <AppLogo
+          style={{
+            height: appLogoHeight,
+          }}
+        />
       </Animated.View>
     </View>
   )
 }
 
-export default StartupContainer
+export default ApplicationStartupContainer

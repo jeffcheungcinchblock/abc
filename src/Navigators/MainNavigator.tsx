@@ -30,8 +30,6 @@ import { WorkoutNavigatorParamList } from '@/Screens/App/WorkoutScreen'
 import WorkoutNavigator from '@/Navigators/WorkoutNavigator'
 import { ApplicationNavigatorParamList } from './Application'
 
-
-
 export type TabNavigatorParamList = {
   [RouteTabs.home]: NavigatorScreenParams<HomeNavigatorParamList>
   [RouteTabs.breeding]: NavigatorScreenParams<BreedingNavigatorParamList>
@@ -44,7 +42,6 @@ export type TabNavigatorParamList = {
 export type DrawerNavigatorParamList = {
   [RouteStacks.setting]: undefined
   [RouteStacks.mainTab]: NavigatorScreenParams<TabNavigatorParamList>
-
 }
 
 export type MainStackNavigatorParamList = {
@@ -60,140 +57,145 @@ export type MainNavigatorProps = StackScreenProps<MainStackNavigatorParamList, R
 
 type TabWrapperViewProps = { focused: boolean }
 
-const TabWrapperView: FC<TabWrapperViewProps> = (props) => {
-	return <View style={{ borderBottomWidth: 4, borderBottomColor: props.focused ? colors.brightTurquoise : colors.black, height: 40, justifyContent: 'center' }}>
-		{props.children}
-	</View>
+const TabWrapperView: FC<TabWrapperViewProps> = props => {
+  return (
+    <View
+      style={{
+        borderBottomWidth: 4,
+        borderBottomColor: props.focused ? colors.brightTurquoise : colors.black,
+        height: 40,
+        justifyContent: 'center',
+      }}
+    >
+      {props.children}
+    </View>
+  )
 }
 
 const MainTabNavigator: FC<MainTabNavigatorProps> = () => {
+  const { t } = useTranslation()
 
-	const { t } = useTranslation()
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarShowLabel: false,
+        tabBarStyle: {
+          backgroundColor: colors.black,
+          display: 'none', // TBD: need to remove later to show tab
+        },
+      }}
+    >
+      <Tab.Screen
+        name={RouteTabs.home}
+        component={HomeScreen}
+        options={{
+          tabBarLabelPosition: 'below-icon',
+          tabBarIcon: ({ focused, color, size }) => {
+            return (
+              <TabWrapperView focused={focused}>
+                <FontAwesome name='home' size={20} color={focused ? colors.brightTurquoise : colors.white} />
+              </TabWrapperView>
+            )
+          },
+        }}
+      />
+      <Tab.Screen
+        name={RouteTabs.breeding}
+        component={BreedingScreen}
+        options={{
+          tabBarLabelPosition: 'below-icon',
+          tabBarIcon: ({ focused, color, size }) => {
+            return (
+              <TabWrapperView focused={focused}>
+                <Entypo name='new' size={20} color={focused ? colors.brightTurquoise : colors.white} />
+              </TabWrapperView>
+            )
+          },
+        }}
+      />
+      <Tab.Screen
+        name={RouteTabs.marketplace}
+        component={MarketplaceScreen}
+        options={{
+          tabBarLabelPosition: 'below-icon',
+          tabBarIcon: ({ focused, color, size }) => {
+            return (
+              <TabWrapperView focused={focused}>
+                <Entypo name='shop' size={20} color={focused ? colors.brightTurquoise : colors.white} />
+              </TabWrapperView>
+            )
+          },
+        }}
+      />
 
-	return <Tab.Navigator
-		screenOptions={{
-			headerShown: false,
-			tabBarShowLabel: false,
-			tabBarStyle: {
-				backgroundColor: colors.black,
-				display: 'none', // TBD: need to remove later to show tab
-			},
-		}}
-
-	>
-		<Tab.Screen
-			name={RouteTabs.home}
-			component={HomeScreen}
-			options={{
-				tabBarLabelPosition: 'below-icon',
-				tabBarIcon: ({ focused, color, size }) => {
-					return <TabWrapperView focused={focused}>
-						<FontAwesome name="home" size={20} color={focused ? colors.brightTurquoise : colors.white} />
-					</TabWrapperView>
-				},
-
-
-			}}
-		/>
-		<Tab.Screen
-			name={RouteTabs.breeding}
-			component={BreedingScreen}
-			options={{
-				tabBarLabelPosition: 'below-icon',
-				tabBarIcon: ({ focused, color, size }) => {
-					return <TabWrapperView focused={focused}>
-						<Entypo name="new" size={20} color={focused ? colors.brightTurquoise : colors.white} />
-					</TabWrapperView>
-				},
-			}}
-		/>
-		<Tab.Screen
-			name={RouteTabs.marketplace}
-			component={MarketplaceScreen}
-			options={{
-				tabBarLabelPosition: 'below-icon',
-				tabBarIcon: ({ focused, color, size }) => {
-					return <TabWrapperView focused={focused}>
-						<Entypo name="shop" size={20} color={focused ? colors.brightTurquoise : colors.white} />
-					</TabWrapperView>
-				},
-			}}
-		/>
-
-		<Tab.Screen
-			name={RouteTabs.social}
-			component={SocialScreen}
-			options={{
-				tabBarLabelPosition: 'below-icon',
-				tabBarIcon: ({ focused, color, size }) => {
-					return <TabWrapperView focused={focused}>
-						<Ionicons name="share-social" size={20} color={focused ? colors.brightTurquoise : colors.white} />
-					</TabWrapperView>
-				},
-			}}
-		/>
-		<Tab.Screen
-			name={RouteTabs.workout}
-			component={MarketplaceScreen}
-			options={{
-				tabBarLabelPosition: 'below-icon',
-				tabBarIcon: ({ focused, color, size }) => {
-					return <TabWrapperView focused={focused}>
-						<Entypo name="shop" size={20} color={focused ? colors.brightTurquoise : colors.white} />
-					</TabWrapperView>
-				},
-			}}
-		/>
-
-	</Tab.Navigator>
+      <Tab.Screen
+        name={RouteTabs.social}
+        component={SocialScreen}
+        options={{
+          tabBarLabelPosition: 'below-icon',
+          tabBarIcon: ({ focused, color, size }) => {
+            return (
+              <TabWrapperView focused={focused}>
+                <Ionicons name='share-social' size={20} color={focused ? colors.brightTurquoise : colors.white} />
+              </TabWrapperView>
+            )
+          },
+        }}
+      />
+      <Tab.Screen
+        name={RouteTabs.workout}
+        component={MarketplaceScreen}
+        options={{
+          tabBarLabelPosition: 'below-icon',
+          tabBarIcon: ({ focused, color, size }) => {
+            return (
+              <TabWrapperView focused={focused}>
+                <Entypo name='shop' size={20} color={focused ? colors.brightTurquoise : colors.white} />
+              </TabWrapperView>
+            )
+          },
+        }}
+      />
+    </Tab.Navigator>
+  )
 }
 
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
-	const dispatch = useDispatch()
-
-	return (
-		<DrawerContentScrollView {...props}>
-			<DrawerItemList {...props} />
-			<DrawerItem
-				label="Sign Out"
-				style={{ bottom: 0 }}
-				onPress={awsLogout}
-			/>
-		</DrawerContentScrollView>
-	)
-}
-
-const DrawerNavigator : FC<MainNavigatorProps> = ({ navigation }) => {
-
-  const { t } = useTranslation()
-  
+  const dispatch = useDispatch()
 
   return (
-    <Drawer.Navigator screenOptions={{ headerShown: false, swipeEnabled: false }}
-      drawerContent={(props) => <CustomDrawerContent {...props} />}
-      initialRouteName={RouteStacks.mainTab}>
-
-			{/* <Drawer.Screen name={RouteStacks.setting} component={SettingScreen} /> */}
-			<Drawer.Screen name={RouteStacks.mainTab} component={MainTabNavigator} />
-			{/* <Drawer.Screen name={RouteStacks.workout} component={WorkoutNavigator} /> */}
-
-	  </Drawer.Navigator>
-
-	)
+    <DrawerContentScrollView {...props}>
+      <DrawerItemList {...props} />
+      <DrawerItem label='Sign Out' style={{ bottom: 0 }} onPress={awsLogout} />
+    </DrawerContentScrollView>
+  )
 }
-const MainNavigator : FC<StackScreenProps<ApplicationNavigatorParamList, RouteStacks.application>> = () => {
 
-	const { t } = useTranslation()
+const DrawerNavigator: FC<MainNavigatorProps> = ({ navigation }) => {
+  const { t } = useTranslation()
 
-	return (
-		<Stack.Navigator screenOptions={{ headerShown: false }}
-			initialRouteName={RouteStacks.mainDrawer}>
+  return (
+    <Drawer.Navigator
+      screenOptions={{ headerShown: false, swipeEnabled: false }}
+      drawerContent={props => <CustomDrawerContent {...props} />}
+      initialRouteName={RouteStacks.mainTab}
+    >
+      {/* <Drawer.Screen name={RouteStacks.setting} component={SettingScreen} /> */}
+      <Drawer.Screen name={RouteStacks.mainTab} component={MainTabNavigator} />
+      {/* <Drawer.Screen name={RouteStacks.workout} component={WorkoutNavigator} /> */}
+    </Drawer.Navigator>
+  )
+}
+const MainNavigator = () => {
+  const { t } = useTranslation()
 
-			<Stack.Screen name={RouteStacks.mainDrawer} component={DrawerNavigator} />
-			<Stack.Screen name={RouteStacks.workout} component={WorkoutNavigator} />
-		</Stack.Navigator>
-
-	)
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={RouteStacks.mainDrawer}>
+      <Stack.Screen name={RouteStacks.mainDrawer} component={DrawerNavigator} />
+      <Stack.Screen name={RouteStacks.workout} component={WorkoutNavigator} />
+    </Stack.Navigator>
+  )
 }
 
 export default MainNavigator

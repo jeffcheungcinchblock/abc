@@ -1,24 +1,30 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack"
-import React, { FC, useEffect, useState } from "react"
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import React, { FC, useEffect, useState } from 'react'
 import {
-  SignInScreen, SignUpScreen, SignUpWithCodeScreen, ValidationCodeScreen, RegistrationCompletedScreen,
-  WelcomeGalleryScreen, ForgotPasswordScreen, WelcomeScreen, CreateNewPasswordScreen
+  SignInScreen,
+  SignUpScreen,
+  SignUpWithCodeScreen,
+  ValidationCodeScreen,
+  RegistrationCompletedScreen,
+  WelcomeGalleryScreen,
+  ForgotPasswordScreen,
+  WelcomeScreen,
+  CreateNewPasswordScreen,
 } from '@/Screens/Auth'
-import { RouteStacks } from "@/Navigators/routes"
-import { useDispatch, useSelector } from "react-redux"
-import { login } from "@/Store/Users/actions"
-import EnterInvitaionCodeScreen from "@/Screens/Auth/EnterInvitaionCodeScreen"
-import { createStackNavigator, StackScreenProps } from "@react-navigation/stack"
-import AsyncStorage from "@react-native-async-storage/async-storage"
-import { navigationRef } from "./utils"
-import { CompositeScreenProps, LinkingOptions, NavigationContainerRefWithCurrent, Route } from "@react-navigation/native"
-import { StartupContainer } from "@/Screens"
-import ProvideEmailScreen from "@/Screens/Auth/ProvideEmailScreen"
-import { ApplicationNavigatorParamList } from "./Application"
+import { RouteStacks } from '@/Navigators/routes'
+import { useDispatch, useSelector } from 'react-redux'
+import { login } from '@/Store/Users/actions'
+import EnterInvitaionCodeScreen from '@/Screens/Auth/EnterInvitaionCodeScreen'
+import { createStackNavigator, StackScreenProps } from '@react-navigation/stack'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { navigationRef } from './utils'
+import { CompositeScreenProps, LinkingOptions, NavigationContainerRefWithCurrent, Route } from '@react-navigation/native'
+import ProvideEmailScreen from '@/Screens/Auth/ProvideEmailScreen'
+import { ApplicationNavigatorParamList } from './Application'
 
 type ValidationCodeParam = {
-  email: string,
-  action: 'forgotPassword' | 'signUp' | 'resendSignUp' | 'registerEmail',
+  email: string
+  action: 'forgotPassword' | 'signUp' | 'resendSignUp' | 'registerEmail'
   code?: string
 }
 
@@ -31,22 +37,19 @@ export type AuthNavigatorParamList = {
   [RouteStacks.enterInvitationCode]: undefined
   [RouteStacks.forgotPassword]: undefined
   [RouteStacks.signUpWithCode]: undefined
-  [RouteStacks.createNewPassword]: { validationCode: string, email: string }
+  [RouteStacks.createNewPassword]: { validationCode: string; email: string }
   [RouteStacks.provideEmail]: undefined
   [RouteStacks.registrationCompleted]: undefined
   // 🔥 Your screens go here
 }
 const Stack = createStackNavigator<AuthNavigatorParamList>()
 
-export type ApplicationScreenProps =  StackScreenProps<ApplicationNavigatorParamList, RouteStacks.application>
+export type ApplicationScreenProps = StackScreenProps<ApplicationNavigatorParamList, RouteStacks.application>
 
-const AuthNavigator : FC<ApplicationScreenProps> = ({navigation}) => {
-
+const AuthNavigator: FC<ApplicationScreenProps> = ({ navigation }) => {
   const dispatch = useDispatch()
 
-  useEffect(() => {
-
-  }, [])
+  useEffect(() => {}, [])
 
   return (
     <Stack.Navigator
