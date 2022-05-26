@@ -206,7 +206,7 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = (
 	return (
 		<ScreenBackgrounds screenName={RouteStacks.workout}>
 			<Header
-				headerText={'Result'}
+				headerText={t("result")}
 				style={{ backgroundColor: colors.darkGunmetal }}
 			/>
 			<KeyboardAwareScrollView

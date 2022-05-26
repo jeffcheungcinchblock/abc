@@ -71,7 +71,7 @@ const RegistrationCompletedScreen: FC<StackScreenProps<AuthNavigatorParamList, R
     const [errMsg, setErrMsg] = useState("")
 
     const onDonePress = () => {
-        navigation.navigate(RouteStacks.signIn)
+        navigation.navigate(RouteStacks.logIn)
     }
 
     return (

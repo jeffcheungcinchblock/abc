@@ -14,7 +14,8 @@ import {
     Linking,
     useWindowDimensions,
     Image,
-    Dimensions
+    Dimensions,
+    Platform
 } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { Brand, Header } from '@/Components'
@@ -73,27 +74,36 @@ const Screen: FC<any> = ({ screenIdx }) => {
                         {
                             color: colors.brightTurquoise,
                             fontSize: 24,
-                            width: "100%",
                             fontWeight: "bold",
                             fontFamily: "AvenirNext-Bold",
                             textAlign: "center",
                             paddingBottom: 20
                         }
                     ]}>
-                        {t(`gallerySlides.slide${screenIdx}Title`).split("").join('\u200A'.repeat(14))}
+                        {t(`gallerySlides.slide${screenIdx}Title`).split("").join('\u200A'.repeat(Platform.OS === 'ios' ? 14 : 2))}
 
                     </Text>
-                    <Text style={[
-                        { color: colors.white, width: "60%", fontSize: 28, fontWeight: "bold", 
-                        fontFamily: "AvenirNext-Bold", textAlign: "center", }
-                    ]}>
-                        {t(`gallerySlides.slide${screenIdx}Desc`)}
-                    </Text>
+                    <View style={{
+                        width: "100%",
+                        paddingHorizontal: 10
+                    }}>
+                        <Text style={[
+                            {
+                                color: colors.white, fontSize: 24, fontWeight: "bold",
+                                fontFamily: "AvenirNext-Bold", textAlign: "center",
+                            }
+                        ]}>
+                            {t(`gallerySlides.slide${screenIdx}Desc`)}
+                            {
+                                screenIdx === 0 && <Text style={{color: colors.brightTurquoise}}>{t("extra")}</Text>
+                            }
+                        </Text>
+                    </View>
                 </View>
                 <View style={{ flex: 13, alignItems: "center", justifyContent: "center" }}>
                     <Image source={slideMap[screenIdx]} style={{ height: "95%", resizeMode: "contain" }} />
                     {
-                        screenIdx === 3 && <Image source={slideDragon} style={{position: "absolute", top: 0, left: '20%'}} />
+                        screenIdx === 3 && <Image source={slideDragon} style={{ position: "absolute", top: 0, left: 0 }} />
                     }
                 </View>
 
@@ -115,10 +125,10 @@ const WelcomeGalleryScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
     const layout = useWindowDimensions();
     const [screenIdx, setScreenIdx] = useState(0);
     const [screens] = useState([
-        { key: '1', title: '1' },
-        { key: '2', title: '2' },
-        { key: '3', title: '3' },
-        { key: '4', title: '4' },
+        { key: '1' },
+        { key: '2' },
+        { key: '3' },
+        { key: '4' },
     ]);
 
     let screen1 = useMemo(() => <Screen screenIdx={0} />, [])
@@ -126,7 +136,7 @@ const WelcomeGalleryScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
     let screen3 = useMemo(() => <Screen screenIdx={2} />, [])
     let screen4 = useMemo(() => <Screen screenIdx={3} />, [])
 
-    const renderScene = ({ route }: {route: Route}) => {
+    const renderScene = ({ route }: { route: Route }) => {
         switch (route.key) {
             case '1':
                 return screen1
@@ -158,7 +168,6 @@ const WelcomeGalleryScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
 
             <View style={[Layout.fullWidth, Layout.rowCenter, {
                 flex: 10,
-                backgroundColor: "gray"
             }]}>
                 <TabView
                     style={{

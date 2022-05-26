@@ -8,7 +8,9 @@ module.exports = {
   root: true,
   extends: ["@react-native-community"],
   // plugins: [ 'jest' ],
-
+  globals: {
+    MyGlobal: true,
+  },
   rules: {
     "no-console": "off",
     semi: ["error", false],

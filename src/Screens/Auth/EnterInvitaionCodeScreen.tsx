@@ -99,7 +99,7 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
     useEffect(() => {
         if (referralCode !== "") {
             setCode(referralCode)
-        } 
+        }
     }, [referralCode])
 
     const goBack = () => {
@@ -135,7 +135,7 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
         <ScreenBackgrounds
             screenName={RouteStacks.enterInvitationCode}
         >
-            
+
 
             <KeyboardAwareScrollView
                 contentContainerStyle={[
@@ -185,42 +185,52 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
                         borderTopRightRadius: 20,
                     }}
                 >
-                    <View style={[Layout.fullWidth, Gutters.regularVPadding, Layout.center]}>
-                        <View style={{ backgroundColor: colors.spanishGray, borderRadius: 20, width: "10%", height: 4 }} />
-                    </View>
+                    <KeyboardAwareScrollView
+                        contentContainerStyle={[
+                            Layout.fill,
+                            {
+                                minHeight: 300
+                            }
+                        ]}
+                    >
 
-                    <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT, { flexBasis: 80 }]}>
-                        <StandardInput
-                            onChangeText={onCodeChange}
-                            value={code}
-                            placeholder={t("referralCode")}
-                            placeholderTextColor={colors.spanishGray}
-                            style={{
-                                borderBottomWidth: 1,
-                                borderColor: colors.silverSand,
-                            }}
-                        />
-                        {
-                            errMsg !== "" && <Text style={[{ color: colors.magicPotion, paddingHorizontal: 10 }, Fonts.textSmall, Fonts.textLeft]}>
-                                {errMsg}
-                            </Text>
-                        }
-                    </View>
+                        <View style={[Layout.fullWidth, Gutters.regularVPadding, Layout.center]}>
+                            <View style={{ backgroundColor: colors.spanishGray, borderRadius: 20, width: "10%", height: 4 }} />
+                        </View>
 
-                    <View style={[Layout.fullWidth, Layout.center, Gutters.largeVPadding, { flex: 1, justifyContent: "space-between" }]}>
-                        <TurquoiseButton
-                            onPress={onStartPress}
-                            text={t("start")}
-                            isLoading={isLoggingIn}
-                            isTransparentBackground
-                            containerStyle={{
-                                width: "45%",
-                            }}
-                        />
-                        <Pressable onPress={onGetReferralCodePress} style={{paddingBottom: 20}}>
-                            <Text style={{ textDecorationLine: "underline", color: colors.white }}>{t("getReferralCode")}</Text>
-                        </Pressable>
-                    </View>
+                        <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT, { flexBasis: 80 }]}>
+                            <StandardInput
+                                onChangeText={onCodeChange}
+                                value={code}
+                                placeholder={t("referralCode")}
+                                placeholderTextColor={colors.spanishGray}
+                                style={{
+                                    borderBottomWidth: 1,
+                                    borderColor: colors.silverSand,
+                                }}
+                            />
+                            {
+                                errMsg !== "" && <Text style={[{ color: colors.magicPotion, paddingHorizontal: 10 }, Fonts.textSmall, Fonts.textLeft]}>
+                                    {errMsg}
+                                </Text>
+                            }
+                        </View>
+
+                        <View style={[Layout.fullWidth, Layout.center, Gutters.largeVPadding, { flex: 1, justifyContent: "space-between" }]}>
+                            <TurquoiseButton
+                                onPress={onStartPress}
+                                text={t("start")}
+                                isLoading={isLoggingIn}
+                                isTransparentBackground
+                                containerStyle={{
+                                    width: "45%",
+                                }}
+                            />
+                            <Pressable onPress={onGetReferralCodePress} style={{ paddingBottom: 20 }}>
+                                <Text style={{ textDecorationLine: "underline", color: colors.white }}>{t("getReferralCode")}</Text>
+                            </Pressable>
+                        </View>
+                    </KeyboardAwareScrollView>
                 </ModalBox>
 
 

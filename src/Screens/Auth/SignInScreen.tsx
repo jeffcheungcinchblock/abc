@@ -54,6 +54,8 @@ import { useFocusEffect } from '@react-navigation/native'
 import SlideInputModal from '@/Components/Modals/SlideInputModal'
 import axios from 'axios'
 import crashlytics from '@react-native-firebase/crashlytics';
+import TouchID from 'react-native-touch-id'
+import * as Keychain from 'react-native-keychain';
 
 const LOGIN_BUTTON: ViewStyle = {
     height: 40,
@@ -93,7 +95,7 @@ const initErrMsg = {
     password: ""
 }
 
-const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.signIn>> = (
+const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.logIn>> = (
     { navigation, route }
 ) => {
 
@@ -116,18 +118,107 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
     })
 
     const [socialIdentityUser, setSocialIdentityUser] = useState(null)
+    const onPasswordEyePress = () => setShowPassword(prev => !prev)
+
+    const loginErrHandler = (err: any) => {
+        switch (err.message) {
+            case 'Username should be either an email or a phone number.':
+            case 'Incorrect username or password.':
+            case 'User does not exist.':
+                setErrMsg({
+                    ...initErrMsg,
+                    email: t("error.loginInputEmpty")
+                })
+                break;
+            case 'Password did not conform with policy: Password not long enough':
+                setErrMsg({
+                    ...initErrMsg,
+                    password: t('error.passwordPolicyErr')
+                })
+                break;
+            case 'User is not confirmed.':
+                navigation.navigate(RouteStacks.validationCode, {
+                    email: credential.email,
+                    action: "resendSignUp"
+                })
+                break;
+            default:
+                crashlytics().recordError(err)
+        }
+    }
 
     useEffect(() => {
+
+        let cancelSource = axios.CancelToken.source()
+
         setCredential({
             email: "",
             password: ""
         })
 
+        const touchIdAuth = async () => {
+
+            try {
+
+                const keychainCred = await Keychain.getGenericPassword()
+                if (keychainCred) {
+
+                    let touchIdAuthRes = await TouchID.authenticate('Authenticate with TouchID / FaceID', {
+                        title: 'Authentication Required', // Android
+                        imageColor: colors.brightTurquoise, // Android
+                        imageErrorColor: colors.magicPotion, // Android
+                        sensorDescription: 'Touch sensor', // Android
+                        sensorErrorDescription: 'Failed', // Android
+                        cancelText: 'Cancel', // Android
+                        fallbackLabel: 'Show Passcode', // iOS (if empty, then label is hidden)
+                        unifiedErrors: false, // use unified error messages (default false)
+                        passcodeFallback: true, // iOS - allows the device to fall back to using the passcode, if faceid/touch is not available. this does not mean that if touchid/faceid fails the first few times it will revert to passcode, rather that if the former are not enrolled, then it will use the passcode.
+                    })
+                    if (touchIdAuthRes) {
+                        dispatch(startLoading(true))
+
+                        const user = await Auth.signIn(keychainCred.username, keychainCred.password)
+                        let { attributes, username } = user
+                        let jwtToken = user?.signInUserSession?.idToken?.jwtToken
+
+                        const userProfileRes = await axios.get(config.userProfile, {
+                            cancelToken: cancelSource.token,
+                            headers: {
+                                Authorization: jwtToken
+                            }
+                        })
+                        const { email, uuid } = userProfileRes?.data
+
+                        dispatch(login({
+                            email: attributes.email,
+                            username,
+                            uuid
+                        }))
+
+                        setIsLoggingIn(true)
+
+                        
+                    }
+                }
+
+            } catch (err: any) {
+                loginErrHandler(err)
+                dispatch(startLoading(false))
+            } finally {
+                setIsLoggingIn(false)
+            }
+
+        }
+
+        touchIdAuth()
+
+
+        return () => {
+            cancelSource?.cancel()
+        }
+
     }, [])
 
-    const onPasswordEyePress = () => {
-        setShowPassword(prev => !prev)
-    }
 
     const onLoginOptionPress = async (loginOpt: string) => {
 
@@ -156,9 +247,11 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                 let { attributes, username } = user
                 let jwtToken = user?.signInUserSession?.idToken?.jwtToken
 
+                await Keychain.setGenericPassword(emailUsernameHash(credential.email), credential.password);
+
                 const userProfileRes = await axios.get(config.userProfile, {
                     headers: {
-                        Authorization: jwtToken 
+                        Authorization: jwtToken
                     }
                 })
                 const { email, uuid } = userProfileRes?.data
@@ -180,30 +273,7 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
             }
 
         } catch (err: any) {
-            switch (err.message) {
-                case 'Username should be either an email or a phone number.':
-                case 'Incorrect username or password.':
-                case 'User does not exist.':
-                    setErrMsg({
-                        ...initErrMsg,
-                        email: t("error.loginInputEmpty")
-                    })
-                    break;
-                case 'Password did not conform with policy: Password not long enough':
-                    setErrMsg({
-                        ...initErrMsg,
-                        password: t('error.passwordPolicyErr')
-                    })
-                    break;
-                case 'User is not confirmed.':
-                    navigation.navigate(RouteStacks.validationCode, {
-                        email: credential.email,
-                        action: "resendSignUp"
-                    })
-                    break;
-                default:
-                    crashlytics().recordError(err)
-            }
+            loginErrHandler(err)
             dispatch(startLoading(false))
         } finally {
             setIsLoggingIn(false)
@@ -235,21 +305,9 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
         modalRef?.current?.open()
     }, [modalRef]))
 
-    // useFocusEffect(
-    //     useCallback(() => {
-    //         setErrMsg({
-    //             ...initErrMsg,
-    //         })
-    //         setCredential({
-    //             ...initErrMsg,
-    //         })
-    //     }, [])
-    // )
-
-
     return (
         <ScreenBackgrounds
-            screenName={RouteStacks.signIn}
+            screenName={RouteStacks.logIn}
         >
 
             <KeyboardAwareScrollView
@@ -288,58 +346,67 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                     ref={modalRef}
                     onModalClose={onModalClose}
                 >
+                    <KeyboardAwareScrollView
+                        contentContainerStyle={[
+                            Layout.fill,
+                            {
+                                minHeight: 400
+                            }
+                        ]}
+                    >
 
-                    <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT]}>
-                        <StandardInput
-                            onChangeText={(text) => onCredentialFieldChange('email', text)}
-                            value={credential.email}
-                            placeholder={t("email")}
-                            placeholderTextColor={colors.spanishGray}
+                        <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT]}>
+                            <StandardInput
+                                onChangeText={(text) => onCredentialFieldChange('email', text)}
+                                value={credential.email}
+                                placeholder={t("email")}
+                                placeholderTextColor={colors.spanishGray}
 
-                        />
-                        {
-                            errMsg.email !== '' && <Text style={ERR_MSG_TEXT}>{errMsg.email}</Text>
-                        }
-                    </View>
-
-
-                    <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT]}>
-                        <StandardInput
-                            onChangeText={(text) => onCredentialFieldChange('password', text)}
-                            value={credential.password}
-                            placeholder={t("password")}
-                            placeholderTextColor={colors.spanishGray}
-                            secureTextEntry={!showPassword}
-                            showPassword={showPassword}
-                            onPasswordEyePress={onPasswordEyePress}
-                        />
-                        {
-                            errMsg.password !== '' && <Text style={ERR_MSG_TEXT}>{errMsg.password}</Text>
-                        }
-                    </View>
-
-                    <View style={[Layout.fullWidth, Layout.center, Gutters.regularVPadding, { flex: 1, justifyContent: "center" }]}>
-                        <TurquoiseButton
-                            onPress={() => onLoginOptionPress("normal")}
-                            text={t("logMeIn")}
-                            isTransparentBackground
-                            containerStyle={{
-                                width: "45%",
-                            }}
-                        />
-                        <Pressable style={[Layout.fullWidth, Layout.center, { marginBottom: 30, marginTop: 10 }]}
-                            onPress={onForgotPasswordPress}
-                        >
-                            <Text style={{ color: colors.white, textDecorationLine: "underline" }}>{t("forgotPassword")}</Text>
-                        </Pressable>
-
-                        <View style={{ flexDirection: "row" }}>
-                            <Text style={{ color: colors.white }}>{t("dontHaveAnAccount")}</Text>
-                            <Pressable style={{ paddingLeft: 6 }} onPress={() => navigation.navigate(RouteStacks.signUp)}>
-                                <Text style={{ color: colors.brightTurquoise, fontWeight: "bold" }}>{t("signUp")}</Text>
-                            </Pressable>
+                            />
+                            {
+                                errMsg.email !== '' && <Text style={ERR_MSG_TEXT}>{errMsg.email}</Text>
+                            }
                         </View>
-                    </View>
+
+
+                        <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT]}>
+                            <StandardInput
+                                onChangeText={(text) => onCredentialFieldChange('password', text)}
+                                value={credential.password}
+                                placeholder={t("password")}
+                                placeholderTextColor={colors.spanishGray}
+                                secureTextEntry={!showPassword}
+                                showPassword={showPassword}
+                                onPasswordEyePress={onPasswordEyePress}
+                            />
+                            {
+                                errMsg.password !== '' && <Text style={ERR_MSG_TEXT}>{errMsg.password}</Text>
+                            }
+                        </View>
+
+                        <View style={[Layout.fullWidth, Layout.center, Gutters.regularVPadding, { flex: 1, justifyContent: "center" }]}>
+                            <TurquoiseButton
+                                onPress={() => onLoginOptionPress("normal")}
+                                text={t("logMeIn")}
+                                isTransparentBackground
+                                containerStyle={{
+                                    width: "45%",
+                                }}
+                            />
+                            <Pressable style={[Layout.fullWidth, Layout.center, { marginBottom: 30, marginTop: 10 }]}
+                                onPress={onForgotPasswordPress}
+                            >
+                                <Text style={{ color: colors.white, textDecorationLine: "underline" }}>{t("forgotPassword")}</Text>
+                            </Pressable>
+
+                            <View style={{ flexDirection: "row" }}>
+                                <Text style={{ color: colors.white }}>{t("dontHaveAnAccount")}</Text>
+                                <Pressable style={{ paddingLeft: 6 }} onPress={() => navigation.navigate(RouteStacks.signUp)}>
+                                    <Text style={{ color: colors.brightTurquoise, fontWeight: "bold" }}>{t("signUp")}</Text>
+                                </Pressable>
+                            </View>
+                        </View>
+                    </KeyboardAwareScrollView>
 
                 </SlideInputModal>
 

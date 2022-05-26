@@ -238,9 +238,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({
 
                 setFetchedReferralInfo(true);
 
-                setTimeout(() => {
-                    setNeedFetchDtl(false);
-                }, 1000);
+                setNeedFetchDtl(false);
             } catch (err: any) {
                 crashlytics().recordError(err);
             }
@@ -258,6 +256,8 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({
     }, [needFetchDtl, fetchedReferralInfo]);
 
     useEffect(() => {
+        let cancelSource : CancelTokenSource = axios.CancelToken.source()
+
         // TBD: To be placed some where upper level component later
         const confirmReferral = async () => {
             let user = await Auth.currentAuthenticatedUser();
@@ -265,6 +265,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({
 
             try {
                 let referralConfirmRes = await axios({
+                    cancelToken: cancelSource.token,
                     method: "post",
                     url: `${config.referralConfirmation}`,
                     headers: {
@@ -276,6 +277,8 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({
                     }),
                 });
             } catch (err: any) {
+                
+                crashlytics().recordError(err)
                 // console.log('###', err.response)
             }
         };
@@ -284,7 +287,12 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({
             // Not yet referred by anyone, if user entered invitation code, need to confirm
             confirmReferral();
             dispatch(storeReferralCode(""));
+
+            return () => {
+                cancelSource.cancel()
+            }
         }
+        
     }, [referralInfo, fetchedReferralInfo]);
 
     const onSharePress = async () => {
@@ -295,14 +303,12 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({
         });
 
         if (shareRes !== false) {
-            navigation.navigate(RouteTabs.home, {
-                screen: RouteStacks.homeInviteState,
-            });
+           
         }
     };
 
     const goBack = () => {
-        navigation.navigate(RouteStacks.homeMain);
+        
     };
 
     const onCopyPress = () => {
