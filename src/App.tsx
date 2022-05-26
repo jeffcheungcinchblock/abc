@@ -166,7 +166,7 @@ const urlOpener = async (url: string, redirectUrl: string) => {
         Linking.openURL(newUrl);
       } else if (type === "cancel") {
         store.dispatch(startLoading(false));
-      }
+       }
     }
   } catch (err: any) {
     crashlytics().recordError(err);
