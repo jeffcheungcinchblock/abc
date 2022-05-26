@@ -8,7 +8,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: "latest",
   },
-  rules: {
+    rules: {
     "no-console": "off",
     indent: ["error", 2],
     "import/no-extraneous-dependencies": "off",
