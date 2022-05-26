@@ -44,9 +44,10 @@ const geolocationConfig = {
   android: {
     desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
     allowIdenticalLocations: true,
+    locationAuthorizationRequest: "WhenInUse",
   },
   default: {
-    distanceFilter: 10,
+    distanceFilter: 2,
     stopTimeout: 5,
     isMoving: true,
     disableElasticity: true,
@@ -239,13 +240,23 @@ const App = () => {
         ...geolocationConfig.default,
       };
 
-      await BackgroundGeolocation.ready(
-        // isIOS ? iOSConfig : androidConfig
-        iOSConfig
-      );
+      if(Platform.OS === 'ios') {
+        await BackgroundGeolocation.ready(
+          // isIOS ? iOSConfig : androidConfig
+          iOSConfig
+        );
+      }
+      else{
+        await BackgroundGeolocation.ready(
+          // isIOS ? iOSConfig : androidConfig
+          androidConfig
+        );
+      }
+     console.log('ready geolocation')
     };
 
     run();
+    
   }, []);
 
   return (

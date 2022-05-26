@@ -42,6 +42,7 @@ export class GoogleFitKit extends GeneralHealthKit {
 	}
 
 	GetSteps(startDate: Date, endDate: Date) {
+		console.log('getstep',startDate)
 		if (!GoogleFit.isAuthorized){
 			GoogleFit.authorize(options).then((authResult: any) => {
 				console.log('authResult', authResult)
