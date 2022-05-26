@@ -18,7 +18,7 @@ export enum RouteStacks {
     mainDrawer = 'mainDrawer',
 
     // auth screens
-    signIn = "signIn",
+    logIn = "logIn",
     signUp = "signUp",
     validationCode = "validationCode",
     welcome = "welcome",
@@ -29,8 +29,6 @@ export enum RouteStacks {
     createNewPassword = "createNewPassword", 
     provideEmail = "provideEmail",
     registrationCompleted = "registrationCompleted",
-
-
 
 
     // logged in app screens

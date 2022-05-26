@@ -32,10 +32,12 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import axios, { CancelTokenSource } from 'axios'
 // @ts-ignore
 import { Hub } from 'aws-amplify'
+import WelcomeGalleryScreen from '@/Screens/Auth/WelcomeGalleryScreen'
 
 export type ApplicationNavigatorParamList = {
   [RouteStacks.startUp]: undefined
   [RouteStacks.application]: undefined
+  [RouteStacks.welcomeGallery]: undefined
   // 🔥 Your screens go here
 }
 const Stack = createStackNavigator<ApplicationNavigatorParamList>()
@@ -125,7 +127,9 @@ const ApplicationNavigator = () => {
       switch (event) {
         case 'signIn':
         case 'cognitoHostedUI':
-          getUser().then(async (userData: any) => {
+
+          try{
+            let userData = await getUser()
             let jwtToken = userData?.signInUserSession?.idToken?.jwtToken
             const userProfileRes = await axios.get(config.userProfile, {
               headers: {
@@ -146,10 +150,9 @@ const ApplicationNavigator = () => {
               publicNavigationRef.navigate(RouteStacks.provideEmail)
               dispatch(startLoading(false))
             }
-
-          }).catch((err: any) => {
+          }catch(err: any){
             crashlytics().recordError(err)
-          })
+          }
           break;
         case 'signOut':
           break;
@@ -169,6 +172,7 @@ const ApplicationNavigator = () => {
     }
   }, [])
 
+
   return (
     <SafeAreaView style={[Layout.fill, { backgroundColor: colors.black }]}>
       <GestureHandlerRootView style={{ flex: 1 }}>
@@ -186,7 +190,8 @@ const ApplicationNavigator = () => {
         >
 
         </SnackBar>
-        <NavigationContainer theme={NavigationTheme}
+        <NavigationContainer 
+        theme={NavigationTheme}
           {...navProps}
         >
           <StatusBar
@@ -196,7 +201,7 @@ const ApplicationNavigator = () => {
           <Stack.Navigator
             screenOptions={{
               headerShown: false,
-              presentation: 'transparentModal',
+              presentation: 'card',
             }} initialRouteName={RouteStacks.startUp}>
             <Stack.Screen name={RouteStacks.startUp} component={StartupContainer} />
             <Stack.Screen name={RouteStacks.application} component={

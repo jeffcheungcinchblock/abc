@@ -16,7 +16,7 @@ export const validateEmail = (email : string) => {
         );
 };
 
-let showSnackbarTimeout : any = null
+let showSnackbarTimeout : NodeJS.Timeout
 export const triggerSnackbar = (textMsg: string, autoHidingTime = 1500) => {
 
     let snackBarConfig = {

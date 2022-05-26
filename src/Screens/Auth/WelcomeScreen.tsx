@@ -48,7 +48,7 @@ import ViewShot from "react-native-view-shot";
 import Orientation from 'react-native-orientation-locker'
 import crashlytics from '@react-native-firebase/crashlytics';
 import BackgroundService from 'react-native-background-actions';
-import realm from 'realm'
+import TouchID from 'react-native-touch-id';
 
 const BUTTON_VIEW = {
     marginVertical: 20
@@ -101,7 +101,7 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
     }
 
     const onSignInPress = async () => {
-        navigation.navigate(RouteStacks.signIn)
+        navigation.navigate(RouteStacks.logIn)
     }
 
     const onLoginOptionPress = async (loginOpt: string) => {
@@ -146,38 +146,41 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
     const onSignUpPress = async () => {
         navigation.navigate(RouteStacks.signUp)
 
-        // const realm = await Realm.open({
-        //     path: "myrealm",
-        //     schema: [{
-        //         name: "Task",
-        //         properties: {
-        //             _id: "int",
-        //             name: "string",
-        //             status: "string?",
-        //         },
-        //         primaryKey: "_id",
-        //     }],
-        // });
+        try {
+            // const realm = await Realm.open({
+            //     path: "myrealm",
+            //     schema: [{
+            //         name: "Task",
+            //         properties: {
+            //             _id: "int",
+            //             name: "string",
+            //             status: "string?",
+            //         },
+            //         primaryKey: "_id",
+            //     }],
+            // });
 
+            // const tasks = realm.objects("Task");
+            // console.log('tasks',)
+            // let task1, task2;
+            // realm.write(() => {
+            //     task1 = realm.create("Task", {
+            //         _id: 1,
+            //         name: "go grocery shopping",
+            //         status: "Open",
+            //     });
+            //     task2 = realm.create("Task", {
+            //         _id: 2,
+            //         name: "go exercise",
+            //         status: "Open",
+            //     });
+            //     console.log(`created two tasks: ${task1.name} & ${task2.name}`);
+            // });
 
-        // const tasks = realm.objects("Task");
-        // console.log('tasks',)
-        // let task1, task2;
-        // realm.write(() => {
-        //     task1 = realm.create("Task", {
-        //         _id: 1,
-        //         name: "go grocery shopping",
-        //         status: "Open",
-        //     });
-        //     task2 = realm.create("Task", {
-        //         _id: 2,
-        //         name: "go exercise",
-        //         status: "Open",
-        //     });
-        //     console.log(`created two tasks: ${task1.name} & ${task2.name}`);
-        // });
-
-        // realm.close()
+            // realm.close()
+        } catch (err: any) {
+            console.log(err)
+        }
     }
 
 

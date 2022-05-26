@@ -116,7 +116,7 @@ const CreateNewPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, Route
         }
         try {
             await Auth.forgotPasswordSubmit(emailUsernameHash(params.email), params.validationCode, credential.confirmPassword)
-            navigation.navigate(RouteStacks.signIn)
+            navigation.navigate(RouteStacks.logIn)
         } catch (err: any) {
             switch(err.message){
                 case 'Invalid verification code provided, please try again.':

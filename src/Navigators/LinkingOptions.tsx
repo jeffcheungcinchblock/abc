@@ -55,6 +55,7 @@ export const publicLinking: LinkingOptions<ApplicationNavigatorParamList> = {
     getInitialURL,
     subscribe,
     config: {
+        initialRouteName: RouteStacks.startUp,
         screens: {
             [RouteStacks.startUp]: RouteStacks.startUp,
             [RouteStacks.application]: {
@@ -65,8 +66,8 @@ export const publicLinking: LinkingOptions<ApplicationNavigatorParamList> = {
                     [RouteStacks.welcome]: {
                         path: RouteStacks.welcome,
                     },
-                    [RouteStacks.signIn]: {
-                        path: RouteStacks.signIn,
+                    [RouteStacks.logIn]: {
+                        path: RouteStacks.logIn,
                     },
                     [RouteStacks.signUp]: {
                         path: RouteStacks.signUp,
@@ -108,6 +109,7 @@ export const privateLinking: LinkingOptions<ApplicationNavigatorParamList> = {
     getInitialURL,
     subscribe,
     config: {
+        initialRouteName: RouteStacks.startUp,
         screens: {
             [RouteStacks.startUp]: RouteStacks.startUp,
             [RouteStacks.application]: {

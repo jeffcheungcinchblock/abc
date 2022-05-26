@@ -143,7 +143,7 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
     const onModalClose = () => {
         navigation.navigate(RouteStacks.welcome)
         // navigation.navigate(RouteStacks.validationCode)
-        
+
     }
 
     const onPasswordEyePress = () => {
@@ -187,50 +187,59 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                     ref={modalRef}
                     onModalClose={onModalClose}
                 >
-                    <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT, { flexBasis: 80 }]}>
-                        <StandardInput
-                            onChangeText={(text) => onCredentialFieldChange('email', text)}
-                            value={credential.email}
-                            placeholder={t("email")}
-                            placeholderTextColor={colors.spanishGray}
-                            autoCapitalize={"none"}
-                        />
-                        {
-                            errMsg.email !== '' && <Text style={[ERR_MSG_TEXT, Gutters.smallHPadding]}>{errMsg.email}</Text>
-                        }
-                    </View>
-
-                    <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT, { flexBasis: 80 }]}>
-                        <StandardInput
-                            onChangeText={(text) => onCredentialFieldChange('password', text)}
-                            value={credential.password}
-                            placeholder={t("password")}
-                            placeholderTextColor={colors.spanishGray}
-                            secureTextEntry={!showPassword}
-                            showPassword={showPassword}
-                            onPasswordEyePress={onPasswordEyePress}
-                        />
-                        {
-                            errMsg.password !== '' && <Text style={[ERR_MSG_TEXT, Gutters.smallHPadding]}>{errMsg.password}</Text>
-                        }
-                    </View>
-
-                    <View style={[Layout.fullWidth, Layout.center, Gutters.largeVPadding, { flex: 1, justifyContent: "space-between" }]}>
-                        <TurquoiseButton
-                            onPress={onCreateAccountPress}
-                            text={t("create")}
-                            isTransparentBackground
-                            containerStyle={{
-                                width: "45%",
-                            }}
-                        />
-                        <View style={{ flexDirection: "row" }}>
-                            <Text style={{ color: colors.white }}>{t("alreadyHaveAnAccount")}</Text>
-                            <Pressable style={{ paddingLeft: 6 }} onPress={() => navigation.navigate(RouteStacks.signIn)}>
-                                <Text style={{ color: colors.brightTurquoise, fontWeight: "bold" }}>{t("logIn")}</Text>
-                            </Pressable>
+                    <KeyboardAwareScrollView
+                        contentContainerStyle={[
+                            Layout.fill,
+                            {
+                                minHeight: 400
+                            }
+                        ]}
+                    >
+                        <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT, { flexBasis: 80 }]}>
+                            <StandardInput
+                                onChangeText={(text) => onCredentialFieldChange('email', text)}
+                                value={credential.email}
+                                placeholder={t("email")}
+                                placeholderTextColor={colors.spanishGray}
+                                autoCapitalize={"none"}
+                            />
+                            {
+                                errMsg.email !== '' && <Text style={[ERR_MSG_TEXT, Gutters.smallHPadding]}>{errMsg.email}</Text>
+                            }
                         </View>
-                    </View>
+
+                        <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT, { flexBasis: 80 }]}>
+                            <StandardInput
+                                onChangeText={(text) => onCredentialFieldChange('password', text)}
+                                value={credential.password}
+                                placeholder={t("password")}
+                                placeholderTextColor={colors.spanishGray}
+                                secureTextEntry={!showPassword}
+                                showPassword={showPassword}
+                                onPasswordEyePress={onPasswordEyePress}
+                            />
+                            {
+                                errMsg.password !== '' && <Text style={[ERR_MSG_TEXT, Gutters.smallHPadding]}>{errMsg.password}</Text>
+                            }
+                        </View>
+
+                        <View style={[Layout.fullWidth, Layout.center, Gutters.largeVPadding, { flex: 1, justifyContent: "space-between" }]}>
+                            <TurquoiseButton
+                                onPress={onCreateAccountPress}
+                                text={t("create")}
+                                isTransparentBackground
+                                containerStyle={{
+                                    width: "45%",
+                                }}
+                            />
+                            <View style={{ flexDirection: "row" }}>
+                                <Text style={{ color: colors.white }}>{t("alreadyHaveAnAccount")}</Text>
+                                <Pressable style={{ paddingLeft: 6 }} onPress={() => navigation.navigate(RouteStacks.logIn)}>
+                                    <Text style={{ color: colors.brightTurquoise, fontWeight: "bold" }}>{t("logIn")}</Text>
+                                </Pressable>
+                            </View>
+                        </View>
+                    </KeyboardAwareScrollView>
                 </SlideInputModal>
 
             </KeyboardAwareScrollView>

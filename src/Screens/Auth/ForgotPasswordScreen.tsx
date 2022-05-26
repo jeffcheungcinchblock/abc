@@ -100,7 +100,7 @@ const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
     });
 
     const goBack = () => {
-        navigation.navigate(RouteStacks.signIn)
+        navigation.navigate(RouteStacks.logIn)
     }
 
     const onEmailChange = (text: string) => {

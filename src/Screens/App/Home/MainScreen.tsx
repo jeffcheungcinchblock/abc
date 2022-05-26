@@ -51,6 +51,8 @@ type HomeMainScreenNavigationProp = CompositeScreenProps<
     >
 >
 
+let nodeJsTimeout : NodeJS.Timeout
+
 const MainScreen: FC<HomeMainScreenNavigationProp> = (
     { navigation, route }
 ) => {
@@ -78,10 +80,17 @@ const MainScreen: FC<HomeMainScreenNavigationProp> = (
     const onRefresh = async() => {
         setRefreshing(true);
        
-        setTimeout(() => {
+        nodeJsTimeout = setTimeout(() => {
             setRefreshing(false)
         }, 1000)
     }
+
+    useEffect(() => {
+
+        return () => {
+            clearTimeout(nodeJsTimeout)
+        }
+    }, [])
 
     return (
         <ScreenBackgrounds

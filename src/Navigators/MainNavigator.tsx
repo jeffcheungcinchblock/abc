@@ -28,6 +28,7 @@ import { RootState } from '@/Store'
 
 import { WorkoutNavigatorParamList } from '@/Screens/App/WorkoutScreen'
 import WorkoutNavigator from '@/Navigators/WorkoutNavigator'
+import { ApplicationNavigatorParamList } from './Application'
 
 
 
@@ -180,7 +181,7 @@ const DrawerNavigator : FC<MainNavigatorProps> = ({ navigation }) => {
 
 	)
 }
-const MainNavigator = () => {
+const MainNavigator : FC<StackScreenProps<ApplicationNavigatorParamList, RouteStacks.application>> = () => {
 
 	const { t } = useTranslation()
 

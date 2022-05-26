@@ -17,27 +17,35 @@ import Animated, { EasingNode, timing, useAnimatedStyle, useSharedValue, withTim
 import { AuthNavigatorParamList } from '@/Navigators/AuthNavigator'
 
 const appLogoHeight = 150
+let nodeJsTimeout : NodeJS.Timeout
 
 const StartupContainer: FC<StackScreenProps<ApplicationNavigatorParamList, RouteStacks.startUp>> = ({ navigation }) => {
   const { Layout, Gutters, Fonts } = useTheme()
   const windowHeight = Dimensions.get('window').height;
   const { t } = useTranslation()
   const topAnimatedVal = new Animated.Value(200);
-  const animation = useSharedValue({top: windowHeight / 2 - appLogoHeight / 2})
+  const animation = useSharedValue({ top: windowHeight / 2 - appLogoHeight / 2 })
   const animationStyle = useAnimatedStyle(() => {
-    return{
-      top: withTiming(animation.value.top,{
-        duration:2000,
+    return {
+      top: withTiming(animation.value.top, {
+        duration: 2000,
       }),
     }
   })
 
+  console.log("@@@@@@@@startup")
+
   useEffect(() => {
-    animation.value = {top: 80}
-    setTimeout(() => {
+    animation.value = { top: 80 }
+    nodeJsTimeout = setTimeout(() => {
       navigation.replace(RouteStacks.application)
     }, 2000)
+
+    return () => {
+      clearTimeout(nodeJsTimeout)
+    }
   }, []);
+
 
   return (
     <View style={[Layout.fill, Layout.colCenter]}>
@@ -59,7 +67,7 @@ const StartupContainer: FC<StackScreenProps<ApplicationNavigatorParamList, Route
         ignoreSilentSwitch="obey"
       />
       <Animated.View
-        style={[{position: "absolute"}, animationStyle]}
+        style={[{ position: "absolute" }, animationStyle]}
       >
         <AppLogo style={{
           height: appLogoHeight,

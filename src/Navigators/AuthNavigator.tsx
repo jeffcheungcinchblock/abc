@@ -11,9 +11,10 @@ import EnterInvitaionCodeScreen from "@/Screens/Auth/EnterInvitaionCodeScreen"
 import { createStackNavigator, StackScreenProps } from "@react-navigation/stack"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { navigationRef } from "./utils"
-import { LinkingOptions, NavigationContainerRefWithCurrent, Route } from "@react-navigation/native"
+import { CompositeScreenProps, LinkingOptions, NavigationContainerRefWithCurrent, Route } from "@react-navigation/native"
 import { StartupContainer } from "@/Screens"
 import ProvideEmailScreen from "@/Screens/Auth/ProvideEmailScreen"
+import { ApplicationNavigatorParamList } from "./Application"
 
 type ValidationCodeParam = {
   email: string,
@@ -25,7 +26,7 @@ export type AuthNavigatorParamList = {
   [RouteStacks.welcomeGallery]: undefined
   [RouteStacks.welcome]: undefined
   [RouteStacks.signUp]: { code?: string } | undefined
-  [RouteStacks.signIn]: undefined
+  [RouteStacks.logIn]: undefined
   [RouteStacks.validationCode]: ValidationCodeParam | undefined
   [RouteStacks.enterInvitationCode]: undefined
   [RouteStacks.forgotPassword]: undefined
@@ -37,9 +38,15 @@ export type AuthNavigatorParamList = {
 }
 const Stack = createStackNavigator<AuthNavigatorParamList>()
 
-const AuthNavigator = () => {
+export type ApplicationScreenProps =  StackScreenProps<ApplicationNavigatorParamList, RouteStacks.application>
+
+const AuthNavigator : FC<ApplicationScreenProps> = ({navigation}) => {
 
   const dispatch = useDispatch()
+
+  useEffect(() => {
+
+  }, [])
 
   return (
     <Stack.Navigator
@@ -47,13 +54,11 @@ const AuthNavigator = () => {
         headerShown: false,
       }}
       initialRouteName={RouteStacks.welcome}
-      // initialRouteName={RouteStacks.welcomeGallery}
     >
-
       <Stack.Screen name={RouteStacks.welcomeGallery} component={WelcomeGalleryScreen} />
       <Stack.Screen name={RouteStacks.welcome} component={WelcomeScreen} />
       <Stack.Screen name={RouteStacks.signUpWithCode} component={SignUpWithCodeScreen} />
-      <Stack.Screen name={RouteStacks.signIn} component={SignInScreen} />
+      <Stack.Screen name={RouteStacks.logIn} component={SignInScreen} />
       <Stack.Screen name={RouteStacks.signUp} component={SignUpScreen} />
       <Stack.Screen name={RouteStacks.enterInvitationCode} component={EnterInvitaionCodeScreen} />
       <Stack.Screen name={RouteStacks.validationCode} component={ValidationCodeScreen} />

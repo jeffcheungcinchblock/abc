@@ -107,7 +107,7 @@ const SignUpWithCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
     }
 
     const onSignInPress = () => {
-        navigation.navigate(RouteStacks.signIn)
+        navigation.navigate(RouteStacks.logIn)
     }
 
     const onLoginOptionPress = async (loginOpt: string) => {
