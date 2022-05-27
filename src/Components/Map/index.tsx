@@ -44,7 +44,7 @@ const ActiveMapView: FC<MapViewProps> = props => {
           followsUserLocation={true}
           showsUserLocation={true}
           showsCompass={true}
-          // scrollEnabled={false}
+          scrollEnabled={false}
           //Android config
           // userLocationFastestInterval={10000}
           userLocationUpdateInterval={10000}

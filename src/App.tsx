@@ -60,7 +60,6 @@ const geolocationConfig: {
     preventSuspend: true,
     stopOnTerminate: true,
     reset: false,
-    debug: true,
     logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
   },
 }
