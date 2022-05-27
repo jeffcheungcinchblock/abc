@@ -49,8 +49,6 @@ export type ApplicationScreenProps = StackScreenProps<ApplicationNavigatorParamL
 const AuthNavigator: FC<ApplicationScreenProps> = ({ navigation }) => {
   const dispatch = useDispatch()
 
-  useEffect(() => {}, [])
-
   return (
     <Stack.Navigator
       screenOptions={{
