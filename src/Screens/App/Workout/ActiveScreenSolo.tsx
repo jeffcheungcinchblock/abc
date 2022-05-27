@@ -205,12 +205,11 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
   const endWorkoutRef = useRef<any>(null)
 
   // const onLesGoBtnPress = () =>
-
   useEffect(() => {
     timerIntervalId = setInterval(() => {
-      console.log('timer interval')
       let totalPauseTime = 0
-      paths.forEach((path: { pathTotalPauseTime: number; pathTotalReduceStep: number }) => {
+      const temp_paths = store.getState().map.paths
+      temp_paths.forEach((path: { pathTotalPauseTime: number }) => {
         if (path.pathTotalPauseTime) {
           totalPauseTime += path.pathTotalPauseTime
         }
@@ -235,7 +234,8 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
     stepIntervalId = setInterval(() => {
       console.log('step interval')
       let totalReduceStep = 0
-      paths.forEach((path: { pathTotalPauseTime: number; pathTotalReduceStep: number }) => {
+      const temp_paths = store.getState().map.paths
+      temp_paths.forEach((path: { pathTotalPauseTime: number; pathTotalReduceStep: number }) => {
         if (path.pathTotalPauseTime) {
           totalReduceStep += path.pathTotalReduceStep
         }

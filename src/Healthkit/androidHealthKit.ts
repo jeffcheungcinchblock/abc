@@ -4,7 +4,6 @@ import GoogleFit, { Scopes } from 'react-native-google-fit'
 import { GeneralHealthKit } from './generalHealthKit'
 import { check, request, RESULTS, PERMISSIONS } from 'react-native-permissions'
 import { is } from 'immer/dist/internal'
-// import Geolocation from 'react-native-geolocation-service'
 
 const options = {
   scopes: [
