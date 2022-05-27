@@ -34,8 +34,7 @@ export default {
   moreBonus: 'Refer to UNLOCK more PERKS!',
   madeItToBeta: 'You have already made it to our beta, seize the chance and max. your rewards!',
   shareReferralLink: 'Share your referral code with friends',
-  earnKEWhenReferredFriends:
-    "When each of your friends register an account using your code, you'll earn 50KE points while your friends earn 25KE points. Refer max. 30 friends and earn over 1000KE!",
+  earnKEWhenReferredFriends: 'Refer friends to download FitEvo App and earn KE points for *yourself and your friends!',
   learnMoreAllCapital: 'LEARN MORE',
   shareOnTwitter: 'Share on Twitter',
   saveToPhotos: 'Save to Photos',

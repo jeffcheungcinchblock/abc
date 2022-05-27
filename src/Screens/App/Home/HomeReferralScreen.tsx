@@ -82,6 +82,8 @@ import { check, request, RESULTS, PERMISSIONS, checkMultiple, requestMultiple } 
 import { Results } from 'realm'
 import BackgroundGeolocation, { Subscription } from 'react-native-background-geolocation'
 import { forEach } from 'lodash'
+import { runOnUI } from 'react-native-reanimated'
+import InAppBrowser from 'react-native-inappbrowser-reborn'
 const PURPLE_COLOR = {
   color: colors.magicPotion,
 }
@@ -271,13 +273,6 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
       title: t('shareMsg'),
       message: t('shareMsg'),
     })
-
-    if (shareRes !== false) {
-    }
-  }
-
-  const goBack = () => {
-    navigation.navigate(RouteStacks.homeMain)
   }
 
   const onCopyPress = () => {
@@ -379,6 +374,10 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
 
   const onInvitationRewardModalCloseBtnPress = () => {
     invitationRewardModalRef?.current?.close()
+  }
+
+  const onTAndCPress = async () => {
+    await InAppBrowser.open('https://fitevo-nft.gitbook.io/agreement/')
   }
 
   let queueNoDiff = referralInfo.lastRank - referralInfo.queueNumber
@@ -569,8 +568,8 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
         >
           <View
             style={{
-              backgroundColor: colors.jacarta,
-              shadowColor: colors.jacarta,
+              backgroundColor: colors.brightTurquoise,
+              shadowColor: colors.brightTurquoise,
               elevation: 10,
               borderRadius: 30,
               shadowOffset: { width: 0, height: 0 },
@@ -795,16 +794,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
           <Text style={[{ color: colors.white, fontSize: 16, lineHeight: 20, textAlign: 'left', fontWeight: 'bold' }]}>
             {t('inGameToken')}
           </Text>
-          <Text
-            style={{
-              color: colors.crystal,
-              fontSize: 14,
-              textAlign: 'center',
-              paddingTop: 20,
-            }}
-          >
-            {t('madeItToBeta')}
-          </Text>
+          <Text style={[{ color: colors.white, fontSize: 14, lineHeight: 20, textAlign: 'left' }]}>{t('KEPointsTransfer')}</Text>
         </View>
 
         <View style={[Layout.fullWidth, { paddingVertical: 0, paddingBottom: 30, paddingHorizontal: 40, justifyContent: 'flex-start' }]}>
@@ -823,23 +813,16 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
           <Text style={[{ color: colors.white, fontSize: 14, lineHeight: 20, textAlign: 'left' }]}>{t('higherKE')}</Text>
         </View>
 
-        <View
-          style={[
-            Layout.fullWidth,
-            {
-              height: 120,
-              paddingHorizontal: 40,
-              justifyContent: 'flex-start',
-              alignItems: 'center',
-              flexDirection: 'row',
-            },
-          ]}
-        >
-          <Ionicons name='people-outline' color={colors.white} size={20} style={{ marginRight: 20 }} />
-          <Text style={[{ fontSize: 14, color: colors.white, flexShrink: 1 }]}>{t('earnKEWhenReferredFriends')}</Text>
+        <View style={[Layout.fullWidth, { paddingVertical: 0, paddingBottom: 0, paddingHorizontal: 40, justifyContent: 'flex-start' }]}>
+          <Text style={[{ color: colors.white, fontSize: 16, lineHeight: 20, textAlign: 'left', fontWeight: 'bold' }]}>
+            {t('privilegedAppAccess')}
+          </Text>
+
+          <Text style={[{ color: colors.white, fontSize: 14, lineHeight: 20, textAlign: 'left' }]}>{t('unlockGameAccess')}</Text>
         </View>
 
-        <View
+        <Pressable
+          onPress={onTAndCPress}
           style={[Layout.fullWidth, Layout.center, { paddingTop: 60, paddingBottom: 30, paddingHorizontal: 30, justifyContent: 'center' }]}
         >
           <Text
@@ -847,7 +830,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
           >
             {t('tAndC')}
           </Text>
-        </View>
+        </Pressable>
 
         <View style={[Layout.fullWidth, Layout.center, { paddingBottom: 60, paddingHorizontal: 30, justifyContent: 'center' }]}>
           <Text style={[{ color: colors.white, fontSize: 14, lineHeight: 20, textAlign: 'center' }]}>

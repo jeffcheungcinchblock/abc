@@ -39,7 +39,6 @@ import { startLoading } from '@/Store/UI/actions'
 // @ts-ignore
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth'
 import { emailUsernameHash } from '@/Utils/helpers'
-import Animated, { FadeIn } from 'react-native-reanimated'
 import axios from 'axios'
 import InAppBrowser from 'react-native-inappbrowser-reborn'
 import { RootState } from '@/Store'
@@ -52,11 +51,11 @@ import TouchID from 'react-native-touch-id'
 import { useRealm } from '@/Realms/RealmContext'
 import { Post } from '@/Realms/Schemas/PostSchema'
 
+import { StyleSheet } from 'react-native'
+
 const BUTTON_VIEW = {
   marginVertical: 20,
 }
-
-const { UUID } = Realm.BSON
 
 const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.welcome>> = ({ navigation, route }) => {
   const { t } = useTranslation()
@@ -153,7 +152,6 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
     //     createdBy: 'Jeff cheung',
     //   })
     // })
-
     try {
       // const realm = await Realm.open({
       //     path: "myrealm",
@@ -189,7 +187,7 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
     }
   }
 
-  const onTAndCPress = () => {}
+  const onTAndCPress = async () => await InAppBrowser.open('https://fitevo-nft.gitbook.io/agreement/')
 
   return (
     <ScreenBackgrounds screenName={RouteStacks.welcome}>
@@ -221,7 +219,7 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
           <View
             style={[
               {
-                flexGrow: 4,
+                flexGrow: 8,
                 justifyContent: 'flex-end',
               },
               Layout.fullWidth,
@@ -243,7 +241,7 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
               ]}
             >
               <TurquoiseButton
-                text={t('invitationCode')}
+                text={t('referralCode')}
                 containerStyle={{ width: '45%' }}
                 onPress={() => {
                   navigation.navigate(RouteStacks.enterInvitationCode)
@@ -257,8 +255,7 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
               Layout.fullWidth,
               Layout.center,
               {
-                flex: 1,
-                paddingBottom: 40,
+                flex: 2,
               },
             ]}
           >
@@ -280,9 +277,9 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
             style={[
               Layout.fullWidth,
               Gutters.largeVMargin,
-              Layout.center,
               {
-                flex: 1,
+                flex: 2,
+                alignItems: 'center',
               },
             ]}
           >
