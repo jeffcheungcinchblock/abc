@@ -1,4 +1,4 @@
-import { createReducer } from "@reduxjs/toolkit";
+import { createReducer } from '@reduxjs/toolkit'
 import {
   start,
   move,
@@ -11,30 +11,31 @@ import {
   overSpeedMoving,
   returnToNormalSpeed,
   readSteps,
+
   //   updateLocation,
-  firstLoad,
-} from "./actions";
-import { getDistanceBetweenTwoPoints } from "../../Healthkit/utils";
-import moment, { updateLocale } from "moment";
+} from './actions'
+import { getDistanceBetweenTwoPoints } from '../../Healthkit/utils'
+import moment, { updateLocale } from 'moment'
 
 export type State = {
-  firstLoad?: boolean;
-  currentState: ActivityType;
-  startTime: Date | null;
-  endTime: Date | null;
-  latitude: number | null;
-  longitude: number | null;
-  distance: number | null;
-  calories: number | null;
-  steps: number | null;
-  heartRate: number | null;
-  paths: Array<Path>;
-  overSpeedPaths: Array<OverSpeedPath>;
-  startRegion?: StartRegion;
-  overSpeeding: boolean;
-  jumpTime?: Date;
-  curTime?: Date;
-};
+  firstLoad?: boolean
+  currentState: ActivityType
+  startTime: Date | null
+  endTime: Date | null
+  latitude: number | null
+  longitude: number | null
+  distance: number | null
+  calories: number | null
+  steps: number | null
+  heartRate: number | null
+  paths: Array<Path>
+  overSpeedPaths: Array<OverSpeedPath>
+  startRegion?: StartRegion
+  overSpeeding: boolean
+  jumpTime?: Date
+  curTime?: Date
+  currentSpeed?: number | null
+}
 
 export enum ActivityType {
   LOADING,
@@ -45,35 +46,35 @@ export enum ActivityType {
   OVERSPEED,
 }
 export type Path = {
-  numberOfPath: number;
-  coordinates?: Array<CoordinateType>;
-  pauseTime?: Date | null;
-  reduceStep: number;
-  reduceCalories: number;
-  endPauseTime?: Date | null;
-  pathTotalPauseTime?: number | null;
-};
+  numberOfPath: number
+  coordinates?: Array<CoordinateType>
+  pauseTime?: Date | null
+  reduceStep: number
+  reduceCalories: number
+  endPauseTime?: Date | null
+  pathTotalPauseTime?: number | null
+}
 export type OverSpeedPath = {
-  totalDistance?: number;
-  totalStep?: number;
-  startOverSpeedTime?: Date;
-  endOverSpeedTime?: Date;
-  coordinates?: Array<CoordinateType>;
-};
+  totalDistance?: number
+  totalStep?: number
+  startOverSpeedTime?: Date
+  endOverSpeedTime?: Date
+  coordinates?: Array<CoordinateType>
+}
 export type StartRegion = {
-  latitude: number;
-  longitude: number;
-  latitudeDelta: number;
-  longitudeDelta: number;
-};
+  latitude: number
+  longitude: number
+  latitudeDelta: number
+  longitudeDelta: number
+}
 export type CoordinateType = {
-  latitude: number;
-  longitude: number;
-};
+  latitude: number
+  longitude: number
+}
 export type PauseTimeType = {
-  startTime: Date;
-  endTime: Date;
-};
+  startTime: Date
+  endTime: Date
+}
 
 const initialState: State = {
   currentState: ActivityType.LOADING,
@@ -96,9 +97,10 @@ const initialState: State = {
   ],
   overSpeedPaths: [],
   overSpeeding: false,
-};
+  currentSpeed: 0,
+}
 
-export default createReducer<State>(initialState, (builder) => {
+export default createReducer<State>(initialState, builder => {
   builder.addCase(init, (state, action) => {
     const initialStateStart: State = {
       currentState: ActivityType.LOADING,
@@ -121,19 +123,20 @@ export default createReducer<State>(initialState, (builder) => {
       ],
       overSpeedPaths: [],
       overSpeeding: false,
-    };
-    return { ...state, initialStateStart };
-  });
+      currentSpeed: 0,
+    }
+    return { ...state, initialStateStart }
+  })
   builder.addCase(ready, (state, action) => {
-    return { ...state, currentState: ActivityType.READY };
-  });
+    return { ...state, currentState: ActivityType.READY }
+  })
   builder.addCase(start, (state, action) => {
     const initialStateStart: State = {
       currentState: ActivityType.MOVING,
       startTime: action.payload.startTime,
       endTime: null,
-      latitude: null,
-      longitude: null,
+      latitude: action.payload.latitude,
+      longitude: action.payload.longitude,
       distance: 0,
       calories: 0,
       steps: 0,
@@ -149,71 +152,64 @@ export default createReducer<State>(initialState, (builder) => {
       ],
       overSpeedPaths: [],
       overSpeeding: false,
-    };
-    return initialStateStart;
-  });
+      currentSpeed: 0,
+    }
+    return initialStateStart
+  })
 
   // Moving
   builder.addCase(move, (state, action) => {
     if (!action.payload.latitude || !action.payload.longitude) {
-      return state;
+      return state
     }
     //sum of an array
-    let totalReduceStep = 0;
-    let totalReduceCalories = 0;
-    state.paths.forEach((path) => {
-      totalReduceStep += path.reduceStep;
-      totalReduceCalories += path.reduceCalories;
-    });
-    const newSteps = action.payload.steps! - totalReduceStep;
-    const reducedCarlorieBurned =
-      action.payload.calories! - totalReduceCalories;
-    const distance = getDistanceBetweenTwoPoints(
-      state.latitude!,
-      state.longitude!,
-      action.payload.latitude!,
-      action.payload.longitude!
-    )
-
+    let totalReduceStep = 0
+    let totalReduceCalories = 0
+    state.paths.forEach(path => {
+      totalReduceStep += path.reduceStep
+      totalReduceCalories += path.reduceCalories
+    })
+    const newSteps = action.payload.steps! - totalReduceStep
+    const reducedCarlorieBurned = action.payload.calories! - totalReduceCalories
+    const distance = getDistanceBetweenTwoPoints(state.latitude!, state.longitude!, action.payload.latitude!, action.payload.longitude!)
+    console.log('reducer move speed', action.payload.currentSpeed)
     if (distance > 30) {
-      state.currentState = ActivityType.OVERSPEED;
-      const startOverSpeedTime = action.payload.curTime;
-      let lastIndexofCoordinate = 0;
+      state.currentState = ActivityType.OVERSPEED
+      const startOverSpeedTime = action.payload.curTime
+      let lastIndexofCoordinate = 0
       if (state.paths.length !== 0) {
-        lastIndexofCoordinate = state.paths.length - 1;
+        lastIndexofCoordinate = state.paths.length - 1
       }
       state.paths[lastIndexofCoordinate] = {
         ...state.paths[lastIndexofCoordinate],
         pauseTime: startOverSpeedTime,
-      };
-      let lastIndexofSpeedCoordinate = 0;
+      }
+      let lastIndexofSpeedCoordinate = 0
       if (state.overSpeedPaths.length !== 0) {
-        lastIndexofSpeedCoordinate = state.paths.length - 1;
+        lastIndexofSpeedCoordinate = state.paths.length - 1
       }
       state.overSpeedPaths[lastIndexofSpeedCoordinate] = {
         ...state.overSpeedPaths[lastIndexofSpeedCoordinate],
         startOverSpeedTime: startOverSpeedTime,
-      };
-      return state;
+      }
+      // return { ...state, currentSpeed: action.payload.currentSpeed }
+      return state
     }
 
     if (distance > 0) {
-      const newPaths = JSON.parse(JSON.stringify(state.paths));
-      if (
-        !newPaths[newPaths.length - 1].coordinates ||
-        newPaths[newPaths.length - 1].coordinates.length === 0
-      ) {
+      const newPaths = JSON.parse(JSON.stringify(state.paths))
+      if (!newPaths[newPaths.length - 1].coordinates || newPaths[newPaths.length - 1].coordinates.length === 0) {
         newPaths[newPaths.length - 1].coordinates = [
           {
             latitude: action.payload.latitude,
             longitude: action.payload.longitude,
           },
-        ];
+        ]
       } else {
         newPaths[newPaths.length - 1].coordinates!.push({
           latitude: action.payload.latitude,
           longitude: action.payload.longitude,
-        });
+        })
       }
       return {
         ...state,
@@ -224,7 +220,8 @@ export default createReducer<State>(initialState, (builder) => {
         steps: newSteps,
         paths: newPaths,
         heartRate: action.payload.heartRate,
-      };
+        currentSpeed: action.payload.currentSpeed,
+      }
     }
     return {
       ...state,
@@ -232,41 +229,39 @@ export default createReducer<State>(initialState, (builder) => {
       longitude: action.payload.longitude,
       calories: reducedCarlorieBurned,
       steps: newSteps,
-    };
-  });
+      currentSpeed: action.payload.currentSpeed,
+    }
+  })
   builder.addCase(pause, (state, action) => {
-    state.currentState = ActivityType.PAUSE;
-    const tempPauseTime = action.payload.pauseTime;
-    let lastIndexofCoordinate = 0;
+    state.currentState = ActivityType.PAUSE
+    const tempPauseTime = action.payload.pauseTime
+    let lastIndexofCoordinate = 0
     if (state.paths.length !== 0) {
-      lastIndexofCoordinate = state.paths.length - 1;
+      lastIndexofCoordinate = state.paths.length - 1
     }
     state.paths[lastIndexofCoordinate] = {
       ...state.paths[lastIndexofCoordinate],
       pauseTime: tempPauseTime,
-    };
+    }
 
-    return state;
-  });
+    return state
+  })
 
   builder.addCase(resume, (state, action) => {
-    const tempEndPauseTime = action.payload.resumeTime;
-    const reduceStep = action.payload.reduceStep;
-    const reduceCalories = action.payload.reduceCalories;
-    let lastIndexofCoordinate = 0;
+    const tempEndPauseTime = action.payload.resumeTime
+    const reduceStep = action.payload.reduceStep
+    const reduceCalories = action.payload.reduceCalories
+    let lastIndexofCoordinate = 0
     if (state.paths.length !== 0) {
-      lastIndexofCoordinate = state.paths.length - 1;
+      lastIndexofCoordinate = state.paths.length - 1
     }
-    const newPaths = JSON.parse(JSON.stringify(state.paths));
-    newPaths[lastIndexofCoordinate].endPauseTime = tempEndPauseTime!;
-    newPaths[lastIndexofCoordinate].reduceStep = reduceStep!;
-    newPaths[lastIndexofCoordinate].reduceCalories = reduceCalories!;
+    const newPaths = JSON.parse(JSON.stringify(state.paths))
+    newPaths[lastIndexofCoordinate].endPauseTime = tempEndPauseTime!
+    newPaths[lastIndexofCoordinate].reduceStep = reduceStep!
+    newPaths[lastIndexofCoordinate].reduceCalories = reduceCalories!
 
-    const total_pause_time_in_seconds =
-      moment(tempEndPauseTime!).unix() -
-      moment(newPaths[lastIndexofCoordinate].pauseTime!).unix();
-    newPaths[lastIndexofCoordinate].pathTotalPauseTime =
-      total_pause_time_in_seconds;
+    const total_pause_time_in_seconds = moment(tempEndPauseTime!).unix() - moment(newPaths[lastIndexofCoordinate].pauseTime!).unix()
+    newPaths[lastIndexofCoordinate].pathTotalPauseTime = total_pause_time_in_seconds
     newPaths.push({
       numberOfPath: newPaths.length + 1,
       pauseTime: null,
@@ -279,73 +274,73 @@ export default createReducer<State>(initialState, (builder) => {
           longitude: action.payload.longitude,
         },
       ],
-    });
+    })
     return {
       ...state,
       latitude: action.payload.latitude,
       longitude: action.payload.longitude,
       currentState: ActivityType.MOVING,
       paths: newPaths,
-    };
-  });
+    }
+  })
 
   builder.addCase(stop, (state, action) => {
     return {
       ...state,
       currentState: ActivityType.ENDED,
       endTime: action.payload.endTime,
-    };
-  });
+    }
+  })
   ///////////////////////
   //OverSpeed Handling //
   //////////////////////
 
   //Start overSpeed
   builder.addCase(overSpeed, (state, action) => {
-    state.currentState = ActivityType.OVERSPEED;
-    const startOverSpeedTime = action.payload.startOverSpeedTime;
-    let lastIndexofCoordinate = 0;
+    state.currentState = ActivityType.OVERSPEED
+    const startOverSpeedTime = action.payload.startOverSpeedTime
+    let lastIndexofCoordinate = 0
     if (state.paths.length !== 0) {
-      lastIndexofCoordinate = state.paths.length - 1;
+      lastIndexofCoordinate = state.paths.length - 1
     }
     state.paths[lastIndexofCoordinate] = {
       ...state.paths[lastIndexofCoordinate],
       pauseTime: startOverSpeedTime,
-    };
-    let lastIndexofSpeedCoordinate = 0;
+    }
+    let lastIndexofSpeedCoordinate = 0
     if (state.overSpeedPaths.length !== 0) {
-      lastIndexofSpeedCoordinate = state.paths.length - 1;
+      lastIndexofSpeedCoordinate = state.paths.length - 1
     }
     state.overSpeedPaths[lastIndexofSpeedCoordinate] = {
       ...state.overSpeedPaths[lastIndexofSpeedCoordinate],
       startOverSpeedTime: startOverSpeedTime,
-    };
-    return state;
-  });
+    }
+    return state
+  })
 
   builder.addCase(returnToNormalSpeed, (state, action) => {
     console.log('return to normal speed')
-    const tempEndPauseTime = action.payload.resumeTime;
-    const reduceStep = action.payload.reduceStep;
-    const reduceCalories = action.payload.reduceCalories;
-    let lastIndexofCoordinate = 0;
+    const tempEndPauseTime = action.payload.resumeTime
+    const reduceStep = action.payload.reduceStep
+    const reduceCalories = action.payload.reduceCalories
+    let lastIndexofCoordinate = 0
     if (state.paths.length !== 0) {
-      lastIndexofCoordinate = state.paths.length - 1;
+      lastIndexofCoordinate = state.paths.length - 1
     }
-    let lastIndexofSpeedCoordinate = 0;
+    let lastIndexofSpeedCoordinate = 0
     if (state.overSpeedPaths.length !== 0) {
-      lastIndexofSpeedCoordinate = state.paths.length - 1;
+      lastIndexofSpeedCoordinate = state.paths.length - 1
     }
-    const newPaths = JSON.parse(JSON.stringify(state.paths));
-    newPaths[lastIndexofCoordinate].endPauseTime = tempEndPauseTime!;
-    newPaths[lastIndexofCoordinate].reduceStep = reduceStep!;
-    newPaths[lastIndexofCoordinate].reduceCalories = reduceCalories!;
+    const newPaths = JSON.parse(JSON.stringify(state.paths))
+    newPaths[lastIndexofCoordinate].endPauseTime = tempEndPauseTime!
+    newPaths[lastIndexofCoordinate].reduceStep = reduceStep!
+    newPaths[lastIndexofCoordinate].reduceCalories = reduceCalories!
 
     // const total_pause_time_in_seconds =
     //   moment(tempEndPauseTime!).unix() -
     //   moment(newPaths[lastIndexofCoordinate].pauseTime!).unix();
 
-    newPaths[lastIndexofCoordinate].pathTotalPauseTime = 0;
+    newPaths[lastIndexofCoordinate].pathTotalPauseTime = 0
     newPaths.push({
       numberOfPath: newPaths.length + 1,
       pauseTime: null,
@@ -358,17 +353,17 @@ export default createReducer<State>(initialState, (builder) => {
           longitude: action.payload.longitude,
         },
       ],
-    });
-    const newOverSpeedPath = JSON.parse(JSON.stringify(state.overSpeedPaths));
+    })
+    const newOverSpeedPath = JSON.parse(JSON.stringify(state.overSpeedPaths))
 
-    newOverSpeedPath[lastIndexofSpeedCoordinate].endOverSpeedTime = tempEndPauseTime!;
-    console.log('newPaths',newPaths)
-    return { ...state, currentState: ActivityType.MOVING, paths: newPaths };
-  });
+    newOverSpeedPath[lastIndexofSpeedCoordinate].endOverSpeedTime = tempEndPauseTime!
+    console.log('newPaths', newPaths)
+    return { ...state, currentState: ActivityType.MOVING, paths: newPaths }
+  })
 
   builder.addCase(overSpeedMoving, (state, action) => {
-    console.log("overspeeding moving");
-    const newOverSpeedPaths = JSON.parse(JSON.stringify(state.overSpeedPaths));
+    console.log('overspeeding moving')
+    const newOverSpeedPaths = JSON.parse(JSON.stringify(state.overSpeedPaths))
     if (
       !newOverSpeedPaths[newOverSpeedPaths.length - 1].coordinates ||
       newOverSpeedPaths[newOverSpeedPaths.length - 1].coordinates.length === 0
@@ -378,30 +373,31 @@ export default createReducer<State>(initialState, (builder) => {
           latitude: action.payload.latitude,
           longitude: action.payload.longitude,
         },
-      ];
+      ]
     } else {
       newOverSpeedPaths[newOverSpeedPaths.length - 1].coordinates!.push({
         latitude: action.payload.latitude,
         longitude: action.payload.longitude,
-      });
+      })
     }
-    console.log(newOverSpeedPaths);
+    console.log(newOverSpeedPaths)
     return {
       ...state,
       latitude: action.payload.latitude,
       longitude: action.payload.longitude,
       overSpeedPaths: newOverSpeedPaths,
-    };
-  });
+      currentSpeed: action.payload.currentSpeed,
+    }
+  })
 
   //update step without location change
   builder.addCase(readSteps, (state, action) => {
-    let totalReduceStep = 0;
-    state.paths.forEach((path) => {
-      totalReduceStep += path.reduceStep;
-    });
-    const newSteps = action.payload.steps! - totalReduceStep;
-    console.log("get not moving step", newSteps);
-    return { ...state, steps: newSteps };
-  });
-});
+    let totalReduceStep = 0
+    state.paths.forEach(path => {
+      totalReduceStep += path.reduceStep
+    })
+    const newSteps = action.payload.steps! - totalReduceStep
+    console.log('get not moving step', newSteps)
+    return { ...state, steps: newSteps }
+  })
+})

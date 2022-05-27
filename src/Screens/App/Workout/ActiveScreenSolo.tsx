@@ -193,6 +193,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
   const overSpeedPaths = useSelector((state: any) => state.map.overSpeedPaths)
   const username = useSelector((state: any) => state.user.uuid)
   const speedUnit = useSelector((state: any) => state.unit.speedUnit)
+  const currentSpeed = useSelector((state: any) => state.map.currentSpeed)
 
   const [timer, setTimer] = useState(0)
   const [speed, setSpeed] = useState(0)
@@ -201,8 +202,13 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
   let timerIntervalId: NodeJS.Timer
   let stepIntervalId: NodeJS.Timer
 
+  const endWorkoutRef = useRef<any>(null)
+
+  // const onLesGoBtnPress = () =>
+
   useEffect(() => {
     timerIntervalId = setInterval(() => {
+      console.log('timer interval')
       let totalPauseTime = 0
       paths.forEach((path: { pathTotalPauseTime: number; pathTotalReduceStep: number }) => {
         if (path.pathTotalPauseTime) {
@@ -211,39 +217,44 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
       })
       const cur_timestamp = moment(new Date()).unix()
       const start_timestamp = moment(startTime).unix()
-      console.log('startTime', startTime)
       const timer_second = cur_timestamp - start_timestamp - totalPauseTime
-      let new_speed = distance / timer_second
-      if (currentState !== ActivityType.PAUSE) {
+      const temp_state = store.getState().map.currentState
+      if (temp_state !== ActivityType.PAUSE) {
         setTimer(Math.floor(timer_second))
-        setSpeed(new_speed)
+      }
+      if (temp_state === ActivityType.ENDED) {
+        clearInterval(timerIntervalId)
       }
     }, 1000)
     return () => {
       clearInterval(timerIntervalId)
     }
-  }, [currentState, distance, speedUnit, steps])
+  }, [])
 
   useEffect(() => {
     stepIntervalId = setInterval(() => {
-      console.log('pathuse', JSON.stringify(paths))
+      console.log('step interval')
       let totalReduceStep = 0
       paths.forEach((path: { pathTotalPauseTime: number; pathTotalReduceStep: number }) => {
         if (path.pathTotalPauseTime) {
           totalReduceStep += path.pathTotalReduceStep
         }
       })
-      if (currentState !== ActivityType.PAUSE && currentState !== ActivityType.OVERSPEED && startTime !== undefined) {
+      const temp_state = store.getState().map.currentState
+      if (temp_state !== ActivityType.PAUSE && temp_state !== ActivityType.OVERSPEED && startTime !== undefined) {
         const temp_step = health_kit.GetSteps(new Date(startTime), new Date())
         Promise.resolve(temp_step).then(step => {
           dispatch({ type: 'readSteps', payload: { steps: Math.floor(step) } })
         })
       }
+      if (temp_state === ActivityType.ENDED) {
+        clearInterval(stepIntervalId)
+      }
     }, 10000)
     return () => {
       clearInterval(stepIntervalId)
     }
-  }, [currentState])
+  }, [])
 
   const SUBSCRIPTIONS: Subscription[] = []
   const subscribe = (subscription: Subscription) => {
@@ -257,7 +268,6 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
       BackgroundGeolocation.onLocation(location => {
         const temp_currentState = store.getState().map.currentState
         const temp_paths = store.getState().map.paths
-        console.log('sub', startTime)
         console.log(ActivityType[temp_currentState])
         if (temp_currentState !== ActivityType.PAUSE && startTime !== null && startTime !== undefined) {
           if (
@@ -267,7 +277,6 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
             location.is_moving === true &&
             location.coords.speed != -1
           ) {
-            console.log('inside 1')
             if (!location.coords.speed) {
               return
             }
@@ -314,6 +323,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
                 payload: {
                   latitude: location.coords.latitude,
                   longitude: location.coords.longitude,
+                  currentSpeed: location.coords.speed,
                 },
               })
             }
@@ -322,8 +332,6 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
               const new_step = health_kit.GetSteps(new Date(startTime), new Date())
               const new_heartrate = health_kit.GetHeartRates(new Date(startTime), new Date())
               Promise.all([new_cal, new_step, new_heartrate]).then(result => {
-                console.log('dispatch inside moving')
-
                 dispatch({
                   type: 'move',
                   payload: {
@@ -334,6 +342,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
                     steps: Math.floor(result[1]),
                     heartRate: result[2],
                     firstLoad: false,
+                    currentSpeed: location.coords.speed,
                   },
                 })
               })
@@ -348,65 +357,75 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 
   useEffect(() => {
     initLocation()
+    BackgroundGeolocation.changePace(true)
     return () => {
       unsubscribe()
     }
   }, [])
 
-  const StopRunningSession = async () => {
-    Alert.alert(t('areYouSureToStop'), '', [
-      {
-        text: 'OK',
-        onPress: async () => {
-          dispatch(startLoading(true))
-          setIsStopping(true)
-          // await BackgroundGeolocation.changePace(false)
-          await BackgroundGeolocation.stop()
-          // await BackgroundGeolocation.changePace(false)
-          dispatch({
-            type: 'stop',
-            payload: { endTime: new Date().getTime() },
-          })
-          // setIsStopped(true)
-          try {
-            const paths_string = JSON.stringify(paths)
-            const over_speed_paths_string = JSON.stringify(overSpeedPaths)
-            const data = {
-              startTime: startTime,
-              endTime: new Date().getTime(),
-              distance: distance,
-              calories: calories,
-              steps: steps,
-              heartRate: heartRate,
-              paths: paths_string,
-              username: username,
-              timer: timer,
-              // speed: speed,
-              overSpeedPath: over_speed_paths_string,
-            }
-            console.log('data get', JSON.stringify(data, null, 2))
-            let response = await axios.post('https://85vamr0pne.execute-api.us-west-2.amazonaws.com/dev/sessions', data)
-            if (response) {
-              setIsStopping(false)
-              navigation.navigate(RouteStacks.endWorkout, data)
-              clearInterval(timerIntervalId)
-              clearInterval(stepIntervalId)
-            }
-          } catch (err) {
-            console.log('err', err)
-            navigation.replace(RouteStacks.endWorkout)
-          } finally {
-            dispatch(startLoading(false))
-          }
-        },
-      },
-      {
-        text: 'Cancel',
-        onPress: () => {},
-        style: 'destructive',
-      },
-    ])
+  const stopButtonPress = () => {
+    endWorkoutRef?.current?.open()
   }
+
+  const closeStopModal = () => {
+    endWorkoutRef?.current?.close()
+  }
+  const StopRunningSession = async () => {
+    // Alert.alert(t('areYouSureToStop'), '', [
+    //   {
+    //     text: 'OK',
+    //     onPress: async () => {
+    dispatch(startLoading(true))
+    clearInterval(timerIntervalId)
+    clearInterval(stepIntervalId)
+    setIsStopping(true)
+    // await BackgroundGeolocation.changePace(false)
+    await BackgroundGeolocation.stop()
+    // await BackgroundGeolocation.changePace(false)
+    dispatch({
+      type: 'stop',
+      payload: { endTime: new Date().getTime() },
+    })
+    // setIsStopped(true)
+    try {
+      const paths_string = JSON.stringify(paths)
+      const over_speed_paths_string = JSON.stringify(overSpeedPaths)
+      let new_speed = distance / timer
+
+      const data = {
+        startTime: startTime,
+        endTime: new Date().getTime(),
+        distance: distance,
+        calories: calories,
+        steps: steps,
+        heartRate: heartRate,
+        paths: paths_string,
+        username: username,
+        timer: timer,
+        speed: new_speed,
+        overSpeedPath: over_speed_paths_string,
+      }
+      console.log('data get', JSON.stringify(data, null, 2))
+      let response = await axios.post('https://85vamr0pne.execute-api.us-west-2.amazonaws.com/dev/sessions', data)
+      if (response) {
+        setIsStopping(false)
+        navigation.navigate(RouteStacks.endWorkout, data)
+      }
+    } catch (err) {
+      console.log('err', err)
+      navigation.replace(RouteStacks.endWorkout)
+    } finally {
+      dispatch(startLoading(false))
+    }
+  }
+  // }
+  // {
+  //   text: 'Cancel',
+  //   onPress: () => {},
+  //   style: 'destructive',
+  // },
+  // ])
+  // }
 
   const PauseRunningSession = async () => {
     console.log('pause')
@@ -507,6 +526,8 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
   return (
     <MapScreenBackgrounds screenName={RouteStacks.workout}>
       {/* <Header headerText={ActivityType[currentState]} style={styles.header} /> */}
+      <EndWorkoutModal ref={endWorkoutRef} onModalClose={closeStopModal} onActionBtnPress={StopRunningSession} />
+
       <View style={[ROOT, HEADER]}>
         <View style={TITLE_MIDDLE}>
           {currentState === ActivityType.OVERSPEED && (
@@ -603,16 +624,16 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
                   <View style={[styles.rowSpeedTextContentContainer]}>
                     {speedUnit === SpeedUnit.KILOMETRE_PER_HOUR && (
                       <WhiteText style={[{ lineHeight: 30, fontSize: 25, fontWeight: 'bold' }]}>
-                        {metersecond_2_kmhour(speed).toFixed(1)}
+                        {metersecond_2_kmhour(currentSpeed).toFixed(1)}
                       </WhiteText>
                     )}
                     {speedUnit === SpeedUnit.MILE_PER_HOUR && (
                       <WhiteText style={[{ lineHeight: 30, fontSize: 25, fontWeight: 'bold' }]}>
-                        {metersecond_2_milehour(speed).toFixed(1)}
+                        {metersecond_2_milehour(currentSpeed).toFixed(1)}
                       </WhiteText>
                     )}
                     {speedUnit === SpeedUnit.METER_PER_SECOND && (
-                      <WhiteText style={[{ lineHeight: 30, fontSize: 25, fontWeight: 'bold' }]}>{speed.toFixed(1)}</WhiteText>
+                      <WhiteText style={[{ lineHeight: 30, fontSize: 25, fontWeight: 'bold' }]}>{currentSpeed.toFixed(1)}</WhiteText>
                     )}
                     <CrystalText style={{ lineHeight: 30, fontSize: 15 }}>{speedUnit}</CrystalText>
                   </View>
@@ -624,7 +645,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
                 // currentState === ActivityType.MOVING ||
                 // currentState === ActivityType.OVERSPEED) &&
                 !isStopping && (
-                  <Pressable style={[Common.button.rounded, Gutters.regularBMargin, styles.stateStopButton]} onPress={StopRunningSession}>
+                  <Pressable style={[Common.button.rounded, Gutters.regularBMargin, styles.stateStopButton]} onPress={stopButtonPress}>
                     <Text
                       style={[
                         Fonts.textRegular,

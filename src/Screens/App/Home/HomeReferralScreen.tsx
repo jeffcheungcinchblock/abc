@@ -347,9 +347,16 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
       return
     }
     if (locationPermission) {
-      dispatch({ type: 'start', payload: { startTime: new Date().getTime() } })
+      await BackgroundGeolocation.getCurrentPosition({
+        samples: 1,
+      }).then(location => {
+        dispatch({
+          type: 'start',
+          payload: { startTime: new Date().getTime(), latitude: location.coords.latitude, longitude: location.coords.longitude },
+        })
+      })
       await BackgroundGeolocation.start()
-      await BackgroundGeolocation.changePace(true)
+
       setEnabled(true)
     } else {
       await requestMultiple([
@@ -360,7 +367,6 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
     }
   }
   const onLesGoBtnPress = () => dailyRewardModalRef?.current?.close()
-
   const onRuleOfReferralCloseBtnPress = () => ruleOfReferralModalRef?.current?.close()
 
   const onInfoBtnPress = () => ruleOfReferralModalRef?.current?.open()

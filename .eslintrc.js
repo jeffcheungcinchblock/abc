@@ -7,9 +7,6 @@ module.exports = {
   },
   root: true,
   extends: ['@react-native-community'],
-  globals: {
-    MyGlobal: true,
-  },
   // plugins: [ 'jest' ],
   rules: {
     'no-console': 'off',
@@ -20,5 +17,6 @@ module.exports = {
     'react/sort-prop-types': ['error'],
     'comma-spacing': ['error', { before: false, after: true }],
     'no-inline-styles': false,
+    'array-bracket-spacing': ['always'],
   },
 }
