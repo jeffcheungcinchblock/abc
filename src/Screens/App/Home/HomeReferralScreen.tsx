@@ -273,9 +273,6 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
     })
 
     if (shareRes !== false) {
-      navigation.navigate(RouteTabs.home, {
-        screen: RouteStacks.homeInviteState,
-      })
     }
   }
 
@@ -337,8 +334,8 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
     const permission = await health_kit.InitHealthKitPermission()
     const authed = await health_kit.GetAuthorizeStatus()
 
-    // console.log(permission)
-    // console.log('auth', authed, locationPermission)
+    console.log(permission)
+    console.log('auth', authed, locationPermission)
 
     if (!permission) {
       googleFitModalRef?.current?.open()
@@ -370,7 +367,6 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
     }
   }
   const onLesGoBtnPress = () => dailyRewardModalRef?.current?.close()
-
   const onRuleOfReferralCloseBtnPress = () => ruleOfReferralModalRef?.current?.close()
 
   const onInfoBtnPress = () => ruleOfReferralModalRef?.current?.open()

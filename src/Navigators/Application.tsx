@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { Dimensions, Image, ImageBackground, Linking, Pressable, SafeAreaView, StatusBar, Text, View } from 'react-native'
 import { createStackNavigator, TransitionSpecs } from '@react-navigation/stack'
 import { LinkingOptions, NavigationContainer, NavigationContainerRefWithCurrent, useNavigation } from '@react-navigation/native'
-import { StartupContainer } from '@/Screens'
+import { ApplicationStartupContainer } from '@/Screens'
 import { useTheme } from '@/Hooks'
 import MainNavigator, { DrawerNavigatorParamList } from './MainNavigator'
 import { navigationRef } from './utils'
@@ -25,7 +25,7 @@ import SnackBar from 'react-native-snackbar-component'
 import { RootState } from '@/Store'
 import SnackbarMsgContainer from '@/Components/SnackbarMsgContainer'
 import { colors, config } from '@/Utils/constants'
-import crashlytics from '@react-native-firebase/crashlytics';
+import crashlytics from '@react-native-firebase/crashlytics'
 // @ts-ignore
 import Video from 'react-native-video'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
@@ -33,11 +33,11 @@ import axios, { CancelTokenSource } from 'axios'
 // @ts-ignore
 import { Hub } from 'aws-amplify'
 import WelcomeGalleryScreen from '@/Screens/Auth/WelcomeGalleryScreen'
+import { WelcomeScreen } from '@/Screens/Auth'
 
 export type ApplicationNavigatorParamList = {
-  [RouteStacks.startUp]: undefined
   [RouteStacks.application]: undefined
-  [RouteStacks.welcomeGallery]: undefined
+  [RouteStacks.mainNavigator]: undefined
   // 🔥 Your screens go here
 }
 const Stack = createStackNavigator<ApplicationNavigatorParamList>()
@@ -50,7 +50,7 @@ const ApplicationNavigator = () => {
   const { isLoggedIn } = useSelector((state: RootState) => state.user)
 
   useEffect(() => {
-    let cancelSourceArr : CancelTokenSource[] = []
+    let cancelSourceArr: CancelTokenSource[] = []
     const retrieveLoggedInUser = async () => {
       try {
         let user = await Auth.currentAuthenticatedUser()
@@ -58,32 +58,32 @@ const ApplicationNavigator = () => {
           return
         }
 
-				let { attributes, username } = user
+        let { attributes, username } = user
 
         let jwtToken = user?.signInUserSession?.idToken?.jwtToken
         cancelSourceArr[0] = axios.CancelToken.source()
         const userProfileRes = await axios.get(config.userProfile, {
           cancelToken: cancelSourceArr[0].token,
           headers: {
-            Authorization: jwtToken //the token is a variable which holds the token
-          }
+            Authorization: jwtToken, //the token is a variable which holds the token
+          },
         })
 
         const { email, uuid } = userProfileRes?.data
 
-
         if (email) {
-          dispatch(login({
-            username: username,
-            email: attributes.email,
-            uuid
-          }))
+          dispatch(
+            login({
+              username: username,
+              email: attributes.email,
+              uuid,
+            }),
+          )
           dispatch(startLoading(false))
         } else {
           publicNavigationRef.navigate(RouteStacks.provideEmail)
           dispatch(startLoading(false))
         }
-
       } catch (err: any) {
         crashlytics().recordError(err)
       } finally {
@@ -100,78 +100,80 @@ const ApplicationNavigator = () => {
         cancelSrc?.cancel()
       })
     }
-
   }, [isLoggedIn])
 
-
   let navProps: {
-    ref: NavigationContainerRefWithCurrent<any>,
+    ref: NavigationContainerRefWithCurrent<any>
     linking: LinkingOptions<any>
-  } = isLoggedIn ? {
-  	ref: privateNavigationRef,
-  	linking: privateLinking,
-  } : {
-      ref: publicNavigationRef,
-      linking: publicLinking
-    }
-
+  } = isLoggedIn
+    ? {
+        ref: privateNavigationRef,
+        linking: privateLinking,
+      }
+    : {
+        ref: publicNavigationRef,
+        linking: publicLinking,
+      }
 
   useEffect(() => {
+    let cancelSource = axios.CancelToken.source()
     const getUser = () => {
       return Auth.currentAuthenticatedUser()
         .then((userData: any) => userData)
-        .catch(() => {});
+        .catch(() => {})
     }
 
     const authListener = async ({ payload: { event, data } }: any) => {
       switch (event) {
         case 'signIn':
         case 'cognitoHostedUI':
-
-          try{
+          try {
             let userData = await getUser()
             let jwtToken = userData?.signInUserSession?.idToken?.jwtToken
             const userProfileRes = await axios.get(config.userProfile, {
+              cancelToken: cancelSource.token,
               headers: {
-                Authorization: jwtToken
-              }
+                Authorization: jwtToken,
+              },
             })
 
             const { email, uuid } = userProfileRes?.data
 
             if (email) {
-              dispatch(login({
-                username: userData.username,
-                email: userData.email,
-                uuid
-              }))
+              dispatch(
+                login({
+                  username: userData.username,
+                  email: userData.email,
+                  uuid,
+                }),
+              )
               dispatch(startLoading(false))
             } else {
               publicNavigationRef.navigate(RouteStacks.provideEmail)
               dispatch(startLoading(false))
             }
-          }catch(err: any){
+          } catch (err: any) {
             crashlytics().recordError(err)
           }
-          break;
+          break
         case 'signOut':
-          break;
+          break
         case 'signIn_failure':
         case 'cognitoHostedUI_failure':
           dispatch(startLoading(false))
-          break;
+          break
         default:
-          break;
+          break
       }
     }
 
-    Hub.listen('auth', authListener);
+    Hub.listen('auth', authListener)
 
     return () => {
+      cancelSource?.cancel()
       Hub.remove('auth', authListener)
     }
   }, [])
-
 
   return (
     <SafeAreaView style={[Layout.fill, { backgroundColor: colors.black }]}>
@@ -187,28 +189,21 @@ const ApplicationNavigator = () => {
           top={10}
           left={10}
           right={10}
-        >
-
-        </SnackBar>
-        <NavigationContainer 
-        theme={NavigationTheme}
-          {...navProps}
-        >
-          <StatusBar
-            barStyle={darkMode ? 'light-content' : 'dark-content'} />
+        ></SnackBar>
+        <NavigationContainer theme={NavigationTheme} {...navProps}>
+          <StatusBar barStyle={darkMode ? 'light-content' : 'dark-content'} />
           {isScreenLoading && <LoadingScreen />}
 
           <Stack.Navigator
             screenOptions={{
               headerShown: false,
-              presentation: 'card',
-            }} initialRouteName={RouteStacks.startUp}>
-            <Stack.Screen name={RouteStacks.startUp} component={StartupContainer} />
-            <Stack.Screen name={RouteStacks.application} component={
-              isLoggedIn ? MainNavigator : AuthNavigator
-            } />
+              presentation: 'transparentModal',
+            }}
+            initialRouteName={RouteStacks.application}
+          >
+            <Stack.Screen name={RouteStacks.application} component={ApplicationStartupContainer} />
+            <Stack.Screen name={RouteStacks.mainNavigator} component={isLoggedIn ? MainNavigator : AuthNavigator} />
           </Stack.Navigator>
-
         </NavigationContainer>
       </GestureHandlerRootView>
     </SafeAreaView>

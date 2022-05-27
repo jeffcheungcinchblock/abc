@@ -1,1 +1,1 @@
-export { default as StartupContainer } from './StartupContainer'
+export { default as ApplicationStartupContainer } from './ApplicationStartupContainer'
