@@ -42,5 +42,5 @@ target 'DragonDappRN' do
 end
 
 target 'DragonDappRNClip' do
-  pod 'AppsFlyerFramework', '~> 6.6.1'
+  pod 'AppsFlyerFramework', '~> 6.5.2'
 end
