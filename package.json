@@ -3,6 +3,7 @@
   "version": "3.2.0",
   "private": true,
   "scripts": {
+    "packageInstall": "npm install & rm -rf node_modules/@walletconnect/react-native-dapp/node_modules/react-native-svg",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "ios-device": "react-native run-ios --device",

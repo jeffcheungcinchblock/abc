@@ -49,10 +49,14 @@ import Orientation from 'react-native-orientation-locker'
 import crashlytics from '@react-native-firebase/crashlytics'
 import BackgroundService from 'react-native-background-actions'
 import TouchID from 'react-native-touch-id'
+import { useRealm } from '@/Realms/RealmContext'
+import { Post } from '@/Realms/Schemas/PostSchema'
 
 const BUTTON_VIEW = {
   marginVertical: 20,
 }
+
+const { UUID } = Realm.BSON
 
 const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.welcome>> = ({ navigation, route }) => {
   const { t } = useTranslation()
@@ -60,6 +64,7 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
   const dispatch = useDispatch()
   const [isLoggingIn, setIsLoggingIn] = useState(false)
   const [errMsg, setErrMsg] = useState('')
+  const realm = useRealm()
 
   useEffect(() => {
     const run = async () => {
@@ -142,6 +147,13 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
   const onSignUpPress = async () => {
     navigation.navigate(RouteStacks.signUp)
 
+    // realm?.write(() => {
+    //   realm.create<Post>('Post', {
+    //     title: 'ABC',
+    //     createdBy: 'Jeff cheung',
+    //   })
+    // })
+
     try {
       // const realm = await Realm.open({
       //     path: "myrealm",
@@ -176,6 +188,8 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
       console.log(err)
     }
   }
+
+  const onTAndCPress = () => {}
 
   return (
     <ScreenBackgrounds screenName={RouteStacks.welcome}>
@@ -311,6 +325,27 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
                 }}
               />
             </View>
+          </View>
+
+          <View
+            style={[Layout.fullWidth, Layout.colCenter, Layout.rowCenter, { flexBasis: 60, flexDirection: 'column', marginVertical: 30 }]}
+          >
+            <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+              <Text style={[{ textAlign: 'center', color: colors.white }]}>{t('agreeTo')}</Text>
+              <Pressable style={{}} onPress={onTAndCPress}>
+                <Text
+                  style={{
+                    color: colors.brightTurquoise,
+                    lineHeight: 14,
+                    marginTop: 3,
+                  }}
+                >
+                  {t('T&C')}
+                </Text>
+              </Pressable>
+            </View>
+
+            <Text style={[Layout.fullWidth, { textAlign: 'center', color: colors.white }]}>{t('byRegisteringAc')}</Text>
           </View>
         </View>
       </KeyboardAwareScrollView>

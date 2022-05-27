@@ -1,6 +1,11 @@
 import Realm from 'realm'
 import { Schema } from './Schema'
 // Declare Schema
+export type Post = {
+  title: string
+  createdBy: string
+}
+
 export const PostSchema: Schema = {
   name: 'Post',
   properties: {

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react'
-import { initRealm } from './realm'
+import { initRealm } from './Realm'
 import { RealmContext } from './RealmContext'
 
 type RealmProviderProps = {
