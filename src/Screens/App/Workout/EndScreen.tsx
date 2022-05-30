@@ -48,7 +48,6 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation
   const speed = params.speed
   const timer = params.timer
 
-  console.log('params', params)
   const [result, setResult] = useState<String>()
 
   const styles = StyleSheet.create({
@@ -257,7 +256,7 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation
           />
           <CloseButton
             onPress={() => {
-              navigation.navigate(RouteStacks.homeReferral)
+              navigation.replace(RouteStacks.homeReferral)
             }}
             containerStyle={[Layout.fullWidth, Layout.rowCenter]}
           />

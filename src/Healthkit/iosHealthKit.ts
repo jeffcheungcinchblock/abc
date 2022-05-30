@@ -45,13 +45,6 @@ export class IOSHealthKit extends GeneralHealthKit {
   }
 
   GetSteps(startDate: Date, endDate: Date) {
-    AppleHealthKit.initHealthKit(permissions, (error: string) => {
-      /* Called after we receive a response from the system */
-      if (error) {
-        console.log('[ERROR] Cannot grant permissions!')
-      }
-    })
-
     console.log(startDate, endDate)
     const options = {
       startDate: startDate.toISOString(),
@@ -60,7 +53,8 @@ export class IOSHealthKit extends GeneralHealthKit {
     return new Promise<number>(resolve => {
       AppleHealthKit.getDailyStepCountSamples(options, (err: Object, results: Array<any>) => {
         if (err) {
-          return
+          console.log(err)
+          resolve(0)
         }
         const all_steps = results.map(t => t.value)
         if (all_steps.length === 0) {
@@ -80,7 +74,8 @@ export class IOSHealthKit extends GeneralHealthKit {
     return new Promise<number>(resolve => {
       AppleHealthKit.getDailyDistanceWalkingRunningSamples(options, (err: Object, results: Array<any>) => {
         if (err) {
-          return
+          console.log(err)
+          resolve(0)
         }
         const all_steps = results.map(t => t.value)
         if (all_steps.length === 0) {
@@ -101,7 +96,7 @@ export class IOSHealthKit extends GeneralHealthKit {
     return new Promise<number>(resolve => {
       AppleHealthKit.getActiveEnergyBurned(options, (err: Object, results: any[]) => {
         if (err) {
-          return
+          resolve(0)
         }
         if (results.length === 0) {
           resolve(0)
@@ -119,7 +114,8 @@ export class IOSHealthKit extends GeneralHealthKit {
     return new Promise<number>(resolve => {
       AppleHealthKit.getHeartRateSamples(options, (err: Object, results: HealthValue[]) => {
         if (err) {
-          return
+          console.log(err)
+          resolve(0)
         }
         const heartRate = results.reduce((a: any, b: { value: any }) => {
           return a + b.value

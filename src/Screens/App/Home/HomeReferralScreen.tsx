@@ -303,6 +303,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
 
   useEffect(() => {
     if (enabled === true && startTime !== null) {
+      console.log('enabled, start', enabled, startTime)
       navigation.replace(RouteStacks.workout)
     }
   }, [startTime, enabled])
@@ -341,18 +342,23 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
       googleFitModalRef?.current?.open()
       return
     }
-    if (locationPermission) {
-      await BackgroundGeolocation.getCurrentPosition({
-        samples: 1,
-      }).then(location => {
-        dispatch({
-          type: 'start',
-          payload: { startTime: new Date().getTime(), latitude: location.coords.latitude, longitude: location.coords.longitude },
-        })
-      })
-      await BackgroundGeolocation.start()
 
-      setEnabled(true)
+    if (locationPermission) {
+      BackgroundGeolocation.getCurrentPosition({
+        samples: 1,
+      })
+        .then(location => {
+          dispatch({
+            type: 'start',
+            payload: { startTime: new Date().getTime(), latitude: location.coords.latitude, longitude: location.coords.longitude },
+          })
+        })
+        .then(() => {
+          BackgroundGeolocation.start()
+        })
+        .then(() => {
+          setEnabled(true)
+        })
     } else {
       await requestMultiple([
         PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,

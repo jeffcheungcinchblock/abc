@@ -41,11 +41,10 @@ const geolocationConfig: {
 } = {
   ios: {
     desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_NAVIGATION,
-    stationaryRadius: 6,
+    stationaryRadius: 2,
     showsBackgroundLocationIndicator: true,
     locationAuthorizationRequest: 'WhenInUse',
     activityType: BackgroundGeolocation.ACTIVITY_TYPE_FITNESS,
-    disableLocationAuthorizationAlert: true,
   },
   android: {
     desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
@@ -54,7 +53,7 @@ const geolocationConfig: {
   },
   default: {
     distanceFilter: 2,
-    stopTimeout: 5,
+    stopTimeout: 15,
     isMoving: true,
     disableElasticity: true,
     preventSuspend: true,
