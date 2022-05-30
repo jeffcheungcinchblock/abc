@@ -342,7 +342,6 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
       googleFitModalRef?.current?.open()
       return
     }
-
     if (locationPermission) {
       BackgroundGeolocation.getCurrentPosition({
         samples: 1,

@@ -42,6 +42,7 @@ import { speedconst } from '@/Utils/constants'
 import { FontSize } from '@/Theme/Variables'
 import { startLoading } from '@/Store/UI/actions'
 import mapReducer from '@/Store/Map/reducer'
+import GPSContainer from '@/Components/GPS'
 
 type WorkoutScreenScreenNavigationProp = CompositeScreenProps<
   StackScreenProps<WorkoutNavigatorParamList>,
@@ -194,6 +195,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
   const username = useSelector((state: any) => state.user.uuid)
   const speedUnit = useSelector((state: any) => state.unit.speedUnit)
   const currentSpeed = useSelector((state: any) => state.map.currentSpeed)
+  const accuracy = useSelector((state: any) => state.map.accuracy)
 
   const [timer, setTimer] = useState(0)
   const [speed, setSpeed] = useState(0)
@@ -267,6 +269,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
   const initLocation = () => {
     subscribe(
       BackgroundGeolocation.onLocation(location => {
+        console.log(location)
         const temp_currentState = store.getState().map.currentState
         const temp_paths = store.getState().map.paths
         console.log(ActivityType[temp_currentState])
@@ -325,6 +328,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
                   latitude: location.coords.latitude,
                   longitude: location.coords.longitude,
                   currentSpeed: location.coords.speed,
+                  accuracy: location.coords.accuracy,
                 },
               })
             }
@@ -344,6 +348,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
                     heartRate: result[2],
                     firstLoad: false,
                     currentSpeed: location.coords.speed,
+                    accuracy: location.coords.accuracy,
                   },
                 })
               })
@@ -504,6 +509,9 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
     alignItems: 'center',
     flexDirection: 'row',
   }
+  const LEFT: ViewStyle = { flex: 1 }
+  const RIGHT: ViewStyle = { flex: 1 }
+
   const ROOT: ViewStyle = {
     flexDirection: 'row',
     paddingHorizontal: Spacing[4],
@@ -524,12 +532,14 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
     const { style, ...rest } = props
     return <View style={[style, { height: 10, width: 10, borderRadius: 50, margin: 10 }]} />
   }
+
   return (
     <MapScreenBackgrounds screenName={RouteStacks.workout}>
       {/* <Header headerText={ActivityType[currentState]} style={styles.header} /> */}
       <EndWorkoutModal ref={endWorkoutRef} onModalClose={closeStopModal} onActionBtnPress={StopRunningSession} />
 
       <View style={[ROOT, HEADER]}>
+        <View style={LEFT} />
         <View style={TITLE_MIDDLE}>
           {currentState === ActivityType.OVERSPEED && (
             <>
@@ -562,6 +572,9 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
               <Text style={[Fonts.textRegular, styles.header]}>{t('movingStatus.Ended')}</Text>
             </>
           )}
+        </View>
+        <View style={RIGHT}>
+          <GPSContainer accuracy={accuracy}></GPSContainer>
         </View>
       </View>
       <View style={[styles.container]}>

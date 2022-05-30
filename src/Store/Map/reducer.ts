@@ -11,7 +11,6 @@ import {
   overSpeedMoving,
   returnToNormalSpeed,
   readSteps,
-
   //   updateLocation,
 } from './actions'
 import { getDistanceBetweenTwoPoints } from '../../Healthkit/utils'
@@ -35,6 +34,7 @@ export type State = {
   jumpTime?: Date
   curTime?: Date
   currentSpeed?: number | null
+  accuracy?: number | null
 }
 
 export enum ActivityType {
@@ -98,6 +98,7 @@ const initialState: State = {
   overSpeedPaths: [],
   overSpeeding: false,
   currentSpeed: 0,
+  accuracy: null,
 }
 
 export default createReducer<State>(initialState, builder => {
@@ -124,6 +125,7 @@ export default createReducer<State>(initialState, builder => {
       overSpeedPaths: [],
       overSpeeding: false,
       currentSpeed: 0,
+      accuracy: null,
     }
     return { ...state, initialStateStart }
   })
@@ -131,6 +133,7 @@ export default createReducer<State>(initialState, builder => {
     return { ...state, currentState: ActivityType.READY }
   })
   builder.addCase(start, (state, action) => {
+    console.log('start')
     const initialStateStart: State = {
       currentState: ActivityType.MOVING,
       startTime: action.payload.startTime,
@@ -172,9 +175,9 @@ export default createReducer<State>(initialState, builder => {
     const newSteps = action.payload.steps! - totalReduceStep
     const reducedCarlorieBurned = action.payload.calories! - totalReduceCalories
     const distance = getDistanceBetweenTwoPoints(state.latitude!, state.longitude!, action.payload.latitude!, action.payload.longitude!)
-    console.log('reducer move speed', action.payload.currentSpeed)
     if (distance > 30) {
       state.currentState = ActivityType.OVERSPEED
+      state.accuracy = action.payload.accuracy
       const startOverSpeedTime = action.payload.curTime
       let lastIndexofCoordinate = 0
       if (state.paths.length !== 0) {
@@ -221,6 +224,7 @@ export default createReducer<State>(initialState, builder => {
         paths: newPaths,
         heartRate: action.payload.heartRate,
         currentSpeed: action.payload.currentSpeed,
+        accuracy: action.payload.accuracy,
       }
     }
     return {
@@ -230,6 +234,7 @@ export default createReducer<State>(initialState, builder => {
       calories: reducedCarlorieBurned,
       steps: newSteps,
       currentSpeed: action.payload.currentSpeed,
+      accuracy: action.payload.accuracy,
     }
   })
   builder.addCase(pause, (state, action) => {
@@ -387,6 +392,7 @@ export default createReducer<State>(initialState, builder => {
       longitude: action.payload.longitude,
       overSpeedPaths: newOverSpeedPaths,
       currentSpeed: action.payload.currentSpeed,
+      accuracy: action.payload.accuracy,
     }
   })
 
