@@ -26,8 +26,10 @@ export class IOSHealthKit extends GeneralHealthKit {
         if (error) {
           console.log('[ERROR] Cannot grant permissions!')
           resolve(false)
+          return
         }
         resolve(true)
+        return
       })
     })
   }
@@ -38,8 +40,10 @@ export class IOSHealthKit extends GeneralHealthKit {
         if (err) {
           console.log('[ERROR] Cannot get status!')
           resolve(false)
+          return
         }
         resolve(true)
+        return
       })
     })
   }
@@ -55,12 +59,15 @@ export class IOSHealthKit extends GeneralHealthKit {
         if (err) {
           console.log(err)
           resolve(0)
+          return
         }
         const all_steps = results.map(t => t.value)
         if (all_steps.length === 0) {
           resolve(0)
+          return
         } else {
           resolve(all_steps.reduce((a, b) => a + b))
+          return
         }
       })
     })
@@ -76,12 +83,15 @@ export class IOSHealthKit extends GeneralHealthKit {
         if (err) {
           console.log(err)
           resolve(0)
+          return
         }
         const all_steps = results.map(t => t.value)
         if (all_steps.length === 0) {
           resolve(0)
+          return
         } else {
           resolve(all_steps.reduce((a, b) => a + b))
+          return
         }
       })
     })
@@ -97,11 +107,14 @@ export class IOSHealthKit extends GeneralHealthKit {
       AppleHealthKit.getActiveEnergyBurned(options, (err: Object, results: any[]) => {
         if (err) {
           resolve(0)
+          return
         }
         if (results.length === 0) {
           resolve(0)
+          return
         } else {
           resolve(results[0].value)
+          return
         }
       })
     })
@@ -116,15 +129,18 @@ export class IOSHealthKit extends GeneralHealthKit {
         if (err) {
           console.log(err)
           resolve(0)
+          return
         }
         if (!results) {
           resolve(0)
+          return
         }
         const heartRate = results.reduce((a: any, b: { value: any }) => {
           return a + b.value
         }, 0)
         if (heartRate === 0) {
           resolve(0)
+          return
         }
         const averageHeartRate = heartRate / results.length
         resolve(averageHeartRate)

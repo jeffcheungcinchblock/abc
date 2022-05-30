@@ -336,14 +336,6 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
               const new_heartrate = health_kit.GetHeartRates(new Date(startTime), new Date())
 
               Promise.all([new_cal, new_step, new_heartrate]).then(result => {
-                notifee.displayNotification({
-                  title: 'Notification Title',
-                  body: 'temp_paths' + JSON.stringify(location.coords) + ' ====== ' + JSON.stringify(result),
-                  android: {
-                    channelId: 'chid1',
-                    smallIcon: 'ic_launcher',
-                  },
-                })
                 dispatch({
                   type: 'move',
                   payload: {
