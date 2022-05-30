@@ -10,6 +10,7 @@ import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
 import { DrawerScreenProps } from '@react-navigation/drawer'
 import { useTheme } from '@/Hooks'
 import { Brand, Header } from '@/Components'
+import notifee from '@notifee/react-native'
 
 import { IOSHealthKit } from '../../../Healthkit/iosHealthKit'
 import { GoogleFitKit } from '../../../Healthkit/androidHealthKit'
@@ -266,10 +267,9 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
   const unsubscribe = () => {
     SUBSCRIPTIONS.forEach((subscription: Subscription) => subscription.remove())
   }
-  const initLocation = () => {
+  const initLocation = async () => {
     subscribe(
-      BackgroundGeolocation.onLocation(location => {
-        console.log(location)
+      BackgroundGeolocation.onLocation(async location => {
         const temp_currentState = store.getState().map.currentState
         const temp_paths = store.getState().map.paths
         console.log(ActivityType[temp_currentState])
@@ -336,7 +336,16 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
               const new_cal = health_kit.GetCaloriesBurned(new Date(startTime), new Date())
               const new_step = health_kit.GetSteps(new Date(startTime), new Date())
               const new_heartrate = health_kit.GetHeartRates(new Date(startTime), new Date())
+
               Promise.all([new_cal, new_step, new_heartrate]).then(result => {
+                notifee.displayNotification({
+                  title: 'Notification Title',
+                  body: 'temp_paths' + JSON.stringify(location.coords) + ' ====== ' + JSON.stringify(result),
+                  android: {
+                    channelId: 'chid1',
+                    smallIcon: 'ic_launcher',
+                  },
+                })
                 dispatch({
                   type: 'move',
                   payload: {
