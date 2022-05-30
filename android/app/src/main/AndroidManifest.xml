@@ -49,6 +49,7 @@
           android:value="AIzaSyASm0MfpQn0s2KyvXf39_9NgoXb4eUWw0g"/>
     <service android:name="com.transistorsoft.locationmanager.service.TrackingService" android:foregroundServiceType="location" />
     <service android:name="com.transistorsoft.locationmanager.service.LocationRequestService" android:foregroundServiceType="location" />
+     <meta-data android:name="com.transistorsoft.locationmanager.license" android:value="8ca140306c61975c71bfcc44a4a8bfd6366fecfe10e3d2cc12967a0406a24ec0" />
 
   </application>
 </manifest>
