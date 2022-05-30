@@ -274,21 +274,19 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
         const temp_paths = store.getState().map.paths
         console.log(ActivityType[temp_currentState])
         if (temp_currentState !== ActivityType.PAUSE && startTime !== null && startTime !== undefined) {
-          if (
-            location.coords &&
-            location.coords.latitude &&
-            location.coords.longitude &&
-            location.is_moving === true &&
-            location.coords.speed != -1
-          ) {
+          console.log('location', location)
+          if (location.coords && location.coords.latitude && location.coords.longitude) {
+            let speed = location.coords.speed
+            if (location.activity.type === 'still' && location.activity.confidence >= 90) {
+              return
+            }
             if (!location.coords.speed) {
-              return
+              speed = 0
             }
-            console.log('speed', location.coords.speed)
-            if (location.coords.speed! <= speedconst.runningLowerLimit) {
-              return
+            if (location.coords.speed === -1) {
+              speed = 0
             }
-            if (location.coords.speed! >= speedconst.runningUpperLimit && temp_currentState !== ActivityType.OVERSPEED) {
+            if (speed! >= speedconst.runningUpperLimit && temp_currentState !== ActivityType.OVERSPEED) {
               dispatch({
                 type: 'overSpeed',
                 payload: { startOverSpeedTime: new Date().getTime() },
@@ -296,7 +294,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
               console.log('Over speed')
               return
             }
-            if (location.coords.speed! <= speedconst.runningUpperLimit && temp_currentState === ActivityType.OVERSPEED) {
+            if (speed! <= speedconst.runningUpperLimit && temp_currentState === ActivityType.OVERSPEED) {
               console.log('return to normal speed', startTime)
               const resumeTime = new Date()
               const pauseStateTime = temp_paths[temp_paths.length - 1].pauseTime!
@@ -327,7 +325,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
                 payload: {
                   latitude: location.coords.latitude,
                   longitude: location.coords.longitude,
-                  currentSpeed: location.coords.speed,
+                  currentSpeed: speed,
                   accuracy: location.coords.accuracy,
                 },
               })
@@ -356,7 +354,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
                     steps: Math.floor(result[1]),
                     heartRate: result[2],
                     firstLoad: false,
-                    currentSpeed: location.coords.speed,
+                    currentSpeed: speed,
                     accuracy: location.coords.accuracy,
                   },
                 })

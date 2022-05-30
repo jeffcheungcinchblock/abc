@@ -117,6 +117,9 @@ export class IOSHealthKit extends GeneralHealthKit {
           console.log(err)
           resolve(0)
         }
+        if (!results) {
+          resolve(0)
+        }
         const heartRate = results.reduce((a: any, b: { value: any }) => {
           return a + b.value
         }, 0)
