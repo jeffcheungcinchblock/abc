@@ -38,7 +38,7 @@ const EndWorkoutModal = forwardRef((props: EndWorkoutModalProps, ref) => {
       keyboardTopOffset={40}
       animationDuration={500}
       style={{
-        height: '35%',
+        height: '55%',
         width: '80%',
         backgroundColor: colors.charcoal,
         borderRadius: 20,

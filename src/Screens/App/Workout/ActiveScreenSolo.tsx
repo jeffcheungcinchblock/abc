@@ -460,23 +460,22 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
       persist: false,
     })
     const pauseStateTime = paths[paths.length - 1].pauseTime
-    const ReduceStep = await health_kit.GetSteps(new Date(pauseStateTime), new Date())
-    const ReduceCalories = await health_kit.GetCaloriesBurned(new Date(pauseStateTime), new Date())
-    await Promise.all([ReduceStep, ReduceCalories]).then(result => {
-      //Resume bring to moving state
-      console.log('reduce step', result[0])
-      dispatch({
-        type: 'resume',
-        payload: {
-          resumeTime: new Date().getTime(),
-          latitude: location.coords.latitude,
-          longitude: location.coords.longitude,
-          reduceStep: result[0],
-          reduceCalories: result[1],
-        },
-      })
-      // dispatch({ type:'resume', payload:{ resumeTime:(new Date).getTime(), latitude:latitude, longitude:longitude, reduceStep:result[0], reduceCalories: result[1] }})
+    const reducedStepPromise = health_kit.GetSteps(new Date(pauseStateTime), new Date())
+    const reducedCaloriesPromise = health_kit.GetCaloriesBurned(new Date(pauseStateTime), new Date())
+    const [reduceStep, reduceCalories] = await Promise.all([reducedStepPromise, reducedCaloriesPromise])
+
+    //Resume bring to moving state
+    dispatch({
+      type: 'resume',
+      payload: {
+        resumeTime: new Date().getTime(),
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        reduceStep,
+        reduceCalories,
+      },
     })
+    // dispatch({ type:'resume', payload:{ resumeTime:(new Date).getTime(), latitude:latitude, longitude:longitude, reduceStep:result[0], reduceCalories: result[1] }})
   }
 
   const chanageSpeedUnit = () => {

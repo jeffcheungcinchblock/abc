@@ -40,6 +40,7 @@ const ActiveMapView: FC<MapViewProps> = props => {
             latitudeDelta: 0.005,
             longitudeDelta: 0.005,
           }}
+          userInterfaceStyle={'light'}
           // iOS Config
           followsUserLocation={true}
           showsUserLocation={true}

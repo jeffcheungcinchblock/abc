@@ -263,17 +263,26 @@ export default createReducer<State>(initialState, builder => {
     const tempEndPauseTime = action.payload.resumeTime
     const reduceStep = action.payload.reduceStep
     const reduceCalories = action.payload.reduceCalories
+    console.log('=== resume reduceStep ', reduceStep)
+    console.log('===== state.paths', JSON.stringify(state.paths, null, 2))
     let lastIndexofCoordinate = 0
     if (state.paths.length !== 0) {
       lastIndexofCoordinate = state.paths.length - 1
     }
     const newPaths = JSON.parse(JSON.stringify(state.paths))
+
+    console.log('===== newPaths', JSON.stringify(newPaths, null, 2))
+
     newPaths[lastIndexofCoordinate].endPauseTime = tempEndPauseTime!
     newPaths[lastIndexofCoordinate].reduceStep = reduceStep!
     newPaths[lastIndexofCoordinate].reduceCalories = reduceCalories!
 
+    console.log('===== 1newPaths', JSON.stringify(newPaths, null, 2))
+
     const total_pause_time_in_seconds = moment(tempEndPauseTime!).unix() - moment(newPaths[lastIndexofCoordinate].pauseTime!).unix()
     newPaths[lastIndexofCoordinate].pathTotalPauseTime = total_pause_time_in_seconds
+
+    console.log('===== lastIndexofCoordinate', lastIndexofCoordinate)
     newPaths.push({
       numberOfPath: newPaths.length + 1,
       pauseTime: null,
