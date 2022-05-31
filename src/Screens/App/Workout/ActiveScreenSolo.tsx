@@ -280,7 +280,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
           console.log('location', location)
           if (location.coords && location.coords.latitude && location.coords.longitude) {
             let speed = location.coords.speed!
-            if (location.activity.type === 'still' && location.activity.confidence >= 90) {
+            if (location.activity.type === 'still' && location.activity.confidence >= 90 && temp_currentState !== ActivityType.OVERSPEED) {
               return
             }
             if (location.coords.accuracy > 20) {
@@ -299,29 +299,27 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
               })
               return
             }
-            if (speed! <= speedconst.runningUpperLimit && temp_currentState === ActivityType.OVERSPEED) {
+            if (
+              ((location.activity.type === 'still' && location.activity.confidence >= 90) || speed! <= speedconst.runningUpperLimit) &&
+              temp_currentState === ActivityType.OVERSPEED
+            ) {
               console.log('return to normal speed', startTime)
               const resumeTime = new Date()
               const pauseStateTime = temp_paths[temp_paths.length - 1].pauseTime!
-              console.log('pauseStateTime', JSON.stringify(paths))
               const ReduceStep = health_kit.GetSteps(new Date(pauseStateTime), resumeTime)
               const ReduceCalories = health_kit.GetCaloriesBurned(new Date(pauseStateTime), resumeTime)
-              Promise.all([ReduceStep, ReduceCalories])
-                .then(result => {
-                  dispatch({
-                    type: 'returnToNormalSpeed',
-                    payload: {
-                      resumeTime: resumeTime.getTime(),
-                      latitude: location.coords.latitude,
-                      longitude: location.coords.longitude,
-                      reduceStep: Math.floor(result[0]),
-                      reduceCalories: Math.floor(result[1]),
-                    },
-                  })
+              Promise.all([ReduceStep, ReduceCalories]).then(result => {
+                dispatch({
+                  type: 'returnToNormalSpeed',
+                  payload: {
+                    resumeTime: resumeTime.getTime(),
+                    latitude: location.coords.latitude,
+                    longitude: location.coords.longitude,
+                    reduceStep: Math.floor(result[0]),
+                    reduceCalories: Math.floor(result[1]),
+                  },
                 })
-                .then(() => {
-                  return
-                })
+              })
             }
 
             if (temp_currentState === ActivityType.OVERSPEED) {
