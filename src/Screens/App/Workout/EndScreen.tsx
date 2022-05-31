@@ -1,6 +1,6 @@
 import React, { useState, useEffect, FC } from 'react'
 import { StackScreenProps } from '@react-navigation/stack'
-import { View, Text, StyleSheet, Image, TextProps, TextStyle, Platform } from 'react-native'
+import { View, Text, StyleSheet, Image, TextProps, TextStyle, Platform, Pressable } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from '@/Hooks'
 // @ts-ignore
@@ -34,19 +34,21 @@ import { hasAndroidPermission } from '@/Utils/permissionHandlers'
 import crashlytics from '@react-native-firebase/crashlytics'
 import { triggerSnackbar } from '@/Utils/helpers'
 import { metersecond_2_kmhour, metersecond_2_milehour } from './utils'
-
+import { SpeedUnit } from './ActiveScreenSolo'
 // import share from '@/Utils/endshare'
 const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation, route }) => {
   const { t } = useTranslation()
   const { Common, Fonts, Gutters, Layout } = useTheme()
   const params = route?.params || { username: '' }
   // console.log('route', route.params)
+  const dispatch = useDispatch()
 
   const steps = useSelector((state: any) => state.map.steps)
   const distance = useSelector((state: any) => state.map.distance)
 
   const speed = params.speed
   const timer = params.timer
+  const speedUnit = useSelector((state: any) => state.unit.speedUnit)
 
   const [result, setResult] = useState<String>()
 
@@ -174,6 +176,27 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation
     }
   }
 
+  const chanageSpeedUnit = () => {
+    if (speedUnit === SpeedUnit.KILOMETRE_PER_HOUR) {
+      // setSpeedUnit(SpeedUnit.MILE_PER_HOUR)
+      dispatch({
+        type: 'changeSpeedUnit',
+        payload: { speedUnit: SpeedUnit.MILE_PER_HOUR },
+      })
+    } else if (speedUnit === SpeedUnit.MILE_PER_HOUR) {
+      // setSpeedUnit(SpeedUnit.METER_PER_SECOND)
+      dispatch({
+        type: 'changeSpeedUnit',
+        payload: { speedUnit: SpeedUnit.METER_PER_SECOND },
+      })
+    } else if (speedUnit === SpeedUnit.METER_PER_SECOND) {
+      // setSpeedUnit(SpeedUnit.KILOMETRE_PER_HOUR)
+      dispatch({
+        type: 'changeSpeedUnit',
+        payload: { speedUnit: SpeedUnit.KILOMETRE_PER_HOUR },
+      })
+    }
+  }
   const WhiteText = (props: TextProps) => {
     const { style, ...rest } = props
     return <Text style={[styles.textStyle, style, { fontFamily: 'Poppins-Bold', color: colors.white }]} {...rest} />
@@ -222,14 +245,32 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation
           <View style={[styles.contentContainer]}>
             <Image source={SpeedIcon} style={{ width: 26, height: 26, resizeMode: 'contain', alignSelf: 'center' }} />
 
-            <View style={[styles.speedContainer, {}]}>
-              {speed ? (
-                <WhiteText style={[{ fontSize: 30, fontWeight: 'bold' }]}>{metersecond_2_kmhour(speed).toFixed(1)}</WhiteText>
-              ) : (
-                <WhiteText style={[{ fontSize: 30, fontWeight: 'bold' }]}>0</WhiteText>
-              )}
-              <CrystalText style={{ fontSize: 14, lineHeight: 30, fontWeight: '400', marginLeft: 4 }}>km/h</CrystalText>
-            </View>
+            <Pressable onPress={chanageSpeedUnit} style={{ flex: 1 }}>
+              {/* <View style={[styles.speedContainer, {}]}>
+                {speed ? (
+                  <WhiteText style={[{ fontSize: 30, fontWeight: 'bold' }]}>{metersecond_2_kmhour(speed).toFixed(1)}</WhiteText>
+                ) : (
+                  <WhiteText style={[{ fontSize: 30, fontWeight: 'bold' }]}>0</WhiteText>
+                )}
+                <CrystalText style={{ fontSize: 14, lineHeight: 30, fontWeight: '400', marginLeft: 4 }}>km/h</CrystalText>
+              </View> */}
+              <View style={[styles.speedContainer]}>
+                {speedUnit === SpeedUnit.KILOMETRE_PER_HOUR && (
+                  <WhiteText style={[{ lineHeight: 30, fontSize: 25, fontWeight: 'bold' }]}>
+                    {metersecond_2_kmhour(speed).toFixed(1)}
+                  </WhiteText>
+                )}
+                {speedUnit === SpeedUnit.MILE_PER_HOUR && (
+                  <WhiteText style={[{ lineHeight: 30, fontSize: 25, fontWeight: 'bold' }]}>
+                    {metersecond_2_milehour(speed).toFixed(1)}
+                  </WhiteText>
+                )}
+                {speedUnit === SpeedUnit.METER_PER_SECOND && (
+                  <WhiteText style={[{ lineHeight: 30, fontSize: 25, fontWeight: 'bold' }]}>{speed.toFixed(1)}</WhiteText>
+                )}
+                <CrystalText style={{ lineHeight: 30, fontSize: 15 }}>{speedUnit}</CrystalText>
+              </View>
+            </Pressable>
           </View>
         </View>
 

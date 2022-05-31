@@ -129,9 +129,11 @@ export default createReducer<State>(initialState, builder => {
     }
     return { ...state, initialStateStart }
   })
+
   builder.addCase(ready, (state, action) => {
     return { ...state, currentState: ActivityType.READY }
   })
+
   builder.addCase(start, (state, action) => {
     console.log('start')
     const initialStateStart: State = {
@@ -165,7 +167,6 @@ export default createReducer<State>(initialState, builder => {
     if (!action.payload.latitude || !action.payload.longitude) {
       return state
     }
-    //sum of an array
     let totalReduceStep = 0
     let totalReduceCalories = 0
     state.paths.forEach(path => {
@@ -175,6 +176,8 @@ export default createReducer<State>(initialState, builder => {
     const newSteps = action.payload.steps! - totalReduceStep
     const reducedCarlorieBurned = action.payload.calories! - totalReduceCalories
     const distance = getDistanceBetweenTwoPoints(state.latitude!, state.longitude!, action.payload.latitude!, action.payload.longitude!)
+
+    console.log('distance > 0', distance)
     if (distance > 30) {
       state.currentState = ActivityType.OVERSPEED
       state.accuracy = action.payload.accuracy
@@ -200,6 +203,7 @@ export default createReducer<State>(initialState, builder => {
     }
 
     if (distance > 0) {
+      console.log('move > 0')
       const newPaths = JSON.parse(JSON.stringify(state.paths))
       if (!newPaths[newPaths.length - 1].coordinates || newPaths[newPaths.length - 1].coordinates.length === 0) {
         newPaths[newPaths.length - 1].coordinates = [
@@ -223,7 +227,9 @@ export default createReducer<State>(initialState, builder => {
         steps: newSteps,
         paths: newPaths,
         heartRate: action.payload.heartRate,
+        // currentSpeed: new_speed,
         currentSpeed: action.payload.currentSpeed,
+
         accuracy: action.payload.accuracy,
       }
     }
@@ -234,6 +240,7 @@ export default createReducer<State>(initialState, builder => {
       calories: reducedCarlorieBurned,
       steps: newSteps,
       currentSpeed: action.payload.currentSpeed,
+      // currentSpeed: new_speed,
       accuracy: action.payload.accuracy,
     }
   })
@@ -385,13 +392,18 @@ export default createReducer<State>(initialState, builder => {
         longitude: action.payload.longitude,
       })
     }
-    console.log(newOverSpeedPaths)
+    console.log('newOverSpeedPaths', JSON.stringify(newOverSpeedPaths))
+    // const distance = getDistanceBetweenTwoPoints(state.latitude!, state.longitude!, action.payload.latitude!, action.payload.longitude!)
+    // const temp_timedifferent = action.payload.curTime!.getTime() - state.curTime!.getTime()
+
+    console.log('overspeed moving', action.payload.latitude)
     return {
       ...state,
       latitude: action.payload.latitude,
       longitude: action.payload.longitude,
       overSpeedPaths: newOverSpeedPaths,
       currentSpeed: action.payload.currentSpeed,
+      // currentSpeed: new_speed,
       accuracy: action.payload.accuracy,
     }
   })
@@ -403,7 +415,6 @@ export default createReducer<State>(initialState, builder => {
       totalReduceStep += path.reduceStep
     })
     const newSteps = action.payload.steps! - totalReduceStep
-    console.log('get not moving step', newSteps)
     return { ...state, steps: newSteps }
   })
 })

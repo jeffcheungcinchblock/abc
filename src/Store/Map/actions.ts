@@ -25,6 +25,7 @@ export const overSpeedMoving = createAction<{
   latitude: number
   longitude: number
   accuracy: number
+  curTime: Date
 }>('overSpeedMoving')
 export const returnToNormalSpeed = createAction<{
   resumeTime: Date

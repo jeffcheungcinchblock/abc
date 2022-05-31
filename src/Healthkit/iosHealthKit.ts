@@ -66,7 +66,8 @@ export class IOSHealthKit extends GeneralHealthKit {
           resolve(0)
           return
         } else {
-          resolve(all_steps.reduce((a, b) => a + b))
+          const return_step = all_steps.reduce((a, b) => a + b)
+          resolve(Math.floor(return_step))
           return
         }
       })
@@ -90,7 +91,8 @@ export class IOSHealthKit extends GeneralHealthKit {
           resolve(0)
           return
         } else {
-          resolve(all_steps.reduce((a, b) => a + b))
+          const return_step = all_steps.reduce((a, b) => a + b)
+          resolve(Math.floor(return_step))
           return
         }
       })

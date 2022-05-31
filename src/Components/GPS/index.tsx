@@ -10,7 +10,7 @@ interface GPSContainerProps extends ViewProps {
 
 const StatusDot = (props: ViewProps) => {
   const { style, ...rest } = props
-  return <View style={[style, { height: 10, maxWidth: 10, borderRadius: 50, margin: 5, flex: 1 }]} />
+  return <View style={[style, { height: 10, maxWidth: 10, borderRadius: 50, margin: 1, flex: 1 }]} />
 }
 export enum Status {
   HIGH = 'red',
@@ -18,25 +18,34 @@ export enum Status {
   LOW = 'green',
 }
 const GPSContainer = ({ accuracy }: GPSContainerProps) => {
-  console.log('a', accuracy === undefined)
-
   return (
     <View
       style={{
         backgroundColor: colors.charcoal,
         justifyContent: 'space-around',
+        // margin: 10,
         alignItems: 'center',
         borderRadius: 99,
         flexDirection: 'row',
+        // paddingVertical: 5,
+        padding: 5,
       }}
     >
+      <Text
+        style={{
+          fontSize: 18,
+          color: '#fff',
+          display: 'flex',
+          alignContent: 'center',
+        }}
+      >
+        GPS
+      </Text>
       {accuracy > 15 && accuracy < 20 && <StatusDot style={{ backgroundColor: colors.orange }} />}
       {accuracy >= 0 && accuracy <= 15 && <StatusDot style={{ backgroundColor: colors.green }} />}
       {(accuracy === -1 || accuracy === undefined || accuracy >= 20 || isNaN(accuracy)) && (
         <StatusDot style={{ backgroundColor: colors.red }} />
       )}
-
-      <Text style={{ flex: 2, fontSize: 18, color: '#fff', display: 'flex', alignContent: 'center' }}>GPS</Text>
     </View>
   )
 }

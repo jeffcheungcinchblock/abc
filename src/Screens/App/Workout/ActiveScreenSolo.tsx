@@ -11,6 +11,7 @@ import { DrawerScreenProps } from '@react-navigation/drawer'
 import { useTheme } from '@/Hooks'
 import { Brand, Header } from '@/Components'
 import notifee from '@notifee/react-native'
+import crashlytics from '@react-native-firebase/crashlytics'
 
 import { IOSHealthKit } from '../../../Healthkit/iosHealthKit'
 import { GoogleFitKit } from '../../../Healthkit/androidHealthKit'
@@ -227,7 +228,6 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
       if (temp_state === ActivityType.ENDED) {
         clearInterval(timerIntervalId)
       }
-      console.log(timer)
     }, 1000)
     return () => {
       clearInterval(timerIntervalId)
@@ -244,6 +244,9 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
           totalReduceStep += path.pathTotalReduceStep
         }
       })
+      if (isNaN(totalReduceStep)) {
+        totalReduceStep = 0
+      }
       const temp_state = store.getState().map.currentState
       if (temp_state !== ActivityType.PAUSE && temp_state !== ActivityType.OVERSPEED && startTime !== undefined) {
         const temp_step = health_kit.GetSteps(new Date(startTime), new Date())
@@ -254,6 +257,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
       if (temp_state === ActivityType.ENDED) {
         clearInterval(stepIntervalId)
       }
+      console.log('step interval', totalReduceStep, paths)
     }, 10000)
     return () => {
       clearInterval(stepIntervalId)
@@ -276,7 +280,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
         if (temp_currentState !== ActivityType.PAUSE && startTime !== null && startTime !== undefined) {
           console.log('location', location)
           if (location.coords && location.coords.latitude && location.coords.longitude) {
-            let speed = location.coords.speed
+            let speed = location.coords.speed!
             if (location.activity.type === 'still' && location.activity.confidence >= 90) {
               return
             }
@@ -320,6 +324,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
             }
 
             if (temp_currentState === ActivityType.OVERSPEED) {
+              console.log('overspeedmoving', location.coords.latitude, location.coords.longitude)
               dispatch({
                 type: 'overSpeedMoving',
                 payload: {
@@ -327,6 +332,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
                   longitude: location.coords.longitude,
                   currentSpeed: speed,
                   accuracy: location.coords.accuracy,
+                  curTime: new Date().getTime(),
                 },
               })
             }
@@ -334,7 +340,6 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
               const new_cal = health_kit.GetCaloriesBurned(new Date(startTime), new Date())
               const new_step = health_kit.GetSteps(new Date(startTime), new Date())
               const new_heartrate = health_kit.GetHeartRates(new Date(startTime), new Date())
-
               Promise.all([new_cal, new_step, new_heartrate]).then(result => {
                 dispatch({
                   type: 'move',
@@ -361,8 +366,12 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
   }
 
   useEffect(() => {
-    initLocation()
-    BackgroundGeolocation.changePace(true)
+    try {
+      initLocation()
+      BackgroundGeolocation.changePace(true)
+    } catch (err) {
+      crashlytics().recordError(err)
+    }
     return () => {
       unsubscribe()
     }
@@ -419,6 +428,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
     } catch (err) {
       console.log('err', err)
       navigation.replace(RouteStacks.endWorkout)
+      crashlytics().recordError(err)
     } finally {
       dispatch(startLoading(false))
     }

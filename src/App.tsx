@@ -52,7 +52,7 @@ const geolocationConfig: {
     locationAuthorizationRequest: 'WhenInUse',
   },
   default: {
-    distanceFilter: 0,
+    distanceFilter: 2,
     stopTimeout: 15,
     isMoving: true,
     disableElasticity: true,
