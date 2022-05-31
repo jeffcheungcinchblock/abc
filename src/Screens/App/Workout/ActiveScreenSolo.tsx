@@ -236,7 +236,6 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 
   useEffect(() => {
     stepIntervalId = setInterval(() => {
-      console.log('step interval')
       let totalReduceStep = 0
       const temp_paths = store.getState().map.paths
       temp_paths.forEach((path: { pathTotalPauseTime: number; pathTotalReduceStep: number }) => {
@@ -257,7 +256,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
       if (temp_state === ActivityType.ENDED) {
         clearInterval(stepIntervalId)
       }
-      console.log('step interval', totalReduceStep, paths)
+      console.log('step interval', totalReduceStep, temp_paths)
     }, 10000)
     return () => {
       clearInterval(stepIntervalId)
@@ -295,7 +294,6 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
                 type: 'overSpeed',
                 payload: { startOverSpeedTime: new Date().getTime() },
               })
-              console.log('Over speed')
               return
             }
             if (speed! <= speedconst.runningUpperLimit && temp_currentState === ActivityType.OVERSPEED) {
@@ -463,6 +461,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
     const ReduceCalories = await health_kit.GetCaloriesBurned(new Date(pauseStateTime), new Date())
     await Promise.all([ReduceStep, ReduceCalories]).then(result => {
       //Resume bring to moving state
+      console.log('reduce step', result[0])
       dispatch({
         type: 'resume',
         payload: {
