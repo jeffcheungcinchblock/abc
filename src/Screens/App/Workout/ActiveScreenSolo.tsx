@@ -283,6 +283,9 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
             if (location.activity.type === 'still' && location.activity.confidence >= 90) {
               return
             }
+            if (location.coords.accuracy > 20) {
+              return
+            }
             if (!location.coords.speed) {
               speed = 0
             }

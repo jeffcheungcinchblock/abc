@@ -178,7 +178,7 @@ export default createReducer<State>(initialState, builder => {
     const distance = getDistanceBetweenTwoPoints(state.latitude!, state.longitude!, action.payload.latitude!, action.payload.longitude!)
 
     console.log('distance > 0', distance)
-    if (distance > 30) {
+    if (distance > 15) {
       state.currentState = ActivityType.OVERSPEED
       state.accuracy = action.payload.accuracy
       const startOverSpeedTime = action.payload.curTime
