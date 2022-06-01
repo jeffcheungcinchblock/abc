@@ -6,6 +6,7 @@ import { enableLatestRenderer, Polyline } from 'react-native-maps'
 import BackgroundGeolocation from 'react-native-background-geolocation'
 import { colors, mapViewConst } from '@/Utils/constants'
 import { store } from '@/Store'
+
 enableLatestRenderer()
 const styles = StyleSheet.create({
   map: {

@@ -367,8 +367,9 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
         ])
       }
     } catch (err) {
-      setIsStartPressed(false)
       crashlytics().recordError(err)
+    } finally {
+      setIsStartPressed(false)
     }
   }
   const onLesGoBtnPress = () => dailyRewardModalRef?.current?.close()
