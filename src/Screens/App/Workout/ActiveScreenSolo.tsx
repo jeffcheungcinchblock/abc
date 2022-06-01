@@ -287,7 +287,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
               return
             }
             if (
-              Platform.OS === 'ios' &&
+              // Platform.OS === 'ios' &&
               location.activity.type === 'still' &&
               location.activity.confidence >= 90 &&
               temp_currentState !== ActivityType.OVERSPEED
