@@ -15,7 +15,7 @@ import {
 } from './actions'
 import { getDistanceBetweenTwoPoints } from '../../Healthkit/utils'
 import moment, { updateLocale } from 'moment'
-
+import { Platform } from 'react-native'
 export type State = {
   firstLoad?: boolean
   currentState: ActivityType
@@ -178,7 +178,7 @@ export default createReducer<State>(initialState, builder => {
     const distance = getDistanceBetweenTwoPoints(state.latitude!, state.longitude!, action.payload.latitude!, action.payload.longitude!)
 
     console.log('distance > 0', distance)
-    if (distance > 15) {
+    if ((Platform.OS === 'android' && distance > 30) || (Platform.OS === 'ios' && distance > 15)) {
       state.currentState = ActivityType.OVERSPEED
       state.accuracy = action.payload.accuracy
       const startOverSpeedTime = action.payload.curTime

@@ -281,9 +281,20 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
           console.log('location', location)
           if (location.coords && location.coords.latitude && location.coords.longitude) {
             let speed = location.coords.speed!
-            if (location.activity.type === 'still' && location.activity.confidence >= 90 && temp_currentState !== ActivityType.OVERSPEED) {
+            console.log('before move')
+            if (location.mock) {
+              // console.log('mock')
               return
             }
+            if (
+              Platform.OS === 'ios' &&
+              location.activity.type === 'still' &&
+              location.activity.confidence >= 90 &&
+              temp_currentState !== ActivityType.OVERSPEED
+            ) {
+              return
+            }
+
             if (location.coords.accuracy > 25) {
               return
             }

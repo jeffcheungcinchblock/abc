@@ -56,6 +56,7 @@ const ActiveMapView: FC<MapViewProps> = props => {
           region={isIOS ? undefined : { latitude: latitude, longitude: longitude, latitudeDelta: 0.005, longitudeDelta: 0.005 }}
           // Default config
           showsMyLocationButton={true}
+          zoomEnabled={false}
         >
           {paths &&
             paths.map((path: any, index: number) => {

@@ -302,9 +302,9 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
   useEffect(() => {
     if (enabled === true && startTime !== null) {
       console.log('enabled, start', enabled, startTime)
-      setIsStartPressed(false)
       navigation.replace(RouteStacks.workout)
     }
+    setIsStartPressed(false)
   }, [startTime, enabled])
 
   const onTrialPlayPress = async () => {
@@ -365,11 +365,10 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
           PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
           PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION,
         ])
+        setIsStartPressed(false)
       }
     } catch (err) {
       crashlytics().recordError(err)
-    } finally {
-      setIsStartPressed(false)
     }
   }
   const onLesGoBtnPress = () => dailyRewardModalRef?.current?.close()
