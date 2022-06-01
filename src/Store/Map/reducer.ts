@@ -169,12 +169,12 @@ export default createReducer<State>(initialState, builder => {
     }
     let totalReduceStep = 0
     let totalReduceCalories = 0
-    state.paths.forEach(path => {
-      totalReduceStep += path.reduceStep
-      totalReduceCalories += path.reduceCalories
-    })
-    const newSteps = action.payload.steps! - totalReduceStep
-    const reducedCarlorieBurned = action.payload.calories! - totalReduceCalories
+    // state.paths.forEach(path => {
+    //   totalReduceStep += path.reduceStep
+    //   totalReduceCalories += path.reduceCalories
+    // })
+    // const newSteps = action.payload.steps! - totalReduceStep
+    // const reducedCarlorieBurned = action.payload.calories! - totalReduceCalories
     const distance = getDistanceBetweenTwoPoints(state.latitude!, state.longitude!, action.payload.latitude!, action.payload.longitude!)
 
     console.log('distance > 0', distance)
@@ -223,8 +223,8 @@ export default createReducer<State>(initialState, builder => {
         latitude: action.payload.latitude,
         longitude: action.payload.longitude,
         distance: state.distance! + distance,
-        calories: reducedCarlorieBurned,
-        steps: newSteps,
+        // calories: reducedCarlorieBurned,
+        // steps: newSteps,
         paths: newPaths,
         heartRate: action.payload.heartRate,
         // currentSpeed: new_speed,
@@ -237,8 +237,8 @@ export default createReducer<State>(initialState, builder => {
       ...state,
       latitude: action.payload.latitude,
       longitude: action.payload.longitude,
-      calories: reducedCarlorieBurned,
-      steps: newSteps,
+      // calories: reducedCarlorieBurned,
+      // steps: newSteps,
       currentSpeed: action.payload.currentSpeed,
       // currentSpeed: new_speed,
       accuracy: action.payload.accuracy,
@@ -401,11 +401,11 @@ export default createReducer<State>(initialState, builder => {
         longitude: action.payload.longitude,
       })
     }
-    console.log('newOverSpeedPaths', JSON.stringify(newOverSpeedPaths))
+    // console.log('newOverSpeedPaths', JSON.stringify(newOverSpeedPaths))
     // const distance = getDistanceBetweenTwoPoints(state.latitude!, state.longitude!, action.payload.latitude!, action.payload.longitude!)
     // const temp_timedifferent = action.payload.curTime!.getTime() - state.curTime!.getTime()
 
-    console.log('overspeed moving', action.payload.latitude)
+    // console.log('overspeed moving', action.payload.latitude)
     return {
       ...state,
       latitude: action.payload.latitude,

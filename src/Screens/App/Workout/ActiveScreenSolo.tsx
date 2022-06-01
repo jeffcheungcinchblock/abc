@@ -202,6 +202,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
   const [timer, setTimer] = useState(0)
   const [speed, setSpeed] = useState(0)
   const [isStopping, setIsStopping] = useState(false)
+  const [isButtonLoading, setIsButtonLoading] = useState(false)
 
   let timerIntervalId: NodeJS.Timer
   let stepIntervalId: NodeJS.Timer
@@ -336,25 +337,25 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
               })
             }
             if (temp_currentState === ActivityType.MOVING) {
-              const new_cal = health_kit.GetCaloriesBurned(new Date(startTime), new Date())
-              const new_step = health_kit.GetSteps(new Date(startTime), new Date())
-              const new_heartrate = health_kit.GetHeartRates(new Date(startTime), new Date())
-              Promise.all([new_cal, new_step, new_heartrate]).then(result => {
-                dispatch({
-                  type: 'move',
-                  payload: {
-                    curTime: new Date().getTime(),
-                    latitude: location.coords.latitude,
-                    longitude: location.coords.longitude,
-                    calories: Math.floor(result[0]),
-                    steps: Math.floor(result[1]),
-                    heartRate: result[2],
-                    firstLoad: false,
-                    currentSpeed: speed,
-                    accuracy: location.coords.accuracy,
-                  },
-                })
+              // const new_cal = health_kit.GetCaloriesBurned(new Date(startTime), new Date())
+              // const new_step = health_kit.GetSteps(new Date(startTime), new Date())
+              // const new_heartrate = health_kit.GetHeartRates(new Date(startTime), new Date())
+              // Promise.all([new_cal, new_step, new_heartrate]).then(result => {
+              dispatch({
+                type: 'move',
+                payload: {
+                  curTime: new Date().getTime(),
+                  latitude: location.coords.latitude,
+                  longitude: location.coords.longitude,
+                  // calories: Math.floor(result[0]),
+                  // steps: Math.floor(result[1]),
+                  // heartRate: result[2],
+                  firstLoad: false,
+                  currentSpeed: speed,
+                  accuracy: location.coords.accuracy,
+                },
               })
+              // })
             }
           } else {
             console.log('not moving')
@@ -388,6 +389,8 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
     //   {
     //     text: 'OK',
     //     onPress: async () => {
+    setIsButtonLoading(true)
+
     dispatch(startLoading(true))
     clearInterval(timerIntervalId)
     clearInterval(stepIntervalId)
@@ -430,6 +433,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
       crashlytics().recordError(err)
     } finally {
       dispatch(startLoading(false))
+      setIsButtonLoading(false)
     }
   }
   // }
@@ -443,12 +447,15 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 
   const PauseRunningSession = async () => {
     console.log('pause')
+    setIsButtonLoading(true)
     await BackgroundGeolocation.changePace(false)
     const curTime = new Date()
     dispatch({ type: 'pause', payload: { pauseTime: curTime.getTime() } })
+    setIsButtonLoading(false)
   }
 
   const ResumeRunningSession = async () => {
+    setIsButtonLoading(true)
     await BackgroundGeolocation.changePace(true)
     let location = await BackgroundGeolocation.getCurrentPosition({
       samples: 1,
@@ -474,6 +481,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
       },
     })
     // dispatch({ type:'resume', payload:{ resumeTime:(new Date).getTime(), latitude:latitude, longitude:longitude, reduceStep:result[0], reduceCalories: result[1] }})
+    setIsButtonLoading(false)
   }
 
   const chanageSpeedUnit = () => {
@@ -664,6 +672,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
             </View>
             <View style={[styles.stateButtonContainer]}>
               {currentState === ActivityType.PAUSE &&
+                !isButtonLoading &&
                 // currentState === ActivityType.MOVING ||
                 // currentState === ActivityType.OVERSPEED) &&
                 !isStopping && (
@@ -683,7 +692,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
                     </Text>
                   </Pressable>
                 )}
-              {currentState !== ActivityType.PAUSE && currentState !== ActivityType.ENDED && !isStopping && (
+              {currentState !== ActivityType.PAUSE && currentState !== ActivityType.ENDED && !isStopping && !isButtonLoading && (
                 <Pressable
                   style={[Common.button.rounded, Gutters.regularBMargin, styles.statePauseResumeButton]}
                   onPress={PauseRunningSession}
@@ -702,7 +711,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
                   </Text>
                 </Pressable>
               )}
-              {currentState === ActivityType.PAUSE && !isStopping && (
+              {currentState === ActivityType.PAUSE && !isStopping && !isButtonLoading && (
                 <Pressable
                   style={[Common.button.rounded, Gutters.regularBMargin, styles.statePauseResumeButton]}
                   onPress={ResumeRunningSession}

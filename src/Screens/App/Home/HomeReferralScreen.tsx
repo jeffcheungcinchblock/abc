@@ -149,10 +149,8 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
     top100AvgKE: 0,
     totalPoint: 0,
   })
-  const [isReady, setIsReady] = useState<Boolean>(false)
+  const [isStartPressed, setIsStartPressed] = useState<boolean>(false)
   const [enabled, setEnabled] = useState(false)
-  const [isHealthkitReady, setIstHealthKitReady] = useState(false)
-  const [isFirstLoad, setIsFirstLoad] = useState(true)
   const startTime = useSelector((state: RootState) => state.map.startTime)
 
   useEffect(() => {
@@ -304,66 +302,73 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
   useEffect(() => {
     if (enabled === true && startTime !== null) {
       console.log('enabled, start', enabled, startTime)
+      setIsStartPressed(false)
       navigation.replace(RouteStacks.workout)
     }
   }, [startTime, enabled])
 
   const onTrialPlayPress = async () => {
-    const LocationpermissionStatus = await checkMultiple([
-      PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
-      PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
-      PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION,
-    ])
-    let locationPermission = false
-    if (isIOS) {
-      if (LocationpermissionStatus[PERMISSIONS.IOS.LOCATION_WHEN_IN_USE] === 'granted') {
-        locationPermission = true
-      }
-    } else {
-      if (
-        LocationpermissionStatus[PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION] === 'granted' &&
-        LocationpermissionStatus[PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION] === 'granted'
-      ) {
-        locationPermission = true
-      }
-    }
-    const permission = await health_kit.InitHealthKitPermission()
-    const authed = await health_kit.GetAuthorizeStatus()
-
-    console.log(permission)
-    console.log('auth', authed, locationPermission)
-
-    if (!permission) {
-      googleFitModalRef?.current?.open()
-      return
-    }
-
-    if (!authed) {
-      googleFitModalRef?.current?.open()
-      return
-    }
-    if (locationPermission) {
-      BackgroundGeolocation.getCurrentPosition({
-        samples: 1,
-      })
-        .then(location => {
-          dispatch({
-            type: 'start',
-            payload: { startTime: new Date().getTime(), latitude: location.coords.latitude, longitude: location.coords.longitude },
-          })
-        })
-        .then(() => {
-          BackgroundGeolocation.start()
-        })
-        .then(() => {
-          setEnabled(true)
-        })
-    } else {
-      await requestMultiple([
+    try {
+      setIsStartPressed(true)
+      const LocationpermissionStatus = await checkMultiple([
         PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
         PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
         PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION,
       ])
+      let locationPermission = false
+      if (isIOS) {
+        if (LocationpermissionStatus[PERMISSIONS.IOS.LOCATION_WHEN_IN_USE] === 'granted') {
+          locationPermission = true
+        }
+      } else {
+        if (
+          LocationpermissionStatus[PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION] === 'granted' &&
+          LocationpermissionStatus[PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION] === 'granted'
+        ) {
+          locationPermission = true
+        }
+      }
+      const permission = await health_kit.InitHealthKitPermission()
+      const authed = await health_kit.GetAuthorizeStatus()
+
+      console.log(permission)
+      console.log('auth', authed, locationPermission)
+
+      if (!permission) {
+        googleFitModalRef?.current?.open()
+        return
+      }
+
+      if (!authed) {
+        googleFitModalRef?.current?.open()
+        return
+      }
+      if (locationPermission) {
+        BackgroundGeolocation.getCurrentPosition({
+          samples: 1,
+        })
+          .then(location => {
+            dispatch({
+              type: 'start',
+              payload: { startTime: new Date().getTime(), latitude: location.coords.latitude, longitude: location.coords.longitude },
+            })
+          })
+          .then(() => {
+            BackgroundGeolocation.start()
+          })
+          .then(() => {
+            setEnabled(true)
+          })
+      } else {
+        await requestMultiple([
+          PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
+          PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
+          PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION,
+        ])
+      }
+    } catch (err) {
+      setIsStartPressed(false)
+      crashlytics().recordError(err)
     }
   }
   const onLesGoBtnPress = () => dailyRewardModalRef?.current?.close()
@@ -573,8 +578,8 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
         >
           <View
             style={{
-              backgroundColor: colors.brightTurquoise,
-              shadowColor: colors.brightTurquoise,
+              backgroundColor: isStartPressed ? colors.charcoal : colors.brightTurquoise,
+              shadowColor: isStartPressed ? colors.charcoal : colors.brightTurquoise,
               elevation: 10,
               borderRadius: 30,
               shadowOffset: { width: 0, height: 0 },
@@ -589,6 +594,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
                 paddingVertical: 4,
               }}
               onPress={onTrialPlayPress}
+              disabled={isStartPressed}
             >
               <Text
                 style={{

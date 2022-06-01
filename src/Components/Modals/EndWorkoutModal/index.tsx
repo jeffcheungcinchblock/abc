@@ -38,10 +38,11 @@ const EndWorkoutModal = forwardRef((props: EndWorkoutModalProps, ref) => {
       keyboardTopOffset={40}
       animationDuration={500}
       style={{
-        height: '55%',
+        height: '40%',
         width: '80%',
         backgroundColor: colors.charcoal,
         borderRadius: 20,
+        padding: 20,
         ...style,
       }}
     >
@@ -57,8 +58,7 @@ const EndWorkoutModal = forwardRef((props: EndWorkoutModalProps, ref) => {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          // height: '20%',
-          flex: 3,
+          flex: 2,
         }}
       >
         <TurquoiseButton
