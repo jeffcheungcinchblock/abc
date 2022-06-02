@@ -423,7 +423,10 @@ export default createReducer<State>(initialState, builder => {
     state.paths.forEach(path => {
       totalReduceStep += path.reduceStep
     })
-    const newSteps = action.payload.steps! - totalReduceStep
+    let newSteps = action.payload.steps! - totalReduceStep
+    if (newSteps < 0) {
+      newSteps = 0
+    }
     return { ...state, steps: newSteps }
   })
 })

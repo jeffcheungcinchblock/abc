@@ -304,7 +304,6 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
       console.log('enabled, start', enabled, startTime)
       navigation.replace(RouteStacks.workout)
     }
-    setIsStartPressed(false)
   }, [startTime, enabled])
 
   const onTrialPlayPress = async () => {
@@ -365,7 +364,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
           PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
           PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION,
         ])
-        setIsStartPressed(false)
+        return onTrialPlayPress()
       }
     } catch (err) {
       crashlytics().recordError(err)

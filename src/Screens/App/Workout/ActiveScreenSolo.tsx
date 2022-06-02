@@ -459,7 +459,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
   const PauseRunningSession = async () => {
     console.log('pause')
     setIsButtonLoading(true)
-    await BackgroundGeolocation.changePace(false)
+    // await BackgroundGeolocation.changePace(false)
     const curTime = new Date()
     dispatch({ type: 'pause', payload: { pauseTime: curTime.getTime() } })
     setIsButtonLoading(false)
@@ -467,12 +467,12 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 
   const ResumeRunningSession = async () => {
     setIsButtonLoading(true)
-    await BackgroundGeolocation.changePace(true)
+    // await BackgroundGeolocation.changePace(true)
     let location = await BackgroundGeolocation.getCurrentPosition({
       samples: 1,
       timeout: 10,
       maximumAge: 5000,
-      desiredAccuracy: 5,
+      desiredAccuracy: 10,
       persist: false,
     })
     const pauseStateTime = paths[paths.length - 1].pauseTime
@@ -715,6 +715,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
                         fontFamily: 'Poppins-Bold',
                         fontWeight: '600',
                         fontSize: 16,
+                        color: colors.black,
                       })
                     }
                   >
@@ -734,6 +735,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
                         fontFamily: 'Poppins-Bold',
                         fontWeight: '600',
                         fontSize: 16,
+                        color: colors.black,
                       })
                     }
                   >
