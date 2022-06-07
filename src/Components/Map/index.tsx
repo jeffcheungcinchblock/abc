@@ -67,6 +67,7 @@ const ActiveMapView: FC<MapViewProps> = props => {
                     key={index}
                     strokeColor={colors.buleCola} // fallback for when `strokeColors` is not supported by the map-provider
                     strokeWidth={mapViewConst.pathStokeWidth}
+                    geodesic={true}
                   />
                 )
               }

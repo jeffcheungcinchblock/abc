@@ -143,6 +143,7 @@ export default {
     caution: 'Caution',
     endWorkout: 'Do you sure you want to quit your exercise',
     continue: 'Continue Exercise',
+    forceQuitWorkout: 'Third-party apps were detected.',
   },
   error: {
     emailUsed: 'This email has been used already ;(',

@@ -32,6 +32,7 @@ import TokenEarned from '@/Components/WorkoutScreen/token_earned'
 import NFTDisplay from '@/Components/WorkoutScreen/nft_display'
 import { metersecond_2_kmhour, metersecond_2_milehour } from './utils'
 import EndWorkoutModal from '@/Components/Modals/EndWorkoutModal'
+// import ForceQuitWorkout from '@/Components/Modals/ForceEndWorkoutModal'
 import { use } from 'i18next'
 // @ts-ignore
 // import BackgroundTimer from 'react-native-background-timer'
@@ -208,7 +209,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
   let stepIntervalId: NodeJS.Timer
 
   const endWorkoutRef = useRef<any>(null)
-
+  // const forceQuitWorkoutRef = useRef<any>(null)
   // const onLesGoBtnPress = () =>
   useEffect(() => {
     timerIntervalId = setInterval(() => {
@@ -284,10 +285,11 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
             console.log('before move')
             if (location.mock) {
               // console.log('mock')
+              // forceQuit()
               return
             }
             if (
-              // Platform.OS === 'ios' &&
+              Platform.OS === 'ios' &&
               location.activity.type === 'still' &&
               location.activity.confidence >= 90 &&
               temp_currentState !== ActivityType.OVERSPEED
@@ -388,6 +390,19 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
     }
   }, [])
 
+  ////////////////////////////////////////
+  ///// Third Party App detection ////////
+  ////////////////////////////////////////
+  // const forceQuit = async () => {
+  //   forceQuitWorkoutRef?.current?.open()
+  //   clearInterval(timerIntervalId)
+  //   clearInterval(stepIntervalId)
+  // }
+  // const onCloseForceQuitModal = async () => {
+  //   await BackgroundGeolocation.stop()
+  //   forceQuitWorkoutRef?.current?.close()
+  //   navigation.navigate(RouteStacks.homeReferral)
+  // }
   const stopButtonPress = () => {
     endWorkoutRef?.current?.open()
   }
@@ -401,7 +416,6 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
     //     text: 'OK',
     //     onPress: async () => {
     setIsButtonLoading(true)
-
     dispatch(startLoading(true))
     clearInterval(timerIntervalId)
     clearInterval(stepIntervalId)
@@ -563,8 +577,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
   return (
     <MapScreenBackgrounds screenName={RouteStacks.workout}>
       {/* <Header headerText={ActivityType[currentState]} style={styles.header} /> */}
-      <EndWorkoutModal ref={endWorkoutRef} onModalClose={closeStopModal} onActionBtnPress={StopRunningSession} />
-
+      {/* <EndWorkoutModal ref={endWorkoutRef} onModalClose={closeStopModal} onActionBtnPress={StopRunningSession} />{' '} */}
       <View style={[ROOT, HEADER]}>
         <View style={LEFT} />
         <View style={TITLE_MIDDLE}>
@@ -610,16 +623,8 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
           <ActiveMapView timer={timer} speed={speed} />
           {/* )} */}
         </View>
-        {/* <View><Text>{ActivityType[currentState]}</Text></View> */}
         <View style={[styles.dataContainer]}>
           <View style={[styles.dataPaddingContainer]}>
-            {/* <View style={[ styles.statusBarContainer ]}>
-							<TokenProgressBar token="Token"/>
-							<EnergyProgressBar energy="Energy"/>
-						</View> */}
-            {/* <TokenEarned /> */}
-            {/* <NFTDisplay /> */}
-            {/* <View style={[ styles.pointContainer ]}/> */}
             <View style={[styles.distanceContainer]}>
               <BrightTurquoiseText style={styles.distanceTextStyle}>{(distance / 1000).toFixed(2)}</BrightTurquoiseText>
               <Text style={[styles.mapDistanceText]}>{t('totalKilo')}</Text>
