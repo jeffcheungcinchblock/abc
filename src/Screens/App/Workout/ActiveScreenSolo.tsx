@@ -297,9 +297,10 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
               return
             }
 
-            if (location.coords.accuracy > 25) {
+            if ((!isIOS && location.coords.accuracy > 25) || (isIOS && location.coords.accuracy > 2500)) {
               return
             }
+
             if (!location.coords.speed) {
               speed = 0
             }
@@ -490,7 +491,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
       samples: 1,
       timeout: 10,
       maximumAge: 5000,
-      desiredAccuracy: 50,
+      desiredAccuracy: isIOS ? 2 : 50,
       persist: false,
     })
     const pauseStateTime = paths[paths.length - 1].pauseTime
