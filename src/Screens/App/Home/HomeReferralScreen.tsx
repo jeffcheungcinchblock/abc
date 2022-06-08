@@ -291,6 +291,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
   }
   const onGoogleFitModalCloseBtnPress = () => {
     googleFitModalRef?.current?.close()
+    setIsStartPressed(false)
   }
 
   const onLogoutPress = async () => {

@@ -283,11 +283,11 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
           if (location.coords && location.coords.latitude && location.coords.longitude) {
             let speed = location.coords.speed!
             console.log('before move')
-            if (location.mock) {
-              // console.log('mock')
-              // forceQuit()
-              return
-            }
+            // if (location.mock) {
+            //   // console.log('mock')
+            //   // forceQuit()
+            //   return
+            // }
             if (
               Platform.OS === 'ios' &&
               location.activity.type === 'still' &&
@@ -473,7 +473,9 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
   const PauseRunningSession = async () => {
     console.log('pause')
     setIsButtonLoading(true)
-    // await BackgroundGeolocation.changePace(false)
+    if (isIOS) {
+      await BackgroundGeolocation.changePace(false)
+    }
     const curTime = new Date()
     dispatch({ type: 'pause', payload: { pauseTime: curTime.getTime() } })
     setIsButtonLoading(false)
@@ -481,7 +483,9 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 
   const ResumeRunningSession = async () => {
     setIsButtonLoading(true)
-    // await BackgroundGeolocation.changePace(true)
+    if (isIOS) {
+      await BackgroundGeolocation.changePace(true)
+    }
     let location = await BackgroundGeolocation.getCurrentPosition({
       samples: 1,
       timeout: 10,
@@ -577,7 +581,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
   return (
     <MapScreenBackgrounds screenName={RouteStacks.workout}>
       {/* <Header headerText={ActivityType[currentState]} style={styles.header} /> */}
-      {/* <EndWorkoutModal ref={endWorkoutRef} onModalClose={closeStopModal} onActionBtnPress={StopRunningSession} />{' '} */}
+      <EndWorkoutModal ref={endWorkoutRef} onModalClose={closeStopModal} onActionBtnPress={StopRunningSession} />
       <View style={[ROOT, HEADER]}>
         <View style={LEFT} />
         <View style={TITLE_MIDDLE}>
