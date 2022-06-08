@@ -297,7 +297,8 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
               return
             }
 
-            if ((!isIOS && location.coords.accuracy > 25) || (isIOS && location.coords.accuracy > 2500)) {
+            // if ((!isIOS && location.coords.accuracy > 25) || (isIOS && location.coords.accuracy > 2500)) {
+            if (location.coords.accuracy > 25) {
               return
             }
 
