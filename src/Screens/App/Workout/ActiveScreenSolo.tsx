@@ -490,7 +490,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
       samples: 1,
       timeout: 10,
       maximumAge: 5000,
-      desiredAccuracy: 10,
+      desiredAccuracy: 50,
       persist: false,
     })
     const pauseStateTime = paths[paths.length - 1].pauseTime
