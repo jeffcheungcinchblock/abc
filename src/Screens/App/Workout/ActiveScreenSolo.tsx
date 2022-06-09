@@ -280,10 +280,33 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
         console.log(ActivityType[temp_currentState])
         if (temp_currentState !== ActivityType.PAUSE && startTime !== null && startTime !== undefined) {
           console.log('location', location)
-          await notifee.displayNotification({
-            title: JSON.stringify(location.activity),
-            body: JSON.stringify(location.coords),
-          })
+          // await notifee.displayNotification({
+          //   title: JSON.stringify(location.activity),
+          //   body: JSON.stringify(location.coords),
+          // })
+          // const channelId = await notifee.createChannel({
+          //   id: 'default',
+          //   name: 'Default Channel',
+          // })
+
+          // // Display a notification
+          // let noti = {}
+          // if (location.coords.speed) {
+          //   noti = { ...noti, speed: location.coords.speed }
+          // }
+          // if (location.coords.accuracy) {
+          //   noti = { ...noti, accuracy: location.coords.accuracy }
+          // }
+          // await notifee.displayNotification({
+          //   title: JSON.stringify(location.activity),
+          //   body: JSON.stringify(noti),
+          //   android: {
+          //     channelId,
+          //     smallIcon: 'ic_launcher',
+          //   },
+          // })
+          //save text into storage
+
           if (location.coords && location.coords.latitude && location.coords.longitude) {
             let speed = location.coords.speed!
             console.log('before move')
@@ -292,12 +315,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
             //   // forceQuit()
             //   return
             // }
-            if (
-              Platform.OS === 'ios' &&
-              location.activity.type === 'still' &&
-              location.activity.confidence >= 90 &&
-              temp_currentState !== ActivityType.OVERSPEED
-            ) {
+            if (location.activity.type === 'still' && location.activity.confidence >= 90 && temp_currentState !== ActivityType.OVERSPEED) {
               return
             }
 
@@ -440,13 +458,14 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
       const paths_string = JSON.stringify(paths)
       const over_speed_paths_string = JSON.stringify(overSpeedPaths)
       let new_speed = distance / timer
+      const store_steps = store.getState().map.steps
 
       const data = {
         startTime: startTime,
         endTime: new Date().getTime(),
         distance: distance,
         calories: calories,
-        steps: steps,
+        steps: store_steps,
         heartRate: heartRate,
         paths: paths_string,
         username: username,
