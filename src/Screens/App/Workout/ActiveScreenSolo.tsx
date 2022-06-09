@@ -280,6 +280,10 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
         console.log(ActivityType[temp_currentState])
         if (temp_currentState !== ActivityType.PAUSE && startTime !== null && startTime !== undefined) {
           console.log('location', location)
+          await notifee.displayNotification({
+            title: JSON.stringify(location.activity),
+            body: JSON.stringify(location.coords),
+          })
           if (location.coords && location.coords.latitude && location.coords.longitude) {
             let speed = location.coords.speed!
             console.log('before move')
@@ -316,7 +320,9 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
               return
             }
             if (
-              ((location.activity.type === 'still' && location.activity.confidence >= 90) || speed! <= speedconst.runningUpperLimit) &&
+              (((location.activity.type === 'still' || location.activity.type === 'on_foot' || location.activity.type === 'walking') &&
+                location.activity.confidence >= 65) ||
+                speed! <= speedconst.runningUpperLimit) &&
               temp_currentState === ActivityType.OVERSPEED
             ) {
               console.log('return to normal speed', startTime)
