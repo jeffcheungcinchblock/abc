@@ -16,6 +16,9 @@ import {
 import { getDistanceBetweenTwoPoints } from '../../Healthkit/utils'
 import moment, { updateLocale } from 'moment'
 import { Platform } from 'react-native'
+import notifee from '@notifee/react-native'
+import dist from '@walletconnect/react-native-dapp'
+
 export type State = {
   firstLoad?: boolean
   currentState: ActivityType
@@ -167,18 +170,15 @@ export default createReducer<State>(initialState, builder => {
     if (!action.payload.latitude || !action.payload.longitude) {
       return state
     }
-    let totalReduceStep = 0
-    let totalReduceCalories = 0
-    // state.paths.forEach(path => {
-    //   totalReduceStep += path.reduceStep
-    //   totalReduceCalories += path.reduceCalories
-    // })
-    // const newSteps = action.payload.steps! - totalReduceStep
-    // const reducedCarlorieBurned = action.payload.calories! - totalReduceCalories
-    const distance = getDistanceBetweenTwoPoints(state.latitude!, state.longitude!, action.payload.latitude!, action.payload.longitude!)
 
-    console.log('distance > 0', distance)
-    if ((Platform.OS === 'android' && distance > 30) || (Platform.OS === 'ios' && distance > 15)) {
+    const distance = getDistanceBetweenTwoPoints(state.latitude!, state.longitude!, action.payload.latitude!, action.payload.longitude!)
+    console.log('normal distance ', distance)
+    // notifee.displayNotification({
+    //   title: JSON.stringify({ normamoving: distance }),
+    //   body: JSON.stringify({ distance: distance, accuracy: action.payload.accuracy }),
+    // })
+    if ((Platform.OS === 'android' && distance > 20) || (Platform.OS === 'ios' && distance > 20)) {
+      console.log('distance too far ', distance)
       state.currentState = ActivityType.OVERSPEED
       state.accuracy = action.payload.accuracy
       const startOverSpeedTime = action.payload.curTime
@@ -198,6 +198,9 @@ export default createReducer<State>(initialState, builder => {
         ...state.overSpeedPaths[lastIndexofSpeedCoordinate],
         startOverSpeedTime: startOverSpeedTime,
       }
+      // notifee.displayNotification({
+      //   title: JSON.stringify({ normamoving: 'start overspeed' }),
+      // })
       // return { ...state, currentSpeed: action.payload.currentSpeed }
       return state
     }
@@ -384,6 +387,9 @@ export default createReducer<State>(initialState, builder => {
 
   builder.addCase(overSpeedMoving, (state, action) => {
     console.log('overspeeding moving')
+    // notifee.displayNotification({
+    //   title: JSON.stringify({ normamoving: 'overspeed moving' }),
+    // })
     const newOverSpeedPaths = JSON.parse(JSON.stringify(state.overSpeedPaths))
     if (
       !newOverSpeedPaths[newOverSpeedPaths.length - 1].coordinates ||

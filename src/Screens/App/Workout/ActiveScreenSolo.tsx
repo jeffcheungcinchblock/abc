@@ -280,10 +280,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
         console.log(ActivityType[temp_currentState])
         if (temp_currentState !== ActivityType.PAUSE && startTime !== null && startTime !== undefined) {
           console.log('location', location)
-          // await notifee.displayNotification({
-          //   title: JSON.stringify(location.activity),
-          //   body: JSON.stringify(location.coords),
-          // })
+
           // const channelId = await notifee.createChannel({
           //   id: 'default',
           //   name: 'Default Channel',
@@ -311,16 +308,33 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
             let speed = location.coords.speed!
             console.log('before move')
             // if (location.mock) {
-            //   // console.log('mock')
-            //   // forceQuit()
+            // console.log('mock')
+            // forceQuit()
             //   return
             // }
-            if (location.activity.type === 'still' && location.activity.confidence >= 90 && temp_currentState !== ActivityType.OVERSPEED) {
+            if (location.activity.type === 'still' && location.activity.confidence >= 100 && temp_currentState !== ActivityType.OVERSPEED) {
+              // await notifee.displayNotification({
+              //   title: JSON.stringify(location.activity),
+              //   body: JSON.stringify({
+              //     accuracy: location.coords.accuracy,
+              //     speed: location.coords.speed,
+              //     type: 'still, confidence >= 100 != os',
+              //   }),
+              // })
               return
             }
 
             // if ((!isIOS && location.coords.accuracy > 25) || (isIOS && location.coords.accuracy > 2500)) {
-            if (location.coords.accuracy > 25) {
+            // if (location.coords.accuracy > 30 || location.activity.type === 'unknown') {
+            if (location.coords.accuracy > 30) {
+              // await notifee.displayNotification({
+              //   title: JSON.stringify(location.activity),
+              //   body: JSON.stringify({
+              //     accuracy: location.coords.accuracy,
+              //     speed: location.coords.speed,
+              //     type: 'accuracy > 30',
+              //   }),
+              // })
               return
             }
 
@@ -335,6 +349,14 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
                 type: 'overSpeed',
                 payload: { startOverSpeedTime: new Date().getTime() },
               })
+              // await notifee.displayNotification({
+              //   title: JSON.stringify(location.activity),
+              //   body: JSON.stringify({
+              //     accuracy: location.coords.accuracy,
+              //     speed: location.coords.speed,
+              //     type: 'start overspeed',
+              //   }),
+              // })
               return
             }
             if (
@@ -343,6 +365,14 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
                 speed! <= speedconst.runningUpperLimit) &&
               temp_currentState === ActivityType.OVERSPEED
             ) {
+              // await notifee.displayNotification({
+              //   title: JSON.stringify(location.activity),
+              //   body: JSON.stringify({
+              //     accuracy: location.coords.accuracy,
+              //     speed: location.coords.speed,
+              //     type: 'still walking > 65 and speed <= runningUpperLimit, while overpeed',
+              //   }),
+              // })
               console.log('return to normal speed', startTime)
               const resumeTime = new Date()
               const pauseStateTime = temp_paths[temp_paths.length - 1].pauseTime!
@@ -380,6 +410,15 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
               // const new_step = health_kit.GetSteps(new Date(startTime), new Date())
               // const new_heartrate = health_kit.GetHeartRates(new Date(startTime), new Date())
               // Promise.all([new_cal, new_step, new_heartrate]).then(result => {
+
+              // await notifee.displayNotification({
+              //   title: JSON.stringify(location.activity),
+              //   body: JSON.stringify({
+              //     accuracy: location.coords.accuracy,
+              //     speed: location.coords.speed,
+              //     type: 'moving',
+              //   }),
+              // })
               dispatch({
                 type: 'move',
                 payload: {

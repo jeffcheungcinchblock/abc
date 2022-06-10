@@ -53,7 +53,7 @@ const geolocationConfig: {
   },
   default: {
     distanceFilter: 5,
-    stopTimeout: 15,
+    stopTimeout: 120,
     isMoving: true,
     disableElasticity: true,
     preventSuspend: true,
