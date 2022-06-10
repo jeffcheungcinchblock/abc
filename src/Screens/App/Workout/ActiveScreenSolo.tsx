@@ -258,8 +258,8 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
       if (temp_state === ActivityType.ENDED) {
         clearInterval(stepIntervalId)
       }
-      console.log('step interval', totalReduceStep, temp_paths)
-    }, 10000)
+      console.log('step interval', JSON.stringify(store.getState().map))
+    }, 100000)
     return () => {
       clearInterval(stepIntervalId)
     }
@@ -279,7 +279,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
         const temp_paths = store.getState().map.paths
         console.log(ActivityType[temp_currentState])
         if (temp_currentState !== ActivityType.PAUSE && startTime !== null && startTime !== undefined) {
-          console.log('location', location)
+          // console.log('location', location)
 
           // const channelId = await notifee.createChannel({
           //   id: 'default',
