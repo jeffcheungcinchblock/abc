@@ -75,10 +75,7 @@ const ActiveMapView: FC<MapViewProps> = props => {
 
           {overSpeedPaths &&
             overSpeedPaths.map((path: any, index: number) => {
-              if (!path) {
-                return
-              }
-              if (path?.coordinates.length > 0) {
+              if (path && path.coordinates && path.coordinates.length > 0) {
                 return (
                   <Polyline
                     coordinates={path.coordinates}
