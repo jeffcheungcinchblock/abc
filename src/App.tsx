@@ -44,7 +44,8 @@ const geolocationConfig: {
     stationaryRadius: 2,
     showsBackgroundLocationIndicator: true,
     locationAuthorizationRequest: 'WhenInUse',
-    activityType: BackgroundGeolocation.ACTIVITY_TYPE_FITNESS,
+    // activityType: BackgroundGeolocation.ACTIVITY_TYPE_FITNESS,
+    pausesLocationUpdatesAutomatically: false,
   },
   android: {
     desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
@@ -52,8 +53,10 @@ const geolocationConfig: {
     locationAuthorizationRequest: 'WhenInUse',
   },
   default: {
+    persistMode: BackgroundGeolocation.PERSIST_MODE_LOCATION,
     distanceFilter: 5,
     stopTimeout: 120,
+    stopOnStationary: false,
     isMoving: true,
     disableElasticity: true,
     preventSuspend: true,
