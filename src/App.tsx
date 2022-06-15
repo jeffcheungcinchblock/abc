@@ -43,8 +43,8 @@ const geolocationConfig: {
     desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_NAVIGATION,
     stationaryRadius: 2,
     showsBackgroundLocationIndicator: true,
-    locationAuthorizationRequest: 'WhenInUse',
-    // activityType: BackgroundGeolocation.ACTIVITY_TYPE_FITNESS,
+    locationAuthorizationRequest: 'Always',
+    activityType: BackgroundGeolocation.ACTIVITY_TYPE_OTHER,
     pausesLocationUpdatesAutomatically: false,
   },
   android: {

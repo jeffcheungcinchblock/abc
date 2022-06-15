@@ -259,7 +259,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
         clearInterval(stepIntervalId)
       }
       console.log('step interval', JSON.stringify(store.getState().map))
-    }, 100000)
+    }, 10000)
     return () => {
       clearInterval(stepIntervalId)
     }

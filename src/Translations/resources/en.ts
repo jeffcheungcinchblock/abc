@@ -139,6 +139,7 @@ export default {
     ruleOfReferral: 'Rule of referral',
     maximum30Friends: 'Invite a Maximum of 30 friends and earn a over 1500 KE points and other exclusive rewards!',
     notReady: 'Google Fit is not ready yet. Please try again later.',
+    notReadyIos: 'Health Kit is not ready yet. Please try again later.',
     installApp: 'Install App',
     caution: 'Caution',
     endWorkout: 'Do you sure you want to quit your exercise',
