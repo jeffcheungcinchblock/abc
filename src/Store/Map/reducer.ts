@@ -168,6 +168,7 @@ export default createReducer<State>(initialState, builder => {
   // Moving
   builder.addCase(move, (state, action) => {
     if (!action.payload.latitude || !action.payload.longitude) {
+      console.log('return')
       return state
     }
 

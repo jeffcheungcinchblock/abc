@@ -258,7 +258,6 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
       if (temp_state === ActivityType.ENDED) {
         clearInterval(stepIntervalId)
       }
-      console.log('step interval', JSON.stringify(store.getState().map))
     }, 10000)
     return () => {
       clearInterval(stepIntervalId)
@@ -279,8 +278,6 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
         const temp_paths = store.getState().map.paths
         console.log(ActivityType[temp_currentState])
         if (temp_currentState !== ActivityType.PAUSE && startTime !== null && startTime !== undefined) {
-          // console.log('location', location)
-
           // const channelId = await notifee.createChannel({
           //   id: 'default',
           //   name: 'Default Channel',
@@ -306,23 +303,15 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 
           if (location.coords && location.coords.latitude && location.coords.longitude) {
             let speed = location.coords.speed!
-            console.log('before move')
             // if (location.mock) {
             // console.log('mock')
             // forceQuit()
             //   return
             // }
-            if (location.activity.type === 'still' && location.activity.confidence >= 100 && temp_currentState !== ActivityType.OVERSPEED) {
-              // await notifee.displayNotification({
-              //   title: JSON.stringify(location.activity),
-              //   body: JSON.stringify({
-              //     accuracy: location.coords.accuracy,
-              //     speed: location.coords.speed,
-              //     type: 'still, confidence >= 100 != os',
-              //   }),
-              // })
-              return
-            }
+
+            // if (location.activity.type === 'still' && location.activity.confidence >= 100 && temp_currentState !== ActivityType.OVERSPEED) {
+            //   return
+            // }
 
             // if ((!isIOS && location.coords.accuracy > 25) || (isIOS && location.coords.accuracy > 2500)) {
             // if (location.coords.accuracy > 30 || location.activity.type === 'unknown') {
@@ -373,7 +362,6 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
               //     type: 'still walking > 65 and speed <= runningUpperLimit, while overpeed',
               //   }),
               // })
-              console.log('return to normal speed', startTime)
               const resumeTime = new Date()
               const pauseStateTime = temp_paths[temp_paths.length - 1].pauseTime!
               const ReduceStep = health_kit.GetSteps(new Date(pauseStateTime), resumeTime)
@@ -419,6 +407,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
               //     type: 'moving',
               //   }),
               // })
+              console.log('dispatch')
               dispatch({
                 type: 'move',
                 payload: {
@@ -653,32 +642,32 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
         <View style={TITLE_MIDDLE}>
           {currentState === ActivityType.OVERSPEED && (
             <>
-              <StatusDot style={{ backgroundColor: 'red' }} />
+              <StatusDot style={{ backgroundColor: colors.red }} />
 
               <Text style={[Fonts.textRegular, styles.header]}>{t('movingStatus.Overspeed')}</Text>
             </>
           )}
           {currentState === ActivityType.PAUSE && (
             <>
-              <StatusDot style={{ backgroundColor: 'red' }} />
+              <StatusDot style={{ backgroundColor: colors.red }} />
               <Text style={[Fonts.textRegular, styles.header]}>{t('movingStatus.Pause')}</Text>
             </>
           )}
           {currentState === ActivityType.MOVING && (
             <>
-              <StatusDot style={{ backgroundColor: 'green' }} />
+              <StatusDot style={{ backgroundColor: colors.green }} />
               <Text style={[Fonts.textRegular, styles.header]}>{t('movingStatus.Running')}</Text>
             </>
           )}
           {currentState === ActivityType.LOADING && (
             <>
-              <StatusDot style={{ backgroundColor: 'red' }} />
+              <StatusDot style={{ backgroundColor: colors.red }} />
               <Text style={[Fonts.textRegular, styles.header]}>{t('movingStatus.Loading')}</Text>
             </>
           )}
           {currentState === ActivityType.ENDED && (
             <>
-              <StatusDot style={{ backgroundColor: 'red' }} />
+              <StatusDot style={{ backgroundColor: colors.red }} />
               <Text style={[Fonts.textRegular, styles.header]}>{t('movingStatus.Ended')}</Text>
             </>
           )}

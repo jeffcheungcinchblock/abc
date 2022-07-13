@@ -31,16 +31,7 @@ type LiteScreenProps = CompositeScreenProps<BottomTabScreenProps<TabNavigatorPar
 const LiteScreen: FC<LiteScreenProps> = (props, { navigation, route }) => {
   const dispatch = useDispatch()
 
-  const startTime = useSelector((state: any) => state.map.startTime)
-  const endTime = useSelector((state: any) => state.map.endTime)
-  const steps = useSelector((state: any) => state.map.steps)
-  const calories = useSelector((state: any) => state.map.calories)
-  const latitude = useSelector((state: any) => state.map.latitude)
-  const longitude = useSelector((state: any) => state.map.longitude)
-  const distance = useSelector((state: any) => state.map.distance)
-  const heartRate = useSelector((state: any) => state.map.heartRate)
-  const paths = useSelector((state: any) => state.map.paths)
-  const currentState = useSelector((state: any) => state.map.currentState)
+  const map = useSelector((state: any) => state.map)
   const params = { data: '' }
 
   return (
