@@ -63,9 +63,9 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation
     rowContentContainer: {
       display: 'flex',
       flexDirection: 'row',
-      alignItems: 'center',
       width: '100%',
       justifyContent: 'center',
+      alignContent: 'center',
     },
     // Speed and Time
     rowContentContainer2: {
@@ -73,18 +73,13 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation
       flexDirection: 'row',
       width: '100%',
       justifyContent: 'space-around',
-      // alignItems: 'center',
-      // backgroundColor: 'red',
     },
 
     speedContainer: {
-      // display: 'flex',
       flexDirection: 'row',
       justifyContent: 'center',
-      // textAlign: 'flex-end',
       alignItems: 'flex-end',
       height: 40,
-      // width: '100%',
     },
     colContentContainer: {
       display: 'flex',
@@ -237,7 +232,7 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation
           </View>
         </View>
 
-        <View style={[styles.rowContentContainer2]}>
+        <View style={[styles.rowContentContainer2, { flexBasis: 160, justifyContent: 'center' }]}>
           <View style={[styles.contentContainer]}>
             <Image source={TimerLogo} style={{ width: 26, height: 26, resizeMode: 'contain', alignSelf: 'center' }} />
             <WhiteText style={[{ lineHeight: 50, fontSize: 30, fontWeight: 'bold' }]}>
@@ -249,14 +244,6 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation
             <Image source={SpeedIcon} style={{ width: 26, height: 26, resizeMode: 'contain', alignSelf: 'center' }} />
 
             <Pressable onPress={chanageSpeedUnit} style={{}}>
-              {/* <View style={[styles.speedContainer, {}]}>
-                {speed ? (
-                  <WhiteText style={[{ fontSize: 30, fontWeight: 'bold' }]}>{metersecond_2_kmhour(speed).toFixed(1)}</WhiteText>
-                ) : (
-                  <WhiteText style={[{ fontSize: 30, fontWeight: 'bold' }]}>0</WhiteText>
-                )}
-                <CrystalText style={{ fontSize: 14, lineHeight: 30, fontWeight: '400', marginLeft: 4 }}>km/h</CrystalText>
-              </View> */}
               <View style={[styles.speedContainer]}>
                 {speedUnit === SpeedUnit.KILOMETRE_PER_HOUR && (
                   <WhiteText style={[{ lineHeight: 30, fontSize: 25, fontWeight: 'bold' }]}>
@@ -277,7 +264,7 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation
           </View>
         </View>
 
-        <View style={[styles.contentContainer, { flexBasis: 100 }]}>
+        <View style={[styles.contentContainer, { flexBasis: 60 }]}>
           {distance > 2000 ? (
             <WhiteText style={[{ fontSize: 40, fontWeight: 'bold' }]}>+ 20 KE</WhiteText>
           ) : (

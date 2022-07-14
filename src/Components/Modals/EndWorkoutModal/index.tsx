@@ -38,7 +38,7 @@ const EndWorkoutModal = forwardRef((props: EndWorkoutModalProps, ref) => {
       keyboardTopOffset={40}
       animationDuration={500}
       style={{
-        height: '40%',
+        height: '35%',
         width: '80%',
         backgroundColor: colors.charcoal,
         borderRadius: 20,
@@ -46,10 +46,10 @@ const EndWorkoutModal = forwardRef((props: EndWorkoutModalProps, ref) => {
         ...style,
       }}
     >
-      <View style={{ flex: 2, justifyContent: 'center' }}>
-        <Text style={[MODAL_TEXT, { fontSize: 16, fontWeight: 'bold' }]}>{t('modalPrompt.caution')}</Text>
+      <View style={{ flex: 1, justifyContent: 'center' }}>
+        <Text style={[MODAL_TEXT, { fontSize: 20, fontWeight: 'bold' }]}>{t('modalPrompt.caution')}</Text>
       </View>
-      <View style={{ flex: 2, justifyContent: 'center', paddingHorizontal: 14 }}>
+      <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: 14 }}>
         <Text style={[MODAL_TEXT, { fontSize: 16, fontWeight: '400' }]}>{t('modalPrompt.endWorkout')}</Text>
       </View>
       <View
@@ -58,6 +58,7 @@ const EndWorkoutModal = forwardRef((props: EndWorkoutModalProps, ref) => {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
+          // justifyContent: 'center',
           flex: 2,
         }}
       >
@@ -66,8 +67,8 @@ const EndWorkoutModal = forwardRef((props: EndWorkoutModalProps, ref) => {
           text={t('modalPrompt.continue')}
           // isTransparentBackground
           containerStyle={{
-            width: '80%',
-            colors: colors.black,
+            width: '60%',
+            // colors: colors.black,
           }}
         />
         <TurquoiseButton
@@ -75,7 +76,7 @@ const EndWorkoutModal = forwardRef((props: EndWorkoutModalProps, ref) => {
           text={t('confirm')}
           isTransparentBackground
           containerStyle={{
-            width: '80%',
+            width: '60%',
           }}
         />
       </View>
