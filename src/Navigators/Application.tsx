@@ -176,37 +176,37 @@ const ApplicationNavigator = () => {
   }, [])
 
   return (
-    <SafeAreaView style={[Layout.fill, { backgroundColor: colors.black }]}>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <SnackBar
-          {...snackBarConfig}
-          textMessage={() => {
-            return <SnackbarMsgContainer textMessage={snackBarConfig.textMessage} />
-          }}
-          containerStyle={{
-            borderRadius: 99,
-          }}
-          top={10}
-          left={10}
-          right={10}
-        ></SnackBar>
-        <NavigationContainer theme={NavigationTheme} {...navProps}>
-          <StatusBar barStyle={darkMode ? 'light-content' : 'dark-content'} />
-          {isScreenLoading && <LoadingScreen />}
+    // <SafeAreaView style={[Layout.fill, { backgroundColor: colors.transparent }]}>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <SnackBar
+        {...snackBarConfig}
+        textMessage={() => {
+          return <SnackbarMsgContainer textMessage={snackBarConfig.textMessage} />
+        }}
+        containerStyle={{
+          borderRadius: 99,
+        }}
+        top={10}
+        left={10}
+        right={10}
+      ></SnackBar>
+      <NavigationContainer theme={NavigationTheme} {...navProps}>
+        <StatusBar barStyle={darkMode ? 'light-content' : 'dark-content'} />
+        {isScreenLoading && <LoadingScreen />}
 
-          <Stack.Navigator
-            screenOptions={{
-              headerShown: false,
-              presentation: 'transparentModal',
-            }}
-            initialRouteName={RouteStacks.application}
-          >
-            <Stack.Screen name={RouteStacks.application} component={ApplicationStartupContainer} />
-            <Stack.Screen name={RouteStacks.mainNavigator} component={isLoggedIn ? MainNavigator : AuthNavigator} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </GestureHandlerRootView>
-    </SafeAreaView>
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false,
+            presentation: 'transparentModal',
+          }}
+          initialRouteName={RouteStacks.application}
+        >
+          <Stack.Screen name={RouteStacks.application} component={ApplicationStartupContainer} />
+          <Stack.Screen name={RouteStacks.mainNavigator} component={isLoggedIn ? MainNavigator : AuthNavigator} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </GestureHandlerRootView>
+    // </SafeAreaView>
   )
 }
 

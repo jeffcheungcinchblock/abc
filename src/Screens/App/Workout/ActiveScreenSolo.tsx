@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
   },
   distanceContainer: {
-    flex: 2,
+    flex: 1.5,
     display: 'flex',
     flexDirection: 'column',
   },
