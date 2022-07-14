@@ -24,15 +24,36 @@ const ActiveMapView: FC<MapViewProps> = props => {
   const overSpeedPaths = useSelector((state: any) => state.map.overSpeedPaths)
   const latitude = useSelector((state: any) => state.map.latitude)
   const longitude = useSelector((state: any) => state.map.longitude)
+  const map = useSelector((state: any) => state.map)
+  const mapViewRef = useRef(null)
+
+  useEffect(() => {
+    console.log('first', latitude, longitude)
+    console.log('second', store.getState().map.latitude, store.getState().map.longitude)
+    const setCamera = async () => {
+      try {
+        const camera = await mapViewRef.current.getCamera()
+
+        camera.center = { latitude, longitude }
+        console.log(camera)
+        // console.log('camera.center', camera.center)
+        mapViewRef.current.animateCamera(camera)
+      } catch (error) {}
+    }
+    if (mapViewRef.current) {
+      setCamera()
+    }
+  }, [latitude, longitude, mapViewRef])
+
   //   const [latitude, setLatitude] = useState(0);
   //   const [longitude, setLongitude] = useState(0);
-  const [followsUserLocation, setFollowsUserLocation] = useState(true)
   const isIOS = Platform.OS === 'ios'
   return (
     <>
       {latitude && longitude && (
         <MapView
           style={[styles.map, { flex: 1 }]}
+          ref={mapViewRef}
           // provider={PROVIDER_GOOGLE}
           mapType='standard'
           initialRegion={{
@@ -46,17 +67,22 @@ const ActiveMapView: FC<MapViewProps> = props => {
           followsUserLocation={true}
           showsUserLocation={true}
           showsCompass={true}
-          scrollEnabled={false}
+          // scrollEnabled={false}
           //Android config
           // userLocationFastestInterval={10000}
           userLocationUpdateInterval={10000}
           userLocationPriority={'high'}
           liteMode={false}
-          // region={{latitude:latitude, longitude:longitude, latitudeDelta: 0.005, longitudeDelta: 0.005}}
-          region={isIOS ? undefined : { latitude: latitude, longitude: longitude, latitudeDelta: 0.005, longitudeDelta: 0.005 }}
+          // region={{
+          //   latitude: latitude,
+          //   longitude: longitude,
+          //   latitudeDelta: 0.005,
+          //   longitudeDelta: 0.005,
+          // }}
+          // region={isIOS ? undefined : { latitude: latitude, longitude: longitude, latitudeDelta: 0.005, longitudeDelta: 0.005 }}
           // Default config
           showsMyLocationButton={true}
-          zoomEnabled={false}
+          // zoomEnabled={false}
         >
           {paths &&
             paths.map((path: any, index: number) => {

@@ -10,7 +10,7 @@ import {
     TextStyle,
     Alert,
     ViewStyle,
-    ImageBackground,
+    ,
     Linking,
     useWindowDimensions,
     Image,
