@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Dimensions, Image, ImageBackground, Linking, Pressable, SafeAreaView, StatusBar, Text, View } from 'react-native'
+import { Dimensions, Image, ImageBackground, Linking, Pressable, StatusBar, Text, View } from 'react-native'
 import { createStackNavigator, TransitionSpecs } from '@react-navigation/stack'
 import { LinkingOptions, NavigationContainer, NavigationContainerRefWithCurrent, useNavigation } from '@react-navigation/native'
 import { ApplicationStartupContainer } from '@/Screens'
@@ -34,6 +34,7 @@ import axios, { CancelTokenSource } from 'axios'
 import { Hub } from 'aws-amplify'
 import WelcomeGalleryScreen from '@/Screens/Auth/WelcomeGalleryScreen'
 import { WelcomeScreen } from '@/Screens/Auth'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 export type ApplicationNavigatorParamList = {
   [RouteStacks.application]: undefined
@@ -41,6 +42,8 @@ export type ApplicationNavigatorParamList = {
   // 🔥 Your screens go here
 }
 const Stack = createStackNavigator<ApplicationNavigatorParamList>()
+
+const abortController = new AbortController()
 
 // @refresh reset
 const ApplicationNavigator = () => {
@@ -116,7 +119,6 @@ const ApplicationNavigator = () => {
       }
 
   useEffect(() => {
-    let cancelSource = axios.CancelToken.source()
     const getUser = () => {
       return Auth.currentAuthenticatedUser()
         .then((userData: any) => userData)
@@ -131,7 +133,7 @@ const ApplicationNavigator = () => {
             let userData = await getUser()
             let jwtToken = userData?.signInUserSession?.idToken?.jwtToken
             const userProfileRes = await axios.get(config.userProfile, {
-              cancelToken: cancelSource.token,
+              signal: abortController.signal,
               headers: {
                 Authorization: jwtToken,
               },
@@ -170,13 +172,13 @@ const ApplicationNavigator = () => {
     Hub.listen('auth', authListener)
 
     return () => {
-      cancelSource?.cancel()
+      abortController.abort()
       Hub.remove('auth', authListener)
     }
   }, [])
 
   return (
-    <SafeAreaView style={[Layout.fill, { backgroundColor: colors.black }]}>
+    <SafeAreaView edges={['top', 'right', 'left']} style={[Layout.fill, { backgroundColor: colors.black }]}>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <SnackBar
           {...snackBarConfig}

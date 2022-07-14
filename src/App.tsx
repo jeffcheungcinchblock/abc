@@ -5,7 +5,7 @@ import { PersistGate } from 'redux-persist/lib/integration/react'
 import { store, persistor } from '@/Store'
 import ApplicationNavigator from '@/Navigators/Application'
 import './Translations'
-import { LogBox, Linking, Alert, Platform } from 'react-native'
+import { LogBox, Linking, Alert, Platform, Dimensions } from 'react-native'
 // @ts-ignore
 import WalletConnectProvider, { WalletConnectStorageOptions } from '@walletconnect/react-native-dapp'
 // @ts-ignore
@@ -27,12 +27,16 @@ import Orientation from 'react-native-orientation-locker'
 import crashlytics from '@react-native-firebase/crashlytics'
 import BackgroundGeolocation, { Subscription, Config } from 'react-native-background-geolocation'
 import RealmProvider from './Realms/RealmProvider'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 // TBD: remove later
 console.warn = () => {}
 type geoConfigProps = {
   [k in keyof Config]: Config[k]
 }
+
+const windowWidth = Dimensions.get('window').width
+const windowHeight = Dimensions.get('window').height
 
 const geolocationConfig: {
   ios: geoConfigProps
@@ -268,11 +272,13 @@ const App = () => {
           asyncStorage: AsyncStorage as any, // latest version of asyncstorage doesnt conforms to the IAsyncStorage interface declaration, without store, size and getStore properties
         }}
       >
-        <RealmProvider>
-          <PersistGate loading={null} persistor={persistor}>
-            <ApplicationNavigator />
-          </PersistGate>
-        </RealmProvider>
+        <SafeAreaProvider>
+          <RealmProvider>
+            <PersistGate loading={null} persistor={persistor}>
+              <ApplicationNavigator />
+            </PersistGate>
+          </RealmProvider>
+        </SafeAreaProvider>
       </WalletConnectProvider>
     </Provider>
   )

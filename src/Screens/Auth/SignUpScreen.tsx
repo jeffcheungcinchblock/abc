@@ -134,7 +134,7 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
         <View
           style={[
             {
-              height: '25%',
+              height: '30%',
               justifyContent: 'center',
             },
             Layout.fullWidth,
@@ -147,15 +147,14 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
           </View>
         </View>
 
-        <SlideInputModal ref={modalRef} onModalClose={goBack}>
-          <KeyboardAwareScrollView
-            contentContainerStyle={[
-              Layout.fill,
-              {
-                minHeight: 400,
-              },
-            ]}
-          >
+        <SlideInputModal
+          ref={modalRef}
+          style={{
+            height: '60%',
+          }}
+          onModalClose={goBack}
+        >
+          <View style={[Layout.fill]}>
             <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT, { flexBasis: 80 }]}>
               <StandardInput
                 onChangeText={text => onCredentialFieldChange('email', text)}
@@ -180,13 +179,14 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
               {errMsg.password !== '' && <Text style={[ERR_MSG_TEXT, Gutters.smallHPadding]}>{errMsg.password}</Text>}
             </View>
 
-            <View style={[Layout.fullWidth, Layout.center, Gutters.largeVPadding, { flex: 1, justifyContent: 'space-between' }]}>
+            <View style={[Layout.fullWidth, Layout.center, Gutters.largeVPadding, { flex: 1, justifyContent: 'center' }]}>
               <TurquoiseButton
                 onPress={onCreateAccountPress}
                 text={t('create')}
                 isTransparentBackground
                 containerStyle={{
                   width: '45%',
+                  paddingBottom: 40,
                 }}
               />
               <View style={{ flexDirection: 'row' }}>
@@ -196,7 +196,7 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                 </Pressable>
               </View>
             </View>
-          </KeyboardAwareScrollView>
+          </View>
         </SlideInputModal>
       </KeyboardAwareScrollView>
     </ScreenBackgrounds>
