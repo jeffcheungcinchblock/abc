@@ -320,14 +320,7 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.logI
           }}
           onModalClose={onModalClose}
         >
-          <View
-            style={[
-              Layout.fill,
-              {
-                height: 500,
-              },
-            ]}
-          >
+          <View style={[Layout.fill]}>
             <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT]}>
               <StandardInput
                 onChangeText={text => onCredentialFieldChange('email', text)}
