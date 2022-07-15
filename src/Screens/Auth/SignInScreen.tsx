@@ -44,6 +44,7 @@ import axios from 'axios'
 import crashlytics from '@react-native-firebase/crashlytics'
 import TouchID from 'react-native-touch-id'
 import * as Keychain from 'react-native-keychain'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const LOGIN_BUTTON: ViewStyle = {
   height: 40,
@@ -292,85 +293,95 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.logI
   )
 
   return (
-    <ScreenBackgrounds screenName={RouteStacks.logIn}>
-      <KeyboardAwareScrollView contentContainerStyle={[Layout.fill, Layout.colCenter, Layout.justifyContentStart]}>
-        <Header onLeftPress={goBack} headerText={t('login')} />
+    <SafeAreaView
+      style={{
+        flex: 1,
+        justifyContent: 'space-between',
+        // alignItems: 'center',
+        backgroundColor: colors.darkGunmetal,
+      }}
+      edges={['top']}
+    >
+      <ScreenBackgrounds screenName={RouteStacks.logIn}>
+        <KeyboardAwareScrollView contentContainerStyle={[Layout.fill, Layout.colCenter, Layout.justifyContentStart]}>
+          <Header onLeftPress={goBack} headerText={t('login')} />
 
-        <View
-          style={[
-            {
-              height: '25%',
-              justifyContent: 'center',
-            },
-            Layout.fullWidth,
-          ]}
-        >
-          <AppIcon />
+          <View
+            style={[
+              {
+                height: '25%',
+                justifyContent: 'center',
+              },
+              Layout.fullWidth,
+            ]}
+          >
+            <AppIcon />
 
-          <View style={[Layout.fullWidth, { justifyContent: 'center', paddingVertical: 40, paddingHorizontal: 20 }]}>
-            <Text style={[{ color: colors.white, fontWeight: 'bold' }, Fonts.textRegular, Fonts.textCenter]}>{t('welcomeBack')} !</Text>
+            <View style={[Layout.fullWidth, { justifyContent: 'center', paddingVertical: 40, paddingHorizontal: 20 }]}>
+              <Text style={[{ color: colors.white, fontWeight: 'bold' }, Fonts.textRegular, Fonts.textCenter]}>{t('welcomeBack')} !</Text>
 
-            <Text style={[{ color: colors.white, fontWeight: 'bold', paddingTop: 6 }, Fonts.textSmall, Fonts.textCenter]}>
-              {t('readyForAnotherActiveSection')}
-            </Text>
+              <Text style={[{ color: colors.white, fontWeight: 'bold', paddingTop: 6 }, Fonts.textSmall, Fonts.textCenter]}>
+                {t('readyForAnotherActiveSection')}
+              </Text>
+            </View>
           </View>
-        </View>
 
-        <SlideInputModal
-          ref={modalRef}
-          style={{
-            height: '60%',
-          }}
-          onModalClose={onModalClose}
-        >
-          <View style={[Layout.fill]}>
-            <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT]}>
-              <StandardInput
-                onChangeText={text => onCredentialFieldChange('email', text)}
-                value={credential.email}
-                placeholder={t('email')}
-                placeholderTextColor={colors.spanishGray}
-              />
-              {errMsg.email !== '' && <Text style={ERR_MSG_TEXT}>{errMsg.email}</Text>}
-            </View>
+          <SlideInputModal
+            ref={modalRef}
+            style={{
+              height: '60%',
+            }}
+            onModalClose={onModalClose}
+          >
+            <View style={[Layout.fill]}>
+              <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT]}>
+                <StandardInput
+                  onChangeText={text => onCredentialFieldChange('email', text)}
+                  value={credential.email}
+                  placeholder={t('email')}
+                  placeholderTextColor={colors.spanishGray}
+                />
+                {errMsg.email !== '' && <Text style={ERR_MSG_TEXT}>{errMsg.email}</Text>}
+              </View>
 
-            <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT]}>
-              <StandardInput
-                onChangeText={text => onCredentialFieldChange('password', text)}
-                value={credential.password}
-                placeholder={t('password')}
-                placeholderTextColor={colors.spanishGray}
-                secureTextEntry={!showPassword}
-                showPassword={showPassword}
-                onPasswordEyePress={onPasswordEyePress}
-              />
-              {errMsg.password !== '' && <Text style={ERR_MSG_TEXT}>{errMsg.password}</Text>}
-            </View>
+              <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT]}>
+                <StandardInput
+                  onChangeText={text => onCredentialFieldChange('password', text)}
+                  value={credential.password}
+                  placeholder={t('password')}
+                  placeholderTextColor={colors.spanishGray}
+                  secureTextEntry={!showPassword}
+                  showPassword={showPassword}
+                  onPasswordEyePress={onPasswordEyePress}
+                />
+                {errMsg.password !== '' && <Text style={ERR_MSG_TEXT}>{errMsg.password}</Text>}
+              </View>
 
-            <View style={[Layout.fullWidth, Layout.center, Gutters.regularVPadding, { flex: 1, justifyContent: 'center' }]}>
-              <TurquoiseButton
-                onPress={() => onLoginOptionPress('normal')}
-                text={t('logMeIn')}
-                isTransparentBackground
-                containerStyle={{
-                  width: '45%',
-                }}
-              />
-              <Pressable style={[Layout.fullWidth, Layout.center, { marginBottom: 30, marginTop: 10 }]} onPress={onForgotPasswordPress}>
-                <Text style={{ color: colors.white, textDecorationLine: 'underline' }}>{t('forgotPassword')}</Text>
-              </Pressable>
-
-              <View style={{ flexDirection: 'row' }}>
-                <Text style={{ color: colors.white }}>{t('dontHaveAnAccount')}</Text>
-                <Pressable style={{ paddingLeft: 6 }} onPress={() => navigation.navigate(RouteStacks.signUp)}>
-                  <Text style={{ color: colors.brightTurquoise, fontWeight: 'bold' }}>{t('signUp')}</Text>
+              <View style={[Layout.fullWidth, Layout.center, Gutters.regularVPadding, { flex: 1, justifyContent: 'center' }]}>
+                <TurquoiseButton
+                  onPress={() => onLoginOptionPress('normal')}
+                  text={t('logMeIn')}
+                  isTransparentBackground
+                  containerStyle={{
+                    width: '45%',
+                  }}
+                />
+                <Pressable style={[Layout.fullWidth, Layout.center, { marginBottom: 30, marginTop: 10 }]} onPress={onForgotPasswordPress}>
+                  <Text style={{ color: colors.white, textDecorationLine: 'underline' }}>{t('forgotPassword')}</Text>
                 </Pressable>
+
+                <View style={{ flexDirection: 'row' }}>
+                  <Text style={{ color: colors.white }}>{t('dontHaveAnAccount')}</Text>
+                  <Pressable style={{ paddingLeft: 6 }} onPress={() => navigation.navigate(RouteStacks.signUp)}>
+                    <Text style={{ color: colors.brightTurquoise, fontWeight: 'bold' }}>{t('signUp')}</Text>
+                  </Pressable>
+                </View>
               </View>
             </View>
-          </View>
-        </SlideInputModal>
-      </KeyboardAwareScrollView>
-    </ScreenBackgrounds>
+          </SlideInputModal>
+        </KeyboardAwareScrollView>
+      </ScreenBackgrounds>
+    </SafeAreaView>
   )
 }
 

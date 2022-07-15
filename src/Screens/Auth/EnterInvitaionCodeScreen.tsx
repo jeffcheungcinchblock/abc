@@ -40,6 +40,7 @@ import InvitationRewardModal from '@/Components/Modals/InvitationRewardModal'
 import { storeReferralCode } from '@/Store/Referral/actions'
 import crashlytics from '@react-native-firebase/crashlytics'
 import SlideInputModal from '@/Components/Modals/SlideInputModal'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const LOGIN_BUTTON: ViewStyle = {
   height: 40,
@@ -121,67 +122,79 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
   }
 
   return (
-    <ScreenBackgrounds screenName={RouteStacks.enterInvitationCode}>
-      <KeyboardAwareScrollView contentContainerStyle={[Layout.fill, Layout.colCenter, Layout.justifyContentStart]}>
-        <Header headerText={t('referralCode')} onLeftPress={goBack} />
+    <SafeAreaView
+      style={{
+        flex: 1,
+        justifyContent: 'space-between',
+        // alignItems: 'center',
+        backgroundColor: colors.darkGunmetal,
+      }}
+      edges={['top']}
+    >
+      <ScreenBackgrounds screenName={RouteStacks.enterInvitationCode}>
+        <KeyboardAwareScrollView contentContainerStyle={[Layout.fill, Layout.colCenter, Layout.justifyContentStart]}>
+          <Header headerText={t('referralCode')} onLeftPress={goBack} />
 
-        <View
-          style={[
-            {
-              height: '40%',
-              justifyContent: 'center',
-            },
-            Layout.fullWidth,
-          ]}
-        >
-          <AppIcon />
+          <View
+            style={[
+              {
+                height: '40%',
+                justifyContent: 'center',
+              },
+              Layout.fullWidth,
+            ]}
+          >
+            <AppIcon />
 
-          <View style={[Layout.fullWidth, { justifyContent: 'center', paddingVertical: 40, paddingHorizontal: 40 }]}>
-            <Text style={[{ color: colors.white, lineHeight: 22 }, Fonts.textSmall, Fonts.textCenter]}>{t('enterInvitationCodeDesc')}</Text>
-          </View>
-        </View>
-
-        <SlideInputModal
-          ref={modalRef}
-          style={{
-            height: '50%',
-          }}
-          onModalClose={onModalClose}
-        >
-          <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT, { flexBasis: 80 }]}>
-            <StandardInput
-              onChangeText={onCodeChange}
-              value={code}
-              placeholder={t('referralCode')}
-              placeholderTextColor={colors.spanishGray}
-              style={{
-                borderBottomWidth: 1,
-                borderColor: colors.silverSand,
-              }}
-            />
-            {errMsg !== '' && (
-              <Text style={[{ color: colors.magicPotion, paddingHorizontal: 10 }, Fonts.textSmall, Fonts.textLeft]}>{errMsg}</Text>
-            )}
+            <View style={[Layout.fullWidth, { justifyContent: 'center', paddingVertical: 40, paddingHorizontal: 40 }]}>
+              <Text style={[{ color: colors.white, lineHeight: 22 }, Fonts.textSmall, Fonts.textCenter]}>
+                {t('enterInvitationCodeDesc')}
+              </Text>
+            </View>
           </View>
 
-          <View style={[Layout.fullWidth, Layout.center, Gutters.largeVPadding, { flex: 1, justifyContent: 'center' }]}>
-            <TurquoiseButton
-              onPress={onStartPress}
-              text={t('start')}
-              isLoading={isLoggingIn}
-              isTransparentBackground
-              containerStyle={{
-                width: '45%',
-                paddingBottom: 40,
-              }}
-            />
-            <Pressable onPress={onGetReferralCodePress} style={{ paddingBottom: 20 }}>
-              <Text style={{ textDecorationLine: 'underline', color: colors.white }}>{t('getReferralCode')}</Text>
-            </Pressable>
-          </View>
-        </SlideInputModal>
-      </KeyboardAwareScrollView>
-    </ScreenBackgrounds>
+          <SlideInputModal
+            ref={modalRef}
+            style={{
+              height: '50%',
+            }}
+            onModalClose={onModalClose}
+          >
+            <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT, { flexBasis: 80 }]}>
+              <StandardInput
+                onChangeText={onCodeChange}
+                value={code}
+                placeholder={t('referralCode')}
+                placeholderTextColor={colors.spanishGray}
+                style={{
+                  borderBottomWidth: 1,
+                  borderColor: colors.silverSand,
+                }}
+              />
+              {errMsg !== '' && (
+                <Text style={[{ color: colors.magicPotion, paddingHorizontal: 10 }, Fonts.textSmall, Fonts.textLeft]}>{errMsg}</Text>
+              )}
+            </View>
+
+            <View style={[Layout.fullWidth, Layout.center, Gutters.largeVPadding, { flex: 1, justifyContent: 'center' }]}>
+              <TurquoiseButton
+                onPress={onStartPress}
+                text={t('start')}
+                isLoading={isLoggingIn}
+                isTransparentBackground
+                containerStyle={{
+                  width: '45%',
+                  paddingBottom: 40,
+                }}
+              />
+              <Pressable onPress={onGetReferralCodePress} style={{ paddingBottom: 20 }}>
+                <Text style={{ textDecorationLine: 'underline', color: colors.white }}>{t('getReferralCode')}</Text>
+              </Pressable>
+            </View>
+          </SlideInputModal>
+        </KeyboardAwareScrollView>
+      </ScreenBackgrounds>
+    </SafeAreaView>
   )
 }
 

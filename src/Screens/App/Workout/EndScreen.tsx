@@ -35,6 +35,7 @@ import crashlytics from '@react-native-firebase/crashlytics'
 import { triggerSnackbar } from '@/Utils/helpers'
 import { metersecond_2_kmhour, metersecond_2_milehour } from './utils'
 import { SpeedUnit } from './ActiveScreenSolo'
+import { SafeAreaView } from 'react-native-safe-area-context'
 // import share from '@/Utils/endshare'
 const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation, route }) => {
   const { t } = useTranslation()
@@ -211,89 +212,102 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation
   }
 
   return (
-    <ScreenBackgrounds screenName={RouteStacks.workout}>
-      <Header headerText={t('result')} style={{ backgroundColor: colors.darkGunmetal }} />
-      <KeyboardAwareScrollView contentContainerStyle={[styles.container, { flex: 1 }]}>
-        {distance > 2000 && (
-          <View style={[styles.rowContentContainer, { flexBasis: 60 }]}>
-            <BrightTurquoiseText style={[styles.titleTextStyle]}>{t('congratulations')}</BrightTurquoiseText>
-            <Image source={ConGratualtion} style={{ width: 30, height: 30, marginHorizontal: 10, resizeMode: 'contain' }} />
-          </View>
-        )}
-        <View style={[styles.colContentContainer, { flexBasis: 120 }]}>
-          <Text style={styles.distanceTextStyle}>{(distance / 1000).toFixed(2)}</Text>
-        </View>
-
-        <View style={[styles.colContentContainer, { flexBasis: 60, justifyContent: 'center' }]}>
-          <CrystalText style={{ fontSize: 20, width: '100%' }}>{t('totalKilo')}</CrystalText>
-          <View style={[styles.rowContentContainer, { paddingTop: 4 }]}>
-            <Image source={StepLogo} style={{ width: 20, height: 20, resizeMode: 'contain', alignSelf: 'center', marginHorizontal: 10 }} />
-            <WhiteText>{steps}</WhiteText>
-          </View>
-        </View>
-
-        <View style={[styles.rowContentContainer2, { flexBasis: 160, justifyContent: 'center' }]}>
-          <View style={[styles.contentContainer]}>
-            <Image source={TimerLogo} style={{ width: 26, height: 26, resizeMode: 'contain', alignSelf: 'center' }} />
-            <WhiteText style={[{ lineHeight: 50, fontSize: 30, fontWeight: 'bold' }]}>
-              {Math.floor((timer % 3600) / 60)}'{Math.ceil(timer % 60)}"
-            </WhiteText>
-          </View>
-
-          <View style={[styles.contentContainer]}>
-            <Image source={SpeedIcon} style={{ width: 26, height: 26, resizeMode: 'contain', alignSelf: 'center' }} />
-
-            <Pressable onPress={chanageSpeedUnit} style={{}}>
-              <View style={[styles.speedContainer]}>
-                {speedUnit === SpeedUnit.KILOMETRE_PER_HOUR && (
-                  <WhiteText style={[{ lineHeight: 30, fontSize: 25, fontWeight: 'bold' }]}>
-                    {metersecond_2_kmhour(speed).toFixed(1)}
-                  </WhiteText>
-                )}
-                {speedUnit === SpeedUnit.MILE_PER_HOUR && (
-                  <WhiteText style={[{ lineHeight: 30, fontSize: 25, fontWeight: 'bold' }]}>
-                    {metersecond_2_milehour(speed).toFixed(1)}
-                  </WhiteText>
-                )}
-                {speedUnit === SpeedUnit.METER_PER_SECOND && (
-                  <WhiteText style={[{ lineHeight: 30, fontSize: 25, fontWeight: 'bold' }]}>{speed.toFixed(1)}</WhiteText>
-                )}
-                <CrystalText style={{ lineHeight: 30, fontSize: 15 }}>{speedUnit}</CrystalText>
-              </View>
-            </Pressable>
-          </View>
-        </View>
-
-        <View style={[styles.contentContainer, { flexBasis: 60 }]}>
-          {distance > 2000 ? (
-            <WhiteText style={[{ fontSize: 40, fontWeight: 'bold' }]}>+ 20 KE</WhiteText>
-          ) : (
-            <WhiteText style={[{ fontSize: 40, fontWeight: 'bold' }]}>+ 0 KE</WhiteText>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        justifyContent: 'space-between',
+        // alignItems: 'center',
+        backgroundColor: colors.darkGunmetal,
+      }}
+      edges={['top', 'bottom']}
+    >
+      <ScreenBackgrounds screenName={RouteStacks.workout}>
+        <Header headerText={t('result')} style={{ backgroundColor: colors.darkGunmetal }} />
+        <KeyboardAwareScrollView contentContainerStyle={[styles.container, { flex: 1 }]}>
+          {distance > 2000 && (
+            <View style={[styles.rowContentContainer, { flexBasis: 60 }]}>
+              <BrightTurquoiseText style={[styles.titleTextStyle]}>{t('congratulations')}</BrightTurquoiseText>
+              <Image source={ConGratualtion} style={{ width: 30, height: 30, marginHorizontal: 10, resizeMode: 'contain' }} />
+            </View>
           )}
-          <WhiteText style={{ fontSize: 24, lineHeight: 30, fontWeight: '400' }}>{t('points')}</WhiteText>
-        </View>
+          <View style={[styles.colContentContainer, { flexBasis: 120 }]}>
+            <Text style={styles.distanceTextStyle}>{(distance / 1000).toFixed(2)}</Text>
+          </View>
 
-        <View style={[styles.colContentContainer, { flex: 8, justifyContent: 'center', marginBottom: 10 }]}>
-          <SocialShareButton
-            onPress={takeScreenShot}
-            text={t('shareOnTwitter')}
-            iconName='twitter'
-            containerStyle={[Layout.rowCenter, Layout.fullWidth]}
-          />
-          <SaveScreenButton
-            onPress={onSaveToPhotosPress}
-            text={t('saveToPhotos')}
-            containerStyle={[Layout.rowCenter, Layout.fullWidth, Gutters.regularVPadding]}
-          />
-          <CloseButton
-            onPress={() => {
-              navigation.replace(RouteStacks.homeReferral)
-            }}
-            containerStyle={[Layout.fullWidth, Layout.rowCenter]}
-          />
-        </View>
-      </KeyboardAwareScrollView>
-    </ScreenBackgrounds>
+          <View style={[styles.colContentContainer, { flexBasis: 60, justifyContent: 'center' }]}>
+            <CrystalText style={{ fontSize: 20, width: '100%' }}>{t('totalKilo')}</CrystalText>
+            <View style={[styles.rowContentContainer, { paddingTop: 4 }]}>
+              <Image
+                source={StepLogo}
+                style={{ width: 20, height: 20, resizeMode: 'contain', alignSelf: 'center', marginHorizontal: 10 }}
+              />
+              <WhiteText>{steps}</WhiteText>
+            </View>
+          </View>
+
+          <View style={[styles.rowContentContainer2, { flexBasis: 160, justifyContent: 'center' }]}>
+            <View style={[styles.contentContainer]}>
+              <Image source={TimerLogo} style={{ width: 26, height: 26, resizeMode: 'contain', alignSelf: 'center' }} />
+              <WhiteText style={[{ lineHeight: 50, fontSize: 30, fontWeight: 'bold' }]}>
+                {Math.floor((timer % 3600) / 60)}'{Math.ceil(timer % 60)}"
+              </WhiteText>
+            </View>
+
+            <View style={[styles.contentContainer]}>
+              <Image source={SpeedIcon} style={{ width: 26, height: 26, resizeMode: 'contain', alignSelf: 'center' }} />
+
+              <Pressable onPress={chanageSpeedUnit} style={{}}>
+                <View style={[styles.speedContainer]}>
+                  {speedUnit === SpeedUnit.KILOMETRE_PER_HOUR && (
+                    <WhiteText style={[{ lineHeight: 30, fontSize: 25, fontWeight: 'bold' }]}>
+                      {metersecond_2_kmhour(speed).toFixed(1)}
+                    </WhiteText>
+                  )}
+                  {speedUnit === SpeedUnit.MILE_PER_HOUR && (
+                    <WhiteText style={[{ lineHeight: 30, fontSize: 25, fontWeight: 'bold' }]}>
+                      {metersecond_2_milehour(speed).toFixed(1)}
+                    </WhiteText>
+                  )}
+                  {speedUnit === SpeedUnit.METER_PER_SECOND && (
+                    <WhiteText style={[{ lineHeight: 30, fontSize: 25, fontWeight: 'bold' }]}>{speed.toFixed(1)}</WhiteText>
+                  )}
+                  <CrystalText style={{ lineHeight: 30, fontSize: 15 }}>{speedUnit}</CrystalText>
+                </View>
+              </Pressable>
+            </View>
+          </View>
+
+          <View style={[styles.contentContainer, { flexBasis: 60 }]}>
+            {distance > 2000 ? (
+              <WhiteText style={[{ fontSize: 40, fontWeight: 'bold' }]}>+ 20 KE</WhiteText>
+            ) : (
+              <WhiteText style={[{ fontSize: 40, fontWeight: 'bold' }]}>+ 0 KE</WhiteText>
+            )}
+            <WhiteText style={{ fontSize: 24, lineHeight: 30, fontWeight: '400' }}>{t('points')}</WhiteText>
+          </View>
+
+          <View style={[styles.colContentContainer, { flex: 8, justifyContent: 'center', marginBottom: 10 }]}>
+            <SocialShareButton
+              onPress={takeScreenShot}
+              text={t('shareOnTwitter')}
+              iconName='twitter'
+              containerStyle={[Layout.rowCenter, Layout.fullWidth]}
+            />
+            <SaveScreenButton
+              onPress={onSaveToPhotosPress}
+              text={t('saveToPhotos')}
+              containerStyle={[Layout.rowCenter, Layout.fullWidth, Gutters.regularVPadding]}
+            />
+            <CloseButton
+              onPress={() => {
+                navigation.replace(RouteStacks.homeReferral)
+              }}
+              containerStyle={[Layout.fullWidth, Layout.rowCenter]}
+            />
+          </View>
+        </KeyboardAwareScrollView>
+      </ScreenBackgrounds>
+    </SafeAreaView>
   )
 }
 

@@ -38,6 +38,8 @@ import { speedconst } from '@/Utils/constants'
 import { startLoading } from '@/Store/UI/actions'
 import GPSContainer from '@/Components/GPS'
 
+import { SafeAreaView } from 'react-native-safe-area-context'
+
 type WorkoutScreenScreenNavigationProp = CompositeScreenProps<
   StackScreenProps<WorkoutNavigatorParamList>,
   CompositeScreenProps<BottomTabScreenProps<TabNavigatorParamList>, DrawerScreenProps<DrawerNavigatorParamList>>
@@ -84,6 +86,7 @@ const styles = StyleSheet.create({
     flex: 3,
     backgroundColor: colors.darkGunmetal,
     color: '#fff',
+
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
     // borderWidth:1,
@@ -605,11 +608,9 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 
   const ROOT: ViewStyle = {
     flexDirection: 'row',
-    paddingHorizontal: Spacing[4],
     alignItems: 'center',
     paddingTop: Spacing[5],
     paddingBottom: Spacing[5],
-    justifyContent: 'flex-start',
     backgroundColor: colors.darkGunmetal,
   }
 
@@ -625,184 +626,194 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
   }
 
   return (
-    <MapScreenBackgrounds screenName={RouteStacks.workout}>
-      {/* <Header headerText={ActivityType[currentState]} style={styles.header} /> */}
-      <EndWorkoutModal ref={endWorkoutRef} onModalClose={closeStopModal} onActionBtnPress={StopRunningSession} />
-      <View style={[ROOT, HEADER]}>
-        <View style={LEFT} />
-        <View style={TITLE_MIDDLE}>
-          {currentState === ActivityType.OVERSPEED && (
-            <>
-              <StatusDot style={{ backgroundColor: colors.red }} />
+    <SafeAreaView
+      style={{
+        flex: 1,
+        // justifyContent: 'space-between',
+        // alignItems: 'center',
+        backgroundColor: colors.darkGunmetal,
+      }}
+      edges={['top', 'bottom']}
+    >
+      <MapScreenBackgrounds screenName={RouteStacks.workout}>
+        {/* <Header headerText={ActivityType[currentState]} style={styles.header} /> */}
+        <EndWorkoutModal ref={endWorkoutRef} onModalClose={closeStopModal} onActionBtnPress={StopRunningSession} />
+        <View style={[ROOT, HEADER]}>
+          <View style={LEFT} />
+          <View style={[TITLE_MIDDLE]}>
+            {currentState === ActivityType.OVERSPEED && (
+              <>
+                <StatusDot style={{ backgroundColor: colors.red }} />
 
-              <Text style={[Fonts.textRegular, styles.header]}>{t('movingStatus.Overspeed')}</Text>
-            </>
-          )}
-          {currentState === ActivityType.PAUSE && (
-            <>
-              <StatusDot style={{ backgroundColor: colors.red }} />
-              <Text style={[Fonts.textRegular, styles.header]}>{t('movingStatus.Pause')}</Text>
-            </>
-          )}
-          {currentState === ActivityType.MOVING && (
-            <>
-              <StatusDot style={{ backgroundColor: colors.green }} />
-              <Text style={[Fonts.textRegular, styles.header]}>{t('movingStatus.Running')}</Text>
-            </>
-          )}
-          {currentState === ActivityType.LOADING && (
-            <>
-              <StatusDot style={{ backgroundColor: colors.red }} />
-              <Text style={[Fonts.textRegular, styles.header]}>{t('movingStatus.Loading')}</Text>
-            </>
-          )}
-          {currentState === ActivityType.ENDED && (
-            <>
-              <StatusDot style={{ backgroundColor: colors.red }} />
-              <Text style={[Fonts.textRegular, styles.header]}>{t('movingStatus.Ended')}</Text>
-            </>
-          )}
+                <Text style={[Fonts.textRegular, styles.header]}>{t('movingStatus.Overspeed')}</Text>
+              </>
+            )}
+            {currentState === ActivityType.PAUSE && (
+              <>
+                <StatusDot style={{ backgroundColor: colors.red }} />
+                <Text style={[Fonts.textRegular, styles.header]}>{t('movingStatus.Pause')}</Text>
+              </>
+            )}
+            {currentState === ActivityType.MOVING && (
+              <>
+                <StatusDot style={{ backgroundColor: colors.green }} />
+                <Text style={[Fonts.textRegular, styles.header]}>{t('movingStatus.Running')}</Text>
+              </>
+            )}
+            {currentState === ActivityType.LOADING && (
+              <>
+                <StatusDot style={{ backgroundColor: colors.red }} />
+                <Text style={[Fonts.textRegular, styles.header]}>{t('movingStatus.Loading')}</Text>
+              </>
+            )}
+            {currentState === ActivityType.ENDED && (
+              <>
+                <StatusDot style={{ backgroundColor: colors.red }} />
+                <Text style={[Fonts.textRegular, styles.header]}>{t('movingStatus.Ended')}</Text>
+              </>
+            )}
+          </View>
+          <View style={[RIGHT]}>
+            <GPSContainer accuracy={accuracy}></GPSContainer>
+          </View>
         </View>
-        <View style={RIGHT}>
-          <GPSContainer accuracy={accuracy}></GPSContainer>
-        </View>
-      </View>
-      <View style={[styles.container]}>
-        <View style={[styles.mapContainer]}>
-          {/* {startRegion && ( */}
-          <ActiveMapView timer={timer} speed={speed} />
-          {/* )} */}
-        </View>
-        <View style={[styles.dataContainer]}>
-          <View style={[styles.dataPaddingContainer]}>
-            <View style={[styles.distanceContainer]}>
-              <BrightTurquoiseText style={styles.distanceTextStyle}>{(distance / 1000).toFixed(2)}</BrightTurquoiseText>
-              <Text style={[styles.mapDistanceText]}>{t('totalKilo')}</Text>
-            </View>
-            <View style={[styles.rowStepContentContainer]}>
-              <Image
-                source={StepLogo}
-                style={{
-                  width: 20,
-                  height: 20,
-                  resizeMode: 'contain',
-                  alignSelf: 'center',
-                }}
-              />
-              <WhiteText> {steps}</WhiteText>
-            </View>
-            <View style={[styles.timerSpeedRowContentContainer]}>
-              <View style={[styles.contentContainer]}>
-                <Pressable style={{ flex: 1 }}>
-                  <Image
-                    source={TimerLogo}
-                    style={{
-                      resizeMode: 'contain',
-                      alignSelf: 'center',
-                      flex: 2,
-                    }}
-                  />
-                  <WhiteText style={[{ lineHeight: 30, fontSize: 25, fontWeight: 'bold' }]}>
-                    {Math.floor((timer % 3600) / 60)}"{Math.ceil(timer % 60)}'
-                  </WhiteText>
-                </Pressable>
+        <View style={[styles.container]}>
+          <View style={[styles.mapContainer]}>
+            {/* {startRegion && ( */}
+            <ActiveMapView timer={timer} speed={speed} />
+            {/* )} */}
+          </View>
+          <View style={[styles.dataContainer]}>
+            <View style={[styles.dataPaddingContainer]}>
+              <View style={[styles.distanceContainer]}>
+                <BrightTurquoiseText style={styles.distanceTextStyle}>{(distance / 1000).toFixed(2)}</BrightTurquoiseText>
+                <Text style={[styles.mapDistanceText]}>{t('totalKilo')}</Text>
               </View>
-              <View style={[styles.contentContainer]}>
-                <Pressable onPress={chanageSpeedUnit} style={{ flex: 1 }}>
-                  <Image
-                    source={SpeedIcon}
-                    style={{
-                      resizeMode: 'contain',
-                      alignSelf: 'center',
-                      flex: 2,
-                    }}
-                  />
-                  <View style={[styles.rowSpeedTextContentContainer]}>
-                    {speedUnit === SpeedUnit.KILOMETRE_PER_HOUR && (
-                      <WhiteText style={[{ lineHeight: 30, fontSize: 25, fontWeight: 'bold' }]}>
-                        {metersecond_2_kmhour(currentSpeed).toFixed(1)}
-                      </WhiteText>
-                    )}
-                    {speedUnit === SpeedUnit.MILE_PER_HOUR && (
-                      <WhiteText style={[{ lineHeight: 30, fontSize: 25, fontWeight: 'bold' }]}>
-                        {metersecond_2_milehour(currentSpeed).toFixed(1)}
-                      </WhiteText>
-                    )}
-                    {speedUnit === SpeedUnit.METER_PER_SECOND && (
-                      <WhiteText style={[{ lineHeight: 30, fontSize: 25, fontWeight: 'bold' }]}>{currentSpeed.toFixed(1)}</WhiteText>
-                    )}
-                    <CrystalText style={{ lineHeight: 30, fontSize: 15 }}>{speedUnit}</CrystalText>
-                  </View>
-                </Pressable>
+              <View style={[styles.rowStepContentContainer]}>
+                <Image
+                  source={StepLogo}
+                  style={{
+                    width: 20,
+                    height: 20,
+                    resizeMode: 'contain',
+                    alignSelf: 'center',
+                  }}
+                />
+                <WhiteText> {steps}</WhiteText>
               </View>
-            </View>
-            <View style={[styles.stateButtonContainer]}>
-              {currentState === ActivityType.PAUSE &&
-                !isButtonLoading &&
-                // currentState === ActivityType.MOVING ||
-                // currentState === ActivityType.OVERSPEED) &&
-                !isStopping && (
-                  <Pressable style={[Common.button.rounded, Gutters.regularBMargin, styles.stateStopButton]} onPress={stopButtonPress}>
+              <View style={[styles.timerSpeedRowContentContainer]}>
+                <View style={[styles.contentContainer]}>
+                  <Pressable style={{ flex: 1 }}>
+                    <Image
+                      source={TimerLogo}
+                      style={{
+                        resizeMode: 'contain',
+                        alignSelf: 'center',
+                        flex: 2,
+                      }}
+                    />
+                    <WhiteText style={[{ lineHeight: 30, fontSize: 25, fontWeight: 'bold' }]}>
+                      {Math.floor((timer % 3600) / 60)}"{Math.ceil(timer % 60)}'
+                    </WhiteText>
+                  </Pressable>
+                </View>
+                <View style={[styles.contentContainer]}>
+                  <Pressable onPress={chanageSpeedUnit} style={{ flex: 1 }}>
+                    <Image
+                      source={SpeedIcon}
+                      style={{
+                        resizeMode: 'contain',
+                        alignSelf: 'center',
+                        flex: 2,
+                      }}
+                    />
+                    <View style={[styles.rowSpeedTextContentContainer]}>
+                      {speedUnit === SpeedUnit.KILOMETRE_PER_HOUR && (
+                        <WhiteText style={[{ lineHeight: 30, fontSize: 25, fontWeight: 'bold' }]}>
+                          {metersecond_2_kmhour(currentSpeed).toFixed(1)}
+                        </WhiteText>
+                      )}
+                      {speedUnit === SpeedUnit.MILE_PER_HOUR && (
+                        <WhiteText style={[{ lineHeight: 30, fontSize: 25, fontWeight: 'bold' }]}>
+                          {metersecond_2_milehour(currentSpeed).toFixed(1)}
+                        </WhiteText>
+                      )}
+                      {speedUnit === SpeedUnit.METER_PER_SECOND && (
+                        <WhiteText style={[{ lineHeight: 30, fontSize: 25, fontWeight: 'bold' }]}>{currentSpeed.toFixed(1)}</WhiteText>
+                      )}
+                      <CrystalText style={{ lineHeight: 30, fontSize: 15 }}>{speedUnit}</CrystalText>
+                    </View>
+                  </Pressable>
+                </View>
+              </View>
+              <View style={[styles.stateButtonContainer]}>
+                {currentState === ActivityType.PAUSE &&
+                  !isButtonLoading &&
+                  // currentState === ActivityType.MOVING ||
+                  // currentState === ActivityType.OVERSPEED) &&
+                  !isStopping && (
+                    <Pressable style={[Common.button.rounded, Gutters.regularBMargin, styles.stateStopButton]} onPress={stopButtonPress}>
+                      <Text
+                        style={[
+                          Fonts.textRegular,
+                          styles.stateStopButtonText,
+                          {
+                            fontFamily: 'Poppins-Bold',
+                            fontWeight: '600',
+                            fontSize: 16,
+                          },
+                        ]}
+                      >
+                        {t('stop')}
+                      </Text>
+                    </Pressable>
+                  )}
+                {currentState !== ActivityType.PAUSE && currentState !== ActivityType.ENDED && !isStopping && !isButtonLoading && (
+                  <Pressable
+                    style={[Common.button.rounded, Gutters.regularBMargin, styles.statePauseResumeButton]}
+                    onPress={PauseRunningSession}
+                  >
                     <Text
-                      style={[
-                        Fonts.textRegular,
-                        styles.stateStopButtonText,
+                      style={
+                        (Fonts.textRegular,
                         {
                           fontFamily: 'Poppins-Bold',
                           fontWeight: '600',
                           fontSize: 16,
-                        },
-                      ]}
+                          color: colors.black,
+                        })
+                      }
                     >
-                      {t('stop')}
+                      {t('pause')}
                     </Text>
                   </Pressable>
                 )}
-              {currentState !== ActivityType.PAUSE && currentState !== ActivityType.ENDED && !isStopping && !isButtonLoading && (
-                <Pressable
-                  style={[Common.button.rounded, Gutters.regularBMargin, styles.statePauseResumeButton]}
-                  onPress={PauseRunningSession}
-                >
-                  <Text
-                    style={
-                      (Fonts.textRegular,
-                      {
-                        fontFamily: 'Poppins-Bold',
-                        fontWeight: '600',
-                        fontSize: 16,
-                        color: colors.black,
-                      })
-                    }
+                {currentState === ActivityType.PAUSE && !isStopping && !isButtonLoading && (
+                  <Pressable
+                    style={[Common.button.rounded, Gutters.regularBMargin, styles.statePauseResumeButton]}
+                    onPress={ResumeRunningSession}
                   >
-                    {t('pause')}
-                  </Text>
-                </Pressable>
-              )}
-              {currentState === ActivityType.PAUSE && !isStopping && !isButtonLoading && (
-                <Pressable
-                  style={[Common.button.rounded, Gutters.regularBMargin, styles.statePauseResumeButton]}
-                  onPress={ResumeRunningSession}
-                >
-                  <Text
-                    style={
-                      (Fonts.textRegular,
-                      {
-                        fontFamily: 'Poppins-Bold',
-                        fontWeight: '600',
-                        fontSize: 16,
-                        color: colors.black,
-                      })
-                    }
-                  >
-                    {t('resume')}
-                  </Text>
-                </Pressable>
-              )}
+                    <Text
+                      style={
+                        (Fonts.textRegular,
+                        {
+                          fontFamily: 'Poppins-Bold',
+                          fontWeight: '600',
+                          fontSize: 16,
+                          color: colors.black,
+                        })
+                      }
+                    >
+                      {t('resume')}
+                    </Text>
+                  </Pressable>
+                )}
+              </View>
             </View>
           </View>
         </View>
-      </View>
-    </MapScreenBackgrounds>
+      </MapScreenBackgrounds>
+    </SafeAreaView>
   )
 }
 

@@ -18,6 +18,13 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		1C0B3AA02825000F005158C6 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C7C45D52800148300F60685 /* HealthKit.framework */; };
 		1C42EA51283DC4A500C69A14 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C42EA50283DC4A500C69A14 /* MapKit.framework */; };
+		1CFF4B93288102FF005DFC27 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1CFF4B92288102FF005DFC27 /* GoogleService-Info.plist */; };
+		1CFF4B94288102FF005DFC27 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1CFF4B92288102FF005DFC27 /* GoogleService-Info.plist */; };
+		1CFF4B9528810300005DFC27 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1CFF4B92288102FF005DFC27 /* GoogleService-Info.plist */; };
+		1CFF4B9628810300005DFC27 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1CFF4B92288102FF005DFC27 /* GoogleService-Info.plist */; };
+		1CFF4B9728810300005DFC27 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1CFF4B92288102FF005DFC27 /* GoogleService-Info.plist */; };
+		1CFF4B9828810300005DFC27 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1CFF4B92288102FF005DFC27 /* GoogleService-Info.plist */; };
+		1CFF4B9928810300005DFC27 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1CFF4B92288102FF005DFC27 /* GoogleService-Info.plist */; };
 		1F5B4F1527FEBA92009618AF /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F5B4F0527FEBA92009618AF /* Zocial.ttf */; };
 		1F5B4F1627FEBA92009618AF /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F5B4F0627FEBA92009618AF /* Foundation.ttf */; };
 		1F5B4F1727FEBA92009618AF /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F5B4F0727FEBA92009618AF /* Ionicons.ttf */; };
@@ -158,6 +165,7 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = DragonDappRN/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = DragonDappRN/main.m; sourceTree = "<group>"; };
 		1C42EA50283DC4A500C69A14 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		1CFF4B92288102FF005DFC27 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1F5B4F0527FEBA92009618AF /* Zocial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		1F5B4F0627FEBA92009618AF /* Foundation.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		1F5B4F0727FEBA92009618AF /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
@@ -223,7 +231,7 @@
 		D7B1B30FE98C468596DFEE10 /* Poppins-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Light.ttf"; path = "../src/Assets/Fonts/Poppins-Light.ttf"; sourceTree = "<group>"; };
 		D7FFCDA71C08410E888B233C /* Poppins-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Italic.ttf"; path = "../src/Assets/Fonts/Poppins-Italic.ttf"; sourceTree = "<group>"; };
 		DD100D05C0824FC0B66AA8BE /* Poppins-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-ExtraLight.ttf"; path = "../src/Assets/Fonts/Poppins-ExtraLight.ttf"; sourceTree = "<group>"; };
-		E33632D3287EAC460090973D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../GoogleService-Info.plist"; sourceTree = "<group>"; };
+		E33632D3287EAC460090973D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E35D920D282A1890000CD920 /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = DragonDappRN/BootSplash.storyboard; sourceTree = "<group>"; };
 		E35D920F282CA4C0000CD920 /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = DragonDappRN/BootSplash.storyboard; sourceTree = "<group>"; };
 		E8BF76D6843C28291C346D81 /* libPods-DragonDappRN.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DragonDappRN.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -391,6 +399,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				1CFF4B92288102FF005DFC27 /* GoogleService-Info.plist */,
 				C4EE769D28227579003F6C95 /* afdevkey_donotpush.plist */,
 				13B07FAE1A68108700A75B9A /* DragonDappRN */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -703,6 +712,7 @@
 			files = (
 				C4EE769F28227579003F6C95 /* afdevkey_donotpush.plist in Resources */,
 				E36243F0283E04C20098154B /* (null) in Resources */,
+				1CFF4B94288102FF005DFC27 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -729,6 +739,7 @@
 				1F5B4F1B27FEBA92009618AF /* FontAwesome5_Solid.ttf in Resources */,
 				1F5B4F1E27FEBA92009618AF /* FontAwesome5_Brands.ttf in Resources */,
 				1F5B4F1527FEBA92009618AF /* Zocial.ttf in Resources */,
+				1CFF4B93288102FF005DFC27 /* GoogleService-Info.plist in Resources */,
 				1F5B4F2227FEBA92009618AF /* Fontisto.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				A14492FCF150478097DBCCED /* AvenirNext-Bold.ttf in Resources */,
@@ -763,6 +774,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C4EE76A028227579003F6C95 /* afdevkey_donotpush.plist in Resources */,
+				1CFF4B9528810300005DFC27 /* GoogleService-Info.plist in Resources */,
 				2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */,
 				E36243F1283E04C20098154B /* (null) in Resources */,
 			);
@@ -774,6 +786,7 @@
 			files = (
 				C4EE76A128227579003F6C95 /* afdevkey_donotpush.plist in Resources */,
 				E36243F2283E04C20098154B /* (null) in Resources */,
+				1CFF4B9628810300005DFC27 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -786,6 +799,7 @@
 				E36243F3283E04C20098154B /* (null) in Resources */,
 				C4114DC9282258E100074A62 /* Assets.xcassets in Resources */,
 				C4114DC7282258E000074A62 /* Main.storyboard in Resources */,
+				1CFF4B9728810300005DFC27 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -795,6 +809,7 @@
 			files = (
 				C4EE76A328227579003F6C95 /* afdevkey_donotpush.plist in Resources */,
 				E36243F4283E04C20098154B /* (null) in Resources */,
+				1CFF4B9828810300005DFC27 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -804,6 +819,7 @@
 			files = (
 				C4EE76A428227579003F6C95 /* afdevkey_donotpush.plist in Resources */,
 				E36243F5283E04C20098154B /* (null) in Resources */,
+				1CFF4B9928810300005DFC27 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

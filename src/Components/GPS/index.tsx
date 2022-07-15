@@ -23,11 +23,9 @@ const GPSContainer = ({ accuracy }: GPSContainerProps) => {
       style={{
         backgroundColor: colors.charcoal,
         justifyContent: 'space-around',
-        // margin: 10,
         alignItems: 'center',
         borderRadius: 99,
         flexDirection: 'row',
-        // paddingVertical: 5,
         padding: 5,
       }}
     >
