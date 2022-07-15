@@ -83,6 +83,8 @@ import { Results } from 'realm'
 import BackgroundGeolocation, { Subscription } from 'react-native-background-geolocation'
 import { forEach } from 'lodash'
 import { runOnUI } from 'react-native-reanimated'
+import { SafeAreaView } from 'react-native-safe-area-context'
+
 import InAppBrowser from 'react-native-inappbrowser-reborn'
 const PURPLE_COLOR = {
   color: colors.magicPotion,
@@ -398,89 +400,144 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
   let isNewAc = referralInfo.lastRank === 0
 
   return (
-    <ScreenBackgrounds screenName={RouteStacks.homeReferral}>
-      <DailyRewardModal ref={dailyRewardModalRef} onModalClose={onDailyRewardModalClose} onActionBtnPress={onLesGoBtnPress} ke={20} />
+    <SafeAreaView style={{ flex: 1, justifyContent: 'space-between', backgroundColor: colors.darkGunmetal }} edges={['top']}>
+      <ScreenBackgrounds screenName={RouteStacks.homeReferral}>
+        <DailyRewardModal ref={dailyRewardModalRef} onModalClose={onDailyRewardModalClose} onActionBtnPress={onLesGoBtnPress} ke={20} />
 
-      <RuleOfReferralModal
-        ref={ruleOfReferralModalRef}
-        onModalClose={onRuleOfReferralModalClose}
-        onActionBtnPress={onRuleOfReferralCloseBtnPress}
-      />
-      <GoogleFitModal ref={googleFitModalRef} onModalClose={onGoogleFitModalClose} onActionBtnPress={onGoogleFitModalCloseBtnPress} />
-      <InvitationRewardModal
-        ref={invitationRewardModalRef}
-        ke={20}
-        onModalClose={onInvitationRewardModalClose}
-        onActionBtnPress={onInvitationRewardModalCloseBtnPress}
-      />
+        <RuleOfReferralModal
+          ref={ruleOfReferralModalRef}
+          onModalClose={onRuleOfReferralModalClose}
+          onActionBtnPress={onRuleOfReferralCloseBtnPress}
+        />
+        <GoogleFitModal ref={googleFitModalRef} onModalClose={onGoogleFitModalClose} onActionBtnPress={onGoogleFitModalCloseBtnPress} />
+        <InvitationRewardModal
+          ref={invitationRewardModalRef}
+          ke={20}
+          onModalClose={onInvitationRewardModalClose}
+          onActionBtnPress={onInvitationRewardModalCloseBtnPress}
+        />
 
-      <Pressable onPress={onScrollDownPress} style={{ position: 'absolute', bottom: 20, right: 20, zIndex: 2 }}>
-        <Image source={scrollDownBtn} style={{}} />
-      </Pressable>
+        <Pressable onPress={onScrollDownPress} style={{ position: 'absolute', bottom: 20, right: 20, zIndex: 2 }}>
+          <Image source={scrollDownBtn} style={{}} />
+        </Pressable>
 
-      <KeyboardAwareScrollView
-        ref={keyboardAwareScrollViewRef}
-        contentContainerStyle={[Layout.colCenter]}
-        refreshControl={
-          <RefreshControl refreshing={needFetchDtl} onRefresh={onRefresh} progressViewOffset={10} tintColor={colors.brightTurquoise} />
-        }
-      >
-        <Header headerText={t('home')} rightIcon={() => <Image source={logoutBtn} />} onRightPress={onLogoutPress} />
-        <View
-          style={{
-            height: 220,
-            width: '100%',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
+        <KeyboardAwareScrollView
+          ref={keyboardAwareScrollViewRef}
+          contentContainerStyle={[Layout.colCenter]}
+          refreshControl={
+            <RefreshControl refreshing={needFetchDtl} onRefresh={onRefresh} progressViewOffset={10} tintColor={colors.brightTurquoise} />
+          }
         >
-          <CircularProgress
-            value={referralInfo.totalPoint}
-            radius={110}
-            duration={2000}
-            progressValueColor={colors.transparent}
-            maxValue={config.totalPointsMaxCap}
-            activeStrokeColor={colors.brightTurquoise}
-            strokeLinecap={'butt'}
-            inActiveStrokeWidth={14}
-            activeStrokeWidth={14}
-          />
+          <Header headerText={t('home')} rightIcon={() => <Image source={logoutBtn} />} onRightPress={onLogoutPress} />
           <View
             style={{
-              position: 'absolute',
-              top: 65,
+              height: 220,
               width: '100%',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
           >
-            <Text
-              style={{
-                color: colors.white,
-                fontSize: 18,
-                fontWeight: 'bold',
-                textAlign: 'center',
-              }}
-            >
-              {t('totalPoints')}
-            </Text>
+            <CircularProgress
+              value={referralInfo.totalPoint}
+              radius={110}
+              duration={2000}
+              progressValueColor={colors.transparent}
+              maxValue={config.totalPointsMaxCap}
+              activeStrokeColor={colors.brightTurquoise}
+              strokeLinecap={'butt'}
+              inActiveStrokeWidth={14}
+              activeStrokeWidth={14}
+            />
             <View
               style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-                marginTop: 10,
-                alignItems: 'center',
+                position: 'absolute',
+                top: 65,
+                width: '100%',
               }}
             >
-              {/* <Text style={{
+              <Text
+                style={{
+                  color: colors.white,
+                  fontSize: 18,
+                  fontWeight: 'bold',
+                  textAlign: 'center',
+                }}
+              >
+                {t('totalPoints')}
+              </Text>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  marginTop: 10,
+                  alignItems: 'center',
+                }}
+              >
+                {/* <Text style={{
                                 color: colors.white, fontSize: 40, fontWeight: "bold",
                                 textAlign: "center"
                             }}>{referralInfo.totalPoint}</Text> */}
+                <AnimateNumber
+                  value={referralInfo.totalPoint}
+                  style={{
+                    color: colors.white,
+                    fontSize: 40,
+                    fontWeight: 'bold',
+                    textAlign: 'center',
+                  }}
+                  formatter={(val: string) => {
+                    return parseInt(val)
+                  }}
+                />
+              </View>
+            </View>
+          </View>
+
+          <View style={[Layout.fullWidth, { alignItems: 'center', justifyContent: 'flex-end', height: 100 }]}>
+            <Text
+              style={[
+                {
+                  paddingTop: 0,
+                  paddingBottom: 2,
+                  color: colors.white,
+                  fontSize: 24,
+                },
+              ]}
+            >
+              {t('queueNumber')}
+            </Text>
+            <View
+              style={[
+                Layout.fullWidth,
+                {
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                },
+              ]}
+            >
+              <View
+                style={{
+                  backgroundColor:
+                    isNewAc || queueNoDiff === 0 ? colors.philippineSilver : queueNoDiff > 0 ? colors.brightTurquoise : colors.magicPotion,
+                  borderRadius: 12,
+                  paddingHorizontal: 12,
+                  paddingVertical: 2,
+                  marginRight: 16,
+                  justifyContent: 'center',
+                }}
+              >
+                <Text style={[{ color: colors.darkGunmetal, fontSize: 18 }]}>
+                  {isNewAc || queueNoDiff === 0 ? '+' : queueNoDiff > 0 ? '▲' : '▼'} {isNewAc ? 0 : queueNoDiff}
+                </Text>
+              </View>
+              {/* <Text style={[{ fontWeight: "bold", color: colors.white, fontSize: 44 }]}>{referralInfo.queueNumber}</Text> */}
               <AnimateNumber
-                value={referralInfo.totalPoint}
+                value={referralInfo.queueNumber}
                 style={{
                   color: colors.white,
-                  fontSize: 40,
+                  fontSize: 44,
                   fontWeight: 'bold',
-                  textAlign: 'center',
                 }}
                 formatter={(val: string) => {
                   return parseInt(val)
@@ -488,371 +545,330 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
               />
             </View>
           </View>
-        </View>
 
-        <View style={[Layout.fullWidth, { alignItems: 'center', justifyContent: 'flex-end', height: 100 }]}>
-          <Text
-            style={[
-              {
-                paddingTop: 0,
-                paddingBottom: 2,
-                color: colors.white,
-                fontSize: 24,
-              },
-            ]}
-          >
-            {t('queueNumber')}
-          </Text>
+          <View style={[Layout.fullWidth, { alignItems: 'center', justifyContent: 'center', height: 140 }]}>
+            <Text style={[Layout.fullWidth, { color: colors.white, fontSize: 24, textAlign: 'center' }]}>{t('top100AvgKE')}</Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <AnimateNumber
+                value={referralInfo.top100AvgKE.toFixed(2)}
+                style={{
+                  color: colors.white,
+                  fontSize: 40,
+                  fontWeight: 'bold',
+                  textAlign: 'center',
+                }}
+                formatter={(val: string) => {
+                  return parseFloat(val).toFixed(2)
+                }}
+              />
+            </View>
+          </View>
+
           <View
             style={[
               Layout.fullWidth,
+              Layout.center,
               {
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'center',
+                paddingBottom: 40,
               },
             ]}
           >
             <View
               style={{
-                backgroundColor:
-                  isNewAc || queueNoDiff === 0 ? colors.philippineSilver : queueNoDiff > 0 ? colors.brightTurquoise : colors.magicPotion,
-                borderRadius: 12,
-                paddingHorizontal: 12,
-                paddingVertical: 2,
-                marginRight: 16,
-                justifyContent: 'center',
-              }}
-            >
-              <Text style={[{ color: colors.darkGunmetal, fontSize: 18 }]}>
-                {isNewAc || queueNoDiff === 0 ? '+' : queueNoDiff > 0 ? '▲' : '▼'} {isNewAc ? 0 : queueNoDiff}
-              </Text>
-            </View>
-            {/* <Text style={[{ fontWeight: "bold", color: colors.white, fontSize: 44 }]}>{referralInfo.queueNumber}</Text> */}
-            <AnimateNumber
-              value={referralInfo.queueNumber}
-              style={{
-                color: colors.white,
-                fontSize: 44,
-                fontWeight: 'bold',
-              }}
-              formatter={(val: string) => {
-                return parseInt(val)
-              }}
-            />
-          </View>
-        </View>
-
-        <View style={[Layout.fullWidth, { alignItems: 'center', justifyContent: 'center', height: 140 }]}>
-          <Text style={[Layout.fullWidth, { color: colors.white, fontSize: 24, textAlign: 'center' }]}>{t('top100AvgKE')}</Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            <AnimateNumber
-              value={referralInfo.top100AvgKE.toFixed(2)}
-              style={{
-                color: colors.white,
-                fontSize: 40,
-                fontWeight: 'bold',
-                textAlign: 'center',
-              }}
-              formatter={(val: string) => {
-                return parseFloat(val).toFixed(2)
-              }}
-            />
-          </View>
-        </View>
-
-        <View
-          style={[
-            Layout.fullWidth,
-            Layout.center,
-            {
-              paddingBottom: 40,
-            },
-          ]}
-        >
-          <View
-            style={{
-              backgroundColor: isStartPressed ? colors.charcoal : colors.brightTurquoise,
-              shadowColor: isStartPressed ? colors.charcoal : colors.brightTurquoise,
-              elevation: 10,
-              borderRadius: 30,
-              shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 0.5,
-              shadowRadius: 10,
-            }}
-          >
-            <Pressable
-              style={{
+                backgroundColor: isStartPressed ? colors.charcoal : colors.brightTurquoise,
+                shadowColor: isStartPressed ? colors.charcoal : colors.brightTurquoise,
+                elevation: 10,
                 borderRadius: 30,
-                paddingHorizontal: 40,
-                paddingVertical: 4,
+                shadowOffset: { width: 0, height: 0 },
+                shadowOpacity: 0.5,
+                shadowRadius: 10,
               }}
-              onPress={onTrialPlayPress}
-              disabled={isStartPressed}
             >
-              <Text
+              <Pressable
                 style={{
-                  fontSize: 30,
-                  fontWeight: 'bold',
-                  fontStyle: 'italic',
-                  fontFamily: 'Poppins-Bold',
-                  color: colors.darkGunmetal,
+                  borderRadius: 30,
+                  paddingHorizontal: 40,
+                  paddingVertical: 4,
+                }}
+                onPress={onTrialPlayPress}
+                disabled={isStartPressed}
+              >
+                <Text
+                  style={{
+                    fontSize: 30,
+                    fontWeight: 'bold',
+                    fontStyle: 'italic',
+                    fontFamily: 'Poppins-Bold',
+                    color: colors.darkGunmetal,
+                  }}
+                >
+                  {t('trialPlay')}
+                </Text>
+              </Pressable>
+            </View>
+          </View>
+
+          <View
+            style={{
+              backgroundColor: colors.jacarta,
+              borderRadius: 20,
+              height: 110,
+              marginBottom: 30,
+              marginHorizontal: 20,
+            }}
+          >
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                paddingTop: 10,
+                paddingRight: 20,
+              }}
+            >
+              <Text style={[{ color: colors.white, paddingTop: 0, paddingHorizontal: 20 }, Fonts.textSmall]}>{t('yourReferralCode')}</Text>
+              <Pressable
+                onPress={onCopyPress}
+                style={{
+                  borderRadius: 10,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: colors.darkBlueGray,
+                  opacity: 0.5,
+                  width: 45,
+                  height: 30,
                 }}
               >
-                {t('trialPlay')}
-              </Text>
-            </Pressable>
-          </View>
-        </View>
+                <MaterialCommunityIcons name='content-copy' size={20} color={colors.white} />
+              </Pressable>
+            </View>
 
-        <View
-          style={{
-            backgroundColor: colors.jacarta,
-            borderRadius: 20,
-            height: 110,
-            marginBottom: 30,
-            marginHorizontal: 20,
-          }}
-        >
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              paddingTop: 10,
-              paddingRight: 20,
-            }}
-          >
-            <Text style={[{ color: colors.white, paddingTop: 0, paddingHorizontal: 20 }, Fonts.textSmall]}>{t('yourReferralCode')}</Text>
-            <Pressable
-              onPress={onCopyPress}
+            <View
+              style={[
+                {
+                  flexDirection: 'row',
+                  paddingHorizontal: 20,
+                  position: 'relative',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  paddingTop: 10,
+                },
+              ]}
+            >
+              <TextInput
+                value={referralInfo.referral}
+                editable={false}
+                style={{
+                  color: colors.white,
+                  backgroundColor: colors.chineseBlack,
+                  borderRadius: 10,
+                  width: '100%',
+                  paddingHorizontal: 20,
+                  height: 44,
+                  fontSize: 16,
+                }}
+              />
+
+              <TurquoiseButton
+                text={t('share')}
+                onPress={onSharePress}
+                isTransparentBackground
+                containerStyle={{
+                  position: 'absolute',
+                  right: 30,
+                  zIndex: 2,
+                  width: 80,
+                  bottom: 5,
+                }}
+                style={{
+                  borderRadius: 10,
+                }}
+              />
+            </View>
+          </View>
+
+          <View style={[{ height: 40, flexDirection: 'row', alignItems: 'center' }, Gutters.largeHPadding]}>
+            <View style={{ flex: 4, flexDirection: 'row', alignItems: 'center' }}>
+              <Text style={[Gutters.smallVPadding, { color: colors.white, fontSize: 18, marginRight: 6 }]}>{t('totalReferred')}</Text>
+              <Pressable onPress={onInfoBtnPress}>
+                <MaterialCommunityIcons name='information-outline' color={colors.brightTurquoise} size={24} />
+              </Pressable>
+            </View>
+
+            <Text style={[Fonts.textSmall, { color: colors.brightTurquoise }]}>
+              {referralInfo.referred} {t(`friend${referralInfo.referred <= 1 ? '' : 's'}`)}
+            </Text>
+          </View>
+
+          <View style={{ height: 80, alignItems: 'flex-start', width: '85%' }}>
+            {referredNames.map((elem, idx) => {
+              return (
+                <View style={[REFERRED_FRIEND_ICON, { top: 0, left: idx * 35 }]} key={`Friend-${idx}`}>
+                  <Text
+                    style={{
+                      color: colors.black,
+                      fontWeight: 'bold',
+                      fontSize: 18,
+                    }}
+                  >
+                    {elem}
+                  </Text>
+                </View>
+              )
+            })}
+            {referredNames.length === 0 ? (
+              <View style={[REFERRED_FRIEND_ICON, { top: 0, left: 0 }]}>
+                <Image source={emptyAvatar} style={{}} />
+              </View>
+            ) : referredNames.length > 4 ? (
+              <View style={[REFERRED_FRIEND_ICON, { top: 0, left: 4 * 35, backgroundColor: colors.indigo }]}>
+                <Text style={{ color: colors.white, fontWeight: 'bold', fontSize: 18 }}>+{referredNames.length - 4}</Text>
+              </View>
+            ) : null}
+          </View>
+
+          <View style={{ width: '90%', backgroundColor: colors.white, height: 1 }} />
+
+          <View style={[Layout.fullWidth, Layout.center, { justifyContent: 'center', paddingHorizontal: 40 }]}>
+            <Text
               style={{
-                borderRadius: 10,
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: colors.darkBlueGray,
-                opacity: 0.5,
-                width: 45,
-                height: 30,
+                fontFamily: 'Poppins-Bold',
+                color: colors.brightTurquoise,
+                fontWeight: 'bold',
+                lineHeight: 30,
+                paddingTop: 30,
+                fontStyle: 'italic',
+                fontSize: 30,
+                textAlign: 'center',
               }}
             >
-              <MaterialCommunityIcons name='content-copy' size={20} color={colors.white} />
-            </Pressable>
+              {t('moreBonus')}
+            </Text>
+            <Text style={{ color: colors.crystal, fontSize: 14, textAlign: 'center', paddingVertical: 16 }}>{t('madeItToBeta')}</Text>
+          </View>
+
+          <View style={[Layout.fullWidth, Layout.center, { height: 300 }]}>
+            <Image source={world} style={{ width: '100%' }} />
+          </View>
+
+          <View style={[Layout.fullWidth, Layout.center, { paddingVertical: 10, paddingHorizontal: 40, alignItems: 'flex-start' }]}>
+            <Text style={[{ color: colors.white, fontSize: 14, lineHeight: 20, textAlign: 'left' }]}>{t('whatIsFitEvoBeta')}</Text>
+            <Text style={[{ color: colors.white, fontSize: 14, lineHeight: 20, textAlign: 'left' }]}>{t('FitEvoBetaDesc')}</Text>
           </View>
 
           <View
             style={[
-              {
-                flexDirection: 'row',
-                paddingHorizontal: 20,
-                position: 'relative',
-                justifyContent: 'center',
-                alignItems: 'center',
-                paddingTop: 10,
-              },
+              Layout.fullWidth,
+              { height: 50, paddingHorizontal: 40, justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row' },
             ]}
           >
-            <TextInput
-              value={referralInfo.referral}
-              editable={false}
-              style={{
-                color: colors.white,
-                backgroundColor: colors.chineseBlack,
-                borderRadius: 10,
-                width: '100%',
-                paddingHorizontal: 20,
-                height: 44,
-                fontSize: 16,
-              }}
-            />
-
-            <TurquoiseButton
-              text={t('share')}
-              onPress={onSharePress}
-              isTransparentBackground
-              containerStyle={{
-                position: 'absolute',
-                right: 30,
-                zIndex: 2,
-                width: 80,
-                bottom: 5,
-              }}
-              style={{
-                borderRadius: 10,
-              }}
-            />
-          </View>
-        </View>
-
-        <View style={[{ height: 40, flexDirection: 'row', alignItems: 'center' }, Gutters.largeHPadding]}>
-          <View style={{ flex: 4, flexDirection: 'row', alignItems: 'center' }}>
-            <Text style={[Gutters.smallVPadding, { color: colors.white, fontSize: 18, marginRight: 6 }]}>{t('totalReferred')}</Text>
-            <Pressable onPress={onInfoBtnPress}>
-              <MaterialCommunityIcons name='information-outline' color={colors.brightTurquoise} size={24} />
-            </Pressable>
+            <Image source={shareIcon} style={{ resizeMode: 'contain', width: 20, height: 20, marginRight: 20 }} />
+            <Text style={[{ fontSize: 14, color: colors.white }]}>{t('shareReferralLink')}</Text>
           </View>
 
-          <Text style={[Fonts.textSmall, { color: colors.brightTurquoise }]}>
-            {referralInfo.referred} {t(`friend${referralInfo.referred <= 1 ? '' : 's'}`)}
-          </Text>
-        </View>
-
-        <View style={{ height: 80, alignItems: 'flex-start', width: '85%' }}>
-          {referredNames.map((elem, idx) => {
-            return (
-              <View style={[REFERRED_FRIEND_ICON, { top: 0, left: idx * 35 }]} key={`Friend-${idx}`}>
-                <Text
-                  style={{
-                    color: colors.black,
-                    fontWeight: 'bold',
-                    fontSize: 18,
-                  }}
-                >
-                  {elem}
-                </Text>
-              </View>
-            )
-          })}
-          {referredNames.length === 0 ? (
-            <View style={[REFERRED_FRIEND_ICON, { top: 0, left: 0 }]}>
-              <Image source={emptyAvatar} style={{}} />
+          <View style={[Layout.fullWidth, Layout.center, { paddingVertical: 10, paddingHorizontal: 0, alignItems: 'flex-start' }]}>
+            <View
+              style={[
+                Layout.fullWidth,
+                { paddingHorizontal: 40, justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row' },
+              ]}
+            >
+              <Image source={communityIcon} style={{ resizeMode: 'contain', width: 20, height: 20, marginRight: 20 }} />
+              <Text style={[{ fontSize: 14, color: colors.white, flexShrink: 1 }]}>{t('earnKEWhenReferredFriends')}</Text>
             </View>
-          ) : referredNames.length > 4 ? (
-            <View style={[REFERRED_FRIEND_ICON, { top: 0, left: 4 * 35, backgroundColor: colors.indigo }]}>
-              <Text style={{ color: colors.white, fontWeight: 'bold', fontSize: 18 }}>+{referredNames.length - 4}</Text>
+            <Text style={[{ paddingLeft: 80, paddingRight: 40, marginTop: 4, fontSize: 14, color: colors.crystal }]}>
+              {t('maxReferral30Friends')}
+            </Text>
+          </View>
+
+          <View
+            style={[
+              Layout.fullWidth,
+              { height: 60, paddingHorizontal: 40, justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row' },
+            ]}
+          >
+            <Image source={moneyIcon} style={{ resizeMode: 'contain', width: 20, height: 20, marginRight: 20 }} />
+            <Text style={[{ fontSize: 14, color: colors.white, flexShrink: 1 }]}>{t('dailyLogIn')}</Text>
+          </View>
+
+          <View style={[Layout.fullWidth, Layout.center, { paddingVertical: 10, paddingHorizontal: 0, alignItems: 'flex-start' }]}>
+            <View
+              style={[
+                Layout.fullWidth,
+                { paddingHorizontal: 40, justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row' },
+              ]}
+            >
+              <Image source={infoIcon} style={{ resizeMode: 'contain', width: 20, height: 20, marginRight: 20 }} />
+              <Text style={[{ fontSize: 14, color: colors.white, flexShrink: 1 }]}>{t('whatIsKE')}</Text>
             </View>
-          ) : null}
-        </View>
-
-        <View style={{ width: '90%', backgroundColor: colors.white, height: 1 }} />
-
-        <View style={[Layout.fullWidth, Layout.center, { justifyContent: 'center', paddingHorizontal: 40 }]}>
-          <Text
-            style={{
-              fontFamily: 'Poppins-Bold',
-              color: colors.brightTurquoise,
-              fontWeight: 'bold',
-              lineHeight: 30,
-              paddingTop: 30,
-              fontStyle: 'italic',
-              fontSize: 30,
-              textAlign: 'center',
-            }}
-          >
-            {t('moreBonus')}
-          </Text>
-          <Text style={{ color: colors.crystal, fontSize: 14, textAlign: 'center', paddingVertical: 16 }}>{t('madeItToBeta')}</Text>
-        </View>
-
-        <View style={[Layout.fullWidth, Layout.center, { height: 300 }]}>
-          <Image source={world} style={{ width: '100%' }} />
-        </View>
-
-        <View style={[Layout.fullWidth, Layout.center, { paddingVertical: 10, paddingHorizontal: 40, alignItems: 'flex-start' }]}>
-          <Text style={[{ color: colors.white, fontSize: 14, lineHeight: 20, textAlign: 'left' }]}>{t('whatIsFitEvoBeta')}</Text>
-          <Text style={[{ color: colors.white, fontSize: 14, lineHeight: 20, textAlign: 'left' }]}>{t('FitEvoBetaDesc')}</Text>
-        </View>
-
-        <View
-          style={[
-            Layout.fullWidth,
-            { height: 50, paddingHorizontal: 40, justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row' },
-          ]}
-        >
-          <Image source={shareIcon} style={{ resizeMode: 'contain', width: 20, height: 20, marginRight: 20 }} />
-          <Text style={[{ fontSize: 14, color: colors.white }]}>{t('shareReferralLink')}</Text>
-        </View>
-
-        <View style={[Layout.fullWidth, Layout.center, { paddingVertical: 10, paddingHorizontal: 0, alignItems: 'flex-start' }]}>
-          <View
-            style={[Layout.fullWidth, { paddingHorizontal: 40, justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row' }]}
-          >
-            <Image source={communityIcon} style={{ resizeMode: 'contain', width: 20, height: 20, marginRight: 20 }} />
-            <Text style={[{ fontSize: 14, color: colors.white, flexShrink: 1 }]}>{t('earnKEWhenReferredFriends')}</Text>
+            <Text style={[{ paddingLeft: 80, paddingRight: 40, marginTop: 4, fontSize: 14, color: colors.white }]}>{t('KEDesc')}</Text>
           </View>
-          <Text style={[{ paddingLeft: 80, paddingRight: 40, marginTop: 4, fontSize: 14, color: colors.crystal }]}>
-            {t('maxReferral30Friends')}
-          </Text>
-        </View>
 
-        <View
-          style={[
-            Layout.fullWidth,
-            { height: 60, paddingHorizontal: 40, justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row' },
-          ]}
-        >
-          <Image source={moneyIcon} style={{ resizeMode: 'contain', width: 20, height: 20, marginRight: 20 }} />
-          <Text style={[{ fontSize: 14, color: colors.white, flexShrink: 1 }]}>{t('dailyLogIn')}</Text>
-        </View>
-
-        <View style={[Layout.fullWidth, Layout.center, { paddingVertical: 10, paddingHorizontal: 0, alignItems: 'flex-start' }]}>
-          <View
-            style={[Layout.fullWidth, { paddingHorizontal: 40, justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row' }]}
-          >
-            <Image source={infoIcon} style={{ resizeMode: 'contain', width: 20, height: 20, marginRight: 20 }} />
-            <Text style={[{ fontSize: 14, color: colors.white, flexShrink: 1 }]}>{t('whatIsKE')}</Text>
+          <View style={[Layout.fullWidth, { paddingTop: 20, paddingBottom: 30, paddingHorizontal: 40, justifyContent: 'flex-start' }]}>
+            <Text style={[{ color: colors.white, fontSize: 16, lineHeight: 20, textAlign: 'left', fontWeight: 'bold' }]}>
+              {t('inGameToken')}
+            </Text>
+            <Text style={[{ color: colors.white, fontSize: 14, lineHeight: 20, textAlign: 'left' }]}>{t('KEPointsTransfer')}</Text>
           </View>
-          <Text style={[{ paddingLeft: 80, paddingRight: 40, marginTop: 4, fontSize: 14, color: colors.white }]}>{t('KEDesc')}</Text>
-        </View>
 
-        <View style={[Layout.fullWidth, { paddingTop: 20, paddingBottom: 30, paddingHorizontal: 40, justifyContent: 'flex-start' }]}>
-          <Text style={[{ color: colors.white, fontSize: 16, lineHeight: 20, textAlign: 'left', fontWeight: 'bold' }]}>
-            {t('inGameToken')}
-          </Text>
-          <Text style={[{ color: colors.white, fontSize: 14, lineHeight: 20, textAlign: 'left' }]}>{t('KEPointsTransfer')}</Text>
-        </View>
+          <View style={[Layout.fullWidth, { paddingVertical: 0, paddingBottom: 30, paddingHorizontal: 40, justifyContent: 'flex-start' }]}>
+            <Text style={[{ color: colors.white, fontSize: 16, lineHeight: 20, textAlign: 'left', fontWeight: 'bold' }]}>
+              {t('NFTCompanions')}
+            </Text>
 
-        <View style={[Layout.fullWidth, { paddingVertical: 0, paddingBottom: 30, paddingHorizontal: 40, justifyContent: 'flex-start' }]}>
-          <Text style={[{ color: colors.white, fontSize: 16, lineHeight: 20, textAlign: 'left', fontWeight: 'bold' }]}>
-            {t('NFTCompanions')}
-          </Text>
+            <Text style={[{ color: colors.white, fontSize: 14, lineHeight: 20, textAlign: 'left' }]}>{t('NFTMint')}</Text>
+          </View>
 
-          <Text style={[{ color: colors.white, fontSize: 14, lineHeight: 20, textAlign: 'left' }]}>{t('NFTMint')}</Text>
-        </View>
+          <View style={[Layout.fullWidth, { paddingVertical: 0, paddingBottom: 30, paddingHorizontal: 40, justifyContent: 'flex-start' }]}>
+            <Text style={[{ color: colors.white, fontSize: 16, lineHeight: 20, textAlign: 'left', fontWeight: 'bold' }]}>
+              {t('exclusiveDrops')}
+            </Text>
 
-        <View style={[Layout.fullWidth, { paddingVertical: 0, paddingBottom: 30, paddingHorizontal: 40, justifyContent: 'flex-start' }]}>
-          <Text style={[{ color: colors.white, fontSize: 16, lineHeight: 20, textAlign: 'left', fontWeight: 'bold' }]}>
-            {t('exclusiveDrops')}
-          </Text>
+            <Text style={[{ color: colors.white, fontSize: 14, lineHeight: 20, textAlign: 'left' }]}>{t('higherKE')}</Text>
+          </View>
 
-          <Text style={[{ color: colors.white, fontSize: 14, lineHeight: 20, textAlign: 'left' }]}>{t('higherKE')}</Text>
-        </View>
+          <View style={[Layout.fullWidth, { paddingVertical: 0, paddingBottom: 0, paddingHorizontal: 40, justifyContent: 'flex-start' }]}>
+            <Text style={[{ color: colors.white, fontSize: 16, lineHeight: 20, textAlign: 'left', fontWeight: 'bold' }]}>
+              {t('privilegedAppAccess')}
+            </Text>
 
-        <View style={[Layout.fullWidth, { paddingVertical: 0, paddingBottom: 0, paddingHorizontal: 40, justifyContent: 'flex-start' }]}>
-          <Text style={[{ color: colors.white, fontSize: 16, lineHeight: 20, textAlign: 'left', fontWeight: 'bold' }]}>
-            {t('privilegedAppAccess')}
-          </Text>
+            <Text style={[{ color: colors.white, fontSize: 14, lineHeight: 20, textAlign: 'left' }]}>{t('unlockGameAccess')}</Text>
+          </View>
 
-          <Text style={[{ color: colors.white, fontSize: 14, lineHeight: 20, textAlign: 'left' }]}>{t('unlockGameAccess')}</Text>
-        </View>
-
-        <Pressable
-          onPress={onTAndCPress}
-          style={[Layout.fullWidth, Layout.center, { paddingTop: 60, paddingBottom: 30, paddingHorizontal: 30, justifyContent: 'center' }]}
-        >
-          <Text
-            style={[{ color: colors.brightTurquoise, fontSize: 18, textDecorationLine: 'underline', lineHeight: 20, textAlign: 'center' }]}
+          <Pressable
+            onPress={onTAndCPress}
+            style={[
+              Layout.fullWidth,
+              Layout.center,
+              { paddingTop: 60, paddingBottom: 30, paddingHorizontal: 30, justifyContent: 'center' },
+            ]}
           >
-            {t('tAndC')}
-          </Text>
-        </Pressable>
+            <Text
+              style={[
+                { color: colors.brightTurquoise, fontSize: 18, textDecorationLine: 'underline', lineHeight: 20, textAlign: 'center' },
+              ]}
+            >
+              {t('tAndC')}
+            </Text>
+          </Pressable>
 
-        <View style={[Layout.fullWidth, Layout.center, { paddingBottom: 60, paddingHorizontal: 30, justifyContent: 'center' }]}>
-          <Text style={[{ color: colors.white, fontSize: 14, lineHeight: 20, textAlign: 'center' }]}>
-            {t('effectiveDate')}: 20th May 2022
-          </Text>
-          <Text style={[{ color: colors.white, fontSize: 14, lineHeight: 20, textAlign: 'center' }]}>
-            {t('lastUpdated')}: 1st June 2022
-          </Text>
-        </View>
-      </KeyboardAwareScrollView>
-    </ScreenBackgrounds>
+          <View style={[Layout.fullWidth, Layout.center, { paddingBottom: 60, paddingHorizontal: 30, justifyContent: 'center' }]}>
+            <Text style={[{ color: colors.white, fontSize: 14, lineHeight: 20, textAlign: 'center' }]}>
+              {t('effectiveDate')}: 20th May 2022
+            </Text>
+            <Text style={[{ color: colors.white, fontSize: 14, lineHeight: 20, textAlign: 'center' }]}>
+              {t('lastUpdated')}: 1st June 2022
+            </Text>
+          </View>
+        </KeyboardAwareScrollView>
+      </ScreenBackgrounds>
+    </SafeAreaView>
   )
 }
 
