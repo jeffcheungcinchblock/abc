@@ -147,6 +147,7 @@ export default {
     forceQuitWorkout: 'Third-party apps were detected.',
   },
   error: {
+    passwordAttemptExceeded: 'Hey FITamin, did you forget your password? Please try again later!',
     emailUsed: 'This email has been used already ;(',
     loginInputEmpty: 'Hey FITAMIN, please check your input again!',
     incorrectPassword: 'Incorrect Password! Hmmm, please check again!',

@@ -43,6 +43,7 @@ import googleIcon from '@/Assets/Images/icons/google.png'
 import appleIcon from '@/Assets/Images/icons/apple.png'
 import facebookIcon from '@/Assets/Images/icons/facebook.png'
 import crashlytics from '@react-native-firebase/crashlytics'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const BUTTON_VIEW = {
   marginVertical: 20,
@@ -156,131 +157,141 @@ const SignUpWithCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
   const goBack = () => navigation.goBack()
 
   return (
-    <ScreenBackgrounds screenName={RouteStacks.signUpWithCode}>
-      <KeyboardAwareScrollView contentContainerStyle={[Layout.fill, Layout.colCenter]}>
-        <Header headerText={t('createNewAccount')} onLeftPress={goBack} />
-        <View
-          style={{
-            alignItems: 'center',
-            width: '100%',
-            flex: 1,
-            justifyContent: 'space-around',
-            paddingVertical: 10,
-          }}
-        >
-          <AppLogo
-            style={{
-              height: '25%',
-            }}
-          />
-
+    <SafeAreaView
+      style={{
+        flex: 1,
+        justifyContent: 'space-between',
+        // alignItems: 'center',
+        backgroundColor: colors.darkGunmetal,
+      }}
+      edges={['top']}
+    >
+      <ScreenBackgrounds screenName={RouteStacks.signUpWithCode}>
+        <KeyboardAwareScrollView contentContainerStyle={[Layout.fill, Layout.colCenter]}>
+          <Header headerText={t('createNewAccount')} onLeftPress={goBack} />
           <View
-            style={[
-              {
-                flexGrow: 5,
-                justifyContent: 'center',
-              },
-              Layout.fullWidth,
-              Layout.fill,
-            ]}
+            style={{
+              alignItems: 'center',
+              width: '100%',
+              flex: 1,
+              justifyContent: 'space-around',
+              paddingVertical: 10,
+            }}
           >
-            <View style={[Layout.fullWidth, Gutters.smallVMargin, Layout.center]}>
-              <Pressable
-                onPress={() => onLoginOptionPress('google')}
-                style={{
-                  width: '80%',
-                  backgroundColor: colors.cornflowerBlue,
-                  borderRadius: 99,
-                  flexDirection: 'row',
-                  paddingVertical: 10,
-                  paddingHorizontal: 20,
-                  height: 44,
-                  alignItems: 'center',
-                }}
-              >
-                <Image source={googleIcon} style={{ width: 22, height: 22, resizeMode: 'contain' }} />
-                <Text style={{ color: colors.white, marginLeft: 20, flex: 1, textAlign: 'center' }}>
-                  {t('continueWithGoogleAllCapital')}
+            <AppLogo
+              style={{
+                height: '25%',
+              }}
+            />
+
+            <View
+              style={[
+                {
+                  flexGrow: 5,
+                  justifyContent: 'center',
+                },
+                Layout.fullWidth,
+                Layout.fill,
+              ]}
+            >
+              <View style={[Layout.fullWidth, Gutters.smallVMargin, Layout.center]}>
+                <Pressable
+                  onPress={() => onLoginOptionPress('google')}
+                  style={{
+                    width: '80%',
+                    backgroundColor: colors.cornflowerBlue,
+                    borderRadius: 99,
+                    flexDirection: 'row',
+                    paddingVertical: 10,
+                    paddingHorizontal: 20,
+                    height: 44,
+                    alignItems: 'center',
+                  }}
+                >
+                  <Image source={googleIcon} style={{ width: 22, height: 22, resizeMode: 'contain' }} />
+                  <Text style={{ color: colors.white, marginLeft: 20, flex: 1, textAlign: 'center' }}>
+                    {t('continueWithGoogleAllCapital')}
+                  </Text>
+                </Pressable>
+              </View>
+
+              <View style={[Layout.fullWidth, Gutters.smallVMargin, Layout.center]}>
+                <Pressable
+                  onPress={() => onLoginOptionPress('facebook')}
+                  style={{
+                    width: '80%',
+                    backgroundColor: colors.glaucous,
+                    borderRadius: 99,
+                    flexDirection: 'row',
+                    paddingVertical: 10,
+                    paddingHorizontal: 20,
+                    height: 44,
+                    alignItems: 'center',
+                  }}
+                >
+                  <Image source={facebookIcon} style={{ width: 22, height: 22, resizeMode: 'contain' }} />
+                  <Text style={{ color: colors.white, marginLeft: 20, flex: 1, textAlign: 'center' }}>
+                    {t('continueWithFacebookAllCapital')}
+                  </Text>
+                </Pressable>
+              </View>
+
+              <View style={[Layout.fullWidth, Gutters.smallVMargin, Layout.center]}>
+                <Pressable
+                  onPress={() => onLoginOptionPress('apple')}
+                  style={{
+                    width: '80%',
+                    backgroundColor: colors.white,
+                    borderRadius: 99,
+                    flexDirection: 'row',
+                    paddingVertical: 10,
+                    paddingHorizontal: 20,
+                    height: 44,
+                    alignItems: 'center',
+                  }}
+                >
+                  <Image source={appleIcon} style={{ width: 22, height: 22, resizeMode: 'contain' }} />
+                  <Text style={{ color: colors.black, marginLeft: 20, flex: 1, textAlign: 'center' }}>
+                    {t('continueWithAppleAllCapital')}
+                  </Text>
+                </Pressable>
+              </View>
+
+              <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <Text
+                  style={[
+                    {
+                      color: colors.white,
+                    },
+                    Fonts.textRegular,
+                  ]}
+                >
+                  {t('or')}
                 </Text>
-              </Pressable>
-            </View>
+              </View>
 
-            <View style={[Layout.fullWidth, Gutters.smallVMargin, Layout.center]}>
-              <Pressable
-                onPress={() => onLoginOptionPress('facebook')}
-                style={{
-                  width: '80%',
-                  backgroundColor: colors.glaucous,
-                  borderRadius: 99,
-                  flexDirection: 'row',
-                  paddingVertical: 10,
-                  paddingHorizontal: 20,
-                  height: 44,
-                  alignItems: 'center',
-                }}
-              >
-                <Image source={facebookIcon} style={{ width: 22, height: 22, resizeMode: 'contain' }} />
-                <Text style={{ color: colors.white, marginLeft: 20, flex: 1, textAlign: 'center' }}>
-                  {t('continueWithFacebookAllCapital')}
-                </Text>
-              </Pressable>
-            </View>
-
-            <View style={[Layout.fullWidth, Gutters.smallVMargin, Layout.center]}>
-              <Pressable
-                onPress={() => onLoginOptionPress('apple')}
-                style={{
-                  width: '80%',
-                  backgroundColor: colors.white,
-                  borderRadius: 99,
-                  flexDirection: 'row',
-                  paddingVertical: 10,
-                  paddingHorizontal: 20,
-                  height: 44,
-                  alignItems: 'center',
-                }}
-              >
-                <Image source={appleIcon} style={{ width: 22, height: 22, resizeMode: 'contain' }} />
-                <Text style={{ color: colors.black, marginLeft: 20, flex: 1, textAlign: 'center' }}>
-                  {t('continueWithAppleAllCapital')}
-                </Text>
-              </Pressable>
-            </View>
-
-            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-              <Text
-                style={[
-                  {
-                    color: colors.white,
-                  },
-                  Fonts.textRegular,
-                ]}
-              >
-                {t('or')}
-              </Text>
-            </View>
-
-            <View style={[Layout.fullWidth, Gutters.smallVMargin, Layout.center]}>
-              <Pressable
-                onPress={() => navigation.navigate(RouteStacks.signUp)}
-                style={{
-                  width: '80%',
-                  backgroundColor: colors.white,
-                  borderRadius: 99,
-                  flexDirection: 'row',
-                  paddingVertical: 10,
-                  paddingHorizontal: 20,
-                  height: 44,
-                  alignItems: 'center',
-                }}
-              >
-                <Text style={{ color: colors.black, textAlign: 'center', width: '100%' }}>{t('signUpWithEmail')}</Text>
-              </Pressable>
+              <View style={[Layout.fullWidth, Gutters.smallVMargin, Layout.center]}>
+                <Pressable
+                  onPress={() => navigation.navigate(RouteStacks.signUp)}
+                  style={{
+                    width: '80%',
+                    backgroundColor: colors.white,
+                    borderRadius: 99,
+                    flexDirection: 'row',
+                    paddingVertical: 10,
+                    paddingHorizontal: 20,
+                    height: 44,
+                    alignItems: 'center',
+                  }}
+                >
+                  <Text style={{ color: colors.black, textAlign: 'center', width: '100%' }}>{t('signUpWithEmail')}</Text>
+                </Pressable>
+              </View>
             </View>
           </View>
-        </View>
-      </KeyboardAwareScrollView>
-    </ScreenBackgrounds>
+        </KeyboardAwareScrollView>
+      </ScreenBackgrounds>
+    </SafeAreaView>
   )
 }
 

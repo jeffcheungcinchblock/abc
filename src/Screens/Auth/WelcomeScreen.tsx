@@ -53,10 +53,6 @@ import { Post } from '@/Realms/Schemas/PostSchema'
 
 import { StyleSheet } from 'react-native'
 
-const BUTTON_VIEW = {
-  marginVertical: 20,
-}
-
 const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.welcome>> = ({ navigation, route }) => {
   const { t } = useTranslation()
   const { Common, Fonts, Gutters, Layout } = useTheme()
