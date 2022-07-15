@@ -34,7 +34,7 @@ import { firebase } from '@react-native-firebase/messaging'
 import { showSnackbar, startLoading } from '@/Store/UI/actions'
 import SocialSignInButton from '@/Components/Buttons/SocialSignInButton'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { emailUsernameHash, triggerSnackbar } from '@/Utils/helpers'
+import { emailUsernameHash, triggerSnackbar, validateEmail } from '@/Utils/helpers'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import StandardInput from '@/Components/Inputs/StandardInput'
 import ModalBox, { ModalProps } from 'react-native-modalbox'
@@ -74,7 +74,7 @@ const INPUT_VIEW_LAYOUT: ViewStyle = {
 
 const ERR_MSG_TEXT: TextStyle = {
   color: colors.magicPotion,
-  paddingHorizontal: 10,
+  paddingHorizontal: 4,
   paddingTop: 4,
 }
 
@@ -115,15 +115,16 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.logI
         })
         break
       case 'Incorrect username or password.':
-        setErrMsg({
-          ...initErrMsg,
-          email: t('error.incorrectPassword'),
-        })
-        break
       case 'Password did not conform with policy: Password not long enough':
         setErrMsg({
           ...initErrMsg,
-          password: t('error.passwordPolicyErr'),
+          password: t('error.incorrectPassword'),
+        })
+        break
+      case 'Password attempts exceeded':
+        setErrMsg({
+          ...initErrMsg,
+          password: 'Password attempts exceeded',
         })
         break
       case 'User is not confirmed.':
@@ -207,17 +208,19 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.logI
       password: '',
     }
     let frontendCheckFail = false
-    if (credential.email === '') {
+    if (credential.email === '' || !validateEmail(credential.email)) {
       currErrMsg.email = t('error.loginInputEmpty')
       frontendCheckFail = true
     }
+
     if (credential.password === '') {
-      currErrMsg.password = t('error.loginInputEmpty')
+      currErrMsg.password = t('error.incorrectPassword')
       frontendCheckFail = true
     }
 
     if (frontendCheckFail) {
       setErrMsg(currErrMsg)
+      return
     }
 
     dispatch(startLoading(true))

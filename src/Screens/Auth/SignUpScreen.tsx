@@ -25,7 +25,7 @@ import ModalBox from 'react-native-modalbox'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import StandardInput from '@/Components/Inputs/StandardInput'
 import SlideInputModal from '@/Components/Modals/SlideInputModal'
-import { emailUsernameHash } from '@/Utils/helpers'
+import { emailUsernameHash, validateEmail } from '@/Utils/helpers'
 
 const BUTTON_ICON = {
   width: 30,
@@ -43,6 +43,7 @@ const INPUT_VIEW_LAYOUT: ViewStyle = {
 const ERR_MSG_TEXT: TextStyle = {
   color: colors.magicPotion,
   paddingTop: 4,
+  paddingHorizontal: 4,
 }
 
 const initErrMsg = {
@@ -75,11 +76,42 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
   }
 
   const onCreateAccountPress = useCallback(async () => {
+    let currErrMsg: { email: string; password: string } = { email: '', password: '' }
     if (credential.email === '') {
-      setErrMsg({
+      currErrMsg = {
         ...initErrMsg,
         email: t('error.emailEmpty'),
-      })
+      }
+    }
+
+    if (!validateEmail(credential.email)) {
+      currErrMsg = {
+        ...initErrMsg,
+        email: t('error.loginInputEmpty'),
+      }
+    }
+
+    if (credential.password.length === 0) {
+      currErrMsg = {
+        ...initErrMsg,
+        password: t('error.loginInputEmpty'),
+      }
+    }
+
+    if (
+      credential.password.length <= 8 ||
+      !!!credential.password.match(/[A-Z]/) ||
+      !!!credential.password.match(/[a-z]/) ||
+      !!!credential.password.match(/\d/)
+    ) {
+      currErrMsg = {
+        ...initErrMsg,
+        password: t('error.passwordPolicyErr'),
+      }
+    }
+
+    if (currErrMsg.email !== '' || currErrMsg.password !== '') {
+      setErrMsg(currErrMsg)
       return
     }
 
@@ -102,17 +134,24 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
     } catch (err: any) {
       switch (err.message) {
         case 'Password did not conform with policy: Password must have uppercase characters':
+        case 'Password did not conform with policy: Password not long enough':
         case 'Password cannot be empty':
           setErrMsg({
-            ...errMsg,
-            password: err.message,
+            ...initErrMsg,
+            password: t('error.passwordPolicyErr'),
+          })
+          break
+        case 'User already exists':
+          setErrMsg({
+            ...initErrMsg,
+            email: t('error.emailUsed'),
           })
           break
         case 'Invalid email address format.':
         default:
           setErrMsg({
-            ...errMsg,
-            email: err.message,
+            ...initErrMsg,
+            email: t('error.loginInputEmpty'),
           })
           break
       }
@@ -163,7 +202,7 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                 placeholderTextColor={colors.spanishGray}
                 autoCapitalize={'none'}
               />
-              {errMsg.email !== '' && <Text style={[ERR_MSG_TEXT, Gutters.smallHPadding]}>{errMsg.email}</Text>}
+              {errMsg.email !== '' && <Text style={[ERR_MSG_TEXT]}>{errMsg.email}</Text>}
             </View>
 
             <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT, { flexBasis: 80 }]}>
@@ -176,7 +215,7 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                 showPassword={showPassword}
                 onPasswordEyePress={onPasswordEyePress}
               />
-              {errMsg.password !== '' && <Text style={[ERR_MSG_TEXT, Gutters.smallHPadding]}>{errMsg.password}</Text>}
+              {errMsg.password !== '' && <Text style={[ERR_MSG_TEXT]}>{errMsg.password}</Text>}
             </View>
 
             <View style={[Layout.fullWidth, Layout.center, Gutters.largeVPadding, { flex: 1, justifyContent: 'center' }]}>
