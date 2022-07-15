@@ -158,7 +158,7 @@ const urlOpener = async (url: string, redirectUrl: string) => {
         showTitle: false,
         enableUrlBarHiding: true,
         enableDefaultShare: false,
-        ephemeralWebSession: false,
+        ephemeralWebSession: true,
       })
 
       const { type, url: newUrl } = authRes

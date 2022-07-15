@@ -125,7 +125,7 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.logI
       case 'Password attempts exceeded':
         setErrMsg({
           ...initErrMsg,
-          password: 'Password attempts exceeded',
+          password: t('error.passwordAttemptExceeded'),
         })
         break
       case 'User is not confirmed.':
@@ -333,7 +333,7 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.logI
             }}
             onModalClose={onModalClose}
           >
-            <View style={[Layout.fill]}>
+            <KeyboardAwareScrollView contentContainerStyle={[Layout.fill]}>
               <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT]}>
                 <StandardInput
                   onChangeText={text => onCredentialFieldChange('email', text)}
@@ -357,7 +357,7 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.logI
                 {errMsg.password !== '' && <Text style={ERR_MSG_TEXT}>{errMsg.password}</Text>}
               </View>
 
-              <View style={[Layout.fullWidth, Layout.center, Gutters.regularVPadding, { flex: 1, justifyContent: 'center' }]}>
+              <View style={[Layout.fullWidth, Layout.center, Gutters.largeVPadding, { flex: 1, justifyContent: 'center' }]}>
                 <TurquoiseButton
                   onPress={() => onLoginOptionPress('normal')}
                   text={t('logMeIn')}
@@ -366,7 +366,7 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.logI
                     width: '45%',
                   }}
                 />
-                <Pressable style={[Layout.fullWidth, Layout.center, { marginBottom: 30, marginTop: 10 }]} onPress={onForgotPasswordPress}>
+                <Pressable style={[Layout.fullWidth, Layout.center, { paddingBottom: 30, paddingTop: 10 }]} onPress={onForgotPasswordPress}>
                   <Text style={{ color: colors.white, textDecorationLine: 'underline' }}>{t('forgotPassword')}</Text>
                 </Pressable>
 
@@ -377,7 +377,7 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.logI
                   </Pressable>
                 </View>
               </View>
-            </View>
+            </KeyboardAwareScrollView>
           </SlideInputModal>
         </KeyboardAwareScrollView>
       </ScreenBackgrounds>

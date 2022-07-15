@@ -1,14 +1,14 @@
 //
-//  DragonDappRNClipTests.swift
-//  DragonDappRNClipTests
+//  FitEvoClipTests.swift
+//  FitEvoClipTests
 //
 //  Created by Jerry Lam on 4/5/2022.
 //
 
 import XCTest
-@testable import DragonDappRNClip
+@testable import FitEvoClip
 
-class DragonDappRNClipTests: XCTestCase {
+class FitEvoClipTests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.

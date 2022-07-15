@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  DragonDappRNClip
+//  FitEvoClip
 //
 //  Created by Jerry Lam on 6/4/2022.
 //

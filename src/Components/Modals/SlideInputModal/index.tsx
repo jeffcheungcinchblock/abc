@@ -6,6 +6,7 @@ import backBtn from '@/Assets/Images/buttons/back.png'
 import { useTheme } from '@/Hooks'
 import { colors } from '@/Utils/constants'
 import ModalBox from 'react-native-modalbox'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 type SlideInputModalProps = {
   onModalClose: () => void

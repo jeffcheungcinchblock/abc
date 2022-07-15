@@ -8,7 +8,7 @@ rm Podfile.lock
 arch -x86_64 pod install
 ```
 
-open ios/DragonDappRN.xcworkspace
+open ios/FitEvo.xcworkspace
 
 Select build target `Any iOS Device (arm64)`
 

@@ -1,13 +1,13 @@
 //
-//  DragonDappRNClipUITestsLaunchTests.swift
-//  DragonDappRNClipUITests
+//  FitEvoClipUITestsLaunchTests.swift
+//  FitEvoClipUITests
 //
 //  Created by Jerry Lam on 4/5/2022.
 //
 
 import XCTest
 
-class DragonDappRNClipUITestsLaunchTests: XCTestCase {
+class FitEvoClipUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true
