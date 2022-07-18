@@ -35,6 +35,7 @@ import { Hub } from 'aws-amplify'
 import WelcomeGalleryScreen from '@/Screens/Auth/WelcomeGalleryScreen'
 import { WelcomeScreen } from '@/Screens/Auth'
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
+import { awsLogout } from '@/Utils/helpers'
 
 export type ApplicationNavigatorParamList = {
   [RouteStacks.application]: undefined
@@ -72,9 +73,9 @@ const ApplicationNavigator = () => {
           },
         })
 
-        const { email, uuid } = userProfileRes?.data
+        const { email, uuid, verified } = userProfileRes?.data
 
-        if (email) {
+        if (verified === 'true') {
           dispatch(
             login({
               username: username,
@@ -82,10 +83,8 @@ const ApplicationNavigator = () => {
               uuid,
             }),
           )
-          dispatch(startLoading(false))
         } else {
-          publicNavigationRef.navigate(RouteStacks.provideEmail)
-          dispatch(startLoading(false))
+          await awsLogout()
         }
       } catch (err: any) {
         crashlytics().recordError(err)
@@ -139,9 +138,11 @@ const ApplicationNavigator = () => {
               },
             })
 
-            const { email, uuid } = userProfileRes?.data
-
-            if (email) {
+            const { email, uuid, verified, username } = userProfileRes?.data
+            if (username.includes('SignInWith') && verified === 'false') {
+              publicNavigationRef.navigate(RouteStacks.provideEmail)
+              dispatch(startLoading(false))
+            } else {
               dispatch(
                 login({
                   username: userData.username,
@@ -149,9 +150,6 @@ const ApplicationNavigator = () => {
                   uuid,
                 }),
               )
-              dispatch(startLoading(false))
-            } else {
-              publicNavigationRef.navigate(RouteStacks.provideEmail)
               dispatch(startLoading(false))
             }
           } catch (err: any) {
