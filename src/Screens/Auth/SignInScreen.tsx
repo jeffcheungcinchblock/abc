@@ -103,7 +103,6 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.logI
     password: '',
   })
 
-  const [socialIdentityUser, setSocialIdentityUser] = useState(null)
   const onPasswordEyePress = () => setShowPassword(prev => !prev)
 
   const loginErrHandler = (err: any) => {
