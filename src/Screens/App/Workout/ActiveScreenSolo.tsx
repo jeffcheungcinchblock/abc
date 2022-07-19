@@ -431,7 +431,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
       initLocation()
       BackgroundGeolocation.changePace(true)
     } catch (err) {
-      crashlytics().recordError(err)
+      crashlytics().recordError(new Error(err as string))
     }
     return () => {
       unsubscribe()
@@ -504,7 +504,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
     } catch (err) {
       console.log('err', err)
       navigation.replace(RouteStacks.endWorkout)
-      crashlytics().recordError(err)
+      crashlytics().recordError(new Error(err as string))
     } finally {
       dispatch(startLoading(false))
       setIsButtonLoading(false)

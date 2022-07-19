@@ -78,6 +78,13 @@ import moneyIcon from '@/Assets/Images/Home/money.png'
 import infoIcon from '@/Assets/Images/Home/info.png'
 import communityIcon from '@/Assets/Images/Home/community.png'
 
+import howToEarn from '@/Assets/Images/Home/howToEarn.png'
+import howToEarn2 from '@/Assets/Images/Home/howToEarn2.png'
+import card1 from '@/Assets/Images/Home/card1.png'
+import card2 from '@/Assets/Images/Home/card2.png'
+import card3 from '@/Assets/Images/Home/card3.png'
+import card4 from '@/Assets/Images/Home/card4.png'
+
 import { check, request, RESULTS, PERMISSIONS, checkMultiple, requestMultiple } from 'react-native-permissions'
 import { Results } from 'realm'
 import BackgroundGeolocation, { Subscription } from 'react-native-background-geolocation'
@@ -390,6 +397,10 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
 
   const onTAndCPress = async () => {
     await InAppBrowser.open('https://fitevo-nft.gitbook.io/agreement/')
+  }
+
+  const onLinkMediumPress = async () => {
+    await InAppBrowser.open('https://medium.com/fitevo/introducing-ke-points-earn-massive-gains-through-simple-active-tasks-74a70d793c04')
   }
 
   let queueNoDiff = referralInfo.lastRank - referralInfo.queueNumber
@@ -758,20 +769,283 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
           </View>
 
           <View style={[Layout.fullWidth, Layout.center, { paddingVertical: 10, paddingHorizontal: 40, alignItems: 'flex-start' }]}>
-            <Text style={[{ color: colors.white, fontSize: 14, lineHeight: 20, textAlign: 'left' }]}>{t('whatIsFitEvoBeta')}</Text>
-            <Text style={[{ color: colors.white, fontSize: 14, lineHeight: 20, textAlign: 'left' }]}>{t('FitEvoBetaDesc')}</Text>
+            <Text style={[{ color: colors.white, fontSize: 18, fontWeight: 'bold', lineHeight: 20, textAlign: 'left' }]}>
+              {t('whatIsFitEvoBeta')}
+            </Text>
+            <Text style={[{ color: colors.white, fontSize: 16, letterSpacing: 1, lineHeight: 22, textAlign: 'left' }]}>
+              {t('FitEvoBetaDesc')}
+            </Text>
           </View>
 
           <View
             style={[
               Layout.fullWidth,
-              { height: 50, paddingHorizontal: 40, justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row' },
+              {
+                // height: 50,
+                paddingHorizontal: 40,
+                marginTop: 20,
+                justifyContent: 'flex-start',
+                alignItems: 'center',
+                flexDirection: 'row',
+              },
             ]}
           >
-            <Image source={shareIcon} style={{ resizeMode: 'contain', width: 20, height: 20, marginRight: 20 }} />
-            <Text style={[{ fontSize: 14, color: colors.white }]}>{t('shareReferralLink')}</Text>
+            <Text style={[{ fontSize: 18, color: colors.white, fontWeight: 'bold' }]}>{t('howToEarnKe')}</Text>
           </View>
 
+          <View
+            style={[
+              Layout.fullWidth,
+              { paddingHorizontal: 40, justifyContent: 'center', alignItems: 'center', flexDirection: 'column', marginBottom: 20 },
+            ]}
+          >
+            <Image source={howToEarn} style={{ resizeMode: 'contain', width: '100%', height: 100, marginVertical: 20 }} />
+
+            <Image source={howToEarn2} style={{ resizeMode: 'contain', width: '100%', height: 100 }} />
+            <Text style={[{ marginTop: 4, fontSize: 14, color: colors.white, textAlign: 'center' }]}>{t('maxReferral30Friends')}</Text>
+          </View>
+
+          <View style={[Layout.fullWidth, { paddingHorizontal: 40, marginTop: 20, justifyContent: 'flex-start', flexDirection: 'column' }]}>
+            <Text style={[{ fontSize: 18, fontWeight: 'bold', color: colors.white, flexShrink: 1 }]}>{t('whatIsKE')}</Text>
+            <Text style={[{ marginTop: 4, fontSize: 14, color: colors.white, lineHeight: 20 }]}>{t('KEDesc')}</Text>
+          </View>
+
+          <View
+            style={[
+              Layout.fullWidth,
+              { paddingRight: 10, paddingHorizontal: 5, justifyContent: 'flex-start', flexDirection: 'column', marginBottom: 20 },
+            ]}
+          >
+            <View
+              style={[
+                Layout.fullWidth,
+                {
+                  justifyContent: 'space-around',
+                  flexDirection: 'row',
+                  height: 200,
+                  width: '100%',
+                  display: 'flex',
+                  marginTop: 20,
+                },
+              ]}
+            >
+              <View style={[{ height: '100%', width: '50%', position: 'relative' }]}>
+                <Image source={card1} style={{ resizeMode: 'contain', height: '100%', width: '100%' }} />
+                <View
+                  style={{
+                    width: '95%',
+                    alignItems: 'center',
+                    paddingHorizontal: 35,
+                    paddingVertical: 30,
+                    display: 'flex',
+                    position: 'absolute',
+                    marginLeft: 20,
+                  }}
+                >
+                  <Text
+                    style={[
+                      {
+                        color: colors.black,
+                        fontSize: 14,
+                        lineHeight: 15,
+                        flexWrap: 'wrap',
+                        textAlign: 'left',
+                        fontWeight: '900',
+                      },
+                    ]}
+                  >
+                    {t('inGameToken')}
+                  </Text>
+                  <Text
+                    style={[
+                      {
+                        color: colors.black,
+                        fontSize: 12,
+                        lineHeight: 15,
+                        textAlign: 'left',
+                        width: '100%',
+                        flexWrap: 'wrap',
+                        marginTop: 10,
+                      },
+                    ]}
+                  >
+                    {t('KEPointsTransfer')}
+                  </Text>
+                </View>
+              </View>
+              <View style={[{ height: '100%', width: '50%', position: 'relative' }]}>
+                <Image source={card2} style={{ resizeMode: 'contain', height: '100%', width: '100%' }} />
+                <View
+                  style={{
+                    width: '90%',
+                    alignItems: 'center',
+                    paddingHorizontal: 35,
+                    paddingVertical: 30,
+                    display: 'flex',
+                    position: 'absolute',
+                    marginLeft: 20,
+                  }}
+                >
+                  <Text
+                    style={[
+                      {
+                        color: colors.black,
+                        fontSize: 14,
+                        lineHeight: 15,
+                        flexWrap: 'wrap',
+                        width: '100%',
+                        textAlign: 'left',
+                        fontWeight: '900',
+                      },
+                    ]}
+                  >
+                    {t('NFTCompanions')}
+                  </Text>
+                  <Text
+                    style={[
+                      {
+                        color: colors.black,
+                        fontSize: 12,
+                        lineHeight: 15,
+                        textAlign: 'left',
+                        width: '100%',
+                        flexWrap: 'wrap',
+                        marginTop: 10,
+                      },
+                    ]}
+                  >
+                    {t('NFTMint')}
+                  </Text>
+                </View>
+              </View>
+            </View>
+            <View
+              style={[
+                Layout.fullWidth,
+                {
+                  justifyContent: 'space-around',
+                  flexDirection: 'row',
+                  height: 200,
+                  width: '100%',
+                  display: 'flex',
+                  marginTop: 20,
+                },
+              ]}
+            >
+              <View style={[{ height: '100%', width: '50%', position: 'relative' }]}>
+                <Image source={card3} style={{ resizeMode: 'contain', height: '100%', width: '100%' }} />
+                <View
+                  style={{
+                    width: '95%',
+                    alignItems: 'center',
+                    paddingHorizontal: 35,
+                    paddingVertical: 30,
+                    display: 'flex',
+                    position: 'absolute',
+                    marginLeft: 20,
+                  }}
+                >
+                  <Text
+                    style={[
+                      {
+                        color: colors.black,
+                        fontSize: 14,
+                        lineHeight: 15,
+                        flexWrap: 'wrap',
+                        width: '100%',
+                        textAlign: 'left',
+                        fontWeight: '900',
+                      },
+                    ]}
+                  >
+                    {t('exclusiveDrops')}
+                  </Text>
+                  <Text
+                    style={[
+                      {
+                        color: colors.black,
+                        fontSize: 12,
+                        lineHeight: 15,
+                        textAlign: 'left',
+                        width: '100%',
+                        flexWrap: 'wrap',
+                        marginTop: 10,
+                      },
+                    ]}
+                  >
+                    {t('higherKE')}
+                  </Text>
+                </View>
+              </View>
+              <View style={[{ height: '100%', width: '50%', position: 'relative' }]}>
+                <Image source={card4} style={{ resizeMode: 'contain', height: '100%', width: '100%' }} />
+                <View
+                  style={{
+                    width: '95%',
+                    alignItems: 'center',
+                    paddingHorizontal: 35,
+                    paddingVertical: 30,
+                    display: 'flex',
+                    position: 'absolute',
+                    marginLeft: 20,
+                  }}
+                >
+                  <Text
+                    style={[
+                      {
+                        color: colors.black,
+                        fontSize: 14,
+                        lineHeight: 15,
+                        flexWrap: 'wrap',
+                        width: '100%',
+                        textAlign: 'left',
+                        fontWeight: '900',
+                      },
+                    ]}
+                  >
+                    {t('privilegedAppAccess')}
+                  </Text>
+                  <Text
+                    style={[
+                      {
+                        color: colors.black,
+                        fontSize: 12,
+                        lineHeight: 15,
+                        textAlign: 'left',
+                        width: '100%',
+                        flexWrap: 'wrap',
+                        marginTop: 10,
+                      },
+                    ]}
+                  >
+                    {t('unlockGameAccess')}
+                  </Text>
+                </View>
+              </View>
+
+              {/* <View style={[{ height: '100%', width: '50%', position: 'relative' }]}>
+                <Image source={card2} style={{ resizeMode: 'contain', height: '100%' }} />
+                <View style={{ width: '100%', flexWrap: 'wrap', display: 'flex' }}>
+                  <Text style={[{ color: colors.black, fontSize: 16, lineHeight: 20, textAlign: 'center', fontWeight: 'bold' }]}>
+                    {t('inGameToken')}
+                  </Text>
+                  <Text style={[{ color: colors.black, fontSize: 14, lineHeight: 20, textAlign: 'left' }]}>{t('KEPointsTransfer')}</Text>
+                </View>
+              </View> */}
+            </View>
+          </View>
+          <Pressable
+            onPress={onLinkMediumPress}
+            style={[
+              Layout.fullWidth,
+              { height: 40, paddingHorizontal: 40, justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row' },
+            ]}
+          >
+            <Text style={[{ color: colors.white, fontSize: 18, textDecorationLine: 'underline', lineHeight: 20, textAlign: 'center' }]}>
+              {t('linkToMeduim')}
+            </Text>
+          </Pressable>
+          {/*
           <View style={[Layout.fullWidth, Layout.center, { paddingVertical: 10, paddingHorizontal: 0, alignItems: 'flex-start' }]}>
             <View
               style={[
@@ -839,14 +1113,14 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
             </Text>
 
             <Text style={[{ color: colors.white, fontSize: 14, lineHeight: 20, textAlign: 'left' }]}>{t('unlockGameAccess')}</Text>
-          </View>
+          </View> */}
 
           <Pressable
             onPress={onTAndCPress}
             style={[
               Layout.fullWidth,
               Layout.center,
-              { paddingTop: 60, paddingBottom: 30, paddingHorizontal: 30, justifyContent: 'center' },
+              { paddingTop: 40, paddingBottom: 30, paddingHorizontal: 30, justifyContent: 'center' },
             ]}
           >
             <Text
