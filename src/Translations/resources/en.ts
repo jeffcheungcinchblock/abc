@@ -108,7 +108,7 @@ export default {
   close: 'Close',
   gotIt: 'Got it!',
   logMeIn: 'Log me in!',
-  areYouSureToStop: 'Are you sure to stop?',
+  areYouSureToStop: 'Are you sure you want to finish this exercise session?',
   totalKilo: 'Total Kilometers',
   congratulations: 'Congratulations',
   maxReferral30Friends: '* Max. referrals = 30 friends',
