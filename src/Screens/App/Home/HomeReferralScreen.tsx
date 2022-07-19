@@ -86,6 +86,8 @@ import { runOnUI } from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 import InAppBrowser from 'react-native-inappbrowser-reborn'
+
+const abortController = new AbortController()
 const PURPLE_COLOR = {
   color: colors.magicPotion,
 }
@@ -161,12 +163,9 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
   }, [])
 
   useEffect(() => {
-    let cancelSourceArr: CancelTokenSource[] = []
-
     const dailyLogin = async (jwtToken: string) => {
-      cancelSourceArr[3] = axios.CancelToken.source()
       let userDailyLoginRes = await axios.get(config.userDailyLogin, {
-        cancelToken: cancelSourceArr[3].token,
+        signal: abortController.signal,
         headers: {
           Authorization: jwtToken,
         },
@@ -178,13 +177,9 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
         let user = await Auth.currentAuthenticatedUser()
         let jwtToken = user?.signInUserSession?.idToken?.jwtToken
 
-        cancelSourceArr[0] = axios.CancelToken.source()
-        cancelSourceArr[1] = axios.CancelToken.source()
-        cancelSourceArr[2] = axios.CancelToken.source()
-
         const [authRes, userFitnessInfoRes, topAvgPointRes] = await Promise.all([
           axios.get(config.userProfile, {
-            cancelToken: cancelSourceArr[0].token,
+            signal: abortController.signal,
             headers: {
               Authorization: jwtToken,
             },
@@ -231,9 +226,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
     }
 
     return () => {
-      cancelSourceArr.forEach((cancelSrc: null | CancelTokenSource) => {
-        cancelSrc?.cancel()
-      })
+      abortController.abort()
     }
   }, [needFetchDtl, fetchedReferralInfo])
 

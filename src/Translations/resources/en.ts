@@ -97,7 +97,7 @@ export default {
   dontHaveAnAccount: "Don't have an account?",
   alreadyHaveAnAccount: 'I already have an account.',
   readyForAnotherActiveSection: 'Ready for another active section?',
-  shareMsg: 'Download FitEvo now and start earning KE points before anyone else!',
+  shareMsg: 'You are invited to join our FitEvo App Beta, download our app and start earning before anyone else!',
   logIn: 'Log In',
   congrats: 'Congrats!',
   registeredSuccess: 'You have successfully registered. You can log in to your account and have fun!',

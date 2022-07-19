@@ -29,7 +29,7 @@ import crashlytics from '@react-native-firebase/crashlytics'
 // @ts-ignore
 import Video from 'react-native-video'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import axios, { CancelTokenSource } from 'axios'
+import axios from 'axios'
 // @ts-ignore
 import { Hub } from 'aws-amplify'
 import WelcomeGalleryScreen from '@/Screens/Auth/WelcomeGalleryScreen'
@@ -54,7 +54,6 @@ const ApplicationNavigator = () => {
   const { isLoggedIn } = useSelector((state: RootState) => state.user)
 
   useEffect(() => {
-    let cancelSourceArr: CancelTokenSource[] = []
     const retrieveLoggedInUser = async () => {
       try {
         let user = await Auth.currentAuthenticatedUser()
@@ -65,9 +64,8 @@ const ApplicationNavigator = () => {
         let { attributes, username } = user
 
         let jwtToken = user?.signInUserSession?.idToken?.jwtToken
-        cancelSourceArr[0] = axios.CancelToken.source()
         const userProfileRes = await axios.get(config.userProfile, {
-          cancelToken: cancelSourceArr[0].token,
+          signal: abortController.signal,
           headers: {
             Authorization: jwtToken, //the token is a variable which holds the token
           },
@@ -98,9 +96,7 @@ const ApplicationNavigator = () => {
     }
 
     return () => {
-      cancelSourceArr.forEach((cancelSrc: null | CancelTokenSource) => {
-        cancelSrc?.cancel()
-      })
+      abortController.abort()
     }
   }, [isLoggedIn])
 

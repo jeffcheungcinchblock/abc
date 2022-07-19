@@ -84,6 +84,8 @@ const initErrMsg = {
   password: '',
 }
 
+const abortController = new AbortController()
+
 const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.logIn>> = ({ navigation, route }) => {
   const modalRef = useRef<any>()
   const { t } = useTranslation()
@@ -139,8 +141,6 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.logI
   }
 
   useEffect(() => {
-    let cancelSource = axios.CancelToken.source()
-
     setCredential({
       email: '',
       password: '',
@@ -169,7 +169,7 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.logI
             let jwtToken = user?.signInUserSession?.idToken?.jwtToken
 
             const userProfileRes = await axios.get(config.userProfile, {
-              cancelToken: cancelSource.token,
+              signal: abortController.signal,
               headers: {
                 Authorization: jwtToken,
               },
@@ -198,7 +198,7 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.logI
     touchIdAuth()
 
     return () => {
-      cancelSource?.cancel()
+      abortController.abort()
     }
   }, [])
 
