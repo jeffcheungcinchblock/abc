@@ -49,7 +49,7 @@ import { awsLogout, triggerSnackbar } from '@/Utils/helpers'
 import times from 'lodash/times'
 // @ts-ignore
 import { Auth } from 'aws-amplify'
-import axios, { Canceler, CancelTokenSource } from 'axios'
+import axios from 'axios'
 import { RootState } from '@/Store'
 import world from '@/Assets/Images/Home/world.png'
 import SlideInputModal from '@/Components/Modals/SlideInputModal'
