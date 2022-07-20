@@ -16,6 +16,7 @@ import {
   Image,
   Dimensions,
   Linking,
+  StyleSheet,
 } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { Brand, Header } from '@/Components'
@@ -94,6 +95,28 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 
 import InAppBrowser from 'react-native-inappbrowser-reborn'
 
+const styles = StyleSheet.create({
+  card: {
+    height: '100%',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingLeft: 35,
+    paddingRight: 30,
+    display: 'flex',
+    position: 'absolute',
+    marginLeft: 10,
+  },
+  cardTitle: {
+    color: colors.black,
+    fontSize: 14,
+    lineHeight: 15,
+    flexWrap: 'wrap',
+    width: '100%',
+    textAlign: 'left',
+    fontWeight: 'bold',
+  },
+})
 const abortController = new AbortController()
 const PURPLE_COLOR = {
   color: colors.magicPotion,
@@ -345,11 +368,14 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
         googleFitModalRef?.current?.open()
         return
       }
+
       if (locationPermission) {
         BackgroundGeolocation.getCurrentPosition({
           samples: 1,
         })
           .then(location => {
+            console.log('local', location)
+
             dispatch({
               type: 'start',
               payload: { startTime: new Date().getTime(), latitude: location.coords.latitude, longitude: location.coords.longitude },
@@ -370,6 +396,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
         return onTrialPlayPress()
       }
     } catch (err) {
+      console.log('error', err)
       crashlytics().recordError(err)
     }
   }
@@ -758,10 +785,10 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
           </View>
 
           <View style={[Layout.fullWidth, Layout.center, { height: 300 }]}>
-            <Image source={world} style={{ width: '100%' }} />
+            <Image source={world} style={{ width: '100%', resizeMode: 'contain' }} />
           </View>
 
-          <View style={[Layout.fullWidth, Layout.center, { paddingVertical: 10, paddingHorizontal: 40, alignItems: 'flex-start' }]}>
+          <View style={[Layout.fullWidth, Layout.center, { marginVertical: 10, paddingHorizontal: 40, alignItems: 'flex-start' }]}>
             <Text style={[{ color: colors.white, fontSize: 18, fontWeight: 'bold', lineHeight: 20, textAlign: 'left' }]}>
               {t('whatIsFitEvoBeta')}
             </Text>
@@ -824,17 +851,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
             >
               <View style={[{ height: '100%', width: '50%', position: 'relative' }]}>
                 <Image source={card1} style={{ resizeMode: 'contain', height: '100%', width: '100%' }} />
-                <View
-                  style={{
-                    width: '95%',
-                    alignItems: 'center',
-                    paddingHorizontal: 35,
-                    paddingVertical: 25,
-                    display: 'flex',
-                    position: 'absolute',
-                    marginLeft: 20,
-                  }}
-                >
+                <View style={styles.card}>
                   <Text
                     style={[
                       {
@@ -843,7 +860,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
                         lineHeight: 15,
                         flexWrap: 'wrap',
                         textAlign: 'left',
-                        fontWeight: '900',
+                        fontWeight: 'bold',
                       },
                     ]}
                   >
@@ -868,32 +885,8 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
               </View>
               <View style={[{ height: '100%', width: '50%', position: 'relative' }]}>
                 <Image source={card2} style={{ resizeMode: 'contain', height: '100%', width: '100%' }} />
-                <View
-                  style={{
-                    width: '90%',
-                    alignItems: 'center',
-                    paddingHorizontal: 35,
-                    paddingVertical: 25,
-                    display: 'flex',
-                    position: 'absolute',
-                    marginLeft: 20,
-                  }}
-                >
-                  <Text
-                    style={[
-                      {
-                        color: colors.black,
-                        fontSize: 14,
-                        lineHeight: 15,
-                        flexWrap: 'wrap',
-                        width: '100%',
-                        textAlign: 'left',
-                        fontWeight: '900',
-                      },
-                    ]}
-                  >
-                    {t('NFTCompanions')}
-                  </Text>
+                <View style={styles.card}>
+                  <Text style={[styles.cardTitle]}>{t('NFTCompanions')}</Text>
                   <Text
                     style={[
                       {
@@ -927,32 +920,8 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
             >
               <View style={[{ height: '100%', width: '50%', position: 'relative' }]}>
                 <Image source={card3} style={{ resizeMode: 'contain', height: '100%', width: '100%' }} />
-                <View
-                  style={{
-                    width: '95%',
-                    alignItems: 'center',
-                    paddingHorizontal: 35,
-                    paddingVertical: 25,
-                    display: 'flex',
-                    position: 'absolute',
-                    marginLeft: 20,
-                  }}
-                >
-                  <Text
-                    style={[
-                      {
-                        color: colors.black,
-                        fontSize: 14,
-                        lineHeight: 15,
-                        flexWrap: 'wrap',
-                        width: '100%',
-                        textAlign: 'left',
-                        fontWeight: '900',
-                      },
-                    ]}
-                  >
-                    {t('exclusiveDrops')}
-                  </Text>
+                <View style={styles.card}>
+                  <Text style={[styles.cardTitle]}>{t('exclusiveDrops')}</Text>
                   <Text
                     style={[
                       {
@@ -972,32 +941,8 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
               </View>
               <View style={[{ height: '100%', width: '50%', position: 'relative' }]}>
                 <Image source={card4} style={{ resizeMode: 'contain', height: '100%', width: '100%' }} />
-                <View
-                  style={{
-                    width: '95%',
-                    alignItems: 'center',
-                    paddingHorizontal: 35,
-                    paddingVertical: 25,
-                    display: 'flex',
-                    position: 'absolute',
-                    marginLeft: 20,
-                  }}
-                >
-                  <Text
-                    style={[
-                      {
-                        color: colors.black,
-                        fontSize: 14,
-                        lineHeight: 15,
-                        flexWrap: 'wrap',
-                        width: '100%',
-                        textAlign: 'left',
-                        fontWeight: '900',
-                      },
-                    ]}
-                  >
-                    {t('privilegedAppAccess')}
-                  </Text>
+                <View style={styles.card}>
+                  <Text style={[styles.cardTitle]}>{t('privilegedAppAccess')}</Text>
                   <Text
                     style={[
                       {
