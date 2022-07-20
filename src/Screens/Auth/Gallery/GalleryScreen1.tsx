@@ -14,7 +14,8 @@ import {
     Linking,
     useWindowDimensions,
     Image,
-    Dimensions
+    Dimensions,
+    ImageBackground
 } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { Brand, Header } from '@/Components'
@@ -40,6 +41,7 @@ import slide1 from '@/Assets/Images/Gallery/slider1_img.png'
 import slide2 from '@/Assets/Images/Gallery/slider2_img.png'
 import slide3 from '@/Assets/Images/Gallery/slider3_img.png'
 import slide4 from '@/Assets/Images/Gallery/slider4_img.png'
+// @ts-ignore
 import Dots from 'react-native-dots-pagination';
 
 const windowHeight = Dimensions.get('window').height;
@@ -367,8 +369,6 @@ const Screen4: FC<any> = ({ Layout, t, onEnterPress, }) => {
 };
 
 const Screen: FC<any> = ({ Layout, t, onEnterPress, screenIdx, slide, slideBg }) => {
-
-    console.log('screenIdx ', screenIdx)
 
     return (
         // <ImageBackground

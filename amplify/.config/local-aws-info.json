@@ -1,7 +1,7 @@
 {
-  "dev": {
+  "staging": {
     "configLevel": "project",
-    "useProfile": false,
-    "awsConfigFilePath": "/Users/cheungjeff/.amplify/awscloudformation/aLpZmfBjgG"
+    "useProfile": true,
+    "profileName": "prd"
   }
 }

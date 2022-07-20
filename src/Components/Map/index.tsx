@@ -28,15 +28,11 @@ const ActiveMapView: FC<MapViewProps> = props => {
   const mapViewRef = useRef(null)
 
   useEffect(() => {
-    console.log('first', latitude, longitude)
-    console.log('second', store.getState().map.latitude, store.getState().map.longitude)
     const setCamera = async () => {
       try {
         const camera = await mapViewRef.current.getCamera()
 
         camera.center = { latitude, longitude }
-        console.log(camera)
-        // console.log('camera.center', camera.center)
         mapViewRef.current.animateCamera(camera)
       } catch (error) {}
     }
@@ -45,8 +41,6 @@ const ActiveMapView: FC<MapViewProps> = props => {
     }
   }, [latitude, longitude, mapViewRef])
 
-  //   const [latitude, setLatitude] = useState(0);
-  //   const [longitude, setLongitude] = useState(0);
   const isIOS = Platform.OS === 'ios'
   return (
     <>

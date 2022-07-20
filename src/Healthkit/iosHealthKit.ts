@@ -19,12 +19,10 @@ const permissions = {
 
 export class IOSHealthKit extends GeneralHealthKit {
   InitHealthKitPermission() {
-    console.log('Init Healthkit')
     return new Promise<boolean>(resolve => {
       AppleHealthKit.initHealthKit(permissions, (error: string) => {
         /* Called after we receive a response from the system */
         if (error) {
-          console.log('[ERROR] Cannot grant permissions!')
           resolve(false)
           return
         }
@@ -38,7 +36,6 @@ export class IOSHealthKit extends GeneralHealthKit {
     return new Promise<boolean>(resolve => {
       AppleHealthKit.getAuthStatus(permissions, (err, results) => {
         if (err) {
-          console.log('[ERROR] Cannot get status!')
           resolve(false)
           return
         }
@@ -49,7 +46,6 @@ export class IOSHealthKit extends GeneralHealthKit {
   }
 
   GetSteps(startDate: Date, endDate: Date) {
-    console.log(startDate, endDate)
     const options = {
       startDate: startDate.toISOString(),
       endDate: endDate.toISOString(),
@@ -57,7 +53,6 @@ export class IOSHealthKit extends GeneralHealthKit {
     return new Promise<number>(resolve => {
       AppleHealthKit.getDailyStepCountSamples(options, (err: Object, results: Array<any>) => {
         if (err) {
-          console.log(err)
           resolve(0)
           return
         }
@@ -82,7 +77,6 @@ export class IOSHealthKit extends GeneralHealthKit {
     return new Promise<number>(resolve => {
       AppleHealthKit.getDailyDistanceWalkingRunningSamples(options, (err: Object, results: Array<any>) => {
         if (err) {
-          console.log(err)
           resolve(0)
           return
         }
@@ -104,7 +98,6 @@ export class IOSHealthKit extends GeneralHealthKit {
       startDate: startDate.toISOString(), // required
       endDate: endDate.toISOString(),
     }
-    console.log('options', options)
     return new Promise<number>(resolve => {
       AppleHealthKit.getActiveEnergyBurned(options, (err: Object, results: any[]) => {
         if (err) {
@@ -129,7 +122,6 @@ export class IOSHealthKit extends GeneralHealthKit {
     return new Promise<number>(resolve => {
       AppleHealthKit.getHeartRateSamples(options, (err: Object, results: HealthValue[]) => {
         if (err) {
-          console.log(err)
           resolve(0)
           return
         }
@@ -154,11 +146,6 @@ export class IOSHealthKit extends GeneralHealthKit {
   }
   StartWorkoutSession() {
     //   throw new Error('Not implemented')
-    //     NativeAppEventEmitter.addListener('healthKit:HeartRate:setup:success', () => console.log('set up success'))
-    //     NativeAppEventEmitter.addListener('healthKit:HeartRate:setup:failure', () => console.log('set up failure'))
-    //     NativeAppEventEmitter.addListener('healthKit:HeartRate:new', () => console.log('new'))
-    //     NativeAppEventEmitter.addListener('healthKit:HeartRate:failure', () => console.log('failure'))
-    // console.log(NativeModules, NativeModules.RCTAppleHealthKit)
     // const nee = new NativeEventEmitter(NativeModules.RCTAppleHealthKit)
     // nee.addListener('healthKit:HeartRate:setup:success', callback)
     // nee.addListener('healthKit:HeartRate:new', callback)

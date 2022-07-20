@@ -36,9 +36,7 @@ const subscribe = (listener: (deeplink: string) => void) => {
   // Listen to incoming links from deep linking
   let onReceiveURLEvent = Linking.addEventListener('url', onReceiveURL)
 
-  const handleDynamicLink = (link: FirebaseDynamicLinksTypes.DynamicLink) => {
-    console.log('Dynamic url ', link)
-  }
+  const handleDynamicLink = (link: FirebaseDynamicLinksTypes.DynamicLink) => {}
   const unsubscribeToDynamicLinks = dynamicLinks().onLink(handleDynamicLink)
   return () => {
     unsubscribeToDynamicLinks()

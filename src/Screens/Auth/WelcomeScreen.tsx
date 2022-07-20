@@ -162,7 +162,6 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
       //     }],
       // });
       // const tasks = realm.objects("Task");
-      // console.log('tasks',)
       // let task1, task2;
       // realm.write(() => {
       //     task1 = realm.create("Task", {
@@ -175,12 +174,9 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
       //         name: "go exercise",
       //         status: "Open",
       //     });
-      //     console.log(`created two tasks: ${task1.name} & ${task2.name}`);
       // });
       // realm.close()
-    } catch (err: any) {
-      console.log(err)
-    }
+    } catch (err: any) {}
   }
 
   const onTAndCPress = async () => await InAppBrowser.open('https://fitevo-nft.gitbook.io/agreement/')

@@ -270,7 +270,6 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
       BackgroundGeolocation.onLocation(async location => {
         const temp_currentState = store.getState().map.currentState
         const temp_paths = store.getState().map.paths
-        console.log(ActivityType[temp_currentState])
         if (temp_currentState !== ActivityType.PAUSE && startTime !== null && startTime !== undefined) {
           // const channelId = await notifee.createChannel({
           //   id: 'default',
@@ -298,7 +297,6 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
           if (location.coords && location.coords.latitude && location.coords.longitude) {
             let speed = location.coords.speed!
             // if (location.mock) {
-            // console.log('mock')
             // forceQuit()
             //   return
             // }
@@ -375,7 +373,6 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
             }
 
             if (temp_currentState === ActivityType.OVERSPEED) {
-              console.log('overspeedmoving', location.coords.latitude, location.coords.longitude)
               dispatch({
                 type: 'overSpeedMoving',
                 payload: {
@@ -401,7 +398,6 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
               //     type: 'moving',
               //   }),
               // })
-              console.log('dispatch')
               dispatch({
                 type: 'move',
                 payload: {
@@ -419,7 +415,6 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
               // })
             }
           } else {
-            console.log('not moving')
           }
         }
       }),
@@ -495,14 +490,12 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
         speed: new_speed,
         overSpeedPath: over_speed_paths_string,
       }
-      console.log('data get', JSON.stringify(data, null, 2))
       let response = await axios.post('https://85vamr0pne.execute-api.us-west-2.amazonaws.com/dev/sessions', data)
       if (response) {
         setIsStopping(false)
         navigation.navigate(RouteStacks.endWorkout, data)
       }
     } catch (err) {
-      console.log('err', err)
       navigation.replace(RouteStacks.endWorkout)
       crashlytics().recordError(new Error(err as string))
     } finally {
@@ -520,7 +513,6 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
   // }
 
   const PauseRunningSession = async () => {
-    console.log('pause')
     setIsButtonLoading(true)
     if (isIOS) {
       await BackgroundGeolocation.changePace(false)

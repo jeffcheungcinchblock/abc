@@ -41,7 +41,6 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation
   const { t } = useTranslation()
   const { Common, Fonts, Gutters, Layout } = useTheme()
   const params = route?.params || { username: '' }
-  // console.log('route', route.params)
   const dispatch = useDispatch()
 
   // const steps = useSelector((state: any) => state.map.steps)
@@ -133,7 +132,6 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation
       result: 'base64',
     }).then(
       uri => {
-        console.log('=======uri', uri)
         shareImage(uri)
       },
       (error: any) => {},

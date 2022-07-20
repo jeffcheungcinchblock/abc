@@ -138,7 +138,6 @@ export default createReducer<State>(initialState, builder => {
   })
 
   builder.addCase(start, (state, action) => {
-    console.log('start')
     const initialStateStart: State = {
       currentState: ActivityType.MOVING,
       startTime: action.payload.startTime,
@@ -168,18 +167,15 @@ export default createReducer<State>(initialState, builder => {
   // Moving
   builder.addCase(move, (state, action) => {
     if (!action.payload.latitude || !action.payload.longitude) {
-      console.log('return')
       return state
     }
 
     const distance = getDistanceBetweenTwoPoints(state.latitude!, state.longitude!, action.payload.latitude!, action.payload.longitude!)
-    console.log('normal distance ', distance)
     // notifee.displayNotification({
     //   title: JSON.stringify({ normamoving: distance }),
     //   body: JSON.stringify({ distance: distance, accuracy: action.payload.accuracy }),
     // })
     if ((Platform.OS === 'android' && distance > 20) || (Platform.OS === 'ios' && distance > 20)) {
-      console.log('distance too far ', distance)
       state.currentState = ActivityType.OVERSPEED
       state.accuracy = action.payload.accuracy
       const startOverSpeedTime = action.payload.curTime
@@ -207,7 +203,6 @@ export default createReducer<State>(initialState, builder => {
     }
 
     if (distance > 0) {
-      console.log('move > 0')
       const newPaths = JSON.parse(JSON.stringify(state.paths))
       if (!newPaths[newPaths.length - 1].coordinates || newPaths[newPaths.length - 1].coordinates.length === 0) {
         newPaths[newPaths.length - 1].coordinates = [
@@ -267,26 +262,19 @@ export default createReducer<State>(initialState, builder => {
     const tempEndPauseTime = action.payload.resumeTime
     const reduceStep = action.payload.reduceStep
     const reduceCalories = action.payload.reduceCalories
-    console.log('=== resume reduceStep ', reduceStep)
-    console.log('===== state.paths', JSON.stringify(state.paths, null, 2))
     let lastIndexofCoordinate = 0
     if (state.paths.length !== 0) {
       lastIndexofCoordinate = state.paths.length - 1
     }
     const newPaths = JSON.parse(JSON.stringify(state.paths))
 
-    console.log('===== newPaths', JSON.stringify(newPaths, null, 2))
-
     newPaths[lastIndexofCoordinate].endPauseTime = tempEndPauseTime!
     newPaths[lastIndexofCoordinate].reduceStep = reduceStep!
     newPaths[lastIndexofCoordinate].reduceCalories = reduceCalories!
 
-    console.log('===== 1newPaths', JSON.stringify(newPaths, null, 2))
-
     const total_pause_time_in_seconds = moment(tempEndPauseTime!).unix() - moment(newPaths[lastIndexofCoordinate].pauseTime!).unix()
     newPaths[lastIndexofCoordinate].pathTotalPauseTime = total_pause_time_in_seconds
 
-    console.log('===== lastIndexofCoordinate', lastIndexofCoordinate)
     newPaths.push({
       numberOfPath: newPaths.length + 1,
       pauseTime: null,
@@ -344,7 +332,6 @@ export default createReducer<State>(initialState, builder => {
   })
 
   builder.addCase(returnToNormalSpeed, (state, action) => {
-    console.log('return to normal speed')
     const tempEndPauseTime = action.payload.resumeTime
     const reduceStep = action.payload.reduceStep
     const reduceCalories = action.payload.reduceCalories
@@ -382,12 +369,10 @@ export default createReducer<State>(initialState, builder => {
     const newOverSpeedPath = JSON.parse(JSON.stringify(state.overSpeedPaths))
 
     newOverSpeedPath[lastIndexofSpeedCoordinate].endOverSpeedTime = tempEndPauseTime!
-    console.log('newPaths', newPaths)
     return { ...state, currentState: ActivityType.MOVING, paths: newPaths }
   })
 
   builder.addCase(overSpeedMoving, (state, action) => {
-    console.log('overspeeding moving')
     // notifee.displayNotification({
     //   title: JSON.stringify({ normamoving: 'overspeed moving' }),
     // })
@@ -408,11 +393,9 @@ export default createReducer<State>(initialState, builder => {
         longitude: action.payload.longitude,
       })
     }
-    // console.log('newOverSpeedPaths', JSON.stringify(newOverSpeedPaths))
     // const distance = getDistanceBetweenTwoPoints(state.latitude!, state.longitude!, action.payload.latitude!, action.payload.longitude!)
     // const temp_timedifferent = action.payload.curTime!.getTime() - state.curTime!.getTime()
 
-    // console.log('overspeed moving', action.payload.latitude)
     return {
       ...state,
       latitude: action.payload.latitude,
