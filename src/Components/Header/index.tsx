@@ -1,23 +1,24 @@
-import React, { FC } from "react"
-import { View, ViewStyle, TextStyle, Pressable, Text, Image } from "react-native"
+import React, { FC } from 'react'
+import { View, ViewStyle, TextStyle, Pressable, Text, Image } from 'react-native'
 import { useTranslation } from 'react-i18next'
-import { Spacing } from "@/Theme/Variables"
+import { Spacing } from '@/Theme/Variables'
 import backBtn from '@/Assets/Images/buttons/back.png'
-import AppIcon from "../Icons/AppIcon"
-import { useTheme } from "@/Hooks"
-import { colors } from "@/Utils/constants"
+import AppIcon from '../Icons/AppIcon'
+import { useTheme } from '@/Hooks'
+import { colors } from '@/Utils/constants'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 // static styles
 const ROOT: ViewStyle = {
-  flexDirection: "row",
+  flexDirection: 'row',
   paddingHorizontal: Spacing[4],
-  alignItems: "center",
+  alignItems: 'center',
   paddingTop: Spacing[5],
   paddingBottom: Spacing[5],
-  justifyContent: "flex-start",
+  justifyContent: 'flex-start',
 }
-const TITLE: TextStyle = { textAlign: "center", color: colors.white, fontWeight: "bold" }
-const TITLE_MIDDLE: ViewStyle = { flex: 3, justifyContent: "center", alignItems: "center" }
+const TITLE: TextStyle = { textAlign: 'center', color: colors.white, fontWeight: 'bold' }
+const TITLE_MIDDLE: ViewStyle = { flex: 3, justifyContent: 'center', alignItems: 'center' }
 const LEFT: ViewStyle = { flex: 1 }
 const RIGHT: ViewStyle = { flex: 1 }
 
@@ -32,53 +33,44 @@ const HEADER: TextStyle = {
  * Header that appears on many screens. Will hold navigation buttons and screen title.
  */
 const Header = (props: {
-  onLeftPress?: () => void,
-  onRightPress?: () => void,
-  rightIcon?: () => React.ReactNode,
-  leftIcon?: () => React.ReactNode,
-  headerText?: string,
-  headerTx?: string,
-  style?: object,
-  titleStyle?: object,
+  onLeftPress?: () => void
+  onRightPress?: () => void
+  rightIcon?: () => React.ReactNode
+  leftIcon?: () => React.ReactNode
+  headerText?: string
+  headerTx?: string
+  style?: object
+  titleStyle?: object
 }) => {
-  const {
-    onLeftPress,
-    onRightPress,
-    rightIcon,
-    leftIcon,
-    headerText,
-    headerTx,
-    style,
-    titleStyle,
-  } = props
+  const { onLeftPress, onRightPress, rightIcon, leftIcon, headerText, headerTx, style, titleStyle } = props
 
   const { Common, Fonts, Gutters, Layout } = useTheme()
   const { t: translate } = useTranslation()
-  const header = headerText || (headerTx && translate(headerTx)) || ""
+  const header = headerText || (headerTx && translate(headerTx)) || ''
 
   return (
     <View style={[ROOT, HEADER, style]}>
       {onLeftPress ? (
-        <View style={{ flex: 1, justifyContent: "center" }}>
-          <Pressable style={{ position: "absolute", zIndex: 1 }} onPress={onLeftPress}>
-            {leftIcon ? leftIcon() : <Image source={backBtn} style={{ width: 16, resizeMode: "contain" }} />}
+        <View style={{ flex: 1, justifyContent: 'center' }}>
+          <Pressable style={{ position: 'absolute', zIndex: 1 }} onPress={onLeftPress}>
+            {leftIcon ? leftIcon() : <Image source={backBtn} style={{ width: 16, resizeMode: 'contain' }} />}
           </Pressable>
         </View>
       ) : (
         <View style={LEFT} />
       )}
-      {
-        header ? <View style={TITLE_MIDDLE}>
+      {header ? (
+        <View style={TITLE_MIDDLE}>
           <Text style={[TITLE, titleStyle, Fonts.textRegular]}>{header}</Text>
-        </View> : <View style={{ flex: 5 }}>
+        </View>
+      ) : (
+        <View style={{ flex: 5 }}>
           <AppIcon />
         </View>
-      }
+      )}
       {rightIcon ? (
-        <View style={{ flex: 1, alignItems: "flex-end" }}>
-          <Pressable onPress={onRightPress}>
-            {rightIcon()}
-          </Pressable>
+        <View style={{ flex: 1, alignItems: 'flex-end' }}>
+          <Pressable onPress={onRightPress}>{rightIcon()}</Pressable>
         </View>
       ) : (
         <View style={RIGHT} />

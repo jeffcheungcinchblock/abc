@@ -40,7 +40,9 @@
         <action android:name="android.intent.action.VIEW"/>
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
-        <data android:scheme="https" android:host="test-dragon-dev.onelink.me" android:pathPrefix="/xNJK"/>
+        <!-- <data android:scheme="https" android:host="test-dragon-dev.onelink.me" android:pathPrefix="/xNJK"/> -->
+        <data android:scheme="https" android:host="fitevo-beta.onelink.me" android:pathPrefix="/Gm8c"/>
+        <!-- <data android:scheme="https" android:host="beta.fitevo.io" android:pathPrefix="/J77b"/> -->
       </intent-filter>
 
     </activity>

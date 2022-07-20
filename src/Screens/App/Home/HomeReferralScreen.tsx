@@ -94,7 +94,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 
 import InAppBrowser from 'react-native-inappbrowser-reborn'
 
-const abortController = new AbortController()
+let abortController: AbortController
 const PURPLE_COLOR = {
   color: colors.magicPotion,
 }
@@ -181,6 +181,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
 
     const run = async () => {
       try {
+        console.log('run')
         let user = await Auth.currentAuthenticatedUser()
         let jwtToken = user?.signInUserSession?.idToken?.jwtToken
 
@@ -192,15 +193,19 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
             },
           }),
           axios.get(config.userFitnessInfo, {
+            signal: abortController.signal,
             headers: {
               'x-api-key': config.fitnessInfoApiKey,
               Authorization: jwtToken,
             },
           }),
-          axios.get(config.userTopAvgPoint),
+          axios.get(config.userTopAvgPoint, {
+            signal: abortController.signal,
+          }),
         ])
 
         const { dailyMission, loginCount, totalPoint } = userFitnessInfoRes.data
+        console.log('userFitnessInfoRes', userFitnessInfoRes.data)
 
         dailyLogin(jwtToken)
 
@@ -219,23 +224,27 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
         })
 
         setFetchedReferralInfo(true)
-
+      } catch (err: any) {
+        console.log('err ', err)
+        crashlytics().recordError(err)
+      } finally {
         setTimeout(() => {
           setNeedFetchDtl(false)
         }, 1000)
-      } catch (err: any) {
-        crashlytics().recordError(err)
       }
     }
 
     if (needFetchDtl) {
       run()
     }
+  }, [needFetchDtl, fetchedReferralInfo])
 
+  useEffect(() => {
+    abortController = new AbortController()
     return () => {
       abortController.abort()
     }
-  }, [needFetchDtl, fetchedReferralInfo])
+  }, [])
 
   useEffect(() => {
     // TBD: To be placed some where upper level component later
@@ -367,9 +376,10 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
           PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
           PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION,
         ])
-        return onTrialPlayPress()
+        onTrialPlayPress()
+        return
       }
-    } catch (err) {
+    } catch (err: any) {
       crashlytics().recordError(err)
     }
   }
@@ -402,6 +412,8 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
   }, [referralInfo.referredEmails])
 
   let isNewAc = referralInfo.lastRank === 0
+
+  console.log('needFetchDtl', needFetchDtl)
 
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: 'space-between', backgroundColor: colors.darkGunmetal }} edges={['top']}>

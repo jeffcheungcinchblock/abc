@@ -245,7 +245,7 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation
             </View>
           </View>
 
-          <View style={[styles.rowContentContainer2, { flexBasis: 160, justifyContent: 'center' }]}>
+          <View style={[styles.rowContentContainer2, { flexBasis: 120, justifyContent: 'center' }]}>
             <View style={[styles.contentContainer]}>
               <Image source={TimerLogo} style={{ width: 26, height: 26, resizeMode: 'contain', alignSelf: 'center' }} />
               <WhiteText style={[{ lineHeight: 50, fontSize: 30, fontWeight: 'bold' }]}>
@@ -277,7 +277,7 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation
             </View>
           </View>
 
-          <View style={[styles.contentContainer, { flexBasis: 60 }]}>
+          <View style={[styles.contentContainer, { flexBasis: 90 }]}>
             {distance > 2000 ? (
               <WhiteText style={[{ fontSize: 40, fontWeight: 'bold' }]}>+ 20 KE</WhiteText>
             ) : (

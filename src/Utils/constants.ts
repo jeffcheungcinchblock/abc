@@ -11,7 +11,8 @@ export const config = {
     return `https://api-dev.dragonevolution.gg/users/referral/${referralCode}/check`
   },
   emailVerification: `https://api-dev.dragonevolution.gg/users/email-verification`,
-  onelinkUrl: `https://test-dragon-dev.onelink.me/xNJK`,
+  // onelinkUrl: `https://test-dragon-dev.onelink.me/xNJK`,
+  onelinkUrl: `https://fitevo-beta.onelink.me/Gm8c`,
   referralConfirmation: `https://api-dev.dragonevolution.gg/users/referral-confirmation`,
   fitnessInfoApiKey: 'QEwArOceQy5zGNyisQpj71JNds2cWxzkpFRdY2S6',
   totalPointsMaxCap: 9680,

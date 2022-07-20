@@ -24,7 +24,6 @@
         "UserPoolName": "dragonevo-dev-auth-user-pool",
         "AppClientID": "5n21gbh33o8scta9agi8o75aab",
         "AppClientIDWeb": "5n21gbh33o8scta9agi8o75aab",
-        "HostedUIDomain": "mewo",
         "IdentityPoolId": "us-west-2:a0a35520-2e89-4df3-98e9-8543324349e0",
         "IdentityPoolName": "dragonevo-dev-auth-identity-pool",
         "OAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"aws.cognito.signin.user.admin\",\"email\",\"openid\",\"phone\",\"profile\"],\"CallbackURLs\":[\"com.fitnessevo://signIn\"],\"LogoutURLs\":[\"com.fitnessevo://signOut\"]}"

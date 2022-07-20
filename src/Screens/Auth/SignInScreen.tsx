@@ -84,7 +84,7 @@ const initErrMsg = {
   password: '',
 }
 
-const abortController = new AbortController()
+let abortController: AbortController
 
 const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.logIn>> = ({ navigation, route }) => {
   const modalRef = useRef<any>()
@@ -141,6 +141,7 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.logI
   }
 
   useEffect(() => {
+    abortController = new AbortController()
     setCredential({
       email: '',
       password: '',

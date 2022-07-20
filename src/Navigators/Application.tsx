@@ -44,7 +44,7 @@ export type ApplicationNavigatorParamList = {
 }
 const Stack = createStackNavigator<ApplicationNavigatorParamList>()
 
-const abortController = new AbortController()
+let abortController: AbortController
 
 // @refresh reset
 const ApplicationNavigator = () => {
@@ -94,11 +94,14 @@ const ApplicationNavigator = () => {
     if (!isLoggedIn) {
       retrieveLoggedInUser()
     }
+  }, [isLoggedIn])
 
+  useEffect(() => {
+    abortController = new AbortController()
     return () => {
       abortController.abort()
     }
-  }, [isLoggedIn])
+  }, [])
 
   let navProps: {
     ref: NavigationContainerRefWithCurrent<any>
@@ -166,7 +169,6 @@ const ApplicationNavigator = () => {
     Hub.listen('auth', authListener)
 
     return () => {
-      abortController.abort()
       Hub.remove('auth', authListener)
     }
   }, [])
