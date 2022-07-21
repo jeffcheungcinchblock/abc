@@ -132,7 +132,7 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
       edges={['top']}
     >
       <ScreenBackgrounds screenName={RouteStacks.enterInvitationCode}>
-        <KeyboardAwareScrollView contentContainerStyle={[Layout.fill, Layout.colCenter, Layout.justifyContentStart]}>
+        <ScrollView contentContainerStyle={[Layout.fill, Layout.colCenter, Layout.justifyContentStart]}>
           <Header headerText={t('referralCode')} onLeftPress={goBack} />
 
           <View
@@ -192,7 +192,7 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
               </Pressable>
             </View>
           </SlideInputModal>
-        </KeyboardAwareScrollView>
+        </ScrollView>
       </ScreenBackgrounds>
     </SafeAreaView>
   )

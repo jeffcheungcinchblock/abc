@@ -5,7 +5,7 @@ import { PersistGate } from 'redux-persist/lib/integration/react'
 import { store, persistor } from '@/Store'
 import ApplicationNavigator from '@/Navigators/Application'
 import './Translations'
-import { LogBox, Linking, Alert, Platform, Dimensions } from 'react-native'
+import { LogBox, Linking, Alert, Platform, Dimensions, BackHandler, ToastAndroid } from 'react-native'
 // @ts-ignore
 import WalletConnectProvider, { WalletConnectStorageOptions } from '@walletconnect/react-native-dapp'
 // @ts-ignore
@@ -80,22 +80,22 @@ const onInstallConversionDataCanceller = appsFlyer.onInstallConversionData(res =
     } else {
     }
   }
-  const DLValue = res?.data?.deep_link_value
-  if (DLValue) {
-    store.dispatch(storeReferralCode(DLValue))
+  const referralCode = res?.data?.referralCode
+  if (referralCode) {
+    store.dispatch(storeReferralCode(referralCode))
   }
 })
 
 const onAppOpenAttributionCanceller = appsFlyer.onAppOpenAttribution(res => {
-  const DLValue = res?.data.deep_link_value
-  if (DLValue) {
-    store.dispatch(storeReferralCode(DLValue))
+  const referralCode = res?.data.referralCode
+  if (referralCode) {
+    store.dispatch(storeReferralCode(referralCode))
   }
 })
 
 const onDeepLinkCanceller = appsFlyer.onDeepLink(res => {
   if (res?.deepLinkStatus !== 'NOT_FOUND') {
-    const DLValue = res?.data.deep_link_value
+    const referralCode = res?.data.referralCode
     const mediaSrc = res?.data.media_source
     const param1 = res?.data.af_sub1
     const screen = res?.data.screen
@@ -103,8 +103,8 @@ const onDeepLinkCanceller = appsFlyer.onDeepLink(res => {
       Linking.openURL(`${config.urlScheme}${screen}`)
     }
 
-    if (DLValue) {
-      store.dispatch(storeReferralCode(DLValue))
+    if (referralCode) {
+      store.dispatch(storeReferralCode(referralCode))
     }
   }
 })
@@ -235,6 +235,14 @@ const App = () => {
     }
 
     run()
+  }, [])
+
+  useEffect(() => {
+    let backHandler = BackHandler.addEventListener('hardwareBackPress', () => true)
+
+    return () => {
+      backHandler.remove()
+    }
   }, [])
 
   return (

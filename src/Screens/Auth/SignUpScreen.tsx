@@ -100,7 +100,7 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
     }
 
     if (
-      credential.password.length <= 8 ||
+      credential.password.length < 8 ||
       !!!credential.password.match(/[A-Z]/) ||
       !!!credential.password.match(/[a-z]/) ||
       !!!credential.password.match(/\d/)
@@ -133,6 +133,7 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
         action: 'signUp',
       })
     } catch (err: any) {
+      console.log('err ', err)
       switch (err.message) {
         case 'Password did not conform with policy: Password must have uppercase characters':
         case 'Password did not conform with policy: Password not long enough':
@@ -177,7 +178,7 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
       edges={['top']}
     >
       <ScreenBackgrounds screenName={RouteStacks.signUp}>
-        <KeyboardAwareScrollView contentContainerStyle={[Layout.fill, Layout.colCenter, Layout.justifyContentStart]}>
+        <ScrollView contentContainerStyle={[Layout.fill, Layout.colCenter, Layout.justifyContentStart]}>
           <Header headerText={t('createAccount')} onLeftPress={goBack} />
 
           <View
@@ -247,7 +248,7 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
               </View>
             </KeyboardAwareScrollView>
           </SlideInputModal>
-        </KeyboardAwareScrollView>
+        </ScrollView>
       </ScreenBackgrounds>
     </SafeAreaView>
   )

@@ -1,5 +1,5 @@
 {
-  "staging": {
+  "main": {
     "configLevel": "project",
     "useProfile": true,
     "profileName": "prd"

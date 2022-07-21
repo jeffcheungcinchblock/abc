@@ -140,8 +140,9 @@ const ApplicationNavigator = () => {
             const { email, uuid, verified, username } = userProfileRes?.data
             if (username.includes('SignInWith') && verified === 'false') {
               publicNavigationRef.navigate(RouteStacks.provideEmail)
-              dispatch(startLoading(false))
+              // dispatch(startLoading(false))
             } else {
+              console.log('@@@@@@@@ ')
               dispatch(
                 login({
                   username: userData.username,
@@ -149,7 +150,7 @@ const ApplicationNavigator = () => {
                   uuid,
                 }),
               )
-              dispatch(startLoading(false))
+              // dispatch(startLoading(false))
             }
           } catch (err: any) {
             crashlytics().recordError(err)

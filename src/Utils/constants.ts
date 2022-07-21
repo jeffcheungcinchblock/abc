@@ -1,20 +1,18 @@
 export const config = {
   urlScheme: `com.fitnessevo://`,
   dynamicLink: `https://fitevo.page.link/xEYL`,
-  userAuthInfo: `https://api-dev.dragonevolution.gg/users/auth`,
-  userDailyLogin: `https://api-dev.dragonevolution.gg/users/daily-login`,
-  userTopAvgPoint: `https://api-dev.dragonevolution.gg/users/top-average-point`,
-  userDailyShare: `https://api-dev.dragonevolution.gg/users/daily-share`,
-  userFitnessInfo: `https://api-dev.dragonevolution.gg/users/fitness-info`,
-  userProfile: `https://api-dev.dragonevolution.gg/users/profile`,
+  userAuthInfo: `https://api.fitevo.io/users/auth`,
+  userDailyLogin: `https://api.fitevo.io/users/daily-login`,
+  userTopAvgPoint: `https://api.fitevo.io/users/top-average-point`,
+  userDailyShare: `https://api.fitevo.io/users/daily-share`,
+  userFitnessInfo: `https://api.fitevo.io/users/fitness-info`,
+  userProfile: `https://api.fitevo.io/users/profile`,
   userReferralCheck: (referralCode: string) => {
-    return `https://api-dev.dragonevolution.gg/users/referral/${referralCode}/check`
+    return `https://api.fitevo.io/users/referral/${referralCode}/check`
   },
-  emailVerification: `https://api-dev.dragonevolution.gg/users/email-verification`,
-  // onelinkUrl: `https://test-dragon-dev.onelink.me/xNJK`,
+  emailVerification: `https://api.fitevo.io/users/email-verification`,
   onelinkUrl: `https://fitevo-beta.onelink.me/Gm8c`,
-  referralConfirmation: `https://api-dev.dragonevolution.gg/users/referral-confirmation`,
-  fitnessInfoApiKey: 'QEwArOceQy5zGNyisQpj71JNds2cWxzkpFRdY2S6',
+  referralConfirmation: `https://api.fitevo.io/users/referral-confirmation`,
   totalPointsMaxCap: 9680,
 }
 

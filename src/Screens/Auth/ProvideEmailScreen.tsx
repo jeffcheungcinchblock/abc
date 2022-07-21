@@ -114,6 +114,10 @@ const ProvideEmailScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStack
     }
   }
 
+  useEffect(() => {
+    dispatch(startLoading(false))
+  }, [])
+
   return (
     <SafeAreaView
       style={{

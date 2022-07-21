@@ -203,7 +203,6 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
       try {
         let user = await Auth.currentAuthenticatedUser()
         let jwtToken = user?.signInUserSession?.idToken?.jwtToken
-
         const [authRes, userFitnessInfoRes, topAvgPointRes] = await Promise.all([
           axios.get(config.userProfile, {
             signal: abortController.signal,
@@ -214,7 +213,6 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
           axios.get(config.userFitnessInfo, {
             signal: abortController.signal,
             headers: {
-              'x-api-key': config.fitnessInfoApiKey,
               Authorization: jwtToken,
             },
           }),
@@ -292,8 +290,9 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
   }, [referralInfo, fetchedReferralInfo])
 
   const onSharePress = async () => {
+    console.log('share clicked')
     const shareRes = await share({
-      url: `${config.onelinkUrl}/?screen=${RouteStacks.enterInvitationCode}&deep_link_value=${referralInfo.referral}`,
+      url: `${config.onelinkUrl}/?screen=${RouteStacks.enterInvitationCode}&referralCode=${referralInfo.referral}`,
       title: t('shareMsg'),
       message: t('shareMsg'),
     })
@@ -678,10 +677,10 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
                 {
                   flexDirection: 'row',
                   paddingHorizontal: 20,
-                  position: 'relative',
                   justifyContent: 'center',
                   alignItems: 'center',
                   paddingTop: 10,
+                  zIndex: 2,
                 },
               ]}
             >
@@ -706,9 +705,9 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
                 containerStyle={{
                   position: 'absolute',
                   right: 30,
-                  zIndex: 2,
                   width: 80,
                   bottom: 5,
+                  zIndex: 4,
                 }}
                 style={{
                   borderRadius: 10,
@@ -777,8 +776,8 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
             <Text style={{ color: colors.crystal, fontSize: 14, textAlign: 'center', paddingVertical: 16 }}>{t('madeItToBeta')}</Text>
           </View>
 
-          <View style={[Layout.fullWidth, Layout.center, { height: 300 }]}>
-            <Image source={world} style={{ width: '100%', resizeMode: 'contain' }} />
+          <View style={[Layout.fullWidth, Layout.center, { height: 300, paddingHorizontal: 10 }]}>
+            <Image source={world} style={{ width: '100%', height: '100%', resizeMode: 'contain' }} />
           </View>
 
           <View style={[Layout.fullWidth, Layout.center, { marginVertical: 10, paddingHorizontal: 40, alignItems: 'flex-start' }]}>

@@ -1,15 +1,15 @@
 {
   "providers": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-amplify92ccfc8bf2ea4-staging-63200-authRole",
-      "UnauthRoleArn": "arn:aws:iam::092505062856:role/amplify-amplify92ccfc8bf2ea4-staging-63200-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::092505062856:role/amplify-amplify92ccfc8bf2ea4-staging-63200-authRole",
+      "AuthRoleName": "amplify-dragonevoprdamplify-main-84345-authRole",
+      "UnauthRoleArn": "arn:aws:iam::092505062856:role/amplify-dragonevoprdamplify-main-84345-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::092505062856:role/amplify-dragonevoprdamplify-main-84345-authRole",
       "Region": "us-west-2",
-      "DeploymentBucketName": "amplify-amplify92ccfc8bf2ea4-staging-63200-deployment",
-      "UnauthRoleName": "amplify-amplify92ccfc8bf2ea4-staging-63200-unauthRole",
-      "StackName": "amplify-amplify92ccfc8bf2ea4-staging-63200",
-      "StackId": "arn:aws:cloudformation:us-west-2:092505062856:stack/amplify-amplify92ccfc8bf2ea4-staging-63200/a9843830-07f5-11ed-baa3-026000db433f",
-      "AmplifyAppId": "d252n7xjmb3ymf"
+      "DeploymentBucketName": "amplify-dragonevoprdamplify-main-84345-deployment",
+      "UnauthRoleName": "amplify-dragonevoprdamplify-main-84345-unauthRole",
+      "StackName": "amplify-dragonevoprdamplify-main-84345",
+      "StackId": "arn:aws:cloudformation:us-west-2:092505062856:stack/amplify-dragonevoprdamplify-main-84345/11060080-0808-11ed-ab6d-021e5b88a5e5",
+      "AmplifyAppId": "d2wwu57e0xcne5"
     }
   },
   "auth": {
@@ -20,24 +20,22 @@
       "dependsOn": [],
       "customAuth": false,
       "output": {
-        "UserPoolId": "us-west-2_Dt4NdFtKm",
+        "UserPoolId": "us-west-2_OFxenz5Su",
         "UserPoolName": "dragonevo-prd-auth-user-pool",
-        "AppClientID": "3q2i3lf6pgjks8gimfbletr5as",
-        "AppClientIDWeb": "3q2i3lf6pgjks8gimfbletr5as",
-        "IdentityPoolId": "us-west-2:7da35f03-5a4b-4f20-bfb2-0430339a7e17",
+        "AppClientID": "enn8n295b6erpbfu9a32mi5n7",
+        "AppClientIDWeb": "enn8n295b6erpbfu9a32mi5n7",
+        "HostedUIDomain": "auth.fitevo.io",
+        "IdentityPoolId": "us-west-2:10c5c0b3-9992-48ef-885e-c749418688dd",
         "IdentityPoolName": "dragonevo-prd-auth-identity-pool",
         "OAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"aws.cognito.signin.user.admin\",\"email\",\"openid\",\"phone\",\"profile\"],\"CallbackURLs\":[\"com.fitnessevo://signIn\"],\"LogoutURLs\":[\"com.fitnessevo://signOut\"]}"
       },
       "frontendAuthConfig": {
         "socialProviders": [
           "FACEBOOK",
-          "GOOGLE",
           "APPLE"
         ],
         "usernameAttributes": [],
-        "signupAttributes": [
-          "EMAIL"
-        ],
+        "signupAttributes": [],
         "passwordProtectionSettings": {
           "passwordPolicyMinLength": 8,
           "passwordPolicyCharacters": [
@@ -53,7 +51,7 @@
           "EMAIL"
         ]
       },
-      "lastPushTimeStamp": "2022-07-20T06:40:53.547Z"
+      "lastPushTimeStamp": "2022-07-20T08:46:20.875Z"
     }
   }
 }

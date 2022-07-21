@@ -231,7 +231,6 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.logI
         const user = await Auth.signIn(emailUsernameHash(credential.email), credential.password)
         let { attributes, username } = user
         let jwtToken = user?.signInUserSession?.idToken?.jwtToken
-
         await Keychain.setGenericPassword(emailUsernameHash(credential.email), credential.password)
 
         const userProfileRes = await axios.get(config.userProfile, {
@@ -259,6 +258,7 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.logI
       }
     } catch (err: any) {
       loginErrHandler(err)
+      console.log('err', JSON.stringify(err, null, 2))
       dispatch(startLoading(false))
     } finally {
       setIsLoggingIn(false)
@@ -303,7 +303,7 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.logI
       edges={['top']}
     >
       <ScreenBackgrounds screenName={RouteStacks.logIn}>
-        <KeyboardAwareScrollView contentContainerStyle={[Layout.fill, Layout.colCenter, Layout.justifyContentStart]}>
+        <ScrollView contentContainerStyle={[Layout.fill, Layout.colCenter, Layout.justifyContentStart]}>
           <Header onLeftPress={goBack} headerText={t('login')} />
 
           <View
@@ -379,7 +379,7 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.logI
               </View>
             </KeyboardAwareScrollView>
           </SlideInputModal>
-        </KeyboardAwareScrollView>
+        </ScrollView>
       </ScreenBackgrounds>
     </SafeAreaView>
   )
