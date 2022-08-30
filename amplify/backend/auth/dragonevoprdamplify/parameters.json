@@ -5,6 +5,7 @@
   "region": "us-west-2",
   "authProvidersUserPool": [
     "Facebook",
+    "Google",
     "SignInWithApple"
   ],
   "requiredAttributes": [],

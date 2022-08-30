@@ -52,7 +52,18 @@ const Header = (props: {
     <View style={[ROOT, HEADER, style]}>
       {onLeftPress ? (
         <View style={{ flex: 1, justifyContent: 'center' }}>
-          <Pressable style={{ position: 'absolute', zIndex: 1 }} onPress={onLeftPress}>
+          <Pressable
+            style={{
+              position: 'absolute',
+              zIndex: 1,
+              flex: 1,
+              width: 30,
+              height: 30,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+            onPress={onLeftPress}
+          >
             {leftIcon ? leftIcon() : <Image source={backBtn} style={{ width: 16, resizeMode: 'contain' }} />}
           </Pressable>
         </View>

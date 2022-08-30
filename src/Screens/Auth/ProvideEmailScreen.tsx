@@ -81,7 +81,7 @@ const ProvideEmailScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStack
   }
 
   const onEmailChange = (text: string) => {
-    setEmail(text)
+    setEmail(text.toLowerCase())
   }
 
   const onConfirmPress = async () => {

@@ -52,7 +52,7 @@ export const publicLinking: LinkingOptions<ApplicationNavigatorParamList> = {
   config: {
     initialRouteName: RouteStacks.application,
     screens: {
-      [RouteStacks.application]: RouteStacks.startUp,
+      [RouteStacks.application]: RouteStacks.application,
       [RouteStacks.mainNavigator]: {
         screens: {
           [RouteStacks.welcomeGallery]: {
@@ -68,11 +68,7 @@ export const publicLinking: LinkingOptions<ApplicationNavigatorParamList> = {
             path: RouteStacks.signUp,
           },
           [RouteStacks.enterInvitationCode]: {
-            path: `${RouteStacks.enterInvitationCode}`,
-            // path: `${RouteStacks.enterInvitationCode}/:code?`,
-            // parse: {
-            //     code: (code) => code
-            // }
+            path: RouteStacks.enterInvitationCode,
           },
           [RouteStacks.validationCode]: {
             path: RouteStacks.validationCode,

@@ -133,11 +133,10 @@ const getUser = () => {
     .catch(() => {})
 }
 
-// com.fitnessevo://signIn
 const urlOpener = async (url: string, redirectUrl: string) => {
+  console.log(url, config.urlScheme)
   try {
     if (redirectUrl === `${config.urlScheme}signIn` && (await InAppBrowser.isAvailable())) {
-      // const authRes: any = await InAppBrowser.open(url)
       const authRes: any = await InAppBrowser.openAuth(url, redirectUrl, {
         showTitle: false,
         enableUrlBarHiding: true,

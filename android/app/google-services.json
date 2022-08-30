@@ -14,6 +14,102 @@
       },
       "oauth_client": [
         {
+          "client_id": "826872578364-hdsgrpjc56sbih38qvu2mgms2carbrbj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fitnessevo",
+            "certificate_hash": "cf0903760d49a19089e6b509f9d1a6a92cea5471"
+          }
+        },
+        {
+          "client_id": "826872578364-fv828edeghdp0vujdpvqbrudrv4psu38.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7Oxu2-WvhHax36eGbeZUiPOugDiseIKk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "826872578364-fv828edeghdp0vujdpvqbrudrv4psu38.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "826872578364-hedpn3ea2egs9ru594a8fu3kek8ppf73.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.fitnessevo"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:826872578364:android:432a42be173445c7ce5e39",
+        "android_client_info": {
+          "package_name": "com.fitnessevo.tf1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "826872578364-udtpi8762kqfib1evcdblcipe6crav29.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fitnessevo.tf1",
+            "certificate_hash": "cf0903760d49a19089e6b509f9d1a6a92cea5471"
+          }
+        },
+        {
+          "client_id": "826872578364-fv828edeghdp0vujdpvqbrudrv4psu38.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7Oxu2-WvhHax36eGbeZUiPOugDiseIKk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "826872578364-fv828edeghdp0vujdpvqbrudrv4psu38.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "826872578364-hedpn3ea2egs9ru594a8fu3kek8ppf73.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.fitnessevo"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:826872578364:android:cab1e49979676255ce5e39",
+        "android_client_info": {
+          "package_name": "com.fitnessevo.tf2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "826872578364-50ig0blcu5b3shmtcimqssp499mc8b86.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fitnessevo.tf2",
+            "certificate_hash": "cf0903760d49a19089e6b509f9d1a6a92cea5471"
+          }
+        },
+        {
           "client_id": "826872578364-fv828edeghdp0vujdpvqbrudrv4psu38.apps.googleusercontent.com",
           "client_type": 3
         }

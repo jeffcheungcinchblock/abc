@@ -43,6 +43,7 @@ type HomeMainScreenNavigationProp = CompositeScreenProps<
 
 let nodeJsTimeout: NodeJS.Timeout
 
+// To be removed later
 const MainScreen: FC<HomeMainScreenNavigationProp> = ({ navigation, route }) => {
   const { t } = useTranslation()
   const { Common, Fonts, Gutters, Layout } = useTheme()
@@ -51,12 +52,6 @@ const MainScreen: FC<HomeMainScreenNavigationProp> = ({ navigation, route }) => 
 
   const onSignOutPress = async () => {
     await awsLogout()
-  }
-
-  const onReferFriendsPress = () => {
-    navigation.navigate(RouteTabs.home, {
-      screen: RouteStacks.homeReferral,
-    })
   }
 
   const onToggleDrawer = () => {
@@ -95,8 +90,6 @@ const MainScreen: FC<HomeMainScreenNavigationProp> = ({ navigation, route }) => 
             }}
           >
             <Text style={Fonts.textRegular}>Welcome</Text>
-
-            {<TurquoiseButton onPress={onReferFriendsPress} text={t('Refer friends')} containerStyle={[Layout.fullWidth]} />}
 
             {<TurquoiseButton onPress={onToggleDrawer} text={t('Toggle Drawer')} containerStyle={[Layout.fullWidth]} />}
 

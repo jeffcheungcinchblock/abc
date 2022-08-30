@@ -14,6 +14,8 @@
 	<array/>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIconName</key>
+	<string>AppIcon</string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -26,10 +28,6 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>${PRODUCT_NAME} needs permission to access photos</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>${PRODUCT_NAME} needs permission to write photos</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -80,6 +78,8 @@
 	<string>Accelerometer use increases battery efficiency by intelligently toggling location-tracking</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>$(PRODUCT_NAME) wants to save photos</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>${PRODUCT_NAME} needs permission to access photos</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>

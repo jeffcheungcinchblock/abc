@@ -44,7 +44,7 @@ export type AuthNavigatorParamList = {
 }
 const Stack = createStackNavigator<AuthNavigatorParamList>()
 
-export type ApplicationScreenProps = StackScreenProps<ApplicationNavigatorParamList, RouteStacks.application>
+export type ApplicationScreenProps = StackScreenProps<ApplicationNavigatorParamList, RouteStacks.mainNavigator>
 
 const AuthNavigator: FC<ApplicationScreenProps> = ({ navigation }) => {
   const dispatch = useDispatch()

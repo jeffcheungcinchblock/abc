@@ -136,13 +136,14 @@ const ApplicationNavigator = () => {
                 Authorization: jwtToken,
               },
             })
-
-            const { email, uuid, verified, username } = userProfileRes?.data
-            if (username.includes('SignInWith') && verified === 'false') {
+            const { email, uuid, username } = userProfileRes?.data
+            if (
+              (username.includes('Google') || username.includes('Facebook') || username.includes('SignInWithApple')) &&
+              email === undefined
+            ) {
               publicNavigationRef.navigate(RouteStacks.provideEmail)
               // dispatch(startLoading(false))
             } else {
-              console.log('@@@@@@@@ ')
               dispatch(
                 login({
                   username: userData.username,
@@ -200,7 +201,7 @@ const ApplicationNavigator = () => {
           initialRouteName={RouteStacks.application}
         >
           <Stack.Screen name={RouteStacks.application} component={ApplicationStartupContainer} />
-          <Stack.Screen name={RouteStacks.mainNavigator} component={isLoggedIn ? MainNavigator : AuthNavigator} />
+          <Stack.Screen name={RouteStacks.mainNavigator} component={!isLoggedIn ? AuthNavigator : MainNavigator} />
         </Stack.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView>

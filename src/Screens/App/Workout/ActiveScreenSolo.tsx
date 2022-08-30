@@ -21,7 +21,7 @@ import { WorkoutNavigatorParamList } from '@/Screens/App/WorkoutScreen'
 import { DrawerNavigatorParamList, TabNavigatorParamList } from '@/Navigators/MainNavigator'
 import MapScreenBackgrounds from '@/Components/MapScreenBackgrounds'
 import axios from 'axios'
-import { colors } from '@/Utils/constants'
+import { colors, config } from '@/Utils/constants'
 
 import ActiveMapView from '@/Components/Map/index'
 
@@ -490,7 +490,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
         speed: new_speed,
         overSpeedPath: over_speed_paths_string,
       }
-      let response = await axios.post('https://85vamr0pne.execute-api.us-west-2.amazonaws.com/dev/sessions', data)
+      let response = await axios.post(`${config.trialPlaySession}/sessions`, data)
       if (response) {
         setIsStopping(false)
         navigation.navigate(RouteStacks.endWorkout, data)

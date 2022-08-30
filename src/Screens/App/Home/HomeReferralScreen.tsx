@@ -17,6 +17,7 @@ import {
   Dimensions,
   Linking,
   StyleSheet,
+  NativeScrollEvent,
 } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { Brand, Header } from '@/Components'
@@ -167,6 +168,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
   const [isInvitingFriends, setIsInvitingFriends] = useState(false)
   const [needFetchDtl, setNeedFetchDtl] = useState(true)
   const [fetchedReferralInfo, setFetchedReferralInfo] = useState(false)
+  const [showScrollToBottom, setShowScrollToBottom] = useState(true)
   const [referralInfo, setReferralInfo] = useState<ReferralInfo>({
     point: 0,
     lastRank: 0,
@@ -188,7 +190,6 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
     dispatch(startLoading(false))
     dispatch({ type: 'init' })
   }, [])
-
   useEffect(() => {
     const dailyLogin = async (jwtToken: string) => {
       let userDailyLoginRes = await axios.get(config.userDailyLogin, {
@@ -221,6 +222,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
           }),
         ])
 
+        console.log(user)
         const { dailyMission, loginCount, totalPoint } = userFitnessInfoRes.data
 
         dailyLogin(jwtToken)
@@ -241,6 +243,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
 
         setFetchedReferralInfo(true)
       } catch (err: any) {
+        console.log('Err ', JSON.stringify(err, null, 2))
         crashlytics().recordError(err)
       } finally {
         setTimeout(() => {
@@ -331,6 +334,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
 
   const onTrialPlayPress = async () => {
     try {
+      dispatch(startLoading(true))
       setIsStartPressed(true)
       const LocationpermissionStatus = await checkMultiple([
         PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
@@ -390,6 +394,8 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
       }
     } catch (err: any) {
       crashlytics().recordError(err)
+    } finally {
+      dispatch(startLoading(false))
     }
   }
   const onLesGoBtnPress = () => dailyRewardModalRef?.current?.close()
@@ -407,6 +413,11 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
     invitationRewardModalRef?.current?.close()
   }
 
+  const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }: NativeScrollEvent) => {
+    const paddingToBottom = 20
+    return layoutMeasurement.height + contentOffset.y >= contentSize.height - paddingToBottom
+  }
+
   const onTAndCPress = async () => {
     await InAppBrowser.open('https://fitevo-nft.gitbook.io/agreement/')
   }
@@ -421,6 +432,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
   }, [referralInfo.referredEmails])
 
   let isNewAc = referralInfo.lastRank === 0
+  let kePointNotMeetRequirement = referralInfo.totalPoint < 120
 
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: 'space-between', backgroundColor: colors.darkGunmetal }} edges={['top']}>
@@ -440,13 +452,22 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
           onActionBtnPress={onInvitationRewardModalCloseBtnPress}
         />
 
-        <Pressable onPress={onScrollDownPress} style={{ position: 'absolute', bottom: 20, right: 20, zIndex: 2 }}>
-          <Image source={scrollDownBtn} style={{}} />
-        </Pressable>
+        {showScrollToBottom ? (
+          <Pressable onPress={onScrollDownPress} style={{ position: 'absolute', bottom: 20, right: 20, zIndex: 2 }}>
+            <Image source={scrollDownBtn} style={{}} />
+          </Pressable>
+        ) : null}
 
         <KeyboardAwareScrollView
           ref={keyboardAwareScrollViewRef}
           contentContainerStyle={[Layout.colCenter]}
+          onScroll={({ nativeEvent }) => {
+            if (isCloseToBottom(nativeEvent)) {
+              setShowScrollToBottom(false)
+            } else {
+              setShowScrollToBottom(true)
+            }
+          }}
           refreshControl={
             <RefreshControl refreshing={needFetchDtl} onRefresh={onRefresh} progressViewOffset={10} tintColor={colors.brightTurquoise} />
           }
@@ -604,8 +625,8 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
           >
             <View
               style={{
-                backgroundColor: isStartPressed ? colors.charcoal : colors.brightTurquoise,
-                shadowColor: isStartPressed ? colors.charcoal : colors.brightTurquoise,
+                backgroundColor: kePointNotMeetRequirement || isStartPressed ? colors.charcoal : colors.brightTurquoise,
+                shadowColor: kePointNotMeetRequirement || isStartPressed ? colors.charcoal : colors.brightTurquoise,
                 elevation: 10,
                 borderRadius: 30,
                 shadowOffset: { width: 0, height: 0 },
@@ -620,7 +641,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
                   paddingVertical: 4,
                 }}
                 onPress={onTrialPlayPress}
-                disabled={isStartPressed}
+                disabled={kePointNotMeetRequirement || isStartPressed}
               >
                 <Text
                   style={{
@@ -725,7 +746,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
             </View>
 
             <Text style={[Fonts.textSmall, { color: colors.brightTurquoise }]}>
-              {referralInfo.referred} {t(`friend${referralInfo.referred <= 1 ? '' : 's'}`)}
+              {referredNames.length} {t(`friend${referredNames.length <= 1 ? '' : 's'}`)}
             </Text>
           </View>
 

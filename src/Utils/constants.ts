@@ -13,6 +13,7 @@ export const config = {
   emailVerification: `https://api.fitevo.io/users/email-verification`,
   onelinkUrl: `https://fitevo-beta.onelink.me/Gm8c`,
   referralConfirmation: `https://api.fitevo.io/users/referral-confirmation`,
+  trialPlaySession: `https://api.fitevo.io/fitness`,
   totalPointsMaxCap: 9680,
 }
 
