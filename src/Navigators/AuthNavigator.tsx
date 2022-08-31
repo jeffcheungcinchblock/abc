@@ -55,10 +55,10 @@ const AuthNavigator: FC<ApplicationScreenProps> = ({ navigation }) => {
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName={RouteStacks.welcomeGallery}
+      initialRouteName={RouteStacks.welcome}
     >
       <Stack.Screen name={RouteStacks.welcomeGallery} component={WelcomeGalleryScreen} />
-      {/* <Stack.Screen name={RouteStacks.welcome} component={WelcomeScreen} />
+      <Stack.Screen name={RouteStacks.welcome} component={WelcomeScreen} />
       <Stack.Screen name={RouteStacks.signUpWithCode} component={SignUpWithCodeScreen} />
       <Stack.Screen name={RouteStacks.logIn} component={SignInScreen} />
       <Stack.Screen name={RouteStacks.signUp} component={SignUpScreen} />
@@ -67,7 +67,7 @@ const AuthNavigator: FC<ApplicationScreenProps> = ({ navigation }) => {
       <Stack.Screen name={RouteStacks.forgotPassword} component={ForgotPasswordScreen} />
       <Stack.Screen name={RouteStacks.createNewPassword} component={CreateNewPasswordScreen} />
       <Stack.Screen name={RouteStacks.provideEmail} component={ProvideEmailScreen} />
-      <Stack.Screen name={RouteStacks.registrationCompleted} component={RegistrationCompletedScreen} /> */}
+      <Stack.Screen name={RouteStacks.registrationCompleted} component={RegistrationCompletedScreen} />
     </Stack.Navigator>
   )
 }
