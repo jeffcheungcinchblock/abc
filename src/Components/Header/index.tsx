@@ -17,7 +17,7 @@ const ROOT: ViewStyle = {
   paddingBottom: Spacing[5],
   justifyContent: 'flex-start',
 }
-const TITLE: TextStyle = { textAlign: 'center', color: colors.white, fontWeight: 'bold' }
+const TITLE: TextStyle = { textAlign: 'center', color: colors.white, fontWeight: 'bold', fontSize: 18 }
 const TITLE_MIDDLE: ViewStyle = { flex: 3, justifyContent: 'center', alignItems: 'center' }
 const LEFT: ViewStyle = { flex: 1 }
 const RIGHT: ViewStyle = { flex: 1 }

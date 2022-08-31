@@ -22,8 +22,10 @@ import WhiteInput from '@/Components/Inputs/WhiteInput'
 import axios from 'axios'
 import { emailUsernameHash, triggerSnackbar } from '@/Utils/helpers'
 import crashlytics from '@react-native-firebase/crashlytics'
+// @ts-ignore
 import CountDown from 'react-native-countdown-component'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import * as Keychain from 'react-native-keychain'
 
 const TEXT_INPUT = {
   height: 40,
@@ -74,7 +76,7 @@ const VerificationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteS
   const { Common, Fonts, Gutters, Layout } = useTheme()
   const dispatch = useDispatch()
 
-  const params = route!.params || { email: '', action: '' }
+  const params = route!.params || { email: '', action: '', password: '' }
   const [isVerifyingAccount, setIsVerifyingAccount] = useState(false)
   const [validationCode, setValidationCode] = useState('')
   const ref = useBlurOnFulfill({ value: validationCode, cellCount: 6 })
@@ -160,6 +162,9 @@ const VerificationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteS
       try {
         dispatch(startLoading(true))
         await Auth.confirmSignUp(emailUsernameHash(params.email), validationCode)
+        if (params.password !== undefined) {
+          await Keychain.setGenericPassword(emailUsernameHash(params.email), params.password)
+        }
         navigation.navigate(RouteStacks.registrationCompleted)
       } catch (err: any) {
         crashlytics().recordError(err)

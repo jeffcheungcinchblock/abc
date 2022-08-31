@@ -24,6 +24,8 @@ import WhiteInput from '@/Components/Inputs/WhiteInput'
 import axios from 'axios'
 import { emailUsernameHash, triggerSnackbar } from '@/Utils/helpers'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import * as Keychain from 'react-native-keychain'
+import crashlytics from '@react-native-firebase/crashlytics'
 
 const TEXT_INPUT = {
   height: 40,
@@ -46,6 +48,7 @@ const CONTENT_ELEMENT_WRAPPER: ViewStyle = {
   padding: 2,
   width: '90%',
 }
+let abortController: AbortController
 
 const RegistrationCompletedScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.registrationCompleted>> = ({
   navigation,
@@ -57,8 +60,36 @@ const RegistrationCompletedScreen: FC<StackScreenProps<AuthNavigatorParamList, R
 
   const [errMsg, setErrMsg] = useState('')
 
-  const onDonePress = () => {
-    navigation.navigate(RouteStacks.logIn)
+  const onDonePress = async () => {
+    // navigation.navigate(RouteStacks.logIn)
+    try {
+      dispatch(startLoading(true))
+      const keychainCred = await Keychain.getGenericPassword()
+      if (keychainCred) {
+        const user = await Auth.signIn(keychainCred.username, keychainCred.password)
+        let { attributes, username } = user
+        let jwtToken = user?.signInUserSession?.idToken?.jwtToken
+
+        const userProfileRes = await axios.get(config.userProfile, {
+          signal: abortController.signal,
+          headers: {
+            Authorization: jwtToken,
+          },
+        })
+        const { email, uuid } = userProfileRes?.data
+
+        dispatch(
+          login({
+            email: attributes.email,
+            username,
+            uuid,
+          }),
+        )
+      }
+    } catch (err: any) {
+      crashlytics().recordError(err)
+    } finally {
+    }
   }
 
   return (

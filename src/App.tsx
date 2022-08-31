@@ -134,7 +134,7 @@ const getUser = () => {
 }
 
 const urlOpener = async (url: string, redirectUrl: string) => {
-  console.log(url, config.urlScheme)
+  console.log(url, config.urlScheme, redirectUrl)
   try {
     if (redirectUrl === `${config.urlScheme}signIn` && (await InAppBrowser.isAvailable())) {
       const authRes: any = await InAppBrowser.openAuth(url, redirectUrl, {

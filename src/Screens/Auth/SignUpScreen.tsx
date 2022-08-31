@@ -130,6 +130,7 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
       setIsCreatingAccount(false)
       navigation.navigate(RouteStacks.validationCode, {
         email: credential.email,
+        password: credential.password,
         action: 'signUp',
       })
     } catch (err: any) {

@@ -43,6 +43,7 @@ export const colors = {
   philippineSilver: '#B5B5B5',
   buleCola: '#0174E5',
   lightSlateGray: '#749597',
+  silverChalice: '#ABABAB',
 
   green: '#14D13E', //green
   orange: '#D6AE14', //yellow

@@ -3,27 +3,21 @@ import { View, Image, Text, StyleProp, ViewStyle, TextProps } from 'react-native
 import { useTheme } from '@/Hooks'
 import { colors } from '@/Utils/constants'
 
-interface AvenirTextProps extends TextProps {
-  label: string
-}
+interface AvenirMediumTextProps extends TextProps {}
 
-const AvenirText = (props: AvenirTextProps) => {
+const AvenirMediumText = (props: AvenirMediumTextProps) => {
   const { Layout, Images } = useTheme()
 
   let styleProp = Array.isArray(props.style)
-    ? [...props.style, { fontFamily: 'Avenir' }]
+    ? [...props.style, { fontFamily: 'AvenirNext-Medium' }]
     : {
         ...(props.style as object),
-        fontFamily: 'Avenir',
+        fontFamily: 'AvenirNext-Medium',
       }
 
-  return (
-    <Text {...props} style={styleProp}>
-      {props.children}
-    </Text>
-  )
+  return <Text {...props} style={styleProp} />
 }
 
-AvenirText.defaultProps = {}
+AvenirMediumText.defaultProps = {}
 
-export default AvenirText
+export default AvenirMediumText
