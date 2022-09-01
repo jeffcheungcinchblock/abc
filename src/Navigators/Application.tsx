@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import { Dimensions, Image, ImageBackground, Linking, Pressable, StatusBar, Text, View } from 'react-native'
 import { createStackNavigator, TransitionSpecs } from '@react-navigation/stack'
 import { LinkingOptions, NavigationContainer, NavigationContainerRefWithCurrent, useNavigation } from '@react-navigation/native'
-import { ApplicationStartupContainer } from '@/Screens'
 import { useTheme } from '@/Hooks'
 import MainNavigator, { DrawerNavigatorParamList } from './MainNavigator'
 import { navigationRef } from './utils'
@@ -198,9 +197,8 @@ const ApplicationNavigator = () => {
             headerShown: false,
             presentation: 'transparentModal',
           }}
-          initialRouteName={RouteStacks.application}
+          initialRouteName={RouteStacks.mainNavigator}
         >
-          <Stack.Screen name={RouteStacks.application} component={ApplicationStartupContainer} />
           <Stack.Screen name={RouteStacks.mainNavigator} component={!isLoggedIn ? AuthNavigator : MainNavigator} />
         </Stack.Navigator>
       </NavigationContainer>

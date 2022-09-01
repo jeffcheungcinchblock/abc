@@ -45,99 +45,92 @@ const subscribe = (listener: (deeplink: string) => void) => {
 }
 
 // Screens before logging in linking options
-export const publicLinking: LinkingOptions<ApplicationNavigatorParamList> = {
+export const publicLinking: LinkingOptions<AuthNavigatorParamList> = {
   prefixes,
   getInitialURL,
   subscribe,
   config: {
-    initialRouteName: RouteStacks.application,
+    initialRouteName: RouteStacks.authAppSplash,
     screens: {
-      [RouteStacks.application]: RouteStacks.application,
-      [RouteStacks.mainNavigator]: {
-        screens: {
-          [RouteStacks.welcomeGallery]: {
-            path: RouteStacks.welcomeGallery,
-          },
-          [RouteStacks.welcome]: {
-            path: RouteStacks.welcome,
-          },
-          [RouteStacks.logIn]: {
-            path: RouteStacks.logIn,
-          },
-          [RouteStacks.signUp]: {
-            path: RouteStacks.signUp,
-          },
-          [RouteStacks.enterInvitationCode]: {
-            path: RouteStacks.enterInvitationCode,
-          },
-          [RouteStacks.validationCode]: {
-            path: RouteStacks.validationCode,
-          },
-          [RouteStacks.enterInvitationCode]: {
-            path: RouteStacks.enterInvitationCode,
-          },
-          [RouteStacks.forgotPassword]: {
-            path: RouteStacks.forgotPassword,
-          },
-          [RouteStacks.signUpWithCode]: {
-            path: RouteStacks.signUpWithCode,
-          },
-          [RouteStacks.createNewPassword]: {
-            path: RouteStacks.createNewPassword,
-          },
-          [RouteStacks.provideEmail]: {
-            path: RouteStacks.provideEmail,
-          },
-        },
+      [RouteStacks.authAppSplash]: {
+        path: RouteStacks.authAppSplash,
+      },
+      [RouteStacks.welcomeGallery]: {
+        path: RouteStacks.welcomeGallery,
+      },
+      [RouteStacks.welcome]: {
+        path: RouteStacks.welcome,
+      },
+      [RouteStacks.logIn]: {
+        path: RouteStacks.logIn,
+      },
+      [RouteStacks.signUp]: {
+        path: RouteStacks.signUp,
+      },
+      [RouteStacks.enterInvitationCode]: {
+        path: RouteStacks.enterInvitationCode,
+      },
+      [RouteStacks.validationCode]: {
+        path: RouteStacks.validationCode,
+      },
+      [RouteStacks.enterInvitationCode]: {
+        path: RouteStacks.enterInvitationCode,
+      },
+      [RouteStacks.forgotPassword]: {
+        path: RouteStacks.forgotPassword,
+      },
+      [RouteStacks.signUpWithCode]: {
+        path: RouteStacks.signUpWithCode,
+      },
+      [RouteStacks.createNewPassword]: {
+        path: RouteStacks.createNewPassword,
+      },
+      [RouteStacks.provideEmail]: {
+        path: RouteStacks.provideEmail,
       },
     },
   },
 }
 
 // Screens after logged in linking options
-export const privateLinking: LinkingOptions<ApplicationNavigatorParamList> = {
+export const privateLinking: LinkingOptions<MainStackNavigatorParamList> = {
   prefixes,
   getInitialURL,
   subscribe,
   config: {
-    initialRouteName: RouteStacks.application,
+    initialRouteName: RouteStacks.mainDrawer,
     screens: {
-      [RouteStacks.application]: RouteStacks.application,
-      [RouteStacks.mainNavigator]: {
+      [RouteStacks.mainDrawer]: {
+        path: RouteStacks.mainDrawer,
         screens: {
-          [RouteStacks.mainDrawer]: {
-            path: RouteStacks.mainDrawer,
+          [RouteStacks.mainTab]: {
+            path: RouteStacks.mainTab,
+            initialRouteName: RouteTabs.home,
             screens: {
-              [RouteStacks.mainTab]: {
-                path: RouteStacks.mainTab,
-                initialRouteName: RouteTabs.home,
+              [RouteTabs.home]: {
+                path: RouteTabs.home,
                 screens: {
-                  [RouteTabs.home]: {
-                    path: RouteTabs.home,
-                    screens: {
-                      [RouteStacks.homeReferral]: {
-                        path: RouteStacks.homeReferral,
-                      },
-                    },
+                  [RouteStacks.homeReferral]: {
+                    path: RouteStacks.homeReferral,
                   },
-                  [RouteTabs.marketplace]: {
-                    path: RouteTabs.marketplace,
-                    screens: {
-                      [RouteStacks.marketplaceMain]: RouteStacks.marketplaceMain,
-                    },
-                  },
-                  [RouteTabs.social]: {
-                    path: RouteTabs.social,
-                    screens: {
-                      [RouteStacks.socialMain]: RouteStacks.socialMain,
-                    },
-                  },
-                  [RouteTabs.breeding]: {
-                    path: RouteTabs.breeding,
-                    screens: {
-                      [RouteStacks.breedingMain]: RouteStacks.breedingMain,
-                    },
-                  },
+                },
+              },
+              [RouteTabs.marketplace]: {
+                path: RouteTabs.marketplace,
+                screens: {
+                  [RouteStacks.marketplaceMain]: RouteStacks.marketplaceMain,
+                },
+              },
+              [RouteTabs.social]: {
+                path: RouteTabs.social,
+                screens: {
+                  [RouteStacks.socialMain]: RouteStacks.socialMain,
+                },
+              },
+              [RouteTabs.breeding]: {
+                path: RouteTabs.breeding,
+                screens: {
+                  [RouteStacks.breedingMain]: RouteStacks.breedingMain,
                 },
               },
             },

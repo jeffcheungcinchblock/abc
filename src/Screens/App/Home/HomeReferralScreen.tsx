@@ -43,8 +43,6 @@ import { DrawerNavigatorParamList, TabNavigatorParamList } from '@/Navigators/Ma
 import ScreenBackgrounds from '@/Components/ScreenBackgrounds'
 import TurquoiseButton from '@/Components/Buttons/TurquoiseButton'
 import CircleButton from '@/Components/Buttons/CircleButton'
-import PoppinsBoldText from '@/Components/FontText/PoppinsBoldText'
-import PoppinsMediumText from '@/Components/FontText/PoppinsMediumText'
 import Clipboard from '@react-native-clipboard/clipboard'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { awsLogout, triggerSnackbar } from '@/Utils/helpers'
@@ -591,10 +589,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
 
           <View style={[Layout.fullWidth, { alignItems: 'center', justifyContent: 'center', height: 120 }]}>
             <AvenirText
-              style={[
-                Layout.fullWidth,
-                { color: colors.white, fontSize: 16, lineHeight: 24, fontWeight: 'bold', textAlign: 'center', fontFamily: 'Poppins' },
-              ]}
+              style={[Layout.fullWidth, { color: colors.white, fontSize: 16, lineHeight: 24, fontWeight: 'bold', textAlign: 'center' }]}
             >
               {t('top100AvgKE')}
             </AvenirText>
@@ -654,7 +649,6 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
                     fontSize: 30,
                     fontWeight: 'bold',
                     fontStyle: 'italic',
-                    fontFamily: 'Poppins-Bold',
                     color: colors.darkGunmetal,
                   }}
                 >
@@ -672,7 +666,6 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
                 {t('totalReferred')}
               </AvenirText>
               <Pressable onPress={onInfoBtnPress} style={{ justifyContent: 'center' }}>
-                {/* <MaterialCommunityIcons name='information-outline' color={colors.brightTurquoise} size={20} /> */}
                 <Image source={infoIcon} style={{ width: 18, height: 18, resizeMode: 'contain' }} />
               </Pressable>
             </View>
@@ -736,7 +729,6 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
                     fontSize: 16,
                     lineHeight: 24,
                     fontWeight: '500',
-                    fontFamily: 'Poppins',
                   },
                 ]}
               >
@@ -810,7 +802,6 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
           <View style={[Layout.fullWidth, Layout.center, { justifyContent: 'center', paddingHorizontal: 40 }]}>
             <AvenirText
               style={{
-                fontFamily: 'Poppins-Bold',
                 color: colors.brightTurquoise,
                 fontWeight: 'bold',
                 lineHeight: 40,
@@ -830,7 +821,6 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
                 textAlign: 'center',
                 paddingVertical: 10,
                 lineHeight: 18,
-                fontFamily: 'Poppins',
               }}
             >
               {t('madeItToBeta')}
@@ -838,7 +828,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
           </View>
 
           <View style={[Layout.fullWidth, Layout.center, { height: 280, paddingHorizontal: 0 }]}>
-            <Image source={world} style={{ width: '100%', resizeMode: 'contain' }} />
+            <Image source={world} style={{ width: '100%', height: 280, resizeMode: 'contain' }} />
           </View>
 
           <View
@@ -851,7 +841,6 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
             <AvenirText
               style={[
                 {
-                  fontFamily: 'Poppins',
                   color: colors.white,
                   fontSize: 18,
                   fontWeight: 'bold',
@@ -880,9 +869,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
               },
             ]}
           >
-            <AvenirText style={[{ fontSize: 18, lineHeight: 20, color: colors.white, fontFamily: 'Poppins', fontWeight: 'bold' }]}>
-              {t('howToEarnKe')}
-            </AvenirText>
+            <AvenirText style={[{ fontSize: 18, lineHeight: 20, color: colors.white, fontWeight: 'bold' }]}>{t('howToEarnKe')}</AvenirText>
           </View>
 
           <View
@@ -926,14 +913,14 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
                 justifyContent: 'flex-start',
                 alignItems: 'center',
                 flexDirection: 'column',
-                marginBottom: 14,
+                marginBottom: 18,
               },
             ]}
           >
-            <Image source={card1} style={{ resizeMode: 'stretch', width: '92%', height: undefined, aspectRatio: 349 / 149 }} />
-            <Image source={card2} style={{ resizeMode: 'stretch', width: '92%', height: undefined, aspectRatio: 349 / 149 }} />
-            <Image source={card3} style={{ resizeMode: 'stretch', width: '92%', height: undefined, aspectRatio: 346 / 161 }} />
-            <Image source={card4} style={{ resizeMode: 'stretch', width: '92%', height: undefined, aspectRatio: 342 / 207 }} />
+            <Image source={card1} style={{ resizeMode: 'stretch', width: '92%', height: undefined, aspectRatio: 1384 / 612 }} />
+            <Image source={card2} style={{ resizeMode: 'stretch', width: '92%', height: undefined, aspectRatio: 692 / 298 }} />
+            <Image source={card3} style={{ resizeMode: 'stretch', width: '92%', height: undefined, aspectRatio: 692 / 322 }} />
+            <Image source={card4} style={{ resizeMode: 'stretch', width: '92%', height: undefined, aspectRatio: 684 / 414 }} />
           </View>
           <Pressable
             onPress={onLinkMediumPress}
@@ -960,7 +947,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
             style={[
               Layout.fullWidth,
               Layout.center,
-              { paddingTop: 40, paddingBottom: 24, paddingHorizontal: 34, justifyContent: 'center' },
+              { paddingTop: 46, paddingBottom: 24, paddingHorizontal: 34, justifyContent: 'center' },
             ]}
           >
             <AvenirText

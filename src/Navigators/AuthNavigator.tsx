@@ -21,6 +21,7 @@ import { navigationRef } from './utils'
 import { CompositeScreenProps, LinkingOptions, NavigationContainerRefWithCurrent, Route } from '@react-navigation/native'
 import ProvideEmailScreen from '@/Screens/Auth/ProvideEmailScreen'
 import { ApplicationNavigatorParamList } from './Application'
+import AuthAppSplashScreen from '@/Screens/Auth/AuthAppSplashScreen'
 
 type ValidationCodeParam = {
   email: string
@@ -30,6 +31,7 @@ type ValidationCodeParam = {
 }
 
 export type AuthNavigatorParamList = {
+  [RouteStacks.authAppSplash]: undefined
   [RouteStacks.welcomeGallery]: undefined
   [RouteStacks.welcome]: undefined
   [RouteStacks.signUp]: { code?: string } | undefined
@@ -55,8 +57,9 @@ const AuthNavigator: FC<ApplicationScreenProps> = ({ navigation }) => {
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName={RouteStacks.welcomeGallery}
+      initialRouteName={RouteStacks.authAppSplash}
     >
+      <Stack.Screen name={RouteStacks.authAppSplash} component={AuthAppSplashScreen} />
       <Stack.Screen
         name={RouteStacks.welcomeGallery}
         component={WelcomeGalleryScreen}

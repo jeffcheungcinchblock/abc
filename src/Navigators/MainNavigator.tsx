@@ -29,6 +29,7 @@ import { RootState } from '@/Store'
 import { WorkoutNavigatorParamList } from '@/Screens/App/WorkoutScreen'
 import WorkoutNavigator from '@/Navigators/WorkoutNavigator'
 import { ApplicationNavigatorParamList } from './Application'
+import AppSplashScreen from '@/Screens/App/AppSplashScreen'
 
 export type TabNavigatorParamList = {
   [RouteTabs.home]: NavigatorScreenParams<HomeNavigatorParamList>
@@ -45,7 +46,8 @@ export type DrawerNavigatorParamList = {
 }
 
 export type MainStackNavigatorParamList = {
-  [RouteStacks.mainDrawer]: NavigatorScreenParams<DrawerNavigatorParamList>
+  [RouteStacks.appSplash]: undefined
+  [RouteStacks.mainDrawer]: undefined
 }
 
 const Tab = createBottomTabNavigator()
@@ -181,9 +183,7 @@ const DrawerNavigator: FC<MainNavigatorProps> = ({ navigation }) => {
       drawerContent={props => <CustomDrawerContent {...props} />}
       initialRouteName={RouteStacks.mainTab}
     >
-      {/* <Drawer.Screen name={RouteStacks.setting} component={SettingScreen} /> */}
       <Drawer.Screen name={RouteStacks.mainTab} component={MainTabNavigator} />
-      {/* <Drawer.Screen name={RouteStacks.workout} component={WorkoutNavigator} /> */}
     </Drawer.Navigator>
   )
 }
@@ -191,8 +191,15 @@ const MainNavigator = () => {
   const { t } = useTranslation()
 
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={RouteStacks.mainDrawer}>
-      <Stack.Screen name={RouteStacks.mainDrawer} component={DrawerNavigator} />
+    <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={RouteStacks.appSplash}>
+      <Stack.Screen name={RouteStacks.appSplash} component={AppSplashScreen} />
+      <Stack.Screen
+        name={RouteStacks.mainDrawer}
+        component={DrawerNavigator}
+        options={{
+          presentation: 'transparentModal',
+        }}
+      />
       <Stack.Screen name={RouteStacks.workout} component={WorkoutNavigator} />
     </Stack.Navigator>
   )

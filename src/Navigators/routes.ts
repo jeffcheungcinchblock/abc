@@ -29,6 +29,7 @@ export enum RouteStacks {
   createNewPassword = 'createNewPassword',
   provideEmail = 'provideEmail',
   registrationCompleted = 'registrationCompleted',
+  authAppSplash = 'authAppSplash',
 
   // logged in app screens
 
