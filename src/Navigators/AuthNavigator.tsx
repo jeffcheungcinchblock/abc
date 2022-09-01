@@ -55,10 +55,22 @@ const AuthNavigator: FC<ApplicationScreenProps> = ({ navigation }) => {
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName={RouteStacks.welcome}
+      initialRouteName={RouteStacks.welcomeGallery}
     >
-      <Stack.Screen name={RouteStacks.welcomeGallery} component={WelcomeGalleryScreen} />
-      <Stack.Screen name={RouteStacks.welcome} component={WelcomeScreen} />
+      <Stack.Screen
+        name={RouteStacks.welcomeGallery}
+        component={WelcomeGalleryScreen}
+        options={{
+          presentation: 'transparentModal',
+        }}
+      />
+      <Stack.Screen
+        name={RouteStacks.welcome}
+        component={WelcomeScreen}
+        options={{
+          presentation: 'transparentModal',
+        }}
+      />
       <Stack.Screen name={RouteStacks.signUpWithCode} component={SignUpWithCodeScreen} />
       <Stack.Screen name={RouteStacks.logIn} component={SignInScreen} />
       <Stack.Screen name={RouteStacks.signUp} component={SignUpScreen} />

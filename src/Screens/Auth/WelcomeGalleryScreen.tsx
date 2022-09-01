@@ -41,10 +41,12 @@ import slide1 from '@/Assets/Images/Gallery/slider1_img.png'
 import slide2 from '@/Assets/Images/Gallery/slider2_img.png'
 import slide3 from '@/Assets/Images/Gallery/slider3_img.png'
 import slide4 from '@/Assets/Images/Gallery/slider4_img.png'
+// @ts-ignore
 import Dots from 'react-native-dots-pagination'
 import slideDragon from '@/Assets/Images/Gallery/slider4_dragon.png'
 
 const windowHeight = Dimensions.get('window').height
+const windowWidth = Dimensions.get('window').width
 
 const slideBgMap = [slide1Bg, slide2Bg, slide3Bg, slide4Bg]
 
@@ -78,8 +80,7 @@ const Screen: FC<any> = ({ screenIdx }) => {
           </Text>
           <View
             style={{
-              width: '100%',
-              paddingHorizontal: 10,
+              width: windowWidth,
             }}
           >
             <Text
@@ -100,7 +101,9 @@ const Screen: FC<any> = ({ screenIdx }) => {
         </View>
         <View style={{ flex: 13, alignItems: 'center', justifyContent: 'center' }}>
           <Image source={slideMap[screenIdx]} style={{ height: '95%', resizeMode: 'contain' }} />
-          {screenIdx === 3 && <Image source={slideDragon} style={{ position: 'absolute', top: 0, left: 0 }} />}
+          {/* {screenIdx === 3 && (
+            <Image source={slideDragon} style={{ position: 'absolute', top: -150, left: 130, width: '20%', resizeMode: 'contain' }} />
+          )} */}
         </View>
 
         <View style={{ flex: 4 }}></View>

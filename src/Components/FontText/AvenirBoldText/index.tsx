@@ -3,11 +3,11 @@ import { View, Image, Text, StyleProp, ViewStyle, TextProps } from 'react-native
 import { useTheme } from '@/Hooks'
 import { colors } from '@/Utils/constants'
 
-interface AvenirTextProps extends TextProps {
+interface AvenirBoldTextProps extends TextProps {
   label: string
 }
 
-const AvenirText = (props: AvenirTextProps) => {
+const AvenirBoldText = (props: AvenirBoldTextProps) => {
   const { Layout, Images } = useTheme()
 
   let styleProp = Array.isArray(props.style)
@@ -24,6 +24,6 @@ const AvenirText = (props: AvenirTextProps) => {
   )
 }
 
-AvenirText.defaultProps = {}
+AvenirBoldText.defaultProps = {}
 
-export default AvenirText
+export default AvenirBoldText

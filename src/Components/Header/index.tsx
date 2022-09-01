@@ -7,6 +7,7 @@ import AppIcon from '../Icons/AppIcon'
 import { useTheme } from '@/Hooks'
 import { colors } from '@/Utils/constants'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import AvenirText from '../FontText/AvenirText'
 
 // static styles
 const ROOT: ViewStyle = {
@@ -26,7 +27,7 @@ const HEADER: TextStyle = {
   paddingBottom: Spacing[5] - 1,
   paddingHorizontal: Spacing[4],
   paddingTop: Spacing[4],
-  height: 80,
+  height: 60,
 }
 
 /**
@@ -72,7 +73,7 @@ const Header = (props: {
       )}
       {header ? (
         <View style={TITLE_MIDDLE}>
-          <Text style={[TITLE, titleStyle, Fonts.textRegular]}>{header}</Text>
+          <AvenirText style={[TITLE, titleStyle]}>{header}</AvenirText>
         </View>
       ) : (
         <View style={{ flex: 5 }}>

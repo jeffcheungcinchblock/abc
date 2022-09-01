@@ -3,9 +3,9 @@ import { View, Image, Text, StyleProp, ViewStyle, TextProps } from 'react-native
 import { useTheme } from '@/Hooks'
 import { colors } from '@/Utils/constants'
 
-interface AvenirMediumTextProps extends TextProps {}
+interface AvenirTextProps extends TextProps {}
 
-const AvenirMediumText = (props: AvenirMediumTextProps) => {
+const AvenirText = (props: AvenirTextProps) => {
   const { Layout, Images } = useTheme()
 
   let styleProp = Array.isArray(props.style)
@@ -18,6 +18,6 @@ const AvenirMediumText = (props: AvenirMediumTextProps) => {
   return <Text {...props} style={styleProp} />
 }
 
-AvenirMediumText.defaultProps = {}
+AvenirText.defaultProps = {}
 
-export default AvenirMediumText
+export default AvenirText

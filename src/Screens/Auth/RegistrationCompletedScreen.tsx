@@ -26,6 +26,7 @@ import { emailUsernameHash, triggerSnackbar } from '@/Utils/helpers'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import * as Keychain from 'react-native-keychain'
 import crashlytics from '@react-native-firebase/crashlytics'
+import AvenirText from '@/Components/FontText/AvenirText'
 
 const TEXT_INPUT = {
   height: 40,
@@ -119,18 +120,18 @@ const RegistrationCompletedScreen: FC<StackScreenProps<AuthNavigatorParamList, R
               Layout.fill,
             ]}
           >
-            <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 60, alignItems: 'center' }]}>
-              <Text
-                style={[{ color: colors.brightTurquoise, fontFamily: 'Poppins-Bold', fontStyle: 'italic', fontSize: 30 }, Fonts.textLeft]}
+            <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 40, alignItems: 'center' }]}>
+              <AvenirText
+                style={[{ color: colors.brightTurquoise, fontWeight: 'bold', fontStyle: 'italic', fontSize: 26 }, Fonts.textLeft]}
               >
                 {t('congrats')}
-              </Text>
+              </AvenirText>
             </View>
 
             <View
               style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 60, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }]}
             >
-              <Text style={{ color: colors.white }}>{t('registeredSuccess')}</Text>
+              <AvenirText style={{ color: colors.white }}>{t('registeredSuccess')}</AvenirText>
             </View>
           </View>
 
