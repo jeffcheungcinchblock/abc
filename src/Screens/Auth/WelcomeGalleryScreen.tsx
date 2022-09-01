@@ -44,6 +44,7 @@ import slide4 from '@/Assets/Images/Gallery/slider4_img.png'
 // @ts-ignore
 import Dots from 'react-native-dots-pagination'
 import slideDragon from '@/Assets/Images/Gallery/slider4_dragon.png'
+import AvenirText from '@/Components/FontText/AvenirText'
 
 const windowHeight = Dimensions.get('window').height
 const windowWidth = Dimensions.get('window').width
@@ -62,7 +63,7 @@ const Screen: FC<any> = ({ screenIdx }) => {
     >
       <View style={{ flex: 1 }}>
         <View style={{ flex: 5, justifyContent: 'flex-end', alignItems: 'center' }}>
-          <Text
+          <AvenirText
             style={[
               {
                 color: colors.brightTurquoise,
@@ -77,13 +78,13 @@ const Screen: FC<any> = ({ screenIdx }) => {
             {t(`gallerySlides.slide${screenIdx}Title`)
               .split('')
               .join('\u200A'.repeat(Platform.OS === 'ios' ? 14 : 2))}
-          </Text>
+          </AvenirText>
           <View
             style={{
               width: windowWidth,
             }}
           >
-            <Text
+            <AvenirText
               style={[
                 {
                   color: colors.white,
@@ -95,8 +96,8 @@ const Screen: FC<any> = ({ screenIdx }) => {
               ]}
             >
               {t(`gallerySlides.slide${screenIdx}Desc`)}
-              {screenIdx === 0 && <Text style={{ color: colors.brightTurquoise }}>{t('extra')}</Text>}
-            </Text>
+              {screenIdx === 0 && <AvenirText style={{ color: colors.brightTurquoise }}>{t('extra')}</AvenirText>}
+            </AvenirText>
           </View>
         </View>
         <View style={{ flex: 13, alignItems: 'center', justifyContent: 'center' }}>

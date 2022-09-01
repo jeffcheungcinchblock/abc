@@ -11,6 +11,7 @@ import { DrawerScreenProps } from '@react-navigation/drawer'
 import { WorkoutNavigatorParamList } from '@/Screens/App/WorkoutScreen'
 import { DrawerNavigatorParamList, TabNavigatorParamList } from '@/Navigators/MainNavigator'
 import { RouteStacks } from '@/Navigators/routes'
+import AvenirText from '@/Components/FontText/AvenirText'
 
 enableLatestRenderer()
 
@@ -37,7 +38,7 @@ const LiteScreen: FC<LiteScreenProps> = (props, { navigation, route }) => {
   return (
     <>
       <View style={styles.container}>
-        <Text>Lite</Text>
+        <AvenirText>Lite</AvenirText>
       </View>
     </>
   )

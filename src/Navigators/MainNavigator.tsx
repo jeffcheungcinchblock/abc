@@ -187,7 +187,7 @@ const DrawerNavigator: FC<MainNavigatorProps> = ({ navigation }) => {
     </Drawer.Navigator>
   )
 }
-const MainNavigator = () => {
+const MainNavigator: FC = () => {
   const { t } = useTranslation()
 
   return (

@@ -36,6 +36,7 @@ import { triggerSnackbar } from '@/Utils/helpers'
 import { metersecond_2_kmhour, metersecond_2_milehour } from './utils'
 import { SpeedUnit } from './ActiveScreenSolo'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import AvenirText from '@/Components/FontText/AvenirText'
 // import share from '@/Utils/endshare'
 const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation, route }) => {
   const { t } = useTranslation()
@@ -196,17 +197,17 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation
   }
   const WhiteText = (props: TextProps) => {
     const { style, ...rest } = props
-    return <Text style={[styles.textStyle, style, { fontFamily: 'Poppins-Bold', color: colors.white }]} {...rest} />
+    return <AvenirText style={[styles.textStyle, style, { fontFamily: 'Poppins-Bold', color: colors.white }]} {...rest} />
   }
 
   const CrystalText = (props: TextProps) => {
     const { style, ...rest } = props
-    return <Text style={[styles.textStyle, style, { fontFamily: 'Poppins-Bold', color: colors.crystal }]} {...rest} />
+    return <AvenirText style={[styles.textStyle, style, { fontFamily: 'Poppins-Bold', color: colors.crystal }]} {...rest} />
   }
 
   const BrightTurquoiseText = (props: TextProps) => {
     const { style, ...rest } = props
-    return <Text style={[styles.textStyle, style, { fontFamily: 'Poppins-Bold', color: colors.brightTurquoise }]} {...rest} />
+    return <AvenirText style={[styles.textStyle, style, { fontFamily: 'Poppins-Bold', color: colors.brightTurquoise }]} {...rest} />
   }
 
   return (
@@ -229,7 +230,7 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation
             </View>
           )}
           <View style={[styles.colContentContainer, { flexBasis: 120 }]}>
-            <Text style={styles.distanceTextStyle}>{(distance / 1000).toFixed(2)}</Text>
+            <AvenirText style={styles.distanceTextStyle}>{(distance / 1000).toFixed(2)}</AvenirText>
           </View>
 
           <View style={[styles.colContentContainer, { flexBasis: 60, justifyContent: 'center' }]}>

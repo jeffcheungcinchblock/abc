@@ -52,6 +52,7 @@ import { useRealm } from '@/Realms/RealmContext'
 import { Post } from '@/Realms/Schemas/PostSchema'
 
 import { StyleSheet } from 'react-native'
+import AvenirText from '@/Components/FontText/AvenirText'
 
 const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.welcome>> = ({ navigation, route }) => {
   const { t } = useTranslation()
@@ -252,7 +253,7 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
             ]}
           >
             <Pressable onPress={onSignInPress}>
-              <Text
+              <AvenirText
                 style={[
                   Fonts.textSmall,
                   {
@@ -261,7 +262,7 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
                 ]}
               >
                 {t('alreadyHaveAnAc')}
-              </Text>
+              </AvenirText>
             </Pressable>
           </View>
 
@@ -275,7 +276,7 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
               },
             ]}
           >
-            <Text
+            <AvenirText
               style={[
                 Fonts.textSmall,
                 {
@@ -284,7 +285,7 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
               ]}
             >
               {t('orViaSocialMedia')}
-            </Text>
+            </AvenirText>
 
             <View
               style={[Layout.fullWidth, Layout.colCenter, Layout.rowCenter, { flexBasis: 40, flexDirection: 'row', marginVertical: 30 }]}
@@ -320,9 +321,9 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
             style={[Layout.fullWidth, Layout.colCenter, Layout.rowCenter, { flexBasis: 60, flexDirection: 'column', marginVertical: 30 }]}
           >
             <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
-              <Text style={[{ textAlign: 'center', color: colors.white }]}>{t('agreeTo')}</Text>
+              <AvenirText style={[{ textAlign: 'center', color: colors.white }]}>{t('agreeTo')}</AvenirText>
               <Pressable style={{}} onPress={onTAndCPress}>
-                <Text
+                <AvenirText
                   style={{
                     color: colors.brightTurquoise,
                     lineHeight: 14,
@@ -330,11 +331,11 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
                   }}
                 >
                   {t('T&C')}
-                </Text>
+                </AvenirText>
               </Pressable>
             </View>
 
-            <Text style={[Layout.fullWidth, { textAlign: 'center', color: colors.white }]}>{t('byRegisteringAc')}</Text>
+            <AvenirText style={[Layout.fullWidth, { textAlign: 'center', color: colors.white }]}>{t('byRegisteringAc')}</AvenirText>
           </View>
         </View>
       </KeyboardAwareScrollView>

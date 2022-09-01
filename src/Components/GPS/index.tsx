@@ -3,6 +3,7 @@ import { View, Image, Text, StyleProp, ActivityIndicator, ViewStyle, TextProps, 
 import { useTheme } from '@/Hooks'
 import { colors } from '@/Utils/constants'
 import iconCheck from '@/Assets/Images/icons/icon_check.png'
+import AvenirText from '../FontText/AvenirText'
 
 interface GPSContainerProps extends ViewProps {
   accuracy: number
@@ -29,7 +30,7 @@ const GPSContainer = ({ accuracy }: GPSContainerProps) => {
         padding: 5,
       }}
     >
-      <Text
+      <AvenirText
         style={{
           fontSize: 18,
           color: '#fff',
@@ -38,7 +39,7 @@ const GPSContainer = ({ accuracy }: GPSContainerProps) => {
         }}
       >
         GPS
-      </Text>
+      </AvenirText>
       {accuracy > 15 && accuracy < 20 && <StatusDot style={{ backgroundColor: colors.orange }} />}
       {accuracy >= 0 && accuracy <= 15 && <StatusDot style={{ backgroundColor: colors.green }} />}
       {(accuracy === -1 || accuracy === undefined || accuracy >= 20 || isNaN(accuracy)) && (

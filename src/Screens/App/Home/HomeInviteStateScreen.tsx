@@ -28,6 +28,7 @@ import AvenirBoldText from '@/Components/FontText/AvenirBoldText'
 import AvenirMediumText from '@/Components/FontText/AvenirText'
 import Clipboard from '@react-native-clipboard/clipboard'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import AvenirText from '@/Components/FontText/AvenirText'
 
 const PURPLE_COLOR = {
   color: colors.magicPotion,
@@ -63,7 +64,7 @@ const HomeInviteStateScreen: FC<HomeInviteStateScreenNavigationProp> = ({ naviga
         >
           <View style={{ flex: 3, justifyContent: 'center' }}>
             <View style={[Layout.fullWidth, Layout.colCenter]}>
-              <Text
+              <AvenirText
                 style={[
                   Layout.colCenter,
                   {
@@ -76,14 +77,16 @@ const HomeInviteStateScreen: FC<HomeInviteStateScreenNavigationProp> = ({ naviga
                 ]}
               >
                 {t('inviteSucceeded')}
-              </Text>
+              </AvenirText>
             </View>
           </View>
 
           <View style={{ flex: 2, flexDirection: 'row', justifyContent: 'center', alignItems: 'flex-start' }}>
             <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-              <Text style={[Fonts.textRegular, { color: colors.brightTurquoise, fontWeight: 'bold' }]}>{t('invitationCode')}</Text>
-              <Text style={[Fonts.textSmall, { color: colors.brightTurquoise }]}>{1234567890}</Text>
+              <AvenirText style={[Fonts.textRegular, { color: colors.brightTurquoise, fontWeight: 'bold' }]}>
+                {t('invitationCode')}
+              </AvenirText>
+              <AvenirText style={[Fonts.textSmall, { color: colors.brightTurquoise }]}>{1234567890}</AvenirText>
             </View>
           </View>
         </View>

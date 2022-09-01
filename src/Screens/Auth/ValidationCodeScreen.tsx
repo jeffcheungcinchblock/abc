@@ -26,6 +26,7 @@ import crashlytics from '@react-native-firebase/crashlytics'
 import CountDown from 'react-native-countdown-component'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import * as Keychain from 'react-native-keychain'
+import AvenirText from '@/Components/FontText/AvenirText'
 
 const TEXT_INPUT = {
   height: 40,
@@ -250,7 +251,9 @@ const VerificationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteS
             ]}
           >
             <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 60 }]}>
-              <Text style={[{ color: colors.white, lineHeight: 26 }, Fonts.textSmall, Fonts.textLeft]}>{t('verificationCodeDesc')}</Text>
+              <AvenirText style={[{ color: colors.white, lineHeight: 26 }, Fonts.textSmall, Fonts.textLeft]}>
+                {t('verificationCodeDesc')}
+              </AvenirText>
             </View>
 
             <View
@@ -282,7 +285,7 @@ const VerificationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteS
               </View>
               <View style={{ justifyContent: 'center', height: '100%' }}>
                 <Pressable onPress={onResendVerificationCodePress}>
-                  <Text
+                  <AvenirText
                     style={[
                       {
                         color: colors.white,
@@ -294,7 +297,7 @@ const VerificationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteS
                     ]}
                   >
                     {t('resendVerificationCode')}
-                  </Text>
+                  </AvenirText>
                 </Pressable>
               </View>
             </View>
@@ -309,16 +312,18 @@ const VerificationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteS
                 keyboardType='number-pad'
                 textContentType='oneTimeCode'
                 renderCell={({ index, symbol, isFocused }) => (
-                  <Text key={index} style={[CELL, isFocused && FOCUSED_CELL]} onLayout={getCellOnLayoutHandler(index)}>
+                  <AvenirText key={index} style={[CELL, isFocused && FOCUSED_CELL]} onLayout={getCellOnLayoutHandler(index)}>
                     {symbol || (isFocused ? <Cursor /> : null)}
-                  </Text>
+                  </AvenirText>
                 )}
               />
             </View>
 
             <View style={[CONTENT_ELEMENT_WRAPPER, { flex: 1, justifyContent: 'flex-start' }]}>
               {errMsg !== '' && (
-                <Text style={[{ color: colors.magicPotion, paddingHorizontal: 10 }, Fonts.textSmall, Fonts.textLeft]}>{errMsg}</Text>
+                <AvenirText style={[{ color: colors.magicPotion, paddingHorizontal: 10 }, Fonts.textSmall, Fonts.textLeft]}>
+                  {errMsg}
+                </AvenirText>
               )}
             </View>
           </View>

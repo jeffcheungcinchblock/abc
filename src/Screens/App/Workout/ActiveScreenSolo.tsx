@@ -39,6 +39,7 @@ import { startLoading } from '@/Store/UI/actions'
 import GPSContainer from '@/Components/GPS'
 
 import { SafeAreaView } from 'react-native-safe-area-context'
+import AvenirText from '@/Components/FontText/AvenirText'
 
 type WorkoutScreenScreenNavigationProp = CompositeScreenProps<
   StackScreenProps<WorkoutNavigatorParamList>,
@@ -578,16 +579,16 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 
   const BrightTurquoiseText = (props: TextProps) => {
     const { style, ...rest } = props
-    return <Text style={[styles.textStyle, style, { color: colors.brightTurquoise, fontFamily: 'Poppins-Bold' }]} {...rest} />
+    return <AvenirText style={[styles.textStyle, style, { color: colors.brightTurquoise, fontFamily: 'Poppins-Bold' }]} {...rest} />
   }
   const WhiteText = (props: TextProps) => {
     const { style, ...rest } = props
-    return <Text style={[styles.textStyle, style, { color: colors.white, fontFamily: 'Poppins-Bold' }]} {...rest} />
+    return <AvenirText style={[styles.textStyle, style, { color: colors.white, fontFamily: 'Poppins-Bold' }]} {...rest} />
   }
 
   const CrystalText = (props: TextProps) => {
     const { style, ...rest } = props
-    return <Text style={[styles.textStyle, style, { color: colors.crystal, fontFamily: 'Poppins' }]} {...rest} />
+    return <AvenirText style={[styles.textStyle, style, { color: colors.crystal, fontFamily: 'Poppins' }]} {...rest} />
   }
   const TITLE_MIDDLE: ViewStyle = {
     flex: 3,
@@ -637,31 +638,31 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
               <>
                 <StatusDot style={{ backgroundColor: colors.red }} />
 
-                <Text style={[Fonts.textRegular, styles.header]}>{t('movingStatus.Overspeed')}</Text>
+                <AvenirText style={[Fonts.textRegular, styles.header]}>{t('movingStatus.Overspeed')}</AvenirText>
               </>
             )}
             {currentState === ActivityType.PAUSE && (
               <>
                 <StatusDot style={{ backgroundColor: colors.red }} />
-                <Text style={[Fonts.textRegular, styles.header]}>{t('movingStatus.Pause')}</Text>
+                <AvenirText style={[Fonts.textRegular, styles.header]}>{t('movingStatus.Pause')}</AvenirText>
               </>
             )}
             {currentState === ActivityType.MOVING && (
               <>
                 <StatusDot style={{ backgroundColor: colors.green }} />
-                <Text style={[Fonts.textRegular, styles.header]}>{t('movingStatus.Running')}</Text>
+                <AvenirText style={[Fonts.textRegular, styles.header]}>{t('movingStatus.Running')}</AvenirText>
               </>
             )}
             {currentState === ActivityType.LOADING && (
               <>
                 <StatusDot style={{ backgroundColor: colors.red }} />
-                <Text style={[Fonts.textRegular, styles.header]}>{t('movingStatus.Loading')}</Text>
+                <AvenirText style={[Fonts.textRegular, styles.header]}>{t('movingStatus.Loading')}</AvenirText>
               </>
             )}
             {currentState === ActivityType.ENDED && (
               <>
                 <StatusDot style={{ backgroundColor: colors.red }} />
-                <Text style={[Fonts.textRegular, styles.header]}>{t('movingStatus.Ended')}</Text>
+                <AvenirText style={[Fonts.textRegular, styles.header]}>{t('movingStatus.Ended')}</AvenirText>
               </>
             )}
           </View>
@@ -679,7 +680,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
             <View style={[styles.dataPaddingContainer]}>
               <View style={[styles.distanceContainer]}>
                 <BrightTurquoiseText style={styles.distanceTextStyle}>{(distance / 1000).toFixed(2)}</BrightTurquoiseText>
-                <Text style={[styles.mapDistanceText]}>{t('totalKilo')}</Text>
+                <AvenirText style={[styles.mapDistanceText]}>{t('totalKilo')}</AvenirText>
               </View>
               <View style={[styles.rowStepContentContainer]}>
                 <Image
@@ -745,7 +746,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
                   // currentState === ActivityType.OVERSPEED) &&
                   !isStopping && (
                     <Pressable style={[Common.button.rounded, Gutters.regularBMargin, styles.stateStopButton]} onPress={stopButtonPress}>
-                      <Text
+                      <AvenirText
                         style={[
                           Fonts.textRegular,
                           styles.stateStopButtonText,
@@ -757,7 +758,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
                         ]}
                       >
                         {t('stop')}
-                      </Text>
+                      </AvenirText>
                     </Pressable>
                   )}
                 {currentState !== ActivityType.PAUSE && currentState !== ActivityType.ENDED && !isStopping && !isButtonLoading && (
@@ -765,7 +766,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
                     style={[Common.button.rounded, Gutters.regularBMargin, styles.statePauseResumeButton]}
                     onPress={PauseRunningSession}
                   >
-                    <Text
+                    <AvenirText
                       style={
                         (Fonts.textRegular,
                         {
@@ -777,7 +778,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
                       }
                     >
                       {t('pause')}
-                    </Text>
+                    </AvenirText>
                   </Pressable>
                 )}
                 {currentState === ActivityType.PAUSE && !isStopping && !isButtonLoading && (
@@ -785,7 +786,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
                     style={[Common.button.rounded, Gutters.regularBMargin, styles.statePauseResumeButton]}
                     onPress={ResumeRunningSession}
                   >
-                    <Text
+                    <AvenirText
                       style={
                         (Fonts.textRegular,
                         {
@@ -797,7 +798,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
                       }
                     >
                       {t('resume')}
-                    </Text>
+                    </AvenirText>
                   </Pressable>
                 )}
               </View>

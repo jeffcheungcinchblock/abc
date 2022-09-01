@@ -6,6 +6,7 @@ import facebookIcon from '@/Assets/Images/buttons/facebook.png'
 import appleIcon from '@/Assets/Images/buttons/apple.png'
 import googleIcon from '@/Assets/Images/buttons/google.png'
 import twitterIcon from '@/Assets/Images/icons/twitter.png'
+import AvenirText from '@/Components/FontText/AvenirText'
 
 // import twitterIcon from '@/Assets/Images/icons/twitter2.png'
 
@@ -44,7 +45,7 @@ const SocialShareButton = ({ containerStyle, onPress, isLoading, iconName, text 
           <ActivityIndicator size='small' color={'#fff'} />
         ) : (
           <View style={[Layout.rowCenter, { justifyContent: 'center' }]}>
-            <Text style={{ fontWeight: '500', lineHeight: 24, fontSize: 16, flex: 1, textAlign: 'center' }}>{text}</Text>
+            <AvenirText style={{ fontWeight: '500', lineHeight: 24, fontSize: 16, flex: 1, textAlign: 'center' }}>{text}</AvenirText>
             <Image source={iconNameMap[iconName]} style={{ marginRight: 20, width: 24, height: 24, resizeMode: 'contain' }} />
           </View>
         )}

@@ -192,15 +192,7 @@ const ApplicationNavigator = () => {
         <StatusBar barStyle={darkMode ? 'light-content' : 'dark-content'} />
         {isScreenLoading && <LoadingScreen />}
 
-        <Stack.Navigator
-          screenOptions={{
-            headerShown: false,
-            presentation: 'transparentModal',
-          }}
-          initialRouteName={RouteStacks.mainNavigator}
-        >
-          <Stack.Screen name={RouteStacks.mainNavigator} component={!isLoggedIn ? AuthNavigator : MainNavigator} />
-        </Stack.Navigator>
+        {isLoggedIn ? <MainNavigator /> : <AuthNavigator />}
       </NavigationContainer>
     </GestureHandlerRootView>
   )

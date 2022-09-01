@@ -24,6 +24,7 @@ import WhiteInput from '@/Components/Inputs/WhiteInput'
 import StandardInput from '@/Components/Inputs/StandardInput'
 import { emailUsernameHash } from '@/Utils/helpers'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import AvenirText from '@/Components/FontText/AvenirText'
 
 const TEXT_INPUT = {
   height: 40,
@@ -133,7 +134,9 @@ const CreateNewPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, Route
             ]}
           >
             <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 60 }]}>
-              <Text style={[{ color: colors.white, lineHeight: 26 }, Fonts.textSmall, Fonts.textLeft]}>{t('createNewPasswordPrompt')}</Text>
+              <AvenirText style={[{ color: colors.white, lineHeight: 26 }, Fonts.textSmall, Fonts.textLeft]}>
+                {t('createNewPasswordPrompt')}
+              </AvenirText>
             </View>
 
             <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 80, justifyContent: 'center' }]}>
@@ -144,11 +147,6 @@ const CreateNewPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, Route
                 placeholderTextColor={colors.spanishGray}
                 secureTextEntry={true}
               />
-              {
-                // errMsg !== "" && <Text style={[{ color: colors.magicPotion }, Fonts.textSmall, Fonts.textCenter]}>
-                //     {errMsg}
-                // </Text>
-              }
             </View>
 
             <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 80, justifyContent: 'center' }]}>
@@ -160,7 +158,9 @@ const CreateNewPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, Route
                 secureTextEntry={true}
               />
               {errMsg !== '' && (
-                <Text style={[{ color: colors.magicPotion, paddingHorizontal: 10 }, Fonts.textSmall, Fonts.textLeft]}>{errMsg}</Text>
+                <AvenirText style={[{ color: colors.magicPotion, paddingHorizontal: 10 }, Fonts.textSmall, Fonts.textLeft]}>
+                  {errMsg}
+                </AvenirText>
               )}
             </View>
 

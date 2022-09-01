@@ -24,6 +24,7 @@ import TurquoiseButton from '@/Components/Buttons/TurquoiseButton'
 import axios from 'axios'
 import { awsLogout } from '@/Utils/helpers'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import AvenirText from '@/Components/FontText/AvenirText'
 
 const TEXT_INPUT = {
   height: 40,
@@ -89,7 +90,7 @@ const MainScreen: FC<HomeMainScreenNavigationProp> = ({ navigation, route }) => 
               justifyContent: 'center',
             }}
           >
-            <Text style={Fonts.textRegular}>Welcome</Text>
+            <AvenirText style={Fonts.textRegular}>Welcome</AvenirText>
 
             {<TurquoiseButton onPress={onToggleDrawer} text={t('Toggle Drawer')} containerStyle={[Layout.fullWidth]} />}
 

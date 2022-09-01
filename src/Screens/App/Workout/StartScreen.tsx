@@ -19,6 +19,7 @@ import ScreenBackgrounds from '@/Components/ScreenBackgrounds'
 import StartButton from '@/Components/Buttons/StartButton'
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import AvenirText from '@/Components/FontText/AvenirText'
 
 export type Region = {
   latitude: number
@@ -70,10 +71,10 @@ const StartScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigati
         <View style={[Layout.fill, Layout.rowCenter]}>
           {currentState === ActivityType.READY && isReady ? (
             <TouchableOpacity style={[Common.button.rounded, Gutters.regularBMargin]} onPress={StartRunningSession}>
-              <Text style={Fonts.textRegular}>Start Running {enabled}</Text>
+              <AvenirText style={Fonts.textRegular}>Start Running {enabled}</AvenirText>
             </TouchableOpacity>
           ) : (
-            <Text>{ActivityType[currentState]}</Text>
+            <AvenirText>{ActivityType[currentState]}</AvenirText>
           )}
         </View>
       </KeyboardAwareScrollView>

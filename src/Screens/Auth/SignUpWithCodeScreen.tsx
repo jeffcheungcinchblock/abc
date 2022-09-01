@@ -44,6 +44,7 @@ import appleIcon from '@/Assets/Images/icons/apple.png'
 import facebookIcon from '@/Assets/Images/icons/facebook.png'
 import crashlytics from '@react-native-firebase/crashlytics'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import AvenirText from '@/Components/FontText/AvenirText'
 
 const BUTTON_VIEW = {
   marginVertical: 20,
@@ -209,9 +210,9 @@ const SignUpWithCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
                   }}
                 >
                   <Image source={googleIcon} style={{ width: 22, height: 22, resizeMode: 'contain' }} />
-                  <Text style={{ color: colors.white, marginLeft: 20, flex: 1, textAlign: 'center' }}>
+                  <AvenirText style={{ color: colors.white, marginLeft: 20, flex: 1, textAlign: 'center' }}>
                     {t('continueWithGoogleAllCapital')}
-                  </Text>
+                  </AvenirText>
                 </Pressable>
               </View>
 
@@ -230,9 +231,9 @@ const SignUpWithCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
                   }}
                 >
                   <Image source={facebookIcon} style={{ width: 22, height: 22, resizeMode: 'contain' }} />
-                  <Text style={{ color: colors.white, marginLeft: 20, flex: 1, textAlign: 'center' }}>
+                  <AvenirText style={{ color: colors.white, marginLeft: 20, flex: 1, textAlign: 'center' }}>
                     {t('continueWithFacebookAllCapital')}
-                  </Text>
+                  </AvenirText>
                 </Pressable>
               </View>
 
@@ -251,14 +252,14 @@ const SignUpWithCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
                   }}
                 >
                   <Image source={appleIcon} style={{ width: 22, height: 22, resizeMode: 'contain' }} />
-                  <Text style={{ color: colors.black, marginLeft: 20, flex: 1, textAlign: 'center' }}>
+                  <AvenirText style={{ color: colors.black, marginLeft: 20, flex: 1, textAlign: 'center' }}>
                     {t('continueWithAppleAllCapital')}
-                  </Text>
+                  </AvenirText>
                 </Pressable>
               </View>
 
               <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                <Text
+                <AvenirText
                   style={[
                     {
                       color: colors.white,
@@ -267,7 +268,7 @@ const SignUpWithCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
                   ]}
                 >
                   {t('or')}
-                </Text>
+                </AvenirText>
               </View>
 
               <View style={[Layout.fullWidth, Gutters.smallVMargin, Layout.center]}>
@@ -284,7 +285,7 @@ const SignUpWithCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
                     alignItems: 'center',
                   }}
                 >
-                  <Text style={{ color: colors.black, textAlign: 'center', width: '100%' }}>{t('signUpWithEmail')}</Text>
+                  <AvenirText style={{ color: colors.black, textAlign: 'center', width: '100%' }}>{t('signUpWithEmail')}</AvenirText>
                 </Pressable>
               </View>
             </View>

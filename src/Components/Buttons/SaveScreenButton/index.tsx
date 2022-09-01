@@ -6,6 +6,7 @@ import facebookIcon from '@/Assets/Images/buttons/facebook.png'
 import appleIcon from '@/Assets/Images/buttons/apple.png'
 import googleIcon from '@/Assets/Images/buttons/google.png'
 import DownloadIcon from '@/Assets/Images/map/download.png'
+import AvenirText from '@/Components/FontText/AvenirText'
 type SaveScreenButtonProps = {
   containerStyle?: object
   style?: object
@@ -44,9 +45,11 @@ const SaveScreenButton = ({ containerStyle, onPress, isLoading, text }: SaveScre
           <ActivityIndicator size='small' color={'#fff'} />
         ) : (
           <View style={[Layout.center, Layout.row]}>
-            <Text style={{ fontWeight: '500', lineHeight: 24, fontSize: 16, color: colors.brightTurquoise, flex: 1, textAlign: 'center' }}>
+            <AvenirText
+              style={{ fontWeight: '500', lineHeight: 24, fontSize: 16, color: colors.brightTurquoise, flex: 1, textAlign: 'center' }}
+            >
               {text}
-            </Text>
+            </AvenirText>
             <Image source={DownloadIcon} style={{ marginRight: 20 }} />
           </View>
         )}
