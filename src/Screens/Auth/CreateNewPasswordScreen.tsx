@@ -96,17 +96,18 @@ const CreateNewPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, Route
       setErrMsg(t('error.passwordMismatch'))
       return
     }
+    console.log(credential)
     try {
       await Auth.forgotPasswordSubmit(emailUsernameHash(params.email), params.validationCode, credential.confirmPassword)
       navigation.navigate(RouteStacks.logIn)
     } catch (err: any) {
-      switch (err.message) {
-        case 'Invalid verification code provided, please try again.':
-          setErrMsg(err.message)
-          break
-        default:
-          setErrMsg(t('error.passwordPolicyErr'))
-          break
+      console.log(err)
+      console.log(err.message === 'Invalid verification code provided, please try again.')
+      console.log(params.validationCode)
+      if (/^Password does not conform to policy:/.test(err.message)) {
+        setErrMsg(t('error.passwordPolicyErr'))
+      } else {
+        setErrMsg(err.message)
       }
     }
   }
