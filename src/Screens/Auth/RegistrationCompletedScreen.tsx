@@ -129,7 +129,7 @@ const RegistrationCompletedScreen: FC<StackScreenProps<AuthNavigatorParamList, R
             </View>
 
             <View
-              style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 60, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }]}
+              style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 90, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }]}
             >
               <AvenirText style={{ color: colors.white }}>{t('registeredSuccess')}</AvenirText>
             </View>

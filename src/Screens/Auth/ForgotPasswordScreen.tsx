@@ -140,7 +140,7 @@ const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
                 autoCapitalize={'none'}
               />
               {errMsg !== '' && (
-                <AvenirText style={[{ color: colors.magicPotion, paddingHorizontal: 10 }, Fonts.textSmall, Fonts.textLeft]}>
+                <AvenirText style={[{ color: colors.magicPotion, paddingHorizontal: 10, paddingTop: 4 }, Fonts.textSmall, Fonts.textLeft]}>
                   {errMsg}
                 </AvenirText>
               )}

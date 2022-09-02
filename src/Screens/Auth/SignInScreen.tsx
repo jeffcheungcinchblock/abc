@@ -309,7 +309,7 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.logI
           <View
             style={[
               {
-                height: '25%',
+                height: '35%',
                 justifyContent: 'center',
               },
               Layout.fullWidth,

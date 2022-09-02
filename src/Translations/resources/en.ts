@@ -1,6 +1,6 @@
 export default {
   login: 'Login',
-  signUp: 'Sign Up',
+  signUp: 'Sign up',
   createAccount: 'Create Account',
   createAccountAllCapital: 'CREATE ACCOUNT',
   accountLogin: 'ACCOUNT LOGIN',
@@ -98,7 +98,7 @@ export default {
   alreadyHaveAnAccount: 'I already have an account.',
   readyForAnotherActiveSection: 'Ready for another active section?',
   shareMsg: 'You are invited to join our FitEvo App Beta, download our app and start earning before anyone else!',
-  logIn: 'Log In',
+  logIn: 'Log in',
   congrats: 'Congrats!',
   registeredSuccess:
     'You have successfully registered to the FitEvo app! You can now log in to your account and start your fitness journey!',
@@ -159,7 +159,7 @@ export default {
     incorrectPassword: 'Incorrect Password! Hmmm, please check again!',
     invalidEmail: "Hey, I dont't think this is a valid email!",
     invalidUser: 'Invalid User',
-    invalidReferralCode: 'Invalid Referral Code',
+    invalidReferralCode: 'Invalid code, please check again!',
     invalidCode: 'Invalid code',
     invalidVerificationCode: 'Invalid Verification Code',
     emailEmpty: 'Email cannot be empty',
@@ -173,10 +173,10 @@ export default {
     breeding: 'Breeding',
   },
   signInScreen: {
-    screenTitle: 'Sign In',
+    screenTitle: 'Sign in',
   },
   signUpScreen: {
-    screenTitle: 'Sign Up',
+    screenTitle: 'Sign up',
   },
   movingStatus: {
     Running: 'Running',
