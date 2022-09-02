@@ -35,7 +35,7 @@ const AuthAppSplashScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStac
 
   useFocusEffect(
     useCallback(() => {
-      animation.value = { top: 60 }
+      animation.value = { top: 100 }
       nodeJsTimeout = setTimeout(() => {
         navigation.replace(RouteStacks.welcome)
       }, 2000)

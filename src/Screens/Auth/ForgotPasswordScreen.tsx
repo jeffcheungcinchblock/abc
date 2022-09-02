@@ -90,6 +90,7 @@ const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
 
   const onConfirmPress = async () => {
     try {
+      console.log('onConfirmPress')
       await Auth.forgotPassword(emailUsernameHash(email))
       navigation.navigate(RouteStacks.validationCode, {
         email: email,
