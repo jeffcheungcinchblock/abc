@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import { View, Image, Text, ActivityIndicator, Pressable, StyleProp, ViewStyle, ImageStyle } from 'react-native'
 import { useTheme } from '@/Hooks'
 import { colors } from '@/Utils/constants'
-import appIcon from '@/Assets/Images/icons/icon.png'
+import appIcon from '@/Assets/Images/logos/logo1.png'
 
 type AppIconProps = {
     style?: object
