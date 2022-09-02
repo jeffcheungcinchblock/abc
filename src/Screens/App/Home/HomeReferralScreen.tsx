@@ -475,7 +475,11 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
             <RefreshControl refreshing={needFetchDtl} onRefresh={onRefresh} progressViewOffset={10} tintColor={colors.brightTurquoise} />
           }
         >
-          <Header headerText={t('home')} rightIcon={() => <Image source={logoutBtn} />} onRightPress={onLogoutPress} />
+          <Header
+            headerText={t('home')}
+            rightIcon={() => <Image source={logoutBtn} style={{ width: 20, resizeMode: 'contain' }} />}
+            onRightPress={onLogoutPress}
+          />
           <View
             style={{
               height: 200,

@@ -140,13 +140,15 @@ const VerificationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteS
 
         const { email, uuid } = userProfileRes?.data
 
-        dispatch(
-          login({
-            email: params.email,
-            username: user.username,
-            uuid,
-          }),
-        )
+        navigation.navigate(RouteStacks.registrationCompleted)
+
+        // dispatch(
+        //   login({
+        //     email: params.email,
+        //     username: user.username,
+        //     uuid,
+        //   }),
+        // )
       } catch (err: any) {
         crashlytics().recordError(err)
         setErrMsg(t('error.invalidVerificationCode'))

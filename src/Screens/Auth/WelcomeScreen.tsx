@@ -142,42 +142,6 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
   }
   const onSignUpPress = async () => {
     navigation.navigate(RouteStacks.signUp)
-
-    // realm?.write(() => {
-    //   realm.create<Post>('Post', {
-    //     title: 'ABC',
-    //     createdBy: 'Jeff cheung',
-    //   })
-    // })
-    try {
-      // const realm = await Realm.open({
-      //     path: "myrealm",
-      //     schema: [{
-      //         name: "Task",
-      //         properties: {
-      //             _id: "int",
-      //             name: "string",
-      //             status: "string?",
-      //         },
-      //         primaryKey: "_id",
-      //     }],
-      // });
-      // const tasks = realm.objects("Task");
-      // let task1, task2;
-      // realm.write(() => {
-      //     task1 = realm.create("Task", {
-      //         _id: 1,
-      //         name: "go grocery shopping",
-      //         status: "Open",
-      //     });
-      //     task2 = realm.create("Task", {
-      //         _id: 2,
-      //         name: "go exercise",
-      //         status: "Open",
-      //     });
-      // });
-      // realm.close()
-    } catch (err: any) {}
   }
 
   const onTAndCPress = async () => await InAppBrowser.open('https://fitevo-nft.gitbook.io/agreement/')
@@ -326,7 +290,7 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
                 <AvenirText
                   style={{
                     color: colors.brightTurquoise,
-                    lineHeight: 14,
+                    lineHeight: 16,
                     marginTop: 3,
                   }}
                 >

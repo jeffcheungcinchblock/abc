@@ -124,7 +124,6 @@ const ProvideEmailScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStack
       style={{
         flex: 1,
         justifyContent: 'space-between',
-        // alignItems: 'center',
         backgroundColor: colors.darkGunmetal,
       }}
       edges={['top']}
