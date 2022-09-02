@@ -225,7 +225,6 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
           }),
         ])
 
-        console.log(JSON.stringify(user, null, 2))
         const { dailyMission, loginCount, totalPoint } = userFitnessInfoRes.data
 
         await dailyLogin(jwtToken)
@@ -246,7 +245,6 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
 
         setFetchedReferralInfo(true)
       } catch (err: any) {
-        console.log('Err ', JSON.stringify(err, null, 2))
         crashlytics().recordError(err)
       } finally {
         setTimeout(() => {
@@ -503,7 +501,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
             <View
               style={{
                 position: 'absolute',
-                top: 58,
+                top: 70,
                 width: '100%',
               }}
             >
@@ -511,7 +509,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
                 style={{
                   color: colors.white,
                   fontSize: 14,
-                  lineHeight: 24,
+                  lineHeight: 20,
                   textAlign: 'center',
                 }}
               >

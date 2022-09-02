@@ -164,7 +164,7 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
             alignItems: 'center',
             width: '100%',
             flex: 1,
-            justifyContent: 'flex-start',
+            justifyContent: 'center',
           }}
         >
           <AppLogo
