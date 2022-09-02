@@ -90,6 +90,7 @@ const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
 
   const onConfirmPress = async () => {
     try {
+      console.log('onConfirmPress')
       await Auth.forgotPassword(emailUsernameHash(email))
       navigation.navigate(RouteStacks.validationCode, {
         email: email,
@@ -139,7 +140,7 @@ const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
                 autoCapitalize={'none'}
               />
               {errMsg !== '' && (
-                <AvenirText style={[{ color: colors.magicPotion, paddingHorizontal: 10 }, Fonts.textSmall, Fonts.textLeft]}>
+                <AvenirText style={[{ color: colors.magicPotion, paddingHorizontal: 10, paddingTop: 4 }, Fonts.textLeft]}>
                   {errMsg}
                 </AvenirText>
               )}

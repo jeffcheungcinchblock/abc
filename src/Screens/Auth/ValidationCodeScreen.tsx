@@ -323,9 +323,7 @@ const VerificationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteS
 
             <View style={[CONTENT_ELEMENT_WRAPPER, { flex: 1, justifyContent: 'flex-start' }]}>
               {errMsg !== '' && (
-                <AvenirText style={[{ color: colors.magicPotion, paddingHorizontal: 10 }, Fonts.textSmall, Fonts.textLeft]}>
-                  {errMsg}
-                </AvenirText>
+                <AvenirText style={[{ color: colors.magicPotion, paddingHorizontal: 10 }, Fonts.textLeft]}>{errMsg}</AvenirText>
               )}
             </View>
           </View>

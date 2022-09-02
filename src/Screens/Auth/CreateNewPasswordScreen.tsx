@@ -156,9 +156,7 @@ const CreateNewPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, Route
                 secureTextEntry={true}
               />
               {errMsg !== '' && (
-                <AvenirText style={[{ color: colors.magicPotion, paddingHorizontal: 10 }, Fonts.textSmall, Fonts.textLeft]}>
-                  {errMsg}
-                </AvenirText>
+                <AvenirText style={[{ color: colors.magicPotion, paddingHorizontal: 10 }, Fonts.textLeft]}>{errMsg}</AvenirText>
               )}
             </View>
 

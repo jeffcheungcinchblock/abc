@@ -30,17 +30,6 @@ const AppSplashScreen: FC<StackScreenProps<MainStackNavigatorParamList, RouteSta
       top: withTiming(animation.value.top, {
         duration: 2000,
       }),
-
-      // opacity: withTiming(animation.value.opacity, {
-      //   duration: 2000,
-      // }),
-      // transform: [
-      //   {
-      //     scale: withTiming(animation.value.scale, {
-      //       duration: 2000,
-      //     }),
-      //   },
-      // ],
     }
   })
 

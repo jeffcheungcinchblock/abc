@@ -191,8 +191,8 @@ const MainNavigator: FC = () => {
   const { t } = useTranslation()
 
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={RouteStacks.appSplash}>
-      <Stack.Screen name={RouteStacks.appSplash} component={AppSplashScreen} />
+    <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={RouteStacks.mainDrawer}>
+      {/* <Stack.Screen name={RouteStacks.appSplash} component={AppSplashScreen} /> */}
       <Stack.Screen
         name={RouteStacks.mainDrawer}
         component={DrawerNavigator}

@@ -170,16 +170,24 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
                 style={{
                   borderBottomWidth: 1,
                   borderColor: colors.silverSand,
+                  paddingBottom: 10,
                 }}
               />
               {errMsg !== '' && (
-                <AvenirText style={[{ color: colors.magicPotion, paddingHorizontal: 10 }, Fonts.textSmall, Fonts.textLeft]}>
+                <AvenirText style={[{ color: colors.magicPotion, paddingHorizontal: 10, paddingTop: 4 }, Fonts.textLeft]}>
                   {errMsg}
                 </AvenirText>
               )}
             </View>
 
-            <View style={[Layout.fullWidth, Layout.center, Gutters.largeVPadding, { flex: 1, justifyContent: 'center' }]}>
+            <View
+              style={[
+                Layout.fullWidth,
+                Layout.center,
+                Gutters.largeVPadding,
+                { flex: 1, justifyContent: 'space-between', paddingBottom: 60 },
+              ]}
+            >
               <TurquoiseButton
                 onPress={onStartPress}
                 text={t('start')}

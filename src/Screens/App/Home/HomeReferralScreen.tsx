@@ -501,7 +501,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
             <View
               style={{
                 position: 'absolute',
-                top: 70,
+                top: 75,
                 width: '100%',
               }}
             >

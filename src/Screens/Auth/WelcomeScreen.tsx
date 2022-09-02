@@ -165,6 +165,7 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
             width: '100%',
             flex: 1,
             justifyContent: 'center',
+            paddingTop: 40,
           }}
         >
           <AppLogo
@@ -252,7 +253,7 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
             </AvenirText>
 
             <View
-              style={[Layout.fullWidth, Layout.colCenter, Layout.rowCenter, { flexBasis: 40, flexDirection: 'row', marginVertical: 30 }]}
+              style={[Layout.fullWidth, Layout.colCenter, Layout.rowCenter, { flexBasis: 40, flexDirection: 'row', marginVertical: 20 }]}
             >
               <SocialSignInButton
                 isLoading={isLoggingIn}
@@ -299,7 +300,9 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
               </Pressable>
             </View>
 
-            <AvenirText style={[Layout.fullWidth, { textAlign: 'center', color: colors.white }]}>{t('byRegisteringAc')}</AvenirText>
+            <AvenirText style={[Layout.fullWidth, { textAlign: 'center', color: colors.white, paddingBottom: 16 }]}>
+              {t('byRegisteringAc')}
+            </AvenirText>
           </View>
         </View>
       </KeyboardAwareScrollView>
