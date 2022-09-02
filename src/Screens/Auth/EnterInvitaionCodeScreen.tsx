@@ -174,7 +174,7 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
                 }}
               />
               {errMsg !== '' && (
-                <AvenirText style={[{ color: colors.magicPotion, paddingHorizontal: 10, paddingTop: 4 }, Fonts.textSmall, Fonts.textLeft]}>
+                <AvenirText style={[{ color: colors.magicPotion, paddingHorizontal: 10, paddingTop: 4 }, Fonts.textLeft]}>
                   {errMsg}
                 </AvenirText>
               )}

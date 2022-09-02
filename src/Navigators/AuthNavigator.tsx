@@ -55,9 +55,9 @@ const AuthNavigator: FC = ({}) => {
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName={RouteStacks.registrationCompleted}
+      initialRouteName={RouteStacks.authAppSplash}
     >
-      {/* <Stack.Screen name={RouteStacks.authAppSplash} component={AuthAppSplashScreen} />
+      <Stack.Screen name={RouteStacks.authAppSplash} component={AuthAppSplashScreen} />
       <Stack.Screen
         name={RouteStacks.welcomeGallery}
         component={WelcomeGalleryScreen}
@@ -79,7 +79,7 @@ const AuthNavigator: FC = ({}) => {
       <Stack.Screen name={RouteStacks.validationCode} component={ValidationCodeScreen} />
       <Stack.Screen name={RouteStacks.forgotPassword} component={ForgotPasswordScreen} />
       <Stack.Screen name={RouteStacks.createNewPassword} component={CreateNewPasswordScreen} />
-      <Stack.Screen name={RouteStacks.provideEmail} component={ProvideEmailScreen} /> */}
+      <Stack.Screen name={RouteStacks.provideEmail} component={ProvideEmailScreen} />
       <Stack.Screen name={RouteStacks.registrationCompleted} component={RegistrationCompletedScreen} />
     </Stack.Navigator>
   )
