@@ -456,8 +456,8 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
         />
 
         {showScrollToBottom ? (
-          <Pressable onPress={onScrollDownPress} style={{ position: 'absolute', bottom: 20, right: 20, zIndex: 2 }}>
-            <Image source={scrollDownBtn} style={{}} />
+          <Pressable onPress={onScrollDownPress} style={{ position: 'absolute', bottom: 0, right: 20, zIndex: 2 }}>
+            <Image source={scrollDownBtn} style={{ width: 26, resizeMode: 'contain' }} />
           </Pressable>
         ) : null}
 
@@ -699,7 +699,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
             })}
             {referredNames.length === 0 ? (
               <View style={[REFERRED_FRIEND_ICON, { top: 0, left: 0 }]}>
-                <Image source={emptyAvatar} style={{}} />
+                <Image source={emptyAvatar} style={{ width: 40, resizeMode: 'contain' }} />
               </View>
             ) : referredNames.length > 4 ? (
               <View style={[REFERRED_FRIEND_ICON, { top: 0, left: 4 * 35, backgroundColor: colors.indigo }]}>
@@ -712,7 +712,8 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
             style={{
               backgroundColor: colors.jacarta,
               borderRadius: 20,
-              height: 104,
+              height: 110,
+              paddingTop: 6,
               marginBottom: 32,
               marginHorizontal: 16,
             }}
@@ -752,7 +753,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
                 <Image
                   source={shareBtn}
                   style={{
-                    width: 40,
+                    height: 30,
                     resizeMode: 'contain',
                   }}
                 />

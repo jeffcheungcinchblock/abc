@@ -184,7 +184,7 @@ const ApplicationNavigator = () => {
         containerStyle={{
           borderRadius: 99,
         }}
-        top={10}
+        top={40}
         left={10}
         right={10}
       ></SnackBar>
