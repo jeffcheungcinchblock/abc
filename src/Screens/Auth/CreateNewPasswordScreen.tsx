@@ -94,6 +94,7 @@ const CreateNewPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, Route
   const onConfirmPress = async () => {
     if (credential.password !== credential.confirmPassword) {
       setErrMsg(t('error.passwordMismatch'))
+      return
     }
     try {
       await Auth.forgotPasswordSubmit(emailUsernameHash(params.email), params.validationCode, credential.confirmPassword)
