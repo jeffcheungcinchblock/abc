@@ -132,6 +132,9 @@ export default {
   tAndC: 'Terms and Conditions',
   effectiveDate: 'Effective date',
   lastUpdated: 'Last updated',
+  complete: 'Complete',
+  twoKm: ' 2km ',
+  forExtraKE: 'for extra KE points!',
   snackbarPrompt: {
     referralCodeCopied: 'Referral code copied !',
   },

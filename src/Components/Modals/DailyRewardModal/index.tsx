@@ -58,7 +58,7 @@ const DailyRewardModal = forwardRef((props: DailyRewardModalProps, ref) => {
         <AvenirText style={[MODAL_TEXT, { fontFamily: 'Avenir-Book', fontSize: 18 }]}>{t('modalPrompt.claimedDailyReward')}</AvenirText>
       </View>
 
-      <AvenirText style={[MODAL_TEXT, { fontSize: 30, fontStyle: 'italic', fontFamily: 'Poppins-Regular', flex: 3 }]}>
+      <AvenirText style={[MODAL_TEXT, { fontSize: 30, fontStyle: 'italic', flex: 3 }]}>
         +{ke}
         <AvenirText style={{ fontSize: 18, fontWeight: '400' }}> KE Points</AvenirText>
       </AvenirText>

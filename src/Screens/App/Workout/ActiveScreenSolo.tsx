@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   },
 
   dataContainer: {
-    flex: 3,
+    flex: 4,
     backgroundColor: colors.darkGunmetal,
     color: '#fff',
 
@@ -579,16 +579,16 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 
   const BrightTurquoiseText = (props: TextProps) => {
     const { style, ...rest } = props
-    return <AvenirText style={[styles.textStyle, style, { color: colors.brightTurquoise, fontFamily: 'Poppins-Bold' }]} {...rest} />
+    return <AvenirText style={[styles.textStyle, style, { color: colors.brightTurquoise }]} {...rest} />
   }
   const WhiteText = (props: TextProps) => {
     const { style, ...rest } = props
-    return <AvenirText style={[styles.textStyle, style, { color: colors.white, fontFamily: 'Poppins-Bold' }]} {...rest} />
+    return <AvenirText style={[styles.textStyle, style, { color: colors.white }]} {...rest} />
   }
 
   const CrystalText = (props: TextProps) => {
     const { style, ...rest } = props
-    return <AvenirText style={[styles.textStyle, style, { color: colors.crystal, fontFamily: 'Poppins' }]} {...rest} />
+    return <AvenirText style={[styles.textStyle, style, { color: colors.crystal }]} {...rest} />
   }
   const TITLE_MIDDLE: ViewStyle = {
     flex: 3,
@@ -682,6 +682,27 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
                 <BrightTurquoiseText style={styles.distanceTextStyle}>{(distance / 1000).toFixed(2)}</BrightTurquoiseText>
                 <AvenirText style={[styles.mapDistanceText]}>{t('totalKilo')}</AvenirText>
               </View>
+              <View style={{ alignItems: 'center' }}>
+                <View
+                  style={{
+                    marginTop: 6,
+                    marginBottom: 8,
+                    paddingVertical: 6,
+                    paddingHorizontal: 20,
+                    borderRadius: 99,
+                    backgroundColor: colors.jacarta,
+                    alignItems: 'center',
+                    maxWidth: 300,
+                  }}
+                >
+                  <AvenirText style={{ color: colors.white }}>
+                    {t('complete')}
+                    <AvenirText style={{ fontWeight: 'bold' }}>{t('twoKm')}</AvenirText>
+                    {t('forExtraKE')}
+                  </AvenirText>
+                </View>
+              </View>
+
               <View style={[styles.rowStepContentContainer]}>
                 <Image
                   source={StepLogo}
@@ -703,6 +724,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
                         resizeMode: 'contain',
                         alignSelf: 'center',
                         flex: 2,
+                        width: 26,
                       }}
                     />
                     <WhiteText style={[{ lineHeight: 30, fontSize: 25, fontWeight: 'bold' }]}>
@@ -718,6 +740,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
                         resizeMode: 'contain',
                         alignSelf: 'center',
                         flex: 2,
+                        width: 26,
                       }}
                     />
                     <View style={[styles.rowSpeedTextContentContainer]}>
@@ -751,7 +774,6 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
                           Fonts.textRegular,
                           styles.stateStopButtonText,
                           {
-                            fontFamily: 'Poppins-Bold',
                             fontWeight: '600',
                             fontSize: 16,
                           },
@@ -770,7 +792,6 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
                       style={
                         (Fonts.textRegular,
                         {
-                          fontFamily: 'Poppins-Bold',
                           fontWeight: '600',
                           fontSize: 16,
                           color: colors.black,
@@ -790,7 +811,6 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
                       style={
                         (Fonts.textRegular,
                         {
-                          fontFamily: 'Poppins-Bold',
                           fontWeight: '600',
                           fontSize: 16,
                           color: colors.black,

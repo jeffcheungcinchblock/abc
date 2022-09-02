@@ -51,14 +51,12 @@ const InvitationRewardModal = forwardRef((props: InvitationRewardModalProps, ref
         <Image source={reward} />
       </View>
       <View style={{ flex: 3 }}>
-        <AvenirText style={[MODAL_TEXT, { fontFamily: 'Avenir-Book', paddingHorizontal: 40, fontSize: 18 }]}>
-          {t('modalPrompt.userEarned')}
-        </AvenirText>
+        <AvenirText style={[MODAL_TEXT, { paddingHorizontal: 40, fontSize: 18 }]}>{t('modalPrompt.userEarned')}</AvenirText>
       </View>
       <View style={{ flex: 3 }}>
-        <AvenirText style={[MODAL_TEXT, { fontFamily: 'Poppins-Bold', paddingHorizontal: 40, fontSize: 30, fontStyle: 'italic' }]}>
+        <AvenirText style={[MODAL_TEXT, { paddingHorizontal: 40, fontSize: 30, fontStyle: 'italic' }]}>
           +{ke}
-          <AvenirText style={{ fontFamily: 'Poppins-Regular', fontWeight: '500', fontSize: 20 }}> KE Points</AvenirText>
+          <AvenirText style={{ fontWeight: '500', fontSize: 20 }}> KE Points</AvenirText>
         </AvenirText>
       </View>
       <View

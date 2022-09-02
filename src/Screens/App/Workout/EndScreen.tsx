@@ -197,17 +197,17 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation
   }
   const WhiteText = (props: TextProps) => {
     const { style, ...rest } = props
-    return <AvenirText style={[styles.textStyle, style, { fontFamily: 'Poppins-Bold', color: colors.white }]} {...rest} />
+    return <AvenirText style={[styles.textStyle, style, { color: colors.white }]} {...rest} />
   }
 
   const CrystalText = (props: TextProps) => {
     const { style, ...rest } = props
-    return <AvenirText style={[styles.textStyle, style, { fontFamily: 'Poppins-Bold', color: colors.crystal }]} {...rest} />
+    return <AvenirText style={[styles.textStyle, style, { color: colors.crystal }]} {...rest} />
   }
 
   const BrightTurquoiseText = (props: TextProps) => {
     const { style, ...rest } = props
-    return <AvenirText style={[styles.textStyle, style, { fontFamily: 'Poppins-Bold', color: colors.brightTurquoise }]} {...rest} />
+    return <AvenirText style={[styles.textStyle, style, { color: colors.brightTurquoise }]} {...rest} />
   }
 
   return (
