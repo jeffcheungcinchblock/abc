@@ -102,9 +102,9 @@ const Screen: FC<any> = ({ screenIdx }) => {
         </View>
         <View style={{ flex: 13, alignItems: 'center', justifyContent: 'center' }}>
           <Image source={slideMap[screenIdx]} style={{ height: '95%', resizeMode: 'contain' }} />
-          {/* {screenIdx === 3 && (
-            <Image source={slideDragon} style={{ position: 'absolute', top: -150, left: 130, width: '20%', resizeMode: 'contain' }} />
-          )} */}
+          {screenIdx === 3 && (
+            <Image source={slideDragon} style={{ position: 'absolute', top: -100, left: 140, width: '20%', resizeMode: 'contain' }} />
+          )}
         </View>
 
         <View style={{ flex: 4 }}></View>
@@ -199,8 +199,9 @@ const WelcomeGalleryScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
             inactiveColor={colors.lightSlateGray}
             passiveDotWidth={10}
             pasiveDotHeight={10}
-            activeDotWidth={14}
-            activeDotHeight={14}
+            activeDotWidth={10}
+            activeDotHeight={10}
+            paddingVertical={20}
           />
         </View>
 

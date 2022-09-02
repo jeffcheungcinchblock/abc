@@ -84,6 +84,7 @@ import card1 from '@/Assets/Images/Home/card1.png'
 import card2 from '@/Assets/Images/Home/card2.png'
 import card3 from '@/Assets/Images/Home/card3.png'
 import card4 from '@/Assets/Images/Home/card4.png'
+import circle from '@/Assets/Images/Home/circle.png'
 import shareBtn from '@/Assets/Images/buttons/shareBtn.png'
 
 import { check, request, RESULTS, PERMISSIONS, checkMultiple, requestMultiple } from 'react-native-permissions'
@@ -227,7 +228,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
         console.log(JSON.stringify(user, null, 2))
         const { dailyMission, loginCount, totalPoint } = userFitnessInfoRes.data
 
-        dailyLogin(jwtToken)
+        await dailyLogin(jwtToken)
 
         if (!fetchedReferralInfo) {
           if (loginCount === 0) {
@@ -483,7 +484,8 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
               justifyContent: 'center',
             }}
           >
-            <CircularProgress
+            <Image source={circle} style={{ resizeMode: 'contain', height: '100%' }} />
+            {/* <CircularProgress
               value={referralInfo.totalPoint}
               radius={100}
               duration={2000}
@@ -493,7 +495,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
               strokeLinecap={'butt'}
               inActiveStrokeWidth={14}
               activeStrokeWidth={14}
-            />
+            /> */}
             <View
               style={{
                 position: 'absolute',
