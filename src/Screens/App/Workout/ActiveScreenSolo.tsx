@@ -707,8 +707,8 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
                 <Image
                   source={StepLogo}
                   style={{
-                    width: 20,
-                    height: 20,
+                    width: 26,
+                    height: 26,
                     resizeMode: 'contain',
                     alignSelf: 'center',
                   }}
@@ -727,7 +727,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
                         width: 26,
                       }}
                     />
-                    <WhiteText style={[{ lineHeight: 30, fontSize: 25, fontWeight: 'bold' }]}>
+                    <WhiteText style={[{ lineHeight: 30, fontSize: 28, fontWeight: 'bold', marginLeft: 2 }]}>
                       {Math.floor((timer % 3600) / 60)}"{Math.ceil(timer % 60)}'
                     </WhiteText>
                   </Pressable>

@@ -196,7 +196,7 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
 
             <View style={[Layout.fullWidth, { justifyContent: 'center', paddingVertical: 30, paddingHorizontal: 20 }]}>
               <AvenirText style={[{ color: colors.white, fontWeight: 'bold' }, Fonts.textRegular, Fonts.textCenter]}>
-                {t('getStarted')} !
+                {t('getStarted')}!
               </AvenirText>
             </View>
           </View>

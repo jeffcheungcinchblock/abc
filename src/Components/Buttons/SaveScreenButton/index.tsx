@@ -50,7 +50,7 @@ const SaveScreenButton = ({ containerStyle, onPress, isLoading, text }: SaveScre
             >
               {text}
             </AvenirText>
-            <Image source={DownloadIcon} style={{ marginRight: 20 }} />
+            <Image source={DownloadIcon} style={{ marginRight: 20, width: 20, resizeMode: 'contain' }} />
           </View>
         )}
       </Pressable>

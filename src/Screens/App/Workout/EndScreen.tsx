@@ -92,7 +92,7 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation
     contentContainer: {
       display: 'flex',
       width: '50%',
-      justifyContent: 'center',
+      justifyContent: 'flex-start',
     },
     titleTextStyle: {
       fontSize: 30,
@@ -238,22 +238,35 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation
             <View style={[styles.rowContentContainer, { paddingTop: 4 }]}>
               <Image
                 source={StepLogo}
-                style={{ width: 20, height: 20, resizeMode: 'contain', alignSelf: 'center', marginHorizontal: 10 }}
+                style={{ width: 26, height: 26, resizeMode: 'contain', alignSelf: 'center', marginHorizontal: 10 }}
               />
               <WhiteText>{steps}</WhiteText>
             </View>
           </View>
 
-          <View style={[styles.rowContentContainer2, { flexBasis: 120, justifyContent: 'center' }]}>
+          <View style={[styles.rowContentContainer2, { flexBasis: 120, justifyContent: 'center', paddingTop: 40 }]}>
             <View style={[styles.contentContainer]}>
-              <Image source={TimerLogo} style={{ width: 26, height: 26, resizeMode: 'contain', alignSelf: 'center' }} />
+              <View
+                style={{
+                  height: 30,
+                }}
+              >
+                <Image source={TimerLogo} style={{ width: 26, height: 26, resizeMode: 'contain', alignSelf: 'center' }} />
+              </View>
+
               <WhiteText style={[{ lineHeight: 50, fontSize: 30, fontWeight: 'bold' }]}>
                 {Math.floor((timer % 3600) / 60)}'{Math.ceil(timer % 60)}"
               </WhiteText>
             </View>
 
             <View style={[styles.contentContainer]}>
-              <Image source={SpeedIcon} style={{ width: 26, height: 26, resizeMode: 'contain', alignSelf: 'center' }} />
+              <View
+                style={{
+                  height: 30,
+                }}
+              >
+                <Image source={SpeedIcon} style={{ width: 26, height: 26, resizeMode: 'contain', alignSelf: 'center' }} />
+              </View>
 
               <Pressable onPress={chanageSpeedUnit} style={{}}>
                 <View style={[styles.speedContainer]}>
@@ -276,7 +289,7 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation
             </View>
           </View>
 
-          <View style={[styles.contentContainer, { flexBasis: 90 }]}>
+          <View style={[styles.contentContainer, { flex: 1, minHeight: 90, justifyContent: 'center' }]}>
             {distance > 2000 ? (
               <WhiteText style={[{ fontSize: 40, fontWeight: 'bold' }]}>+ 20 KE</WhiteText>
             ) : (

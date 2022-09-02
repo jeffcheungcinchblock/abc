@@ -319,7 +319,7 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.logI
 
             <View style={[Layout.fullWidth, { justifyContent: 'center', paddingVertical: 40, paddingHorizontal: 20 }]}>
               <AvenirText style={[{ color: colors.white, fontWeight: 'bold' }, Fonts.textRegular, Fonts.textCenter]}>
-                {t('welcomeBack')} !
+                {t('welcomeBack')}!
               </AvenirText>
 
               <AvenirText style={[{ color: colors.white, fontWeight: 'bold', paddingTop: 6 }, Fonts.textSmall, Fonts.textCenter]}>
