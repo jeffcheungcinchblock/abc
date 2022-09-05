@@ -40,10 +40,11 @@ const InvitationRewardModal = forwardRef((props: InvitationRewardModalProps, ref
       keyboardTopOffset={40}
       animationDuration={500}
       style={{
-        height: '40%',
+        height: '35%',
         width: '80%',
         backgroundColor: colors.charcoal,
-        borderRadius: 20,
+        borderRadius: 10,
+        paddingTop: 10,
         ...style,
       }}
     >

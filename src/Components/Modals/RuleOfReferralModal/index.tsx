@@ -38,18 +38,20 @@ const RuleOfReferralModal = forwardRef((props: RuleOfReferralModalProps, ref) =>
       keyboardTopOffset={40}
       animationDuration={500}
       style={{
-        height: '40%',
+        height: '30%',
         width: '80%',
         backgroundColor: colors.charcoal,
-        borderRadius: 20,
+        borderRadius: 10,
         ...style,
       }}
     >
       <View style={{ flex: 1, justifyContent: 'center' }}>
-        <AvenirText style={[MODAL_TEXT, { fontSize: 16, fontWeight: 'bold' }]}>{t('modalPrompt.ruleOfReferral')}</AvenirText>
+        <AvenirText style={[MODAL_TEXT, { fontSize: 18, fontWeight: 'bold', lineHeight: 20 }]}>
+          {t('modalPrompt.ruleOfReferral')}
+        </AvenirText>
       </View>
       <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: 14 }}>
-        <AvenirText style={[MODAL_TEXT, { fontSize: 16 }]}>{t('modalPrompt.maximum30Friends')}</AvenirText>
+        <AvenirText style={[MODAL_TEXT, { fontSize: 16, lineHeight: 24 }]}>{t('modalPrompt.maximum30Friends')}</AvenirText>
       </View>
       <View
         style={{

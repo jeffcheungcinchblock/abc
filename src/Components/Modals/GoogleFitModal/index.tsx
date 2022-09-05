@@ -39,10 +39,10 @@ const GoogleFitModal = forwardRef((props: GoogleFitModalProps, ref) => {
       keyboardTopOffset={40}
       animationDuration={500}
       style={{
-        height: '45%',
-        width: '80%',
+        height: '35%',
+        width: '70%',
         backgroundColor: colors.charcoal,
-        borderRadius: 20,
+        borderRadius: 10,
         ...style,
       }}
     >

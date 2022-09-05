@@ -151,7 +151,7 @@ export default {
     notReadyIos: 'Health Kit is not ready yet. Please try again later.',
     installApp: 'Install App',
     caution: 'Caution',
-    endWorkout: 'Do you sure you want to quit your exercise',
+    endWorkout: 'Are you sure you want to finish this exercise session?',
     continue: 'Continue Exercise',
     forceQuitWorkout: 'Third-party apps were detected.',
   },
