@@ -40,7 +40,8 @@ const DailyRewardModal = forwardRef((props: DailyRewardModalProps, ref) => {
       keyboardTopOffset={40}
       animationDuration={500}
       style={{
-        height: '45%',
+        // height: '45%',
+        height: 370,
         width: '80%',
         backgroundColor: colors.charcoal,
         borderRadius: 10,
@@ -71,7 +72,7 @@ const DailyRewardModal = forwardRef((props: DailyRewardModalProps, ref) => {
       <View
         style={{
           alignItems: 'center',
-          flexBasis: 80,
+          flexBasis: 70,
         }}
       >
         <TurquoiseButton

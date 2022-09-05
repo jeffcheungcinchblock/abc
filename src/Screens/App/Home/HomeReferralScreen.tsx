@@ -261,6 +261,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
   }, [needFetchDtl, fetchedReferralInfo])
 
   useEffect(() => {
+    dailyRewardModalRef?.current.open()
     abortController = new AbortController()
     return () => {
       abortController.abort()
@@ -511,14 +512,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
                 alignItems: 'center',
               }}
             >
-              <View
-                style={{
-                  // position: 'absolute',
-                  // top: 75,
-                  // width: '100%',
-                  paddingTop: 10,
-                }}
-              >
+              <View>
                 <AvenirText
                   style={{
                     color: colors.white,

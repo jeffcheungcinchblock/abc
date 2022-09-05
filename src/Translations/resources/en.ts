@@ -84,7 +84,7 @@ export default {
   createNewAccount: 'Create New Account',
   completed: 'Completed',
   snackbarMsg: {
-    invitationCodeCopied: 'Invitation code copied !',
+    invitationCodeCopied: 'Invitation code copied!',
   },
   totalKEPoints: 'Total KE Points',
   top100AvgKE: 'Top 100 Average KE points',
@@ -139,7 +139,7 @@ export default {
   twoKm: ' 2km ',
   forExtraKE: 'for extra KE points!',
   snackbarPrompt: {
-    referralCodeCopied: 'Referral code copied !',
+    referralCodeCopied: 'Referral code copied!',
   },
   modalPrompt: {
     dailyReward: 'Daily Reward',

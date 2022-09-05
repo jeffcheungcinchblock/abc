@@ -18,14 +18,14 @@ type TurquoiseButtonProps = {
 
 const DEFAULT_TEXT_STYLE: TextStyle = {
   fontSize: 16,
-  fontWeight: 'bold',
+  // fontWeight: 'bold',
   color: colors.black,
 }
 
 const BUTTON_STYLE: ViewStyle = {
   backgroundColor: colors.brightTurquoise,
   width: '100%',
-  height: 34,
+  height: 32,
   borderRadius: 20,
   justifyContent: 'center',
 }
@@ -56,7 +56,7 @@ const TurquoiseButton = ({
           {
             backgroundColor: isTransparentBackground ? 'transparent' : colors.brightTurquoise,
             borderColor: isTransparentBackground ? colors.brightTurquoise : 'transparent',
-            borderWidth: isTransparentBackground ? 2 : 0,
+            borderWidth: isTransparentBackground ? 1.7 : 0,
             alignItems: 'center',
             ...style,
           },
