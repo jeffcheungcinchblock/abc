@@ -1,30 +1,27 @@
-import React, { FC, forwardRef } from "react"
-import { View, ViewStyle, TextStyle, Pressable, Text, Image } from "react-native"
+import React, { FC, forwardRef } from 'react'
+import { View, ViewStyle, TextStyle, Pressable, Text, Image } from 'react-native'
 import { useTranslation } from 'react-i18next'
-import { Spacing } from "@/Theme/Variables"
-import { useTheme } from "@/Hooks"
-import { colors } from "@/Utils/constants"
-import ModalBox from 'react-native-modalbox';
+import { Spacing } from '@/Theme/Variables'
+import { useTheme } from '@/Hooks'
+import { colors } from '@/Utils/constants'
+import ModalBox from 'react-native-modalbox'
 import reward from '@/Assets/Images/Modal/reward.png'
-import TurquoiseButton from "@/Components/Buttons/TurquoiseButton"
+import TurquoiseButton from '@/Components/Buttons/TurquoiseButton'
+import AvenirText from '@/Components/FontText/AvenirText'
 
 type RuleOfReferralModalProps = {
-  onModalClose: () => void,
-  style?: object,
-  onActionBtnPress: () => void,
+  onModalClose: () => void
+  style?: object
+  onActionBtnPress: () => void
 }
 
 const MODAL_TEXT: TextStyle = {
-  color: colors.white, textAlign: "center", 
+  color: colors.white,
+  textAlign: 'center',
 }
 
 const RuleOfReferralModal = forwardRef((props: RuleOfReferralModalProps, ref) => {
-
-  const {
-    onModalClose,
-    style,
-    onActionBtnPress,
-  } = props
+  const { onModalClose, style, onActionBtnPress } = props
   const { t } = useTranslation()
   const { Common, Fonts, Gutters, Layout } = useTheme()
 
@@ -33,8 +30,8 @@ const RuleOfReferralModal = forwardRef((props: RuleOfReferralModalProps, ref) =>
       ref={ref as any}
       backdropPressToClose={false}
       swipeToClose={false}
-      position="center"
-      entry="bottom"
+      position='center'
+      entry='bottom'
       backdrop={true}
       backButtonClose={false}
       onClosed={onModalClose}
@@ -42,27 +39,28 @@ const RuleOfReferralModal = forwardRef((props: RuleOfReferralModalProps, ref) =>
       animationDuration={500}
       style={{
         height: '40%',
-        width: "80%",
+        width: '80%',
         backgroundColor: colors.charcoal,
         borderRadius: 20,
-        ...style
+        ...style,
       }}
     >
-      <View style={{ flex: 1, justifyContent: "center" }}>
-        <Text style={[MODAL_TEXT, { fontSize: 16, fontWeight: "bold" }]}>{t("modalPrompt.ruleOfReferral")}</Text>
-
+      <View style={{ flex: 1, justifyContent: 'center' }}>
+        <AvenirText style={[MODAL_TEXT, { fontSize: 16, fontWeight: 'bold' }]}>{t('modalPrompt.ruleOfReferral')}</AvenirText>
       </View>
-      <View style={{ flex: 1, justifyContent: "center", paddingHorizontal: 14 }}>
-        <Text style={[MODAL_TEXT, { fontSize: 16 }]}>{t("modalPrompt.maximum30Friends")}</Text>
+      <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: 14 }}>
+        <AvenirText style={[MODAL_TEXT, { fontSize: 16 }]}>{t('modalPrompt.maximum30Friends')}</AvenirText>
       </View>
-      <View style={{
-        justifyContent: "center",
-        alignItems: "center",
-        flex: 1
-      }}>
+      <View
+        style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          flex: 1,
+        }}
+      >
         <TurquoiseButton
           onPress={onActionBtnPress}
-          text={t("gotIt")}
+          text={t('gotIt')}
           isTransparentBackground
           containerStyle={{
             width: 120,

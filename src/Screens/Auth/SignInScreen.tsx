@@ -45,6 +45,7 @@ import crashlytics from '@react-native-firebase/crashlytics'
 import TouchID from 'react-native-touch-id'
 import * as Keychain from 'react-native-keychain'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import AvenirText from '@/Components/FontText/AvenirText'
 
 const LOGIN_BUTTON: ViewStyle = {
   height: 40,
@@ -84,7 +85,7 @@ const initErrMsg = {
   password: '',
 }
 
-const abortController = new AbortController()
+let abortController: AbortController
 
 const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.logIn>> = ({ navigation, route }) => {
   const modalRef = useRef<any>()
@@ -141,6 +142,7 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.logI
   }
 
   useEffect(() => {
+    abortController = new AbortController()
     setCredential({
       email: '',
       password: '',
@@ -230,7 +232,6 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.logI
         const user = await Auth.signIn(emailUsernameHash(credential.email), credential.password)
         let { attributes, username } = user
         let jwtToken = user?.signInUserSession?.idToken?.jwtToken
-
         await Keychain.setGenericPassword(emailUsernameHash(credential.email), credential.password)
 
         const userProfileRes = await axios.get(config.userProfile, {
@@ -258,6 +259,7 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.logI
       }
     } catch (err: any) {
       loginErrHandler(err)
+      console.log('err', JSON.stringify(err, null, 2))
       dispatch(startLoading(false))
     } finally {
       setIsLoggingIn(false)
@@ -296,19 +298,18 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.logI
       style={{
         flex: 1,
         justifyContent: 'space-between',
-        // alignItems: 'center',
         backgroundColor: colors.darkGunmetal,
       }}
       edges={['top']}
     >
       <ScreenBackgrounds screenName={RouteStacks.logIn}>
-        <KeyboardAwareScrollView contentContainerStyle={[Layout.fill, Layout.colCenter, Layout.justifyContentStart]}>
+        <ScrollView contentContainerStyle={[Layout.fill, Layout.colCenter, Layout.justifyContentStart]}>
           <Header onLeftPress={goBack} headerText={t('login')} />
 
           <View
             style={[
               {
-                height: '25%',
+                height: '35%',
                 justifyContent: 'center',
               },
               Layout.fullWidth,
@@ -317,11 +318,13 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.logI
             <AppIcon />
 
             <View style={[Layout.fullWidth, { justifyContent: 'center', paddingVertical: 40, paddingHorizontal: 20 }]}>
-              <Text style={[{ color: colors.white, fontWeight: 'bold' }, Fonts.textRegular, Fonts.textCenter]}>{t('welcomeBack')} !</Text>
+              <AvenirText style={[{ color: colors.white, fontWeight: 'bold' }, Fonts.textRegular, Fonts.textCenter]}>
+                {t('welcomeBack')}!
+              </AvenirText>
 
-              <Text style={[{ color: colors.white, fontWeight: 'bold', paddingTop: 6 }, Fonts.textSmall, Fonts.textCenter]}>
+              <AvenirText style={[{ color: colors.white, fontWeight: 'bold', paddingTop: 6 }, Fonts.textSmall, Fonts.textCenter]}>
                 {t('readyForAnotherActiveSection')}
-              </Text>
+              </AvenirText>
             </View>
           </View>
 
@@ -340,7 +343,7 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.logI
                   placeholder={t('email')}
                   placeholderTextColor={colors.spanishGray}
                 />
-                {errMsg.email !== '' && <Text style={ERR_MSG_TEXT}>{errMsg.email}</Text>}
+                {errMsg.email !== '' && <AvenirText style={ERR_MSG_TEXT}>{errMsg.email}</AvenirText>}
               </View>
 
               <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT]}>
@@ -353,7 +356,7 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.logI
                   showPassword={showPassword}
                   onPasswordEyePress={onPasswordEyePress}
                 />
-                {errMsg.password !== '' && <Text style={ERR_MSG_TEXT}>{errMsg.password}</Text>}
+                {errMsg.password !== '' && <AvenirText style={ERR_MSG_TEXT}>{errMsg.password}</AvenirText>}
               </View>
 
               <View style={[Layout.fullWidth, Layout.center, Gutters.largeVPadding, { flex: 1, justifyContent: 'center' }]}>
@@ -366,19 +369,19 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.logI
                   }}
                 />
                 <Pressable style={[Layout.fullWidth, Layout.center, { paddingBottom: 30, paddingTop: 10 }]} onPress={onForgotPasswordPress}>
-                  <Text style={{ color: colors.white, textDecorationLine: 'underline' }}>{t('forgotPassword')}</Text>
+                  <AvenirText style={{ color: colors.white, textDecorationLine: 'underline' }}>{t('forgotPassword')}</AvenirText>
                 </Pressable>
 
                 <View style={{ flexDirection: 'row' }}>
-                  <Text style={{ color: colors.white }}>{t('dontHaveAnAccount')}</Text>
+                  <AvenirText style={{ color: colors.white }}>{t('dontHaveAnAccount')}</AvenirText>
                   <Pressable style={{ paddingLeft: 6 }} onPress={() => navigation.navigate(RouteStacks.signUp)}>
-                    <Text style={{ color: colors.brightTurquoise, fontWeight: 'bold' }}>{t('signUp')}</Text>
+                    <AvenirText style={{ color: colors.brightTurquoise, fontWeight: 'bold' }}>{t('signup')}</AvenirText>
                   </Pressable>
                 </View>
               </View>
             </KeyboardAwareScrollView>
           </SlideInputModal>
-        </KeyboardAwareScrollView>
+        </ScrollView>
       </ScreenBackgrounds>
     </SafeAreaView>
   )

@@ -1,30 +1,30 @@
 {
-  "dev": {
+  "main": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-dragonevo-dev-122509-authRole",
-      "UnauthRoleArn": "arn:aws:iam::523966993919:role/amplify-dragonevo-dev-122509-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::523966993919:role/amplify-dragonevo-dev-122509-authRole",
+      "AuthRoleName": "amplify-dragonevoprdamplify-main-84345-authRole",
+      "UnauthRoleArn": "arn:aws:iam::092505062856:role/amplify-dragonevoprdamplify-main-84345-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::092505062856:role/amplify-dragonevoprdamplify-main-84345-authRole",
       "Region": "us-west-2",
-      "DeploymentBucketName": "amplify-dragonevo-dev-122509-deployment",
-      "UnauthRoleName": "amplify-dragonevo-dev-122509-unauthRole",
-      "StackName": "amplify-dragonevo-dev-122509",
-      "StackId": "arn:aws:cloudformation:us-west-2:523966993919:stack/amplify-dragonevo-dev-122509/5cbe6c80-c774-11ec-b573-0a3baa7ea85d",
-      "AmplifyAppId": "d1kscz8c8z777g"
+      "DeploymentBucketName": "amplify-dragonevoprdamplify-main-84345-deployment",
+      "UnauthRoleName": "amplify-dragonevoprdamplify-main-84345-unauthRole",
+      "StackName": "amplify-dragonevoprdamplify-main-84345",
+      "StackId": "arn:aws:cloudformation:us-west-2:092505062856:stack/amplify-dragonevoprdamplify-main-84345/11060080-0808-11ed-ab6d-021e5b88a5e5",
+      "AmplifyAppId": "d2wwu57e0xcne5"
     },
     "categories": {
       "auth": {
-        "dragonevo": {
-          "userPoolId": "us-west-2_QVyy5ZMqT",
-          "userPoolName": "dragonevo-dev-auth-user-pool",
-          "webClientId": "5n21gbh33o8scta9agi8o75aab",
-          "nativeClientId": "5n21gbh33o8scta9agi8o75aab",
-          "identityPoolId": "us-west-2:a0a35520-2e89-4df3-98e9-8543324349e0",
-          "identityPoolName": "dragonevo-dev-auth-identity-pool",
+        "dragonevoprdamplify": {
+          "userPoolId": "us-west-2_OFxenz5Su",
+          "userPoolName": "dragonevo-prd-auth-user-pool",
+          "webClientId": "enn8n295b6erpbfu9a32mi5n7",
+          "nativeClientId": "enn8n295b6erpbfu9a32mi5n7",
+          "identityPoolId": "us-west-2:10c5c0b3-9992-48ef-885e-c749418688dd",
+          "identityPoolName": "dragonevo-prd-auth-identity-pool",
           "allowUnauthenticatedIdentities": true,
-          "authRoleArn": "arn:aws:iam::523966993919:role/dragonevo-dev-auth-authorized-role",
-          "authRoleName": "dragonevo-dev-auth-authorized-role",
-          "unauthRoleArn": "arn:aws:iam::523966993919:role/dragonevo-dev-auth-unauthorized-role",
-          "unauthRoleName": "dragonevo-dev-auth-unauthorized-role"
+          "authRoleArn": "arn:aws:iam::092505062856:role/dragonevo-prd-auth-authorized-role",
+          "authRoleName": "dragonevo-prd-auth-authorized-role",
+          "unauthRoleArn": "arn:aws:iam::092505062856:role/dragonevo-prd-auth-unauthorized-role",
+          "unauthRoleName": "dragonevo-prd-auth-unauthorized-role"
         }
       }
     }

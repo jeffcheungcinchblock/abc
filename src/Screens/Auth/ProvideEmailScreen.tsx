@@ -26,6 +26,7 @@ import { emailUsernameHash } from '@/Utils/helpers'
 import axios from 'axios'
 import crashlytics from '@react-native-firebase/crashlytics'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import AvenirText from '@/Components/FontText/AvenirText'
 
 const TEXT_INPUT = {
   height: 40,
@@ -81,7 +82,7 @@ const ProvideEmailScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStack
   }
 
   const onEmailChange = (text: string) => {
-    setEmail(text)
+    setEmail(text.toLowerCase())
   }
 
   const onConfirmPress = async () => {
@@ -114,12 +115,15 @@ const ProvideEmailScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStack
     }
   }
 
+  useEffect(() => {
+    dispatch(startLoading(false))
+  }, [])
+
   return (
     <SafeAreaView
       style={{
         flex: 1,
         justifyContent: 'space-between',
-        // alignItems: 'center',
         backgroundColor: colors.darkGunmetal,
       }}
       edges={['top']}
@@ -138,9 +142,9 @@ const ProvideEmailScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStack
             ]}
           >
             <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 60 }]}>
-              <Text style={[{ color: colors.white, fontWeight: 'bold', lineHeight: 26 }, Fonts.textSmall, Fonts.textLeft]}>
+              <AvenirText style={[{ color: colors.white, fontWeight: 'bold', lineHeight: 26 }, Fonts.textSmall, Fonts.textLeft]}>
                 {t('enterEmailPrompt')}
-              </Text>
+              </AvenirText>
             </View>
 
             <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 80, justifyContent: 'center' }]}>
@@ -152,7 +156,7 @@ const ProvideEmailScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStack
                 autoCapitalize={'none'}
               />
               {errMsg !== '' && (
-                <Text style={[{ color: colors.magicPotion, paddingHorizontal: 10 }, Fonts.textSmall, Fonts.textLeft]}>{errMsg}</Text>
+                <AvenirText style={[{ color: colors.magicPotion, paddingHorizontal: 10 }, Fonts.textLeft]}>{errMsg}</AvenirText>
               )}
             </View>
 

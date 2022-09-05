@@ -20,7 +20,6 @@ export class GoogleFitKit extends GeneralHealthKit {
   InitHealthKitPermission() {
     return new Promise<boolean>(async resolve => {
       await GoogleFit.authorize(options).then(authResult => {
-        console.log('authResult', authResult)
         resolve(authResult.success)
       })
     })
@@ -39,11 +38,8 @@ export class GoogleFitKit extends GeneralHealthKit {
   }
 
   GetSteps(startDate: Date, endDate: Date) {
-    console.log('getstep', startDate)
     if (!GoogleFit.isAuthorized) {
-      GoogleFit.authorize(options).then((authResult: any) => {
-        console.log('authResult', authResult)
-      })
+      GoogleFit.authorize(options).then((authResult: any) => {})
       return new Promise<number>(resolve => resolve(-1))
     }
 
@@ -61,7 +57,7 @@ export class GoogleFitKit extends GeneralHealthKit {
           return resolve(steps)
           //   resolve(allsteps.reduce((a, b) => a + b))
         })
-        .catch(err => console.log('error', err))
+        .catch(err => {})
     })
   }
 
@@ -82,9 +78,7 @@ export class GoogleFitKit extends GeneralHealthKit {
           }, 0)
           resolve(distances)
         })
-        .catch(err => {
-          console.log('error', err)
-        })
+        .catch(err => {})
     })
   }
 
@@ -111,7 +105,6 @@ export class GoogleFitKit extends GeneralHealthKit {
           resolve(calories)
         })
         .catch(err => {
-          console.log('error', err)
           resolve(0)
         })
     })
@@ -147,10 +140,9 @@ export class GoogleFitKit extends GeneralHealthKit {
       endDate: endDate.toISOString(), // optional; default now
     }
     return new Promise<[]>(resolve => {
-      GoogleFit.getActivitySamples(opt).then(res => console.log('workout', res))
+      GoogleFit.getActivitySamples(opt).then(res => {})
       GoogleFit.getWorkoutSession(opt)
         .then((res: any) => {
-          console.log(res)
           const workout = res.reduce((a: any, b: { value: any }) => {
             return a + b.value
           }, 0)
@@ -165,24 +157,18 @@ export class GoogleFitKit extends GeneralHealthKit {
   StartWorkoutSession(startDate: any, setStep: Function, setDist: Function) {
     check(PERMISSIONS.ANDROID.ACTIVITY_RECOGNITION).then(result => {
       if (result === RESULTS.DENIED) {
-        request(PERMISSIONS.ANDROID.ACTIVITY_RECOGNITION).then(res => {
-          console.log(res)
-        })
+        request(PERMISSIONS.ANDROID.ACTIVITY_RECOGNITION).then(res => {})
       }
       if (result === RESULTS.GRANTED) {
-        console.log('Granted')
       }
     })
 
     GoogleFit.startRecording(
       function (result) {
-        console.log(result)
         let step = 0
         if (result.recording === true) {
-          console.log('start record distance')
           GoogleFit.observeSteps(function (res: any, isError) {
             if (isError) {
-              console.log(isError)
             }
             const distOption = {
               startDate: startDate.toISOString(),
@@ -190,10 +176,8 @@ export class GoogleFitKit extends GeneralHealthKit {
             }
             step = step + res.steps
             if (step > 10) {
-              console.log('backgound')
             }
             GoogleFit.getDailyDistanceSamples(distOption).then((dist: any) => {
-              console.log('dist', dist.distance)
               setDist(dist[0].distance)
               setStep(step)
             })
@@ -206,6 +190,5 @@ export class GoogleFitKit extends GeneralHealthKit {
 
   StopWorkoutSession() {
     GoogleFit.unsubscribeListeners()
-    console.log('end')
   }
 }

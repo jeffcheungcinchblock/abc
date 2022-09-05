@@ -1,37 +1,39 @@
 import React, { FC } from 'react'
-import { View, Image, Text, ActivityIndicator, Pressable, StyleProp, ViewStyle, ImageStyle } from 'react-native'
+import { View, Image, Text, ActivityIndicator, Pressable, StyleProp, ViewStyle, ImageStyle, Dimensions } from 'react-native'
 import { useTheme } from '@/Hooks'
 import { colors } from '@/Utils/constants'
-import appIcon from '@/Assets/Images/icons/icon.png'
+import appIcon from '@/Assets/Images/logos/logo1.png'
 
 type AppIconProps = {
-    style?: object
-    imageStyle?: object
+  style?: object
+  imageStyle?: object
 }
 
-const AppIcon = ({
-    style,
-    imageStyle,
-}: AppIconProps) => {
-    const { Layout, Images } = useTheme()
+const windowHeight = Dimensions.get('window').height
 
-    return (
-        <View style={{
-            width: "100%",
-            alignItems: "center",
-            ...style,
-        }}>
-            <Image source={appIcon} style={{
-                width: "10%",
-                resizeMode: "contain",
-                ...imageStyle,
-            }}/>
-        </View>
-    )
+const AppIcon = ({ style, imageStyle }: AppIconProps) => {
+  const { Layout, Images } = useTheme()
+
+  return (
+    <View
+      style={{
+        width: '100%',
+        alignItems: 'center',
+        ...style,
+      }}
+    >
+      <Image
+        source={appIcon}
+        style={{
+          height: windowHeight / 12,
+          resizeMode: 'contain',
+          ...imageStyle,
+        }}
+      />
+    </View>
+  )
 }
 
-AppIcon.defaultProps = {
-
-}
+AppIcon.defaultProps = {}
 
 export default AppIcon

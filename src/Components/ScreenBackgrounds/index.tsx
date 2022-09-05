@@ -8,6 +8,7 @@ import Video from 'react-native-video'
 import bg1 from '@/Assets/Images/backgrounds/bg_01.png'
 import bg2 from '@/Assets/Images/backgrounds/bg_02.png'
 import bg3 from '@/Assets/Images/backgrounds/bg_03.png'
+import congratsImg from '@/Assets/Images/backgrounds/Congrats_img.png'
 
 type ScreenBackgroundsProps = {
   // source: ImageSourcePropType
@@ -22,22 +23,7 @@ const ScreenImageMap: any = {
   [RouteStacks.logIn]: 'video',
   [RouteStacks.signUp]: 'video',
   [RouteStacks.enterInvitationCode]: 'video',
-
-  [RouteStacks.validationCode]: bg2,
-  [RouteStacks.forgotPassword]: bg2,
-  [RouteStacks.signUpWithCode]: bg2,
-  [RouteStacks.createNewPassword]: bg2,
-
-  [RouteStacks.homeMain]: bg2,
-  [RouteStacks.homeReferral]: bg2,
-  [RouteStacks.homeInviteState]: bg2,
-
-  [RouteStacks.breedingMain]: bg2,
-  [RouteStacks.socialMain]: bg2,
-  [RouteStacks.marketplaceMain]: bg2,
-  [RouteStacks.setting]: bg2,
-  [RouteStacks.provideEmail]: bg2,
-  [RouteStacks.registrationCompleted]: bg2,
+  [RouteStacks.registrationCompleted]: congratsImg,
 }
 
 const ScreenBackgrounds = ({ uri, screenName, children }: ScreenBackgroundsProps) => {
@@ -71,19 +57,7 @@ const ScreenBackgrounds = ({ uri, screenName, children }: ScreenBackgroundsProps
       />
       {children}
     </>
-  ) : (
-    // <>
-    //     <ImageBackground
-    //         source={source}
-    //         style={{
-    //             flex: 1,
-    //             backgroundColor: colors.darkGunmetal
-    //         }}
-    //     >
-    //     {children}
-    //     </ImageBackground>
-    // </>
-
+  ) : ScreenImageMap[screenName] === undefined ? (
     <>
       <View
         style={{
@@ -93,6 +67,21 @@ const ScreenBackgrounds = ({ uri, screenName, children }: ScreenBackgroundsProps
       >
         {children}
       </View>
+    </>
+  ) : (
+    <>
+      <ImageBackground
+        source={source}
+        style={{
+          flex: 1,
+          backgroundColor: colors.darkGunmetal,
+        }}
+        imageStyle={{
+          resizeMode: 'cover',
+        }}
+      >
+        {children}
+      </ImageBackground>
     </>
   )
 }

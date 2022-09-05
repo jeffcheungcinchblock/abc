@@ -78,7 +78,7 @@
 		D41F347F72A6479D9F112A17 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 56CC03B36EEA4E989E33DA96 /* Poppins-Bold.ttf */; };
 		D49AE2FA37854816A7C6943F /* Poppins-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 50DA38B3470840078D954869 /* Poppins-BlackItalic.ttf */; };
 		DF51CEAF46C3483A9E7A8A7F /* Poppins-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 569C1599401945429EC1E395 /* Poppins-ThinItalic.ttf */; };
-		E341E7F728813F5300D13023 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E341E7F628813F5300D13023 /* GoogleService-Info.plist */; };
+		E339193F28C5A7920075A31B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E339193E28C5A7920075A31B /* GoogleService-Info.plist */; };
 		E35D9210282CA4C0000CD920 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E35D920F282CA4C0000CD920 /* BootSplash.storyboard */; };
 		E36243EF283E04C20098154B /* BuildFile in Resources */ = {isa = PBXBuildFile; };
 		E36243F0283E04C20098154B /* BuildFile in Resources */ = {isa = PBXBuildFile; };
@@ -223,9 +223,10 @@
 		D7B1B30FE98C468596DFEE10 /* Poppins-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Light.ttf"; path = "../src/Assets/Fonts/Poppins-Light.ttf"; sourceTree = "<group>"; };
 		D7FFCDA71C08410E888B233C /* Poppins-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Italic.ttf"; path = "../src/Assets/Fonts/Poppins-Italic.ttf"; sourceTree = "<group>"; };
 		DD100D05C0824FC0B66AA8BE /* Poppins-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-ExtraLight.ttf"; path = "../src/Assets/Fonts/Poppins-ExtraLight.ttf"; sourceTree = "<group>"; };
-		E341E7F628813F5300D13023 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		E339193E28C5A7920075A31B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E35D920D282A1890000CD920 /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = FitEvo/BootSplash.storyboard; sourceTree = "<group>"; };
 		E35D920F282CA4C0000CD920 /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = FitEvo/BootSplash.storyboard; sourceTree = "<group>"; };
+		E39C986528912627003F25BD /* FitEvoRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = FitEvoRelease.entitlements; path = FitEvo/FitEvoRelease.entitlements; sourceTree = "<group>"; };
 		E8BF76D6843C28291C346D81 /* libPods-FitEvo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FitEvo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
@@ -312,7 +313,8 @@
 		13B07FAE1A68108700A75B9A /* FitEvo */ = {
 			isa = PBXGroup;
 			children = (
-				E341E7F628813F5300D13023 /* GoogleService-Info.plist */,
+				E339193E28C5A7920075A31B /* GoogleService-Info.plist */,
+				E39C986528912627003F25BD /* FitEvoRelease.entitlements */,
 				6CACA624280FA975008F6268 /* RNBackgroundFetch+AppDelegate.m */,
 				E35D920D282A1890000CD920 /* BootSplash.storyboard */,
 				E35D920F282CA4C0000CD920 /* BootSplash.storyboard */,
@@ -660,13 +662,11 @@
 					};
 					C4114DD2282258E100074A62 = {
 						CreatedOnToolsVersion = 13.3;
-						DevelopmentTeam = 5R7ML6LATH;
 						ProvisioningStyle = Automatic;
 						TestTargetID = C4114DBC282258E000074A62;
 					};
 					C4114DDC282258E100074A62 = {
 						CreatedOnToolsVersion = 13.3;
-						DevelopmentTeam = 5R7ML6LATH;
 						ProvisioningStyle = Automatic;
 						TestTargetID = C4114DBC282258E000074A62;
 					};
@@ -712,7 +712,7 @@
 			files = (
 				1F5B4F1727FEBA92009618AF /* Ionicons.ttf in Resources */,
 				1F5B4F1927FEBA92009618AF /* FontAwesome.ttf in Resources */,
-				E341E7F728813F5300D13023 /* GoogleService-Info.plist in Resources */,
+				E339193F28C5A7920075A31B /* GoogleService-Info.plist in Resources */,
 				1F5B4F2127FEBA92009618AF /* Feather.ttf in Resources */,
 				1F5B4F1A27FEBA92009618AF /* Octicons.ttf in Resources */,
 				1F5B4F1D27FEBA92009618AF /* FontAwesome5_Regular.ttf in Resources */,
@@ -1258,7 +1258,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = FitEvo/FitEvo.entitlements;
+				CODE_SIGN_ENTITLEMENTS = FitEvo/FitEvoRelease.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1294,6 +1294,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "FitEvo-tvOS/Info.plist";
@@ -1323,6 +1324,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "FitEvo-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1545,6 +1547,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.fitnessevo.Clip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1596,6 +1599,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.fitnessevo.Clip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 5.0;
@@ -1618,7 +1622,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 5R7ML6LATH;
+				DEVELOPMENT_TEAM = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
@@ -1652,7 +1656,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 5R7ML6LATH;
+				DEVELOPMENT_TEAM = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
@@ -1682,7 +1686,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 5R7ML6LATH;
+				DEVELOPMENT_TEAM = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
@@ -1715,7 +1719,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 5R7ML6LATH;
+				DEVELOPMENT_TEAM = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.4;

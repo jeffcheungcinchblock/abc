@@ -1,6 +1,6 @@
 {
   "auth": {
-    "dragonevo": {
+    "dragonevoprdamplify": {
       "service": "Cognito",
       "serviceType": "imported",
       "providerPlugin": "awscloudformation",

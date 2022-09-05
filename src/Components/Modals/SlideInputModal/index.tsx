@@ -33,7 +33,7 @@ const SlideInputModal = forwardRef((props: SlideInputModalProps, ref) => {
       isOpen={true}
       onClosed={onModalClose}
       keyboardTopOffset={40}
-      animationDuration={500}
+      animationDuration={400}
       style={{
         backgroundColor: colors.charcoal,
         borderTopLeftRadius: 20,

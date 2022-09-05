@@ -3,12 +3,12 @@
 
 const awsmobile = {
     "aws_project_region": "us-west-2",
-    "aws_cognito_identity_pool_id": "us-west-2:a0a35520-2e89-4df3-98e9-8543324349e0",
+    "aws_cognito_identity_pool_id": "us-west-2:10c5c0b3-9992-48ef-885e-c749418688dd",
     "aws_cognito_region": "us-west-2",
-    "aws_user_pools_id": "us-west-2_QVyy5ZMqT",
-    "aws_user_pools_web_client_id": "5n21gbh33o8scta9agi8o75aab",
+    "aws_user_pools_id": "us-west-2_OFxenz5Su",
+    "aws_user_pools_web_client_id": "enn8n295b6erpbfu9a32mi5n7",
     "oauth": {
-        "domain": "mewo.auth.us-west-2.amazoncognito.com",
+        "domain": "auth.fitevo.io",
         "scope": [
             "aws.cognito.signin.user.admin",
             "email",

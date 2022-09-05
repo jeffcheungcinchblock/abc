@@ -1,6 +1,6 @@
 {
   "authSelections": "identityPoolAndUserPool",
-  "resourceName": "dragonevo",
+  "resourceName": "dragonevoprdamplify",
   "serviceType": "imported",
   "region": "us-west-2",
   "authProvidersUserPool": [

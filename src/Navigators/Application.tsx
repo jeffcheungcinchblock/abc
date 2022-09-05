@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import { Dimensions, Image, ImageBackground, Linking, Pressable, StatusBar, Text, View } from 'react-native'
 import { createStackNavigator, TransitionSpecs } from '@react-navigation/stack'
 import { LinkingOptions, NavigationContainer, NavigationContainerRefWithCurrent, useNavigation } from '@react-navigation/native'
-import { ApplicationStartupContainer } from '@/Screens'
 import { useTheme } from '@/Hooks'
 import MainNavigator, { DrawerNavigatorParamList } from './MainNavigator'
 import { navigationRef } from './utils'
@@ -44,7 +43,7 @@ export type ApplicationNavigatorParamList = {
 }
 const Stack = createStackNavigator<ApplicationNavigatorParamList>()
 
-const abortController = new AbortController()
+let abortController: AbortController
 
 // @refresh reset
 const ApplicationNavigator = () => {
@@ -94,11 +93,14 @@ const ApplicationNavigator = () => {
     if (!isLoggedIn) {
       retrieveLoggedInUser()
     }
+  }, [isLoggedIn])
 
+  useEffect(() => {
+    abortController = new AbortController()
     return () => {
       abortController.abort()
     }
-  }, [isLoggedIn])
+  }, [])
 
   let navProps: {
     ref: NavigationContainerRefWithCurrent<any>
@@ -133,11 +135,13 @@ const ApplicationNavigator = () => {
                 Authorization: jwtToken,
               },
             })
-
-            const { email, uuid, verified, username } = userProfileRes?.data
-            if (username.includes('SignInWith') && verified === 'false') {
+            const { email, uuid, username } = userProfileRes?.data
+            if (
+              (username.includes('Google') || username.includes('Facebook') || username.includes('SignInWithApple')) &&
+              email === undefined
+            ) {
               publicNavigationRef.navigate(RouteStacks.provideEmail)
-              dispatch(startLoading(false))
+              // dispatch(startLoading(false))
             } else {
               dispatch(
                 login({
@@ -146,7 +150,7 @@ const ApplicationNavigator = () => {
                   uuid,
                 }),
               )
-              dispatch(startLoading(false))
+              // dispatch(startLoading(false))
             }
           } catch (err: any) {
             crashlytics().recordError(err)
@@ -166,7 +170,6 @@ const ApplicationNavigator = () => {
     Hub.listen('auth', authListener)
 
     return () => {
-      abortController.abort()
       Hub.remove('auth', authListener)
     }
   }, [])
@@ -181,7 +184,7 @@ const ApplicationNavigator = () => {
         containerStyle={{
           borderRadius: 99,
         }}
-        top={10}
+        top={40}
         left={10}
         right={10}
       ></SnackBar>
@@ -189,16 +192,7 @@ const ApplicationNavigator = () => {
         <StatusBar barStyle={darkMode ? 'light-content' : 'dark-content'} />
         {isScreenLoading && <LoadingScreen />}
 
-        <Stack.Navigator
-          screenOptions={{
-            headerShown: false,
-            presentation: 'transparentModal',
-          }}
-          initialRouteName={RouteStacks.application}
-        >
-          <Stack.Screen name={RouteStacks.application} component={ApplicationStartupContainer} />
-          <Stack.Screen name={RouteStacks.mainNavigator} component={isLoggedIn ? MainNavigator : AuthNavigator} />
-        </Stack.Navigator>
+        {isLoggedIn ? <MainNavigator /> : <AuthNavigator />}
       </NavigationContainer>
     </GestureHandlerRootView>
   )

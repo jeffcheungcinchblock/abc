@@ -52,6 +52,7 @@ import { useRealm } from '@/Realms/RealmContext'
 import { Post } from '@/Realms/Schemas/PostSchema'
 
 import { StyleSheet } from 'react-native'
+import AvenirText from '@/Components/FontText/AvenirText'
 
 const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.welcome>> = ({ navigation, route }) => {
   const { t } = useTranslation()
@@ -141,46 +142,6 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
   }
   const onSignUpPress = async () => {
     navigation.navigate(RouteStacks.signUp)
-
-    // realm?.write(() => {
-    //   realm.create<Post>('Post', {
-    //     title: 'ABC',
-    //     createdBy: 'Jeff cheung',
-    //   })
-    // })
-    try {
-      // const realm = await Realm.open({
-      //     path: "myrealm",
-      //     schema: [{
-      //         name: "Task",
-      //         properties: {
-      //             _id: "int",
-      //             name: "string",
-      //             status: "string?",
-      //         },
-      //         primaryKey: "_id",
-      //     }],
-      // });
-      // const tasks = realm.objects("Task");
-      // console.log('tasks',)
-      // let task1, task2;
-      // realm.write(() => {
-      //     task1 = realm.create("Task", {
-      //         _id: 1,
-      //         name: "go grocery shopping",
-      //         status: "Open",
-      //     });
-      //     task2 = realm.create("Task", {
-      //         _id: 2,
-      //         name: "go exercise",
-      //         status: "Open",
-      //     });
-      //     console.log(`created two tasks: ${task1.name} & ${task2.name}`);
-      // });
-      // realm.close()
-    } catch (err: any) {
-      console.log(err)
-    }
   }
 
   const onTAndCPress = async () => await InAppBrowser.open('https://fitevo-nft.gitbook.io/agreement/')
@@ -203,7 +164,8 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
             alignItems: 'center',
             width: '100%',
             flex: 1,
-            justifyContent: 'flex-start',
+            justifyContent: 'center',
+            paddingTop: 40,
           }}
         >
           <AppLogo
@@ -256,7 +218,7 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
             ]}
           >
             <Pressable onPress={onSignInPress}>
-              <Text
+              <AvenirText
                 style={[
                   Fonts.textSmall,
                   {
@@ -265,7 +227,7 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
                 ]}
               >
                 {t('alreadyHaveAnAc')}
-              </Text>
+              </AvenirText>
             </Pressable>
           </View>
 
@@ -279,7 +241,7 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
               },
             ]}
           >
-            <Text
+            <AvenirText
               style={[
                 Fonts.textSmall,
                 {
@@ -288,10 +250,10 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
               ]}
             >
               {t('orViaSocialMedia')}
-            </Text>
+            </AvenirText>
 
             <View
-              style={[Layout.fullWidth, Layout.colCenter, Layout.rowCenter, { flexBasis: 40, flexDirection: 'row', marginVertical: 30 }]}
+              style={[Layout.fullWidth, Layout.colCenter, Layout.rowCenter, { flexBasis: 40, flexDirection: 'row', marginVertical: 20 }]}
             >
               <SocialSignInButton
                 isLoading={isLoggingIn}
@@ -324,21 +286,23 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
             style={[Layout.fullWidth, Layout.colCenter, Layout.rowCenter, { flexBasis: 60, flexDirection: 'column', marginVertical: 30 }]}
           >
             <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
-              <Text style={[{ textAlign: 'center', color: colors.white }]}>{t('agreeTo')}</Text>
+              <AvenirText style={[{ textAlign: 'center', color: colors.white }]}>{t('agreeTo')}</AvenirText>
               <Pressable style={{}} onPress={onTAndCPress}>
-                <Text
+                <AvenirText
                   style={{
                     color: colors.brightTurquoise,
-                    lineHeight: 14,
+                    lineHeight: 16,
                     marginTop: 3,
                   }}
                 >
                   {t('T&C')}
-                </Text>
+                </AvenirText>
               </Pressable>
             </View>
 
-            <Text style={[Layout.fullWidth, { textAlign: 'center', color: colors.white }]}>{t('byRegisteringAc')}</Text>
+            <AvenirText style={[Layout.fullWidth, { textAlign: 'center', color: colors.white, paddingBottom: 16 }]}>
+              {t('byRegisteringAc')}
+            </AvenirText>
           </View>
         </View>
       </KeyboardAwareScrollView>

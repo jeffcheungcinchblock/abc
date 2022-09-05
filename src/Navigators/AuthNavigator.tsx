@@ -21,14 +21,17 @@ import { navigationRef } from './utils'
 import { CompositeScreenProps, LinkingOptions, NavigationContainerRefWithCurrent, Route } from '@react-navigation/native'
 import ProvideEmailScreen from '@/Screens/Auth/ProvideEmailScreen'
 import { ApplicationNavigatorParamList } from './Application'
+import AuthAppSplashScreen from '@/Screens/Auth/AuthAppSplashScreen'
 
 type ValidationCodeParam = {
   email: string
   action: 'forgotPassword' | 'signUp' | 'resendSignUp' | 'registerEmail'
   code?: string
+  password?: string
 }
 
 export type AuthNavigatorParamList = {
+  [RouteStacks.authAppSplash]: undefined
   [RouteStacks.welcomeGallery]: undefined
   [RouteStacks.welcome]: undefined
   [RouteStacks.signUp]: { code?: string } | undefined
@@ -44,9 +47,7 @@ export type AuthNavigatorParamList = {
 }
 const Stack = createStackNavigator<AuthNavigatorParamList>()
 
-export type ApplicationScreenProps = StackScreenProps<ApplicationNavigatorParamList, RouteStacks.application>
-
-const AuthNavigator: FC<ApplicationScreenProps> = ({ navigation }) => {
+const AuthNavigator: FC = ({}) => {
   const dispatch = useDispatch()
 
   return (
@@ -54,10 +55,23 @@ const AuthNavigator: FC<ApplicationScreenProps> = ({ navigation }) => {
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName={RouteStacks.welcome}
+      initialRouteName={RouteStacks.authAppSplash}
     >
-      <Stack.Screen name={RouteStacks.welcomeGallery} component={WelcomeGalleryScreen} />
-      <Stack.Screen name={RouteStacks.welcome} component={WelcomeScreen} />
+      <Stack.Screen name={RouteStacks.authAppSplash} component={AuthAppSplashScreen} />
+      <Stack.Screen
+        name={RouteStacks.welcomeGallery}
+        component={WelcomeGalleryScreen}
+        options={{
+          presentation: 'transparentModal',
+        }}
+      />
+      <Stack.Screen
+        name={RouteStacks.welcome}
+        component={WelcomeScreen}
+        options={{
+          presentation: 'transparentModal',
+        }}
+      />
       <Stack.Screen name={RouteStacks.signUpWithCode} component={SignUpWithCodeScreen} />
       <Stack.Screen name={RouteStacks.logIn} component={SignInScreen} />
       <Stack.Screen name={RouteStacks.signUp} component={SignUpScreen} />

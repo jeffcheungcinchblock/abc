@@ -7,6 +7,7 @@ import { colors } from '@/Utils/constants'
 import ModalBox from 'react-native-modalbox'
 import reward from '@/Assets/Images/Modal/reward.png'
 import TurquoiseButton from '@/Components/Buttons/TurquoiseButton'
+import AvenirText from '@/Components/FontText/AvenirText'
 
 type ForceQuitWorkoutModalProps = {
   onModalClose: () => void
@@ -46,10 +47,10 @@ const forceQuitWorkout = forwardRef((props: ForceQuitWorkoutModalProps, ref) => 
       }}
     >
       <View style={{ flex: 2, justifyContent: 'center' }}>
-        <Text style={[MODAL_TEXT, { fontSize: 16, fontWeight: 'bold' }]}>{t('modalPrompt.caution')}</Text>
+        <AvenirText style={[MODAL_TEXT, { fontSize: 16, fontWeight: 'bold' }]}>{t('modalPrompt.caution')}</AvenirText>
       </View>
       <View style={{ flex: 2, justifyContent: 'center', paddingHorizontal: 14 }}>
-        <Text style={[MODAL_TEXT, { fontSize: 16, fontWeight: '400' }]}>{t('modalPrompt.forceQuitWorkout')}</Text>
+        <AvenirText style={[MODAL_TEXT, { fontSize: 16, fontWeight: '400' }]}>{t('modalPrompt.forceQuitWorkout')}</AvenirText>
       </View>
       <View
         style={{

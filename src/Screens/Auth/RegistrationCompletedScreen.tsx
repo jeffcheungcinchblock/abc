@@ -24,6 +24,9 @@ import WhiteInput from '@/Components/Inputs/WhiteInput'
 import axios from 'axios'
 import { emailUsernameHash, triggerSnackbar } from '@/Utils/helpers'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import * as Keychain from 'react-native-keychain'
+import crashlytics from '@react-native-firebase/crashlytics'
+import AvenirText from '@/Components/FontText/AvenirText'
 
 const TEXT_INPUT = {
   height: 40,
@@ -46,6 +49,7 @@ const CONTENT_ELEMENT_WRAPPER: ViewStyle = {
   padding: 2,
   width: '90%',
 }
+let abortController: AbortController
 
 const RegistrationCompletedScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.registrationCompleted>> = ({
   navigation,
@@ -57,8 +61,36 @@ const RegistrationCompletedScreen: FC<StackScreenProps<AuthNavigatorParamList, R
 
   const [errMsg, setErrMsg] = useState('')
 
-  const onDonePress = () => {
-    navigation.navigate(RouteStacks.logIn)
+  const onDonePress = async () => {
+    // navigation.navigate(RouteStacks.logIn)
+    try {
+      dispatch(startLoading(true))
+      const keychainCred = await Keychain.getGenericPassword()
+      if (keychainCred) {
+        const user = await Auth.signIn(keychainCred.username, keychainCred.password)
+        let { attributes, username } = user
+        let jwtToken = user?.signInUserSession?.idToken?.jwtToken
+
+        const userProfileRes = await axios.get(config.userProfile, {
+          signal: abortController.signal,
+          headers: {
+            Authorization: jwtToken,
+          },
+        })
+        const { email, uuid } = userProfileRes?.data
+
+        dispatch(
+          login({
+            email: attributes.email,
+            username,
+            uuid,
+          }),
+        )
+      }
+    } catch (err: any) {
+      crashlytics().recordError(err)
+    } finally {
+    }
   }
 
   return (
@@ -88,18 +120,18 @@ const RegistrationCompletedScreen: FC<StackScreenProps<AuthNavigatorParamList, R
               Layout.fill,
             ]}
           >
-            <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 60, alignItems: 'center' }]}>
-              <Text
-                style={[{ color: colors.brightTurquoise, fontFamily: 'Poppins-Bold', fontStyle: 'italic', fontSize: 30 }, Fonts.textLeft]}
+            <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 40, alignItems: 'center' }]}>
+              <AvenirText
+                style={[{ color: colors.brightTurquoise, fontWeight: 'bold', fontStyle: 'italic', fontSize: 26 }, Fonts.textLeft]}
               >
                 {t('congrats')}
-              </Text>
+              </AvenirText>
             </View>
 
             <View
-              style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 60, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }]}
+              style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 90, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }]}
             >
-              <Text style={{ color: colors.white }}>{t('registeredSuccess')}</Text>
+              <AvenirText style={{ color: colors.white }}>{t('registeredSuccess')}</AvenirText>
             </View>
           </View>
 

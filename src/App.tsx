@@ -5,7 +5,7 @@ import { PersistGate } from 'redux-persist/lib/integration/react'
 import { store, persistor } from '@/Store'
 import ApplicationNavigator from '@/Navigators/Application'
 import './Translations'
-import { LogBox, Linking, Alert, Platform, Dimensions } from 'react-native'
+import { LogBox, Linking, Alert, Platform, Dimensions, BackHandler, ToastAndroid } from 'react-native'
 // @ts-ignore
 import WalletConnectProvider, { WalletConnectStorageOptions } from '@walletconnect/react-native-dapp'
 // @ts-ignore
@@ -76,38 +76,26 @@ const onInstallConversionDataCanceller = appsFlyer.onInstallConversionData(res =
     if (res.data.af_status === 'Non-organic') {
       const media_source = res.data.media_source
       const campaign = res.data.campaign
-      console.log(
-        'appsFlyer Conversion Data: ',
-        'This is first launch and a Non-Organic install. Media source: ' + media_source + ' Campaign: ' + campaign,
-      )
     } else if (res.data.af_status === 'Organic') {
-      console.log('appsFlyer Conversion Data: ', 'This is first launch and a Organic Install')
     } else {
-      console.log('appsFlyer Conversion Data: ', 'This is not first launch')
     }
   }
-  const DLValue = res?.data?.deep_link_value
-  if (DLValue) {
-    store.dispatch(storeReferralCode(DLValue))
+  const referralCode = res?.data?.referralCode
+  if (referralCode) {
+    store.dispatch(storeReferralCode(referralCode))
   }
 })
 
 const onAppOpenAttributionCanceller = appsFlyer.onAppOpenAttribution(res => {
-  console.log(`status: ${res.status}`)
-  console.log(`campaign: ${res.data.campaign}`)
-  console.log(`af_dp: ${res.data.af_dp}`)
-  console.log(`link: ${res.data.link}`)
-  console.log(`DL value: ${res.data.deep_link_value}`)
-  console.log(`media source: ${res.data.media_source}`)
-  const DLValue = res?.data.deep_link_value
-  if (DLValue) {
-    store.dispatch(storeReferralCode(DLValue))
+  const referralCode = res?.data.referralCode
+  if (referralCode) {
+    store.dispatch(storeReferralCode(referralCode))
   }
 })
 
 const onDeepLinkCanceller = appsFlyer.onDeepLink(res => {
   if (res?.deepLinkStatus !== 'NOT_FOUND') {
-    const DLValue = res?.data.deep_link_value
+    const referralCode = res?.data.referralCode
     const mediaSrc = res?.data.media_source
     const param1 = res?.data.af_sub1
     const screen = res?.data.screen
@@ -115,8 +103,8 @@ const onDeepLinkCanceller = appsFlyer.onDeepLink(res => {
       Linking.openURL(`${config.urlScheme}${screen}`)
     }
 
-    if (DLValue) {
-      store.dispatch(storeReferralCode(DLValue))
+    if (referralCode) {
+      store.dispatch(storeReferralCode(referralCode))
     }
   }
 })
@@ -130,12 +118,8 @@ appsFlyer.initSdk(
     onDeepLinkListener: true,
     timeToWaitForATTUserAuthorization: 10,
   },
-  result => {
-    // console.log("appsFlyer Result: ", result);
-  },
-  error => {
-    // console.log("appsFlyer Error: ", error);
-  },
+  result => {},
+  error => {},
 )
 
 // This is to supress the error coming from unknown lib who is using react-native-gesture-handler
@@ -149,11 +133,10 @@ const getUser = () => {
     .catch(() => {})
 }
 
-// com.fitnessevo://signIn
 const urlOpener = async (url: string, redirectUrl: string) => {
+  // console.log(url, config.urlScheme, redirectUrl)
   try {
     if (redirectUrl === `${config.urlScheme}signIn` && (await InAppBrowser.isAvailable())) {
-      // const authRes: any = await InAppBrowser.open(url)
       const authRes: any = await InAppBrowser.openAuth(url, redirectUrl, {
         showTitle: false,
         enableUrlBarHiding: true,
@@ -188,9 +171,7 @@ const App = () => {
   const getFcmToken = async () => {
     const fcmToken = await messaging().getToken()
     if (fcmToken) {
-      console.log('Firebase Token:', fcmToken)
     } else {
-      console.log('Failed', 'No token received')
     }
   }
 
@@ -250,10 +231,17 @@ const App = () => {
           androidConfig,
         )
       }
-      console.log('ready geolocation')
     }
 
     run()
+  }, [])
+
+  useEffect(() => {
+    let backHandler = BackHandler.addEventListener('hardwareBackPress', () => true)
+
+    return () => {
+      backHandler.remove()
+    }
   }, [])
 
   return (

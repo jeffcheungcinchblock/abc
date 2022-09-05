@@ -27,6 +27,7 @@ import StandardInput from '@/Components/Inputs/StandardInput'
 import SlideInputModal from '@/Components/Modals/SlideInputModal'
 import { emailUsernameHash, validateEmail } from '@/Utils/helpers'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import AvenirText from '@/Components/FontText/AvenirText'
 
 const BUTTON_ICON = {
   width: 30,
@@ -100,7 +101,7 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
     }
 
     if (
-      credential.password.length <= 8 ||
+      credential.password.length < 8 ||
       !!!credential.password.match(/[A-Z]/) ||
       !!!credential.password.match(/[a-z]/) ||
       !!!credential.password.match(/\d/)
@@ -130,9 +131,11 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
       setIsCreatingAccount(false)
       navigation.navigate(RouteStacks.validationCode, {
         email: credential.email,
+        password: credential.password,
         action: 'signUp',
       })
     } catch (err: any) {
+      console.log('err ', err)
       switch (err.message) {
         case 'Password did not conform with policy: Password must have uppercase characters':
         case 'Password did not conform with policy: Password not long enough':
@@ -177,7 +180,7 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
       edges={['top']}
     >
       <ScreenBackgrounds screenName={RouteStacks.signUp}>
-        <KeyboardAwareScrollView contentContainerStyle={[Layout.fill, Layout.colCenter, Layout.justifyContentStart]}>
+        <ScrollView contentContainerStyle={[Layout.fill, Layout.colCenter, Layout.justifyContentStart]}>
           <Header headerText={t('createAccount')} onLeftPress={goBack} />
 
           <View
@@ -192,7 +195,9 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
             <AppIcon />
 
             <View style={[Layout.fullWidth, { justifyContent: 'center', paddingVertical: 30, paddingHorizontal: 20 }]}>
-              <Text style={[{ color: colors.white, fontWeight: 'bold' }, Fonts.textRegular, Fonts.textCenter]}>{t('getStarted')} !</Text>
+              <AvenirText style={[{ color: colors.white, fontWeight: 'bold' }, Fonts.textRegular, Fonts.textCenter]}>
+                {t('getStarted')}!
+              </AvenirText>
             </View>
           </View>
 
@@ -212,7 +217,7 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                   placeholderTextColor={colors.spanishGray}
                   autoCapitalize={'none'}
                 />
-                {errMsg.email !== '' && <Text style={[ERR_MSG_TEXT]}>{errMsg.email}</Text>}
+                {errMsg.email !== '' && <AvenirText style={[ERR_MSG_TEXT]}>{errMsg.email}</AvenirText>}
               </View>
 
               <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT]}>
@@ -225,7 +230,7 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                   showPassword={showPassword}
                   onPasswordEyePress={onPasswordEyePress}
                 />
-                {errMsg.password !== '' && <Text style={[ERR_MSG_TEXT]}>{errMsg.password}</Text>}
+                {errMsg.password !== '' && <AvenirText style={[ERR_MSG_TEXT]}>{errMsg.password}</AvenirText>}
               </View>
 
               <View style={[Layout.fullWidth, Layout.center, Gutters.largeVPadding, { flex: 1, justifyContent: 'center' }]}>
@@ -239,15 +244,15 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                   }}
                 />
                 <View style={{ flexDirection: 'row' }}>
-                  <Text style={{ color: colors.white }}>{t('alreadyHaveAnAccount')}</Text>
+                  <AvenirText style={{ color: colors.white }}>{t('alreadyHaveAnAccount')}</AvenirText>
                   <Pressable style={{ paddingLeft: 6 }} onPress={() => navigation.navigate(RouteStacks.logIn)}>
-                    <Text style={{ color: colors.brightTurquoise, fontWeight: 'bold' }}>{t('logIn')}</Text>
+                    <AvenirText style={{ color: colors.brightTurquoise, fontWeight: 'bold' }}>{t('logIn')}</AvenirText>
                   </Pressable>
                 </View>
               </View>
             </KeyboardAwareScrollView>
           </SlideInputModal>
-        </KeyboardAwareScrollView>
+        </ScrollView>
       </ScreenBackgrounds>
     </SafeAreaView>
   )

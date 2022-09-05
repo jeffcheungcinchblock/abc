@@ -25,6 +25,7 @@ import StandardInput from '@/Components/Inputs/StandardInput'
 import { emailUsernameHash } from '@/Utils/helpers'
 import crashlytics from '@react-native-firebase/crashlytics'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import AvenirText from '@/Components/FontText/AvenirText'
 
 const TEXT_INPUT = {
   height: 40,
@@ -89,6 +90,7 @@ const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
 
   const onConfirmPress = async () => {
     try {
+      console.log('onConfirmPress')
       await Auth.forgotPassword(emailUsernameHash(email))
       navigation.navigate(RouteStacks.validationCode, {
         email: email,
@@ -124,9 +126,9 @@ const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
             ]}
           >
             <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 60 }]}>
-              <Text style={[{ color: colors.white, fontWeight: 'bold', lineHeight: 26 }, Fonts.textSmall, Fonts.textLeft]}>
+              <AvenirText style={[{ color: colors.white, fontWeight: 'bold', lineHeight: 26 }, Fonts.textSmall, Fonts.textLeft]}>
                 {t('forgotPasswordPrompt')}
-              </Text>
+              </AvenirText>
             </View>
 
             <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 80, justifyContent: 'center' }]}>
@@ -138,7 +140,9 @@ const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
                 autoCapitalize={'none'}
               />
               {errMsg !== '' && (
-                <Text style={[{ color: colors.magicPotion, paddingHorizontal: 10 }, Fonts.textSmall, Fonts.textLeft]}>{errMsg}</Text>
+                <AvenirText style={[{ color: colors.magicPotion, paddingHorizontal: 10, paddingTop: 4 }, Fonts.textLeft]}>
+                  {errMsg}
+                </AvenirText>
               )}
             </View>
 

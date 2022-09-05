@@ -10,6 +10,7 @@ export enum RouteTabs {
 
 // Adding new screens need to add corresponding background image in Components/ScreenBackgrounds/index.tsx
 export enum RouteStacks {
+  appSplash = 'appSplash',
   startUp = 'startUp',
   application = 'application',
   mainNavigator = 'mainNavigator',
@@ -28,6 +29,7 @@ export enum RouteStacks {
   createNewPassword = 'createNewPassword',
   provideEmail = 'provideEmail',
   registrationCompleted = 'registrationCompleted',
+  authAppSplash = 'authAppSplash',
 
   // logged in app screens
 

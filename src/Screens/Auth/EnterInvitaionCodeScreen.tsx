@@ -41,6 +41,7 @@ import { storeReferralCode } from '@/Store/Referral/actions'
 import crashlytics from '@react-native-firebase/crashlytics'
 import SlideInputModal from '@/Components/Modals/SlideInputModal'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import AvenirText from '@/Components/FontText/AvenirText'
 
 const LOGIN_BUTTON: ViewStyle = {
   height: 40,
@@ -132,7 +133,7 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
       edges={['top']}
     >
       <ScreenBackgrounds screenName={RouteStacks.enterInvitationCode}>
-        <KeyboardAwareScrollView contentContainerStyle={[Layout.fill, Layout.colCenter, Layout.justifyContentStart]}>
+        <ScrollView contentContainerStyle={[Layout.fill, Layout.colCenter, Layout.justifyContentStart]}>
           <Header headerText={t('referralCode')} onLeftPress={goBack} />
 
           <View
@@ -147,9 +148,9 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
             <AppIcon />
 
             <View style={[Layout.fullWidth, { justifyContent: 'center', paddingVertical: 40, paddingHorizontal: 40 }]}>
-              <Text style={[{ color: colors.white, lineHeight: 22 }, Fonts.textSmall, Fonts.textCenter]}>
+              <AvenirText style={[{ color: colors.white, lineHeight: 22 }, Fonts.textSmall, Fonts.textCenter]}>
                 {t('enterInvitationCodeDesc')}
-              </Text>
+              </AvenirText>
             </View>
           </View>
 
@@ -169,14 +170,24 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
                 style={{
                   borderBottomWidth: 1,
                   borderColor: colors.silverSand,
+                  paddingBottom: 10,
                 }}
               />
               {errMsg !== '' && (
-                <Text style={[{ color: colors.magicPotion, paddingHorizontal: 10 }, Fonts.textSmall, Fonts.textLeft]}>{errMsg}</Text>
+                <AvenirText style={[{ color: colors.magicPotion, paddingHorizontal: 10, paddingTop: 4 }, Fonts.textLeft]}>
+                  {errMsg}
+                </AvenirText>
               )}
             </View>
 
-            <View style={[Layout.fullWidth, Layout.center, Gutters.largeVPadding, { flex: 1, justifyContent: 'center' }]}>
+            <View
+              style={[
+                Layout.fullWidth,
+                Layout.center,
+                Gutters.largeVPadding,
+                { flex: 1, justifyContent: 'space-between', paddingBottom: 60 },
+              ]}
+            >
               <TurquoiseButton
                 onPress={onStartPress}
                 text={t('start')}
@@ -188,11 +199,11 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
                 }}
               />
               <Pressable onPress={onGetReferralCodePress} style={{ paddingBottom: 20 }}>
-                <Text style={{ textDecorationLine: 'underline', color: colors.white }}>{t('getReferralCode')}</Text>
+                <AvenirText style={{ textDecorationLine: 'underline', color: colors.white }}>{t('getReferralCode')}</AvenirText>
               </Pressable>
             </View>
           </SlideInputModal>
-        </KeyboardAwareScrollView>
+        </ScrollView>
       </ScreenBackgrounds>
     </SafeAreaView>
   )

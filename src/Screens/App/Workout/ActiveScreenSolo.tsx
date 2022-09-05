@@ -21,7 +21,7 @@ import { WorkoutNavigatorParamList } from '@/Screens/App/WorkoutScreen'
 import { DrawerNavigatorParamList, TabNavigatorParamList } from '@/Navigators/MainNavigator'
 import MapScreenBackgrounds from '@/Components/MapScreenBackgrounds'
 import axios from 'axios'
-import { colors } from '@/Utils/constants'
+import { colors, config } from '@/Utils/constants'
 
 import ActiveMapView from '@/Components/Map/index'
 
@@ -39,6 +39,7 @@ import { startLoading } from '@/Store/UI/actions'
 import GPSContainer from '@/Components/GPS'
 
 import { SafeAreaView } from 'react-native-safe-area-context'
+import AvenirText from '@/Components/FontText/AvenirText'
 
 type WorkoutScreenScreenNavigationProp = CompositeScreenProps<
   StackScreenProps<WorkoutNavigatorParamList>,
@@ -83,7 +84,7 @@ const styles = StyleSheet.create({
   },
 
   dataContainer: {
-    flex: 3,
+    flex: 4,
     backgroundColor: colors.darkGunmetal,
     color: '#fff',
 
@@ -96,7 +97,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
   },
   distanceContainer: {
-    flex: 1.5,
+    flexBasis: 120,
     display: 'flex',
     flexDirection: 'column',
   },
@@ -270,7 +271,6 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
       BackgroundGeolocation.onLocation(async location => {
         const temp_currentState = store.getState().map.currentState
         const temp_paths = store.getState().map.paths
-        console.log(ActivityType[temp_currentState])
         if (temp_currentState !== ActivityType.PAUSE && startTime !== null && startTime !== undefined) {
           // const channelId = await notifee.createChannel({
           //   id: 'default',
@@ -298,7 +298,6 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
           if (location.coords && location.coords.latitude && location.coords.longitude) {
             let speed = location.coords.speed!
             // if (location.mock) {
-            // console.log('mock')
             // forceQuit()
             //   return
             // }
@@ -375,7 +374,6 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
             }
 
             if (temp_currentState === ActivityType.OVERSPEED) {
-              console.log('overspeedmoving', location.coords.latitude, location.coords.longitude)
               dispatch({
                 type: 'overSpeedMoving',
                 payload: {
@@ -401,7 +399,6 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
               //     type: 'moving',
               //   }),
               // })
-              console.log('dispatch')
               dispatch({
                 type: 'move',
                 payload: {
@@ -419,7 +416,6 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
               // })
             }
           } else {
-            console.log('not moving')
           }
         }
       }),
@@ -495,14 +491,12 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
         speed: new_speed,
         overSpeedPath: over_speed_paths_string,
       }
-      console.log('data get', JSON.stringify(data, null, 2))
-      let response = await axios.post('https://85vamr0pne.execute-api.us-west-2.amazonaws.com/dev/sessions', data)
+      let response = await axios.post(`${config.trialPlaySession}/sessions`, data)
       if (response) {
         setIsStopping(false)
         navigation.navigate(RouteStacks.endWorkout, data)
       }
     } catch (err) {
-      console.log('err', err)
       navigation.replace(RouteStacks.endWorkout)
       crashlytics().recordError(new Error(err as string))
     } finally {
@@ -520,7 +514,6 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
   // }
 
   const PauseRunningSession = async () => {
-    console.log('pause')
     setIsButtonLoading(true)
     if (isIOS) {
       await BackgroundGeolocation.changePace(false)
@@ -586,16 +579,16 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
 
   const BrightTurquoiseText = (props: TextProps) => {
     const { style, ...rest } = props
-    return <Text style={[styles.textStyle, style, { color: colors.brightTurquoise, fontFamily: 'Poppins-Bold' }]} {...rest} />
+    return <AvenirText style={[styles.textStyle, style, { color: colors.brightTurquoise }]} {...rest} />
   }
   const WhiteText = (props: TextProps) => {
     const { style, ...rest } = props
-    return <Text style={[styles.textStyle, style, { color: colors.white, fontFamily: 'Poppins-Bold' }]} {...rest} />
+    return <AvenirText style={[styles.textStyle, style, { color: colors.white }]} {...rest} />
   }
 
   const CrystalText = (props: TextProps) => {
     const { style, ...rest } = props
-    return <Text style={[styles.textStyle, style, { color: colors.crystal, fontFamily: 'Poppins' }]} {...rest} />
+    return <AvenirText style={[styles.textStyle, style, { color: colors.crystal }]} {...rest} />
   }
   const TITLE_MIDDLE: ViewStyle = {
     flex: 3,
@@ -645,31 +638,31 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
               <>
                 <StatusDot style={{ backgroundColor: colors.red }} />
 
-                <Text style={[Fonts.textRegular, styles.header]}>{t('movingStatus.Overspeed')}</Text>
+                <AvenirText style={[Fonts.textRegular, styles.header]}>{t('movingStatus.Overspeed')}</AvenirText>
               </>
             )}
             {currentState === ActivityType.PAUSE && (
               <>
                 <StatusDot style={{ backgroundColor: colors.red }} />
-                <Text style={[Fonts.textRegular, styles.header]}>{t('movingStatus.Pause')}</Text>
+                <AvenirText style={[Fonts.textRegular, styles.header]}>{t('movingStatus.Pause')}</AvenirText>
               </>
             )}
             {currentState === ActivityType.MOVING && (
               <>
                 <StatusDot style={{ backgroundColor: colors.green }} />
-                <Text style={[Fonts.textRegular, styles.header]}>{t('movingStatus.Running')}</Text>
+                <AvenirText style={[Fonts.textRegular, styles.header]}>{t('movingStatus.Running')}</AvenirText>
               </>
             )}
             {currentState === ActivityType.LOADING && (
               <>
                 <StatusDot style={{ backgroundColor: colors.red }} />
-                <Text style={[Fonts.textRegular, styles.header]}>{t('movingStatus.Loading')}</Text>
+                <AvenirText style={[Fonts.textRegular, styles.header]}>{t('movingStatus.Loading')}</AvenirText>
               </>
             )}
             {currentState === ActivityType.ENDED && (
               <>
                 <StatusDot style={{ backgroundColor: colors.red }} />
-                <Text style={[Fonts.textRegular, styles.header]}>{t('movingStatus.Ended')}</Text>
+                <AvenirText style={[Fonts.textRegular, styles.header]}>{t('movingStatus.Ended')}</AvenirText>
               </>
             )}
           </View>
@@ -687,14 +680,35 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
             <View style={[styles.dataPaddingContainer]}>
               <View style={[styles.distanceContainer]}>
                 <BrightTurquoiseText style={styles.distanceTextStyle}>{(distance / 1000).toFixed(2)}</BrightTurquoiseText>
-                <Text style={[styles.mapDistanceText]}>{t('totalKilo')}</Text>
+                <AvenirText style={[styles.mapDistanceText]}>{t('totalKilo')}</AvenirText>
               </View>
+              <View style={{ alignItems: 'center' }}>
+                <View
+                  style={{
+                    marginTop: 6,
+                    marginBottom: 8,
+                    paddingVertical: 6,
+                    paddingHorizontal: 20,
+                    borderRadius: 99,
+                    backgroundColor: colors.jacarta,
+                    alignItems: 'center',
+                    maxWidth: 300,
+                  }}
+                >
+                  <AvenirText style={{ color: colors.white }}>
+                    {t('complete')}
+                    <AvenirText style={{ fontWeight: 'bold' }}>{t('twoKm')}</AvenirText>
+                    {t('forExtraKE')}
+                  </AvenirText>
+                </View>
+              </View>
+
               <View style={[styles.rowStepContentContainer]}>
                 <Image
                   source={StepLogo}
                   style={{
-                    width: 20,
-                    height: 20,
+                    width: 26,
+                    height: 26,
                     resizeMode: 'contain',
                     alignSelf: 'center',
                   }}
@@ -710,9 +724,10 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
                         resizeMode: 'contain',
                         alignSelf: 'center',
                         flex: 2,
+                        width: 26,
                       }}
                     />
-                    <WhiteText style={[{ lineHeight: 30, fontSize: 25, fontWeight: 'bold' }]}>
+                    <WhiteText style={[{ lineHeight: 30, fontSize: 28, fontWeight: 'bold', marginLeft: 2 }]}>
                       {Math.floor((timer % 3600) / 60)}"{Math.ceil(timer % 60)}'
                     </WhiteText>
                   </Pressable>
@@ -725,6 +740,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
                         resizeMode: 'contain',
                         alignSelf: 'center',
                         flex: 2,
+                        width: 26,
                       }}
                     />
                     <View style={[styles.rowSpeedTextContentContainer]}>
@@ -753,19 +769,18 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
                   // currentState === ActivityType.OVERSPEED) &&
                   !isStopping && (
                     <Pressable style={[Common.button.rounded, Gutters.regularBMargin, styles.stateStopButton]} onPress={stopButtonPress}>
-                      <Text
+                      <AvenirText
                         style={[
                           Fonts.textRegular,
                           styles.stateStopButtonText,
                           {
-                            fontFamily: 'Poppins-Bold',
                             fontWeight: '600',
                             fontSize: 16,
                           },
                         ]}
                       >
                         {t('stop')}
-                      </Text>
+                      </AvenirText>
                     </Pressable>
                   )}
                 {currentState !== ActivityType.PAUSE && currentState !== ActivityType.ENDED && !isStopping && !isButtonLoading && (
@@ -773,11 +788,10 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
                     style={[Common.button.rounded, Gutters.regularBMargin, styles.statePauseResumeButton]}
                     onPress={PauseRunningSession}
                   >
-                    <Text
+                    <AvenirText
                       style={
                         (Fonts.textRegular,
                         {
-                          fontFamily: 'Poppins-Bold',
                           fontWeight: '600',
                           fontSize: 16,
                           color: colors.black,
@@ -785,7 +799,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
                       }
                     >
                       {t('pause')}
-                    </Text>
+                    </AvenirText>
                   </Pressable>
                 )}
                 {currentState === ActivityType.PAUSE && !isStopping && !isButtonLoading && (
@@ -793,11 +807,10 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
                     style={[Common.button.rounded, Gutters.regularBMargin, styles.statePauseResumeButton]}
                     onPress={ResumeRunningSession}
                   >
-                    <Text
+                    <AvenirText
                       style={
                         (Fonts.textRegular,
                         {
-                          fontFamily: 'Poppins-Bold',
                           fontWeight: '600',
                           fontSize: 16,
                           color: colors.black,
@@ -805,7 +818,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
                       }
                     >
                       {t('resume')}
-                    </Text>
+                    </AvenirText>
                   </Pressable>
                 )}
               </View>

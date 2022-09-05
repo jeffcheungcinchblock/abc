@@ -1,19 +1,19 @@
 export const config = {
   urlScheme: `com.fitnessevo://`,
   dynamicLink: `https://fitevo.page.link/xEYL`,
-  userAuthInfo: `https://api-dev.dragonevolution.gg/users/auth`,
-  userDailyLogin: `https://api-dev.dragonevolution.gg/users/daily-login`,
-  userTopAvgPoint: `https://api-dev.dragonevolution.gg/users/top-average-point`,
-  userDailyShare: `https://api-dev.dragonevolution.gg/users/daily-share`,
-  userFitnessInfo: `https://api-dev.dragonevolution.gg/users/fitness-info`,
-  userProfile: `https://api-dev.dragonevolution.gg/users/profile`,
+  userAuthInfo: `https://api.fitevo.io/users/auth`,
+  userDailyLogin: `https://api.fitevo.io/users/daily-login`,
+  userTopAvgPoint: `https://api.fitevo.io/users/top-average-point`,
+  userDailyShare: `https://api.fitevo.io/users/daily-share`,
+  userFitnessInfo: `https://api.fitevo.io/users/fitness-info`,
+  userProfile: `https://api.fitevo.io/users/profile`,
   userReferralCheck: (referralCode: string) => {
-    return `https://api-dev.dragonevolution.gg/users/referral/${referralCode}/check`
+    return `https://api.fitevo.io/users/referral/${referralCode}/check`
   },
-  emailVerification: `https://api-dev.dragonevolution.gg/users/email-verification`,
-  onelinkUrl: `https://test-dragon-dev.onelink.me/xNJK`,
-  referralConfirmation: `https://api-dev.dragonevolution.gg/users/referral-confirmation`,
-  fitnessInfoApiKey: 'QEwArOceQy5zGNyisQpj71JNds2cWxzkpFRdY2S6',
+  emailVerification: `https://api.fitevo.io/users/email-verification`,
+  onelinkUrl: `https://fitevo-beta.onelink.me/Gm8c`,
+  referralConfirmation: `https://api.fitevo.io/users/referral-confirmation`,
+  trialPlaySession: `https://api.fitevo.io/fitness`,
   totalPointsMaxCap: 9680,
 }
 
@@ -28,6 +28,7 @@ export const colors = {
   spanishGray: '#969696',
   violetsAreBlue: '#9472FF',
   brightTurquoise: '#00F2DE',
+  darkTurquoise: '#01CFDF',
   charcoal: '#343950',
   silverSand: '#C5C5C5',
   cornflowerBlue: '#6398F0',
@@ -43,6 +44,7 @@ export const colors = {
   philippineSilver: '#B5B5B5',
   buleCola: '#0174E5',
   lightSlateGray: '#749597',
+  silverChalice: '#ABABAB',
 
   green: '#14D13E', //green
   orange: '#D6AE14', //yellow

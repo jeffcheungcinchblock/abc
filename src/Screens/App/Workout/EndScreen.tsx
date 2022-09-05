@@ -36,12 +36,12 @@ import { triggerSnackbar } from '@/Utils/helpers'
 import { metersecond_2_kmhour, metersecond_2_milehour } from './utils'
 import { SpeedUnit } from './ActiveScreenSolo'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import AvenirText from '@/Components/FontText/AvenirText'
 // import share from '@/Utils/endshare'
 const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation, route }) => {
   const { t } = useTranslation()
   const { Common, Fonts, Gutters, Layout } = useTheme()
   const params = route?.params || { username: '' }
-  // console.log('route', route.params)
   const dispatch = useDispatch()
 
   // const steps = useSelector((state: any) => state.map.steps)
@@ -92,7 +92,7 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation
     contentContainer: {
       display: 'flex',
       width: '50%',
-      justifyContent: 'center',
+      justifyContent: 'flex-start',
     },
     titleTextStyle: {
       fontSize: 30,
@@ -133,7 +133,6 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation
       result: 'base64',
     }).then(
       uri => {
-        console.log('=======uri', uri)
         shareImage(uri)
       },
       (error: any) => {},
@@ -197,17 +196,17 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation
   }
   const WhiteText = (props: TextProps) => {
     const { style, ...rest } = props
-    return <Text style={[styles.textStyle, style, { fontFamily: 'Poppins-Bold', color: colors.white }]} {...rest} />
+    return <AvenirText style={[styles.textStyle, style, { color: colors.white }]} {...rest} />
   }
 
   const CrystalText = (props: TextProps) => {
     const { style, ...rest } = props
-    return <Text style={[styles.textStyle, style, { fontFamily: 'Poppins-Bold', color: colors.crystal }]} {...rest} />
+    return <AvenirText style={[styles.textStyle, style, { color: colors.crystal }]} {...rest} />
   }
 
   const BrightTurquoiseText = (props: TextProps) => {
     const { style, ...rest } = props
-    return <Text style={[styles.textStyle, style, { fontFamily: 'Poppins-Bold', color: colors.brightTurquoise }]} {...rest} />
+    return <AvenirText style={[styles.textStyle, style, { color: colors.brightTurquoise }]} {...rest} />
   }
 
   return (
@@ -230,7 +229,7 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation
           </View>
           {/* )} */}
           <View style={[styles.colContentContainer, { flexBasis: 120 }]}>
-            <Text style={styles.distanceTextStyle}>{(distance / 1000).toFixed(2)}</Text>
+            <AvenirText style={styles.distanceTextStyle}>{(distance / 1000).toFixed(2)}</AvenirText>
           </View>
 
           <View style={[styles.colContentContainer, { flexBasis: 60, justifyContent: 'center' }]}>
@@ -238,22 +237,35 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation
             <View style={[styles.rowContentContainer, { paddingTop: 4 }]}>
               <Image
                 source={StepLogo}
-                style={{ width: 20, height: 20, resizeMode: 'contain', alignSelf: 'center', marginHorizontal: 10 }}
+                style={{ width: 26, height: 26, resizeMode: 'contain', alignSelf: 'center', marginHorizontal: 10 }}
               />
               <WhiteText>{steps}</WhiteText>
             </View>
           </View>
 
-          <View style={[styles.rowContentContainer2, { flexBasis: 160, justifyContent: 'center' }]}>
+          <View style={[styles.rowContentContainer2, { flexBasis: 120, justifyContent: 'center', paddingTop: 40 }]}>
             <View style={[styles.contentContainer]}>
-              <Image source={TimerLogo} style={{ width: 26, height: 26, resizeMode: 'contain', alignSelf: 'center' }} />
+              <View
+                style={{
+                  height: 30,
+                }}
+              >
+                <Image source={TimerLogo} style={{ width: 26, height: 26, resizeMode: 'contain', alignSelf: 'center' }} />
+              </View>
+
               <WhiteText style={[{ lineHeight: 50, fontSize: 30, fontWeight: 'bold' }]}>
                 {Math.floor((timer % 3600) / 60)}'{Math.ceil(timer % 60)}"
               </WhiteText>
             </View>
 
             <View style={[styles.contentContainer]}>
-              <Image source={SpeedIcon} style={{ width: 26, height: 26, resizeMode: 'contain', alignSelf: 'center' }} />
+              <View
+                style={{
+                  height: 30,
+                }}
+              >
+                <Image source={SpeedIcon} style={{ width: 26, height: 26, resizeMode: 'contain', alignSelf: 'center' }} />
+              </View>
 
               <Pressable onPress={chanageSpeedUnit} style={{}}>
                 <View style={[styles.speedContainer]}>
@@ -276,7 +288,7 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation
             </View>
           </View>
 
-          <View style={[styles.contentContainer, { flexBasis: 60 }]}>
+          <View style={[styles.contentContainer, { flex: 1, minHeight: 90, justifyContent: 'center' }]}>
             {distance > 2000 ? (
               <WhiteText style={[{ fontSize: 40, fontWeight: 'bold' }]}>+ 20 KE</WhiteText>
             ) : (

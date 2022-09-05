@@ -24,6 +24,7 @@ import TurquoiseButton from '@/Components/Buttons/TurquoiseButton'
 import axios from 'axios'
 import { awsLogout } from '@/Utils/helpers'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import AvenirText from '@/Components/FontText/AvenirText'
 
 const TEXT_INPUT = {
   height: 40,
@@ -43,6 +44,7 @@ type HomeMainScreenNavigationProp = CompositeScreenProps<
 
 let nodeJsTimeout: NodeJS.Timeout
 
+// To be removed later
 const MainScreen: FC<HomeMainScreenNavigationProp> = ({ navigation, route }) => {
   const { t } = useTranslation()
   const { Common, Fonts, Gutters, Layout } = useTheme()
@@ -51,12 +53,6 @@ const MainScreen: FC<HomeMainScreenNavigationProp> = ({ navigation, route }) => 
 
   const onSignOutPress = async () => {
     await awsLogout()
-  }
-
-  const onReferFriendsPress = () => {
-    navigation.navigate(RouteTabs.home, {
-      screen: RouteStacks.homeReferral,
-    })
   }
 
   const onToggleDrawer = () => {
@@ -94,9 +90,7 @@ const MainScreen: FC<HomeMainScreenNavigationProp> = ({ navigation, route }) => 
               justifyContent: 'center',
             }}
           >
-            <Text style={Fonts.textRegular}>Welcome</Text>
-
-            {<TurquoiseButton onPress={onReferFriendsPress} text={t('Refer friends')} containerStyle={[Layout.fullWidth]} />}
+            <AvenirText style={Fonts.textRegular}>Welcome</AvenirText>
 
             {<TurquoiseButton onPress={onToggleDrawer} text={t('Toggle Drawer')} containerStyle={[Layout.fullWidth]} />}
 
