@@ -192,6 +192,8 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
   const startTime = useSelector((state: RootState) => state.map.startTime)
 
   useEffect(() => {
+    invitationRewardModalRef?.current?.open()
+
     dispatch(startLoading(false))
     dispatch({ type: 'init' })
   }, [])

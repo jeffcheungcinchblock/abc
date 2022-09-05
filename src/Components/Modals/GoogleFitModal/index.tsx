@@ -7,6 +7,7 @@ import { colors } from '@/Utils/constants'
 import ModalBox from 'react-native-modalbox'
 import present from '@/Assets/Images/Modal/present.png'
 import TurquoiseButton from '@/Components/Buttons/TurquoiseButton'
+import AvenirText from '@/Components/FontText/AvenirText'
 
 type GoogleFitModalProps = {
   onModalClose: () => void
@@ -39,7 +40,7 @@ const GoogleFitModal = forwardRef((props: GoogleFitModalProps, ref) => {
       keyboardTopOffset={40}
       animationDuration={500}
       style={{
-        height: '35%',
+        height: 300,
         width: '70%',
         backgroundColor: colors.charcoal,
         borderRadius: 10,
@@ -49,9 +50,9 @@ const GoogleFitModal = forwardRef((props: GoogleFitModalProps, ref) => {
       <View style={{ flex: 3, paddingHorizontal: 14 }}></View>
 
       <View style={{ flex: 3, paddingHorizontal: 14 }}>
-        <Text style={[MODAL_TEXT, { fontFamily: 'Avenir-Book', fontSize: 18 }]}>
+        <AvenirText style={[MODAL_TEXT, { fontFamily: 'Avenir-Book', fontSize: 18 }]}>
           {isIOS ? t('modalPrompt.notReadyIos') : t('modalPrompt.notReady')}
-        </Text>
+        </AvenirText>
       </View>
 
       <View
