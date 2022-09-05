@@ -39,7 +39,7 @@ export default {
   learnMoreAllCapital: 'LEARN MORE',
   shareOnTwitter: 'Share on Twitter',
   saveToPhotos: 'Save to Photos',
-  saveToPhotosSuccess: 'Save to Photos successfully',
+  saveToPhotosSuccess: 'Saved to your photo album!',
   extra: 'EXTRA!',
   agreeTo: "You agree to FitEvo's ",
   'T&C': 'Terms & Conditions',

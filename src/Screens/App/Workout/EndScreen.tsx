@@ -160,7 +160,6 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation
       if (Platform.OS === 'android' && !(await hasAndroidPermission())) {
         return
       }
-
       let uri = await captureScreen({
         format: 'jpg',
         quality: 0.8,
@@ -223,12 +222,12 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation
       <ScreenBackgrounds screenName={RouteStacks.workout}>
         <Header headerText={t('result')} style={{ backgroundColor: colors.darkGunmetal }} />
         <KeyboardAwareScrollView contentContainerStyle={[styles.container, { flex: 1 }]}>
-          {distance > 2000 && (
-            <View style={[styles.rowContentContainer, { flexBasis: 60 }]}>
-              <BrightTurquoiseText style={[styles.titleTextStyle]}>{t('congratulations')}</BrightTurquoiseText>
-              <Image source={ConGratualtion} style={{ width: 30, height: 30, marginHorizontal: 10, resizeMode: 'contain' }} />
-            </View>
-          )}
+          {/* {distance > 2000 && ( */}
+          <View style={[styles.rowContentContainer, { flexBasis: 60 }]}>
+            <BrightTurquoiseText style={[styles.titleTextStyle]}>{t('congratulations')}</BrightTurquoiseText>
+            <Image source={ConGratualtion} style={{ width: 30, height: 30, marginHorizontal: 10, resizeMode: 'contain' }} />
+          </View>
+          {/* )} */}
           <View style={[styles.colContentContainer, { flexBasis: 120 }]}>
             <AvenirText style={styles.distanceTextStyle}>{(distance / 1000).toFixed(2)}</AvenirText>
           </View>
