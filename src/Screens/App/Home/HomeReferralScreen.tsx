@@ -341,7 +341,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
       dispatch(startLoading(true))
       setIsStartPressed(true)
       const LocationpermissionStatus = await checkMultiple([
-        PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
+        // PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
         PERMISSIONS.IOS.LOCATION_ALWAYS,
         PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
         PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION,
@@ -365,7 +365,6 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
       const permission = await health_kit.InitHealthKitPermission()
       const authed = await health_kit.GetAuthorizeStatus()
 
-      console.log({ permission, authed, locationPermission })
       if (!permission) {
         googleFitModalRef?.current?.open()
         return
@@ -393,14 +392,12 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
             setEnabled(true)
           })
       } else {
-        console.log('request')
         const response = await requestMultiple([
           // PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
           PERMISSIONS.IOS.LOCATION_ALWAYS,
           PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
           PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION,
         ])
-        console.log({ response })
         // onTrialPlayPress()
         return
       }
