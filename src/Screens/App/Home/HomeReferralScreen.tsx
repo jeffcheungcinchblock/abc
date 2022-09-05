@@ -261,7 +261,6 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
   }, [needFetchDtl, fetchedReferralInfo])
 
   useEffect(() => {
-    dailyRewardModalRef?.current.open()
     abortController = new AbortController()
     return () => {
       abortController.abort()

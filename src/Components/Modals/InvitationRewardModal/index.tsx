@@ -40,7 +40,7 @@ const InvitationRewardModal = forwardRef((props: InvitationRewardModalProps, ref
       keyboardTopOffset={40}
       animationDuration={500}
       style={{
-        height: '35%',
+        height: 280,
         width: '80%',
         backgroundColor: colors.charcoal,
         borderRadius: 10,
@@ -51,15 +51,12 @@ const InvitationRewardModal = forwardRef((props: InvitationRewardModalProps, ref
       <View style={[Layout.fullWidth, Layout.colCenter, { flex: 4 }]}>
         <Image source={reward} />
       </View>
-      <View style={{ flex: 3 }}>
-        <AvenirText style={[MODAL_TEXT, { paddingHorizontal: 40, fontSize: 18 }]}>{t('modalPrompt.userEarned')}</AvenirText>
-      </View>
-      <View style={{ flex: 3 }}>
-        <AvenirText style={[MODAL_TEXT, { paddingHorizontal: 40, fontSize: 30, fontStyle: 'italic' }]}>
-          +{ke}
-          <AvenirText style={{ fontWeight: '500', fontSize: 20 }}> KE Points</AvenirText>
-        </AvenirText>
-      </View>
+      <AvenirText style={[MODAL_TEXT, { paddingHorizontal: 40, fontSize: 18, lineHeight: 20 }]}>{t('modalPrompt.userEarned')}</AvenirText>
+      <AvenirText style={[MODAL_TEXT, { paddingHorizontal: 40, fontSize: 30, lineHeight: 45, fontStyle: 'italic', paddingVertical: 16 }]}>
+        +{ke}
+        {'\n'}
+        <AvenirText style={{ fontWeight: '500', fontSize: 18, lineHeight: 27 }}> KE Points</AvenirText>
+      </AvenirText>
       <View
         style={{
           alignItems: 'center',
@@ -71,7 +68,7 @@ const InvitationRewardModal = forwardRef((props: InvitationRewardModalProps, ref
           text={t('close')}
           isTransparentBackground
           containerStyle={{
-            width: 120,
+            width: 90,
           }}
         />
       </View>
