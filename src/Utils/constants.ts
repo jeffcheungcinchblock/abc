@@ -28,6 +28,7 @@ export const colors = {
   spanishGray: '#969696',
   violetsAreBlue: '#9472FF',
   brightTurquoise: '#00F2DE',
+  darkTurquoise: '#01CFDF',
   charcoal: '#343950',
   silverSand: '#C5C5C5',
   cornflowerBlue: '#6398F0',

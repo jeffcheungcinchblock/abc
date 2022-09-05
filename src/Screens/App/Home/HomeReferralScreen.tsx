@@ -84,6 +84,7 @@ import card1 from '@/Assets/Images/Home/card1.png'
 import card2 from '@/Assets/Images/Home/card2.png'
 import card3 from '@/Assets/Images/Home/card3.png'
 import card4 from '@/Assets/Images/Home/card4.png'
+
 import circle from '@/Assets/Images/Home/circle.png'
 import shareBtn from '@/Assets/Images/buttons/shareBtn.png'
 
@@ -93,9 +94,10 @@ import BackgroundGeolocation, { Subscription } from 'react-native-background-geo
 import { forEach } from 'lodash'
 import { runOnUI } from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
-
+import LinearGradient from 'react-native-linear-gradient'
 import InAppBrowser from 'react-native-inappbrowser-reborn'
 import AvenirText from '@/Components/FontText/AvenirText'
+import HomeInfoGraphics from '@/Components/HomeInfoGraphics'
 
 let abortController: AbortController
 const styles = StyleSheet.create({
@@ -903,30 +905,27 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
             </AvenirText>
           </View>
 
-          <View style={[Layout.fullWidth, { paddingHorizontal: 34, marginTop: 20, justifyContent: 'flex-start', flexDirection: 'column' }]}>
+          <View
+            style={[
+              Layout.fullWidth,
+              { paddingHorizontal: 34, marginTop: 20, marginBottom: 20, justifyContent: 'flex-start', flexDirection: 'column' },
+            ]}
+          >
             <AvenirText style={[{ fontSize: 18, lineHeight: 20, fontWeight: 'bold', color: colors.white, flexShrink: 1 }]}>
               {t('whatIsKE')}
             </AvenirText>
             <AvenirText style={[{ fontSize: 16, color: colors.white, lineHeight: 24 }]}>{t('KEDesc')}</AvenirText>
           </View>
 
-          <View
-            style={[
-              Layout.fullWidth,
-              {
-                paddingTop: 6,
-                justifyContent: 'flex-start',
-                alignItems: 'center',
-                flexDirection: 'column',
-                marginBottom: 18,
-              },
-            ]}
-          >
-            <Image source={card1} style={{ resizeMode: 'stretch', width: '92%', height: undefined, aspectRatio: 1384 / 612 }} />
-            <Image source={card2} style={{ resizeMode: 'stretch', width: '92%', height: undefined, aspectRatio: 692 / 298 }} />
-            <Image source={card3} style={{ resizeMode: 'stretch', width: '92%', height: undefined, aspectRatio: 692 / 322 }} />
-            <Image source={card4} style={{ resizeMode: 'stretch', width: '92%', height: undefined, aspectRatio: 684 / 414 }} />
-          </View>
+          <HomeInfoGraphics titleTranslationText='inGameToken' contentTranslationText='KEPointsTransfer' index={0} />
+          <HomeInfoGraphics titleTranslationText='NFTCompanions' contentTranslationText='NFTMint' index={1} />
+          <HomeInfoGraphics titleTranslationText='exclusiveDrops' contentTranslationText='higherKE' index={2} />
+          <HomeInfoGraphics
+            titleTranslationText='privilegedAppAccess'
+            contentTranslationText={['unlockGameAccess1', 'unlockGameAccess2', 'unlockGameAccess3']}
+            index={3}
+          />
+
           <Pressable
             onPress={onLinkMediumPress}
             style={[
@@ -934,6 +933,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
               {
                 height: 30,
                 paddingHorizontal: 40,
+                marginTop: 12,
                 justifyContent: 'center',
                 alignItems: 'center',
                 flexDirection: 'row',

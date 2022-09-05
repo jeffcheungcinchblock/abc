@@ -78,7 +78,7 @@
 		D41F347F72A6479D9F112A17 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 56CC03B36EEA4E989E33DA96 /* Poppins-Bold.ttf */; };
 		D49AE2FA37854816A7C6943F /* Poppins-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 50DA38B3470840078D954869 /* Poppins-BlackItalic.ttf */; };
 		DF51CEAF46C3483A9E7A8A7F /* Poppins-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 569C1599401945429EC1E395 /* Poppins-ThinItalic.ttf */; };
-		E30830E928BDB541004B2A3C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E30830E828BDB541004B2A3C /* GoogleService-Info.plist */; };
+		E339193F28C5A7920075A31B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E339193E28C5A7920075A31B /* GoogleService-Info.plist */; };
 		E35D9210282CA4C0000CD920 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E35D920F282CA4C0000CD920 /* BootSplash.storyboard */; };
 		E36243EF283E04C20098154B /* (null) in Resources */ = {isa = PBXBuildFile; };
 		E36243F0283E04C20098154B /* (null) in Resources */ = {isa = PBXBuildFile; };
@@ -223,7 +223,7 @@
 		D7B1B30FE98C468596DFEE10 /* Poppins-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Light.ttf"; path = "../src/Assets/Fonts/Poppins-Light.ttf"; sourceTree = "<group>"; };
 		D7FFCDA71C08410E888B233C /* Poppins-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Italic.ttf"; path = "../src/Assets/Fonts/Poppins-Italic.ttf"; sourceTree = "<group>"; };
 		DD100D05C0824FC0B66AA8BE /* Poppins-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-ExtraLight.ttf"; path = "../src/Assets/Fonts/Poppins-ExtraLight.ttf"; sourceTree = "<group>"; };
-		E30830E828BDB541004B2A3C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		E339193E28C5A7920075A31B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E35D920D282A1890000CD920 /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = FitEvo/BootSplash.storyboard; sourceTree = "<group>"; };
 		E35D920F282CA4C0000CD920 /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = FitEvo/BootSplash.storyboard; sourceTree = "<group>"; };
 		E39C986528912627003F25BD /* FitEvoRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = FitEvoRelease.entitlements; path = FitEvo/FitEvoRelease.entitlements; sourceTree = "<group>"; };
@@ -313,7 +313,7 @@
 		13B07FAE1A68108700A75B9A /* FitEvo */ = {
 			isa = PBXGroup;
 			children = (
-				E30830E828BDB541004B2A3C /* GoogleService-Info.plist */,
+				E339193E28C5A7920075A31B /* GoogleService-Info.plist */,
 				E39C986528912627003F25BD /* FitEvoRelease.entitlements */,
 				6CACA624280FA975008F6268 /* RNBackgroundFetch+AppDelegate.m */,
 				E35D920D282A1890000CD920 /* BootSplash.storyboard */,
@@ -712,7 +712,7 @@
 			files = (
 				1F5B4F1727FEBA92009618AF /* Ionicons.ttf in Resources */,
 				1F5B4F1927FEBA92009618AF /* FontAwesome.ttf in Resources */,
-				E30830E928BDB541004B2A3C /* GoogleService-Info.plist in Resources */,
+				E339193F28C5A7920075A31B /* GoogleService-Info.plist in Resources */,
 				1F5B4F2127FEBA92009618AF /* Feather.ttf in Resources */,
 				1F5B4F1A27FEBA92009618AF /* Octicons.ttf in Resources */,
 				1F5B4F1D27FEBA92009618AF /* FontAwesome5_Regular.ttf in Resources */,
