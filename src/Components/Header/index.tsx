@@ -56,7 +56,7 @@ const Header = (props: {
           <Pressable
             style={{
               position: 'absolute',
-              zIndex: 1,
+              zIndex: 10,
               flex: 1,
               width: 30,
               height: 30,
@@ -72,7 +72,7 @@ const Header = (props: {
         <View style={LEFT} />
       )}
       {header ? (
-        <View style={TITLE_MIDDLE}>
+        <View style={[TITLE_MIDDLE, {}]}>
           <AvenirText style={[TITLE, titleStyle]}>{header}</AvenirText>
         </View>
       ) : (
@@ -81,7 +81,12 @@ const Header = (props: {
         </View>
       )}
       {rightIcon ? (
-        <View style={{ flex: 1, alignItems: 'flex-end' }}>
+        <View
+          style={{
+            flex: 1,
+            alignItems: 'flex-end',
+          }}
+        >
           <Pressable onPress={onRightPress}>{rightIcon()}</Pressable>
         </View>
       ) : (

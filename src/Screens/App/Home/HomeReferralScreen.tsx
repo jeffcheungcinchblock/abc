@@ -502,41 +502,55 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
             /> */}
             <View
               style={{
+                height: '100%',
+                justifyContent: 'center',
                 position: 'absolute',
-                top: 75,
+                top: 0,
+                left: 0,
                 width: '100%',
+                alignItems: 'center',
               }}
             >
-              <AvenirText
-                style={{
-                  color: colors.white,
-                  fontSize: 14,
-                  lineHeight: 20,
-                  textAlign: 'center',
-                }}
-              >
-                {t('totalKEPoints')}
-              </AvenirText>
               <View
                 style={{
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  marginTop: 0,
-                  alignItems: 'center',
+                  // position: 'absolute',
+                  // top: 75,
+                  // width: '100%',
+                  paddingTop: 10,
                 }}
               >
-                <AnimateNumber
-                  value={referralInfo.totalPoint}
+                <AvenirText
                   style={{
                     color: colors.white,
-                    fontSize: 40,
-                    fontWeight: 'bold',
+                    fontSize: 14,
+                    lineHeight: 24,
                     textAlign: 'center',
                   }}
-                  formatter={(val: string) => {
-                    return parseInt(val)
+                >
+                  {t('totalKEPoints')}
+                </AvenirText>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    marginTop: 0,
+                    alignItems: 'center',
                   }}
-                />
+                >
+                  <AnimateNumber
+                    value={referralInfo.totalPoint}
+                    style={{
+                      color: colors.white,
+                      fontSize: 40,
+                      lineHeight: 42,
+                      fontWeight: 'bold',
+                      textAlign: 'center',
+                    }}
+                    formatter={(val: string) => {
+                      return parseInt(val)
+                    }}
+                  />
+                </View>
               </View>
             </View>
           </View>

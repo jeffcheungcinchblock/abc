@@ -375,7 +375,7 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.logI
                 <View style={{ flexDirection: 'row' }}>
                   <AvenirText style={{ color: colors.white }}>{t('dontHaveAnAccount')}</AvenirText>
                   <Pressable style={{ paddingLeft: 6 }} onPress={() => navigation.navigate(RouteStacks.signUp)}>
-                    <AvenirText style={{ color: colors.brightTurquoise, fontWeight: 'bold' }}>{t('signUp')}</AvenirText>
+                    <AvenirText style={{ color: colors.brightTurquoise, fontWeight: 'bold' }}>{t('signup')}</AvenirText>
                   </Pressable>
                 </View>
               </View>

@@ -1,6 +1,7 @@
 export default {
   login: 'Login',
-  signUp: 'Sign up',
+  signUp: 'Sign Up',
+  signup: 'Sign up',
   createAccount: 'Create Account',
   createAccountAllCapital: 'CREATE ACCOUNT',
   accountLogin: 'ACCOUNT LOGIN',

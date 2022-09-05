@@ -5,33 +5,33 @@ import { colors } from '@/Utils/constants'
 import appLogo from '@/Assets/Images/logos/logo.png'
 
 type AppLogoProps = {
-    style?: object
-    imageStyle?: object
+  style?: object
+  imageStyle?: object
 }
 
-const AppLogo = ({
-    style,
-    imageStyle
-}: AppLogoProps) => {
-    const { Layout, Images } = useTheme()
+const AppLogo = ({ style, imageStyle }: AppLogoProps) => {
+  const { Layout, Images } = useTheme()
 
-    return (
-        <View style={{
-            width: "100%",
-            alignItems: "center",
-            ...style,
-        }}>
-            <Image source={appLogo} style={{
-                height: "100%",
-                resizeMode: "contain",
-                ...imageStyle,
-            }}/>
-        </View>
-    )
+  return (
+    <View
+      style={{
+        width: '100%',
+        alignItems: 'center',
+        ...style,
+      }}
+    >
+      <Image
+        source={appLogo}
+        style={{
+          height: '100%',
+          resizeMode: 'contain',
+          ...imageStyle,
+        }}
+      />
+    </View>
+  )
 }
 
-AppLogo.defaultProps = {
-
-}
+AppLogo.defaultProps = {}
 
 export default AppLogo

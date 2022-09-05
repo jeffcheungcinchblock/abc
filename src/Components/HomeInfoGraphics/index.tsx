@@ -74,7 +74,10 @@ const HomeInfoGraphics = ({ titleTranslationText, contentTranslationText, index 
             <AvenirText style={{ fontSize: 16, color: colors.darkGunmetal }}>
               {map(contentTranslationText, (elem, idx) => {
                 return (
-                  <AvenirText style={{ fontSize: 16, color: colors.darkGunmetal, fontWeight: idx === 1 ? 'bold' : '500' }}>
+                  <AvenirText
+                    key={`HomeInfoGraphics-${idx}`}
+                    style={{ fontSize: 16, color: colors.darkGunmetal, fontWeight: idx === 1 ? 'bold' : '500' }}
+                  >
                     {t(elem)}
                   </AvenirText>
                 )
