@@ -145,7 +145,7 @@ export default {
     dailyReward: 'Daily Reward',
     userEarned: `Congrats! You've started earning!`,
     claimedDailyReward: 'You have claimed your daily reward!',
-    ruleOfReferral: 'Rule of referral',
+    ruleOfReferral: 'Rules of referral',
     maximum30Friends: 'Invite a maximum of 30 friends to earn 600 KE points and other exclusive rewards!',
     notReady: 'Google Fit is not ready yet. Please try again later.',
     notReadyIos: 'Health Kit is not ready yet. Please try again later.',

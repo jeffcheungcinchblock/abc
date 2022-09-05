@@ -38,7 +38,7 @@ const RuleOfReferralModal = forwardRef((props: RuleOfReferralModalProps, ref) =>
       keyboardTopOffset={40}
       animationDuration={500}
       style={{
-        height: '30%',
+        height: 280,
         width: '80%',
         backgroundColor: colors.charcoal,
         borderRadius: 10,
