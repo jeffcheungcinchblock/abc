@@ -154,6 +154,7 @@ export default {
     endWorkout: 'Are you sure you want to finish this exercise session?',
     continue: 'Continue Exercise',
     forceQuitWorkout: 'Third-party apps were detected.',
+    locationPermissionSetting: 'Location Always permission is denied.',
   },
   error: {
     passwordAttemptExceeded: 'Hey FITamin, did you forget your password? Please try again later!',
