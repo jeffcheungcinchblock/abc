@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { View, Image, Text, ActivityIndicator, Pressable, PressableProps, ViewStyle, TextStyle } from 'react-native'
+import { View, Image, Text, ActivityIndicator, Pressable, PressableProps, ViewStyle, TextStyle, Dimensions } from 'react-native'
 import { useTheme } from '@/Hooks'
 import { colors } from '@/Utils/constants'
 import AvenirText from '@/Components/FontText/AvenirText'
@@ -14,18 +14,19 @@ type TurquoiseButtonProps = {
   leftIcon?: () => React.ReactNode
   rightIcon?: () => React.ReactNode
   isTransparentBackground?: boolean
+  isBoldText?: boolean
 }
 
 const DEFAULT_TEXT_STYLE: TextStyle = {
   fontSize: 16,
-  // fontWeight: 'bold',
   color: colors.black,
 }
-
+const windowHeight = Dimensions.get('window').height
 const BUTTON_STYLE: ViewStyle = {
   backgroundColor: colors.brightTurquoise,
   width: '100%',
   height: 32,
+  minHeight: 32,
   borderRadius: 20,
   justifyContent: 'center',
 }
@@ -40,6 +41,7 @@ const TurquoiseButton = ({
   leftIcon,
   rightIcon,
   isTransparentBackground,
+  isBoldText,
 }: TurquoiseButtonProps) => {
   const { Layout, Images } = useTheme()
 
@@ -73,6 +75,7 @@ const TurquoiseButton = ({
                 textStyle,
                 {
                   textAlign: 'center',
+                  fontWeight: isBoldText ? '600' : '400',
                   color: isTransparentBackground ? colors.brightTurquoise : colors.black,
                 },
               ]}

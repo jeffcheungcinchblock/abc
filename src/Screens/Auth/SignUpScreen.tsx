@@ -46,6 +46,8 @@ const ERR_MSG_TEXT: TextStyle = {
   color: colors.magicPotion,
   paddingTop: 4,
   paddingHorizontal: 4,
+  lineHeight: 21,
+  fontSize: 14,
 }
 
 const initErrMsg = {
@@ -195,7 +197,7 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
             <AppIcon />
 
             <View style={[Layout.fullWidth, { justifyContent: 'center', paddingVertical: 30, paddingHorizontal: 20 }]}>
-              <AvenirText style={[{ color: colors.white, fontWeight: 'bold' }, Fonts.textRegular, Fonts.textCenter]}>
+              <AvenirText style={[{ color: colors.white, fontWeight: 'bold', fontSize: 24, lineHeight: 32 }, Fonts.textCenter]}>
                 {t('getStarted')}!
               </AvenirText>
             </View>
@@ -242,11 +244,14 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
                     width: '45%',
                     paddingBottom: 40,
                   }}
+                  isBoldText
                 />
                 <View style={{ flexDirection: 'row' }}>
-                  <AvenirText style={{ color: colors.white }}>{t('alreadyHaveAnAccount')}</AvenirText>
+                  <AvenirText style={{ color: colors.white, fontSize: 16, lineHeight: 24 }}>{t('alreadyHaveAnAccount')}</AvenirText>
                   <Pressable style={{ paddingLeft: 6 }} onPress={() => navigation.navigate(RouteStacks.logIn)}>
-                    <AvenirText style={{ color: colors.brightTurquoise, fontWeight: 'bold' }}>{t('logIn')}</AvenirText>
+                    <AvenirText style={{ color: colors.brightTurquoise, fontWeight: 'bold', fontSize: 16, lineHeight: 24 }}>
+                      {t('logIn')}
+                    </AvenirText>
                   </Pressable>
                 </View>
               </View>

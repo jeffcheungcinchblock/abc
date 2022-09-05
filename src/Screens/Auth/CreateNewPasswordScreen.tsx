@@ -131,13 +131,13 @@ const CreateNewPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, Route
               Layout.colCenter,
             ]}
           >
-            <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 60 }]}>
-              <AvenirText style={[{ color: colors.white, lineHeight: 26 }, Fonts.textSmall, Fonts.textLeft]}>
+            <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 60, paddingHorizontal: 8 }]}>
+              <AvenirText style={[{ color: colors.white, lineHeight: 24, fontSize: 16 }, Fonts.textLeft]}>
                 {t('createNewPasswordPrompt')}
               </AvenirText>
             </View>
 
-            <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 80, justifyContent: 'center' }]}>
+            <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 100, justifyContent: 'center' }]}>
               <StandardInput
                 onChangeText={text => onCredentialChange(text, 'password')}
                 value={credential.password}
@@ -147,7 +147,7 @@ const CreateNewPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, Route
               />
             </View>
 
-            <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 80, justifyContent: 'center' }]}>
+            <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 100, justifyContent: 'center' }]}>
               <StandardInput
                 onChangeText={text => onCredentialChange(text, 'confirmPassword')}
                 value={credential.confirmPassword}
@@ -156,7 +156,14 @@ const CreateNewPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, Route
                 secureTextEntry={true}
               />
               {errMsg !== '' && (
-                <AvenirText style={[{ color: colors.magicPotion, paddingHorizontal: 10 }, Fonts.textLeft]}>{errMsg}</AvenirText>
+                <AvenirText
+                  style={[
+                    { color: colors.magicPotion, paddingHorizontal: 4, paddingTop: 8, fontSize: 14, lineHeight: 21, fontWeight: '400' },
+                    Fonts.textLeft,
+                  ]}
+                >
+                  {errMsg}
+                </AvenirText>
               )}
             </View>
 
@@ -171,6 +178,7 @@ const CreateNewPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, Route
                 width: '45%',
               }}
               isTransparentBackground
+              isBoldText
             />
           </View>
         </KeyboardAwareScrollView>

@@ -22,7 +22,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { startLoading } from '@/Store/UI/actions'
 import WhiteInput from '@/Components/Inputs/WhiteInput'
 import StandardInput from '@/Components/Inputs/StandardInput'
-import { emailUsernameHash } from '@/Utils/helpers'
+import { emailUsernameHash, validateEmail } from '@/Utils/helpers'
 import axios from 'axios'
 import crashlytics from '@react-native-firebase/crashlytics'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -86,6 +86,11 @@ const ProvideEmailScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStack
   }
 
   const onConfirmPress = async () => {
+    console.log('@@@@ ', email, validateEmail(email) === null)
+    if (validateEmail(email) === null) {
+      setErrMsg(t('error.invalidEmail'))
+      return
+    }
     try {
       dispatch(startLoading(true))
       let user = await Auth.currentAuthenticatedUser()
@@ -141,8 +146,8 @@ const ProvideEmailScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStack
               Layout.colCenter,
             ]}
           >
-            <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 60 }]}>
-              <AvenirText style={[{ color: colors.white, fontWeight: 'bold', lineHeight: 26 }, Fonts.textSmall, Fonts.textLeft]}>
+            <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 60, paddingLeft: 6 }]}>
+              <AvenirText style={[{ color: colors.white, lineHeight: 24, fontSize: 16, fontWeight: '500' }, Fonts.textLeft]}>
                 {t('enterEmailPrompt')}
               </AvenirText>
             </View>
@@ -156,7 +161,9 @@ const ProvideEmailScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStack
                 autoCapitalize={'none'}
               />
               {errMsg !== '' && (
-                <AvenirText style={[{ color: colors.magicPotion, paddingHorizontal: 10 }, Fonts.textLeft]}>{errMsg}</AvenirText>
+                <AvenirText style={[{ color: colors.magicPotion, paddingTop: 8, paddingHorizontal: 10 }, Fonts.textLeft]}>
+                  {errMsg}
+                </AvenirText>
               )}
             </View>
 
@@ -171,6 +178,7 @@ const ProvideEmailScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStack
                 width: '45%',
               }}
               isTransparentBackground
+              isBoldText
             />
           </View>
         </KeyboardAwareScrollView>

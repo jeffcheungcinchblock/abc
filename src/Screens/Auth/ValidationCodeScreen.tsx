@@ -50,8 +50,6 @@ const CONTENT_ELEMENT_WRAPPER: ViewStyle = {
   width: '90%',
 }
 
-const CODE_FIELD_ROOT = {}
-
 const CELL: TextStyle = {
   width: 50,
   height: 50,
@@ -59,7 +57,8 @@ const CELL: TextStyle = {
   borderWidth: 1,
   color: colors.brightTurquoise,
   backgroundColor: colors.charcoal,
-  borderRadius: 4,
+  borderColor: colors.transparent,
+  borderRadius: 5,
   textAlign: 'center',
   lineHeight: 48,
 }
@@ -67,6 +66,7 @@ const CELL: TextStyle = {
 const FOCUSED_CELL = {
   borderWidth: 1,
   borderColor: colors.brightTurquoise,
+  borderRadius: 5,
 }
 
 // TBD: set to 60s later
@@ -234,7 +234,6 @@ const VerificationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteS
       style={{
         flex: 1,
         justifyContent: 'space-between',
-        // alignItems: 'center',
         backgroundColor: colors.darkGunmetal,
       }}
       edges={['top']}
@@ -291,10 +290,10 @@ const VerificationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteS
                     style={[
                       {
                         color: colors.white,
-                        lineHeight: 26,
+                        lineHeight: 24,
+                        fontSize: 16,
                         textDecorationLine: canResendVeriCode ? 'underline' : 'none',
                       },
-                      Fonts.textSmall,
                       Fonts.textLeft,
                     ]}
                   >
@@ -310,7 +309,6 @@ const VerificationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteS
                 value={validationCode}
                 onChangeText={setValidationCode}
                 cellCount={6}
-                rootStyle={CODE_FIELD_ROOT}
                 keyboardType='number-pad'
                 textContentType='oneTimeCode'
                 renderCell={({ index, symbol, isFocused }) => (
@@ -337,6 +335,7 @@ const VerificationCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteS
               containerStyle={{
                 width: '45%',
               }}
+              isBoldText
             />
           </View>
         </KeyboardAwareScrollView>

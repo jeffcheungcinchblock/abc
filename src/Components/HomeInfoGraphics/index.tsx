@@ -50,13 +50,12 @@ const HomeInfoGraphics = ({ titleTranslationText, contentTranslationText, index 
         style={{
           backgroundColor: colors.brightTurquoise,
           borderRadius: 14,
-          paddingHorizontal: 8,
-          paddingVertical: 8,
+          padding: 6,
         }}
       >
         <View
           style={{
-            borderRadius: 8,
+            borderRadius: 14,
             borderWidth: 2,
             borderColor: colors.white,
             paddingHorizontal: 14,

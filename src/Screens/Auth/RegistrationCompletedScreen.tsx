@@ -120,9 +120,12 @@ const RegistrationCompletedScreen: FC<StackScreenProps<AuthNavigatorParamList, R
               Layout.fill,
             ]}
           >
-            <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 40, alignItems: 'center' }]}>
+            <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 45, alignItems: 'center' }]}>
               <AvenirText
-                style={[{ color: colors.brightTurquoise, fontWeight: 'bold', fontStyle: 'italic', fontSize: 26 }, Fonts.textLeft]}
+                style={[
+                  { color: colors.brightTurquoise, fontWeight: '700', fontStyle: 'italic', fontSize: 30, lineHeight: 45 },
+                  Fonts.textLeft,
+                ]}
               >
                 {t('congrats')}
               </AvenirText>
@@ -143,6 +146,7 @@ const RegistrationCompletedScreen: FC<StackScreenProps<AuthNavigatorParamList, R
               containerStyle={{
                 width: '45%',
               }}
+              isBoldText
             />
           </View>
         </KeyboardAwareScrollView>
