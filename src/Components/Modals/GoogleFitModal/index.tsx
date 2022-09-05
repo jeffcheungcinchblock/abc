@@ -40,16 +40,15 @@ const GoogleFitModal = forwardRef((props: GoogleFitModalProps, ref) => {
       keyboardTopOffset={40}
       animationDuration={500}
       style={{
-        height: 300,
-        width: '70%',
+        height: 220,
+        width: '80%',
         backgroundColor: colors.charcoal,
         borderRadius: 10,
         ...style,
       }}
     >
-      <View style={{ flex: 3, paddingHorizontal: 14 }}></View>
-
-      <View style={{ flex: 3, paddingHorizontal: 14 }}>
+      <View style={{ flex: 3, paddingHorizontal: 40 }}></View>
+      <View style={{ flex: 3, paddingHorizontal: 40 }}>
         <AvenirText style={[MODAL_TEXT, { fontFamily: 'Avenir-Book', fontSize: 18 }]}>
           {isIOS ? t('modalPrompt.notReadyIos') : t('modalPrompt.notReady')}
         </AvenirText>
