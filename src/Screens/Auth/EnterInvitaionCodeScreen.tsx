@@ -127,7 +127,6 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
       style={{
         flex: 1,
         justifyContent: 'space-between',
-        // alignItems: 'center',
         backgroundColor: colors.darkGunmetal,
       }}
       edges={['top']}
@@ -148,7 +147,7 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
             <AppIcon />
 
             <View style={[Layout.fullWidth, { justifyContent: 'center', paddingVertical: 40, paddingHorizontal: 40 }]}>
-              <AvenirText style={[{ color: colors.white, lineHeight: 22 }, Fonts.textSmall, Fonts.textCenter]}>
+              <AvenirText style={[{ color: colors.white, lineHeight: 24, fontSize: 16 }, Fonts.textCenter]}>
                 {t('enterInvitationCodeDesc')}
               </AvenirText>
             </View>
@@ -161,7 +160,7 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
             }}
             onModalClose={onModalClose}
           >
-            <View style={[Layout.fullWidth, Gutters.largeHPadding, INPUT_VIEW_LAYOUT, { flexBasis: 80 }]}>
+            <View style={[Layout.fullWidth, INPUT_VIEW_LAYOUT, { flexBasis: 80, paddingHorizontal: 20 }]}>
               <StandardInput
                 onChangeText={onCodeChange}
                 value={code}
@@ -174,7 +173,12 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
                 }}
               />
               {errMsg !== '' && (
-                <AvenirText style={[{ color: colors.magicPotion, paddingHorizontal: 10, paddingTop: 4 }, Fonts.textLeft]}>
+                <AvenirText
+                  style={[
+                    { color: colors.magicPotion, paddingHorizontal: 10, paddingTop: 6, fontSize: 14, lineHeight: 21 },
+                    Fonts.textLeft,
+                  ]}
+                >
                   {errMsg}
                 </AvenirText>
               )}
@@ -185,7 +189,7 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
                 Layout.fullWidth,
                 Layout.center,
                 Gutters.largeVPadding,
-                { flex: 1, justifyContent: 'space-between', paddingBottom: 60 },
+                { flex: 1, justifyContent: 'space-between', paddingBottom: 40 },
               ]}
             >
               <TurquoiseButton
@@ -197,9 +201,12 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
                   width: '45%',
                   paddingBottom: 40,
                 }}
+                isBoldText
               />
               <Pressable onPress={onGetReferralCodePress} style={{ paddingBottom: 20 }}>
-                <AvenirText style={{ textDecorationLine: 'underline', color: colors.white }}>{t('getReferralCode')}</AvenirText>
+                <AvenirText style={{ textDecorationLine: 'underline', color: colors.white, fontWeight: '400' }}>
+                  {t('getReferralCode')}
+                </AvenirText>
               </Pressable>
             </View>
           </SlideInputModal>

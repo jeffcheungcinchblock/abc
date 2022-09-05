@@ -177,7 +177,7 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
           <View
             style={[
               {
-                flexGrow: 8,
+                flexGrow: 6,
                 justifyContent: 'flex-end',
               },
               Layout.fullWidth,
@@ -185,7 +185,13 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
             ]}
           >
             <View style={[Layout.fullWidth, Gutters.smallVPadding, Layout.center]}>
-              <TurquoiseButton text={t('signUp')} onPress={onSignUpPress} isTransparentBackground containerStyle={{ width: '45%' }} />
+              <TurquoiseButton
+                text={t('signUp')}
+                onPress={onSignUpPress}
+                isTransparentBackground
+                containerStyle={{ width: '45%' }}
+                isBoldText
+              />
             </View>
 
             <View
@@ -204,6 +210,7 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
                 onPress={() => {
                   navigation.navigate(RouteStacks.enterInvitationCode)
                 }}
+                isBoldText
               />
             </View>
           </View>
@@ -220,9 +227,10 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
             <Pressable onPress={onSignInPress}>
               <AvenirText
                 style={[
-                  Fonts.textSmall,
                   {
                     color: colors.brightTurquoise,
+                    fontSize: 16,
+                    lineHeight: 24,
                   },
                 ]}
               >
@@ -243,9 +251,10 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
           >
             <AvenirText
               style={[
-                Fonts.textSmall,
                 {
                   color: colors.white,
+                  fontSize: 16,
+                  lineHeight: 24,
                 },
               ]}
             >
@@ -286,13 +295,13 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
             style={[Layout.fullWidth, Layout.colCenter, Layout.rowCenter, { flexBasis: 60, flexDirection: 'column', marginVertical: 30 }]}
           >
             <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
-              <AvenirText style={[{ textAlign: 'center', color: colors.white }]}>{t('agreeTo')}</AvenirText>
+              <AvenirText style={[{ textAlign: 'center', fontSize: 12, color: colors.white }]}>{t('agreeTo')}</AvenirText>
               <Pressable style={{}} onPress={onTAndCPress}>
                 <AvenirText
                   style={{
                     color: colors.brightTurquoise,
                     lineHeight: 16,
-                    marginTop: 3,
+                    fontSize: 12,
                   }}
                 >
                   {t('T&C')}
@@ -300,7 +309,9 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
               </Pressable>
             </View>
 
-            <AvenirText style={[Layout.fullWidth, { textAlign: 'center', color: colors.white, paddingBottom: 16 }]}>
+            <AvenirText
+              style={[Layout.fullWidth, { textAlign: 'center', fontSize: 12, lineHeight: 16, color: colors.white, paddingBottom: 16 }]}
+            >
               {t('byRegisteringAc')}
             </AvenirText>
           </View>

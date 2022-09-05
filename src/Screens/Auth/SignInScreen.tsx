@@ -78,6 +78,8 @@ const ERR_MSG_TEXT: TextStyle = {
   color: colors.magicPotion,
   paddingHorizontal: 4,
   paddingTop: 4,
+  lineHeight: 21,
+  fontSize: 14,
 }
 
 const initErrMsg = {
@@ -318,11 +320,13 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.logI
             <AppIcon />
 
             <View style={[Layout.fullWidth, { justifyContent: 'center', paddingVertical: 40, paddingHorizontal: 20 }]}>
-              <AvenirText style={[{ color: colors.white, fontWeight: 'bold' }, Fonts.textRegular, Fonts.textCenter]}>
+              <AvenirText style={[{ color: colors.white, fontWeight: 'bold', fontSize: 24, lineHeight: 32 }, Fonts.textCenter]}>
                 {t('welcomeBack')}!
               </AvenirText>
 
-              <AvenirText style={[{ color: colors.white, fontWeight: 'bold', paddingTop: 6 }, Fonts.textSmall, Fonts.textCenter]}>
+              <AvenirText
+                style={[{ color: colors.white, fontWeight: '500', paddingTop: 6, fontSize: 16, lineHeight: 24 }, Fonts.textCenter]}
+              >
                 {t('readyForAnotherActiveSection')}
               </AvenirText>
             </View>
@@ -367,15 +371,22 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.logI
                   containerStyle={{
                     width: '45%',
                   }}
+                  isBoldText
                 />
                 <Pressable style={[Layout.fullWidth, Layout.center, { paddingBottom: 30, paddingTop: 10 }]} onPress={onForgotPasswordPress}>
-                  <AvenirText style={{ color: colors.white, textDecorationLine: 'underline' }}>{t('forgotPassword')}</AvenirText>
+                  <AvenirText style={{ color: colors.white, textDecorationLine: 'underline', fontSize: 16, lineHeight: 24 }}>
+                    {t('forgotPassword')}
+                  </AvenirText>
                 </Pressable>
 
                 <View style={{ flexDirection: 'row' }}>
-                  <AvenirText style={{ color: colors.white }}>{t('dontHaveAnAccount')}</AvenirText>
+                  <AvenirText style={{ color: colors.white, fontWeight: '400', fontSize: 16, lineHeight: 24 }}>
+                    {t('dontHaveAnAccount')}
+                  </AvenirText>
                   <Pressable style={{ paddingLeft: 6 }} onPress={() => navigation.navigate(RouteStacks.signUp)}>
-                    <AvenirText style={{ color: colors.brightTurquoise, fontWeight: 'bold' }}>{t('signup')}</AvenirText>
+                    <AvenirText style={{ color: colors.brightTurquoise, fontWeight: 'bold', fontSize: 16, lineHeight: 24 }}>
+                      {t('signup')}
+                    </AvenirText>
                   </Pressable>
                 </View>
               </View>

@@ -90,7 +90,6 @@ const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
 
   const onConfirmPress = async () => {
     try {
-      console.log('onConfirmPress')
       await Auth.forgotPassword(emailUsernameHash(email))
       navigation.navigate(RouteStacks.validationCode, {
         email: email,
@@ -126,7 +125,7 @@ const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
             ]}
           >
             <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 60 }]}>
-              <AvenirText style={[{ color: colors.white, fontWeight: 'bold', lineHeight: 26 }, Fonts.textSmall, Fonts.textLeft]}>
+              <AvenirText style={[{ color: colors.white, fontWeight: '500', lineHeight: 24, fontSize: 16 }, Fonts.textLeft]}>
                 {t('forgotPasswordPrompt')}
               </AvenirText>
             </View>
@@ -140,7 +139,7 @@ const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
                 autoCapitalize={'none'}
               />
               {errMsg !== '' && (
-                <AvenirText style={[{ color: colors.magicPotion, paddingHorizontal: 10, paddingTop: 4 }, Fonts.textLeft]}>
+                <AvenirText style={[{ color: colors.magicPotion, paddingHorizontal: 6, paddingTop: 4 }, Fonts.textLeft]}>
                   {errMsg}
                 </AvenirText>
               )}
@@ -157,6 +156,7 @@ const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
                 width: '45%',
               }}
               isTransparentBackground
+              isBoldText
             />
           </View>
         </KeyboardAwareScrollView>

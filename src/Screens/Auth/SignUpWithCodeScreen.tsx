@@ -179,11 +179,18 @@ const SignUpWithCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
               paddingVertical: 10,
             }}
           >
-            <AppLogo
+            <View
               style={{
-                height: '25%',
+                flex: 2,
+                justifyContent: 'center',
               }}
-            />
+            >
+              <AppLogo
+                style={{
+                  height: '80%',
+                }}
+              />
+            </View>
 
             <View
               style={[
@@ -201,16 +208,25 @@ const SignUpWithCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
                   style={{
                     width: '80%',
                     backgroundColor: colors.cornflowerBlue,
-                    borderRadius: 99,
+                    borderRadius: 20,
                     flexDirection: 'row',
-                    paddingVertical: 10,
-                    paddingHorizontal: 20,
-                    height: 44,
+                    paddingHorizontal: 16,
+                    height: 40,
                     alignItems: 'center',
                   }}
                 >
-                  <Image source={googleIcon} style={{ width: 22, height: 22, resizeMode: 'contain' }} />
-                  <AvenirText style={{ color: colors.white, marginLeft: 20, flex: 1, textAlign: 'center' }}>
+                  <Image source={googleIcon} style={{ width: 24, height: 24, resizeMode: 'contain' }} />
+                  <AvenirText
+                    style={{
+                      fontSize: 14,
+                      lineHeight: 21,
+                      fontWeight: '500',
+                      color: colors.white,
+                      marginLeft: 20,
+                      flex: 1,
+                      textAlign: 'center',
+                    }}
+                  >
                     {t('continueWithGoogleAllCapital')}
                   </AvenirText>
                 </Pressable>
@@ -222,16 +238,25 @@ const SignUpWithCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
                   style={{
                     width: '80%',
                     backgroundColor: colors.glaucous,
-                    borderRadius: 99,
+                    borderRadius: 20,
                     flexDirection: 'row',
-                    paddingVertical: 10,
-                    paddingHorizontal: 20,
-                    height: 44,
+                    paddingHorizontal: 16,
+                    height: 40,
                     alignItems: 'center',
                   }}
                 >
-                  <Image source={facebookIcon} style={{ width: 22, height: 22, resizeMode: 'contain' }} />
-                  <AvenirText style={{ color: colors.white, marginLeft: 20, flex: 1, textAlign: 'center' }}>
+                  <Image source={facebookIcon} style={{ width: 24, height: 24, resizeMode: 'contain' }} />
+                  <AvenirText
+                    style={{
+                      fontSize: 14,
+                      lineHeight: 21,
+                      fontWeight: '500',
+                      color: colors.white,
+                      marginLeft: 20,
+                      flex: 1,
+                      textAlign: 'center',
+                    }}
+                  >
                     {t('continueWithFacebookAllCapital')}
                   </AvenirText>
                 </Pressable>
@@ -243,16 +268,25 @@ const SignUpWithCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
                   style={{
                     width: '80%',
                     backgroundColor: colors.white,
-                    borderRadius: 99,
+                    borderRadius: 20,
                     flexDirection: 'row',
-                    paddingVertical: 10,
-                    paddingHorizontal: 20,
-                    height: 44,
+                    paddingHorizontal: 16,
+                    height: 40,
                     alignItems: 'center',
                   }}
                 >
-                  <Image source={appleIcon} style={{ width: 22, height: 22, resizeMode: 'contain' }} />
-                  <AvenirText style={{ color: colors.black, marginLeft: 20, flex: 1, textAlign: 'center' }}>
+                  <Image source={appleIcon} style={{ width: 24, height: 24, resizeMode: 'contain' }} />
+                  <AvenirText
+                    style={{
+                      fontSize: 14,
+                      lineHeight: 21,
+                      fontWeight: '500',
+                      color: colors.black,
+                      marginLeft: 20,
+                      flex: 1,
+                      textAlign: 'center',
+                    }}
+                  >
                     {t('continueWithAppleAllCapital')}
                   </AvenirText>
                 </Pressable>
@@ -263,8 +297,8 @@ const SignUpWithCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
                   style={[
                     {
                       color: colors.white,
+                      fontSize: 14,
                     },
-                    Fonts.textRegular,
                   ]}
                 >
                   {t('or')}
@@ -277,7 +311,7 @@ const SignUpWithCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
                   style={{
                     width: '80%',
                     backgroundColor: colors.white,
-                    borderRadius: 99,
+                    borderRadius: 20,
                     flexDirection: 'row',
                     paddingVertical: 10,
                     paddingHorizontal: 20,

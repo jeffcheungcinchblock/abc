@@ -22,6 +22,7 @@ const ScreenImageMap: any = {
   [RouteStacks.welcome]: 'video',
   [RouteStacks.logIn]: 'video',
   [RouteStacks.signUp]: 'video',
+  [RouteStacks.signUpWithCode]: 'video',
   [RouteStacks.enterInvitationCode]: 'video',
   [RouteStacks.registrationCompleted]: congratsImg,
 }

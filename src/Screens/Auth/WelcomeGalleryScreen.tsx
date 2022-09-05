@@ -221,6 +221,7 @@ const WelcomeGalleryScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
             containerStyle={{
               width: '45%',
             }}
+            isBoldText
           />
         </View>
       </View>
