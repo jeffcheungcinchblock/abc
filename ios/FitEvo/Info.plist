@@ -70,8 +70,10 @@
 	<string>Share workout data with other apps.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Location required in background</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Location required in background</string>
 	<key>NSLocationUsageDescription</key>
-	<string>Share Location When In Use</string>
+	<string>Location required in background</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Share Location When In Use</string>
 	<key>NSMotionUsageDescription</key>

@@ -61,6 +61,7 @@ import reward from '@/Assets/Images/Modal/reward.png'
 import DailyRewardModal from '@/Components/Modals/DailyRewardModal'
 import GoogleFitModal from '@/Components/Modals/GoogleFitModal'
 import RuleOfReferralModal from '@/Components/Modals/RuleOfReferralModal'
+import LocationPermissionModal from '@/Components/Modals/LocationPermissionModal'
 //health kit - googlefit
 import { IOSHealthKit } from '@/Healthkit/iosHealthKit'
 import { GoogleFitKit } from '@/Healthkit/androidHealthKit'
@@ -165,7 +166,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
   const ruleOfReferralModalRef = useRef<any>(null)
   const invitationRewardModalRef = useRef<any>(null)
   const googleFitModalRef = useRef<any>(null)
-
+  const locationPermissionModalRef = useRef<any>(null)
   const { t } = useTranslation()
   const { Common, Fonts, Gutters, Layout } = useTheme()
   const { invitationCode } = useSelector((state: RootState) => ({
@@ -342,13 +343,17 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
       dispatch(startLoading(true))
       setIsStartPressed(true)
       const LocationpermissionStatus = await checkMultiple([
-        PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
+        // PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
+        PERMISSIONS.IOS.LOCATION_ALWAYS,
         PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
         PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION,
       ])
+      if (LocationpermissionStatus['ios.permission.LOCATION_ALWAYS'] === 'blocked') {
+        locationPermissionModalRef?.current?.open()
+      }
       let locationPermission = false
       if (isIOS) {
-        if (LocationpermissionStatus[PERMISSIONS.IOS.LOCATION_WHEN_IN_USE] === 'granted') {
+        if (LocationpermissionStatus[PERMISSIONS.IOS.LOCATION_ALWAYS] === 'granted') {
           locationPermission = true
         }
       } else {
@@ -389,12 +394,13 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
             setEnabled(true)
           })
       } else {
-        await requestMultiple([
-          PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
+        const response = await requestMultiple([
+          // PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
+          PERMISSIONS.IOS.LOCATION_ALWAYS,
           PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
           PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION,
         ])
-        onTrialPlayPress()
+        // onTrialPlayPress()
         return
       }
     } catch (err: any) {
@@ -416,6 +422,13 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
 
   const onInvitationRewardModalCloseBtnPress = () => {
     invitationRewardModalRef?.current?.close()
+  }
+
+  const onLocationPermissionModalClose = () => {}
+
+  const onLocationPermissionModalCloseBtnPress = () => {
+    locationPermissionModalRef?.current?.close()
+    Linking.openSettings()
   }
 
   const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }: NativeScrollEvent) => {
@@ -443,7 +456,11 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
     <SafeAreaView style={{ flex: 1, justifyContent: 'space-between', backgroundColor: colors.darkGunmetal }} edges={['top']}>
       <ScreenBackgrounds screenName={RouteStacks.homeReferral}>
         <DailyRewardModal ref={dailyRewardModalRef} onModalClose={onDailyRewardModalClose} onActionBtnPress={onLesGoBtnPress} ke={20} />
-
+        <LocationPermissionModal
+          ref={locationPermissionModalRef}
+          onModalClose={onLocationPermissionModalClose}
+          onActionBtnPress={onLocationPermissionModalCloseBtnPress}
+        />
         <RuleOfReferralModal
           ref={ruleOfReferralModalRef}
           onModalClose={onRuleOfReferralModalClose}
@@ -657,7 +674,8 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
                   paddingVertical: 2,
                 }}
                 onPress={onTrialPlayPress}
-                disabled={kePointNotMeetRequirement || isStartPressed}
+                disabled={false}
+                // disabled={kePointNotMeetRequirement || isStartPressed}
               >
                 <AvenirText
                   style={{
