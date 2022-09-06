@@ -39,23 +39,23 @@ const EndWorkoutModal = forwardRef((props: EndWorkoutModalProps, ref) => {
       keyboardTopOffset={40}
       animationDuration={500}
       style={{
-        height: '35%',
+        height: 280,
         width: '80%',
         backgroundColor: colors.charcoal,
-        borderRadius: 20,
+        borderRadius: 10,
         padding: 20,
         ...style,
       }}
     >
       <View style={{ flex: 1, justifyContent: 'center' }}>
-        <AvenirText style={[MODAL_TEXT, { fontSize: 20, fontWeight: 'bold' }]}>{t('modalPrompt.caution')}</AvenirText>
+        <AvenirText style={[MODAL_TEXT, { fontSize: 18, lineHeight: 20, fontWeight: '600' }]}>{t('modalPrompt.caution')}</AvenirText>
       </View>
       <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: 14 }}>
-        <AvenirText style={[MODAL_TEXT, { fontSize: 16, fontWeight: '400' }]}>{t('modalPrompt.endWorkout')}</AvenirText>
+        <AvenirText style={[MODAL_TEXT, { fontSize: 16, lineHeight: 24, fontWeight: '500' }]}>{t('modalPrompt.endWorkout')}</AvenirText>
       </View>
       <View
         style={{
-          justifyContent: 'space-around',
+          justifyContent: 'center',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -68,7 +68,8 @@ const EndWorkoutModal = forwardRef((props: EndWorkoutModalProps, ref) => {
           text={t('modalPrompt.continue')}
           // isTransparentBackground
           containerStyle={{
-            width: '60%',
+            width: '65%',
+            marginBottom: 16,
             // colors: colors.black,
           }}
         />
@@ -77,7 +78,7 @@ const EndWorkoutModal = forwardRef((props: EndWorkoutModalProps, ref) => {
           text={t('confirm')}
           isTransparentBackground
           containerStyle={{
-            width: '60%',
+            width: '65%',
           }}
         />
       </View>

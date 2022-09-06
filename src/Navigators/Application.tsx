@@ -6,7 +6,7 @@ import { useTheme } from '@/Hooks'
 import MainNavigator, { DrawerNavigatorParamList } from './MainNavigator'
 import { navigationRef } from './utils'
 import AuthNavigator, { AuthNavigatorParamList } from './AuthNavigator'
-import { useDispatch, useSelector } from 'react-redux'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { UserState } from '@/Store/Users/reducer'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 // @ts-ignore
@@ -48,9 +48,14 @@ let abortController: AbortController
 // @refresh reset
 const ApplicationNavigator = () => {
   const { Layout, darkMode, NavigationTheme } = useTheme()
-  const { isScreenLoading, snackBarConfig } = useSelector((state: RootState) => state.ui)
+  const { isScreenLoading, snackBarConfig } = useSelector((state: RootState) => ({
+    isScreenLoading: state.ui.isScreenLoading,
+    snackBarConfig: state.ui.snackBarConfig,
+  }))
   const dispatch = useDispatch()
-  const { isLoggedIn } = useSelector((state: RootState) => state.user)
+  const { isLoggedIn } = useSelector((state: RootState) => ({
+    isLoggedIn: state.user.isLoggedIn,
+  }))
 
   useEffect(() => {
     const retrieveLoggedInUser = async () => {

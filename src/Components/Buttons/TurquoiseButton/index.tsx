@@ -75,7 +75,7 @@ const TurquoiseButton = ({
                 textStyle,
                 {
                   textAlign: 'center',
-                  fontWeight: isBoldText ? '600' : '400',
+                  fontWeight: isBoldText ? '600' : '500',
                   color: isTransparentBackground ? colors.brightTurquoise : colors.black,
                 },
               ]}

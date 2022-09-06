@@ -81,7 +81,9 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
   const [errMsg, setErrMsg] = useState(' ')
   const [code, setCode] = useState('')
 
-  const { invitationCode } = useSelector((state: RootState) => state.user)
+  const { invitationCode } = useSelector((state: RootState) => ({
+    invitationCode: state.user.invitationCode,
+  }))
 
   const referralCode = useSelector((state: RootState) => state.referral.referralCode)
 

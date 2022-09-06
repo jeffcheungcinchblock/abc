@@ -168,7 +168,9 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
 
   const { t } = useTranslation()
   const { Common, Fonts, Gutters, Layout } = useTheme()
-  const { invitationCode } = useSelector((state: RootState) => state.user)
+  const { invitationCode } = useSelector((state: RootState) => ({
+    invitationCode: state.user.invitationCode,
+  }))
   const dispatch = useDispatch()
   const [isInvitingFriends, setIsInvitingFriends] = useState(false)
   const [needFetchDtl, setNeedFetchDtl] = useState(true)
@@ -192,8 +194,6 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
   const startTime = useSelector((state: RootState) => state.map.startTime)
 
   useEffect(() => {
-    googleFitModalRef?.current?.open()
-
     dispatch(startLoading(false))
     dispatch({ type: 'init' })
   }, [])

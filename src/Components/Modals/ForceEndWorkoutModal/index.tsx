@@ -41,7 +41,7 @@ const forceQuitWorkout = forwardRef((props: ForceQuitWorkoutModalProps, ref) => 
         height: '40%',
         width: '80%',
         backgroundColor: colors.charcoal,
-        borderRadius: 20,
+        borderRadius: 10,
         padding: 20,
         ...style,
       }}

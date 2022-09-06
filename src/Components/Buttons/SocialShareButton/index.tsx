@@ -24,7 +24,7 @@ const BUTTON_STYLE: ViewStyle = {
   backgroundColor: colors.brightTurquoise,
   height: 40,
   width: 200,
-  borderRadius: 99,
+  borderRadius: 20,
   justifyContent: 'space-around',
 }
 

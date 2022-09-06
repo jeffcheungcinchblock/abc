@@ -22,7 +22,7 @@ import TurquoiseButton from '@/Components/Buttons/TurquoiseButton'
 import SocialShareButton from '@/Components/Buttons/SocialShareButton'
 import SaveScreenButton from '@/Components/Buttons/SaveScreenButton'
 import CloseButton from '@/Components/Buttons/CloseButton'
-import ConGratualtion from '@/Assets/Images/map/congratulation.png'
+import ConGratualtion from '@/Assets/Images/Modal/reward.png'
 import SpeedIcon from '@/Assets/Images/map/speed_crystal.png'
 import TimerLogo from '@/Assets/Images/map/timer_crystal.png'
 import StepLogo from '@/Assets/Images/map/step.png'
@@ -80,7 +80,6 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation
       flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'flex-end',
-      height: 40,
     },
     colContentContainer: {
       display: 'flex',
@@ -96,7 +95,6 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation
     },
     titleTextStyle: {
       fontSize: 30,
-      lineHeight: 45,
       fontStyle: 'italic',
       fontWeight: '700',
     },
@@ -223,27 +221,27 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation
         <Header headerText={t('result')} style={{ backgroundColor: colors.darkGunmetal }} />
         <KeyboardAwareScrollView contentContainerStyle={[styles.container, { flex: 1 }]}>
           {/* {distance > 2000 && ( */}
-          <View style={[styles.rowContentContainer, { flexBasis: 60 }]}>
+          <View style={[styles.rowContentContainer, { height: 40, alignItems: 'center' }]}>
             <BrightTurquoiseText style={[styles.titleTextStyle]}>{t('congratulations')}</BrightTurquoiseText>
             <Image source={ConGratualtion} style={{ width: 30, height: 30, marginHorizontal: 10, resizeMode: 'contain' }} />
           </View>
           {/* )} */}
-          <View style={[styles.colContentContainer, { flexBasis: 120 }]}>
+          <View style={[styles.colContentContainer, { height: 110, justifyContent: 'flex-start' }]}>
             <AvenirText style={styles.distanceTextStyle}>{(distance / 1000).toFixed(2)}</AvenirText>
           </View>
 
-          <View style={[styles.colContentContainer, { flexBasis: 60, justifyContent: 'center' }]}>
-            <CrystalText style={{ fontSize: 20, width: '100%' }}>{t('totalKilo')}</CrystalText>
+          <View style={[styles.colContentContainer, { minHeight: 60, flex: 1, justifyContent: 'center' }]}>
+            <CrystalText style={{ fontSize: 20, lineHeight: 30, width: '100%' }}>{t('totalKilo')}</CrystalText>
             <View style={[styles.rowContentContainer, { paddingTop: 4 }]}>
               <Image
                 source={StepLogo}
                 style={{ width: 26, height: 26, resizeMode: 'contain', alignSelf: 'center', marginHorizontal: 10 }}
               />
-              <WhiteText>{steps}</WhiteText>
+              <WhiteText style={{ fontSize: 24, lineHeight: 36 }}>{steps}</WhiteText>
             </View>
           </View>
 
-          <View style={[styles.rowContentContainer2, { flexBasis: 120, justifyContent: 'center', paddingTop: 40 }]}>
+          <View style={[styles.rowContentContainer2, { minHeight: 60, flex: 1, justifyContent: 'center' }]}>
             <View style={[styles.contentContainer]}>
               <View
                 style={{
@@ -253,9 +251,11 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation
                 <Image source={TimerLogo} style={{ width: 26, height: 26, resizeMode: 'contain', alignSelf: 'center' }} />
               </View>
 
-              <WhiteText style={[{ lineHeight: 50, fontSize: 30, fontWeight: 'bold' }]}>
-                {Math.floor((timer % 3600) / 60)}'{Math.ceil(timer % 60)}"
-              </WhiteText>
+              <View style={{ justifyContent: 'center', flexBasis: 70 }}>
+                <WhiteText style={[{ lineHeight: 40, fontSize: 30, fontWeight: 'bold' }]}>
+                  {Math.floor((timer % 3600) / 60)}'{Math.ceil(timer % 60)}"
+                </WhiteText>
+              </View>
             </View>
 
             <View style={[styles.contentContainer]}>
@@ -267,37 +267,33 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation
                 <Image source={SpeedIcon} style={{ width: 26, height: 26, resizeMode: 'contain', alignSelf: 'center' }} />
               </View>
 
-              <Pressable onPress={chanageSpeedUnit} style={{}}>
-                <View style={[styles.speedContainer]}>
+              <Pressable onPress={chanageSpeedUnit} style={{ justifyContent: 'center', flexBasis: 70 }}>
+                <AvenirText style={[styles.speedContainer, {}]}>
                   {speedUnit === SpeedUnit.KILOMETRE_PER_HOUR && (
-                    <WhiteText style={[{ lineHeight: 30, fontSize: 25, fontWeight: 'bold' }]}>
-                      {metersecond_2_kmhour(speed).toFixed(1)}
-                    </WhiteText>
+                    <WhiteText style={[{ fontSize: 30, fontWeight: 'bold' }]}>{metersecond_2_kmhour(speed).toFixed(1)}</WhiteText>
                   )}
                   {speedUnit === SpeedUnit.MILE_PER_HOUR && (
-                    <WhiteText style={[{ lineHeight: 30, fontSize: 25, fontWeight: 'bold' }]}>
-                      {metersecond_2_milehour(speed).toFixed(1)}
-                    </WhiteText>
+                    <WhiteText style={[{ fontSize: 30, fontWeight: 'bold' }]}>{metersecond_2_milehour(speed).toFixed(1)}</WhiteText>
                   )}
                   {speedUnit === SpeedUnit.METER_PER_SECOND && (
-                    <WhiteText style={[{ lineHeight: 30, fontSize: 25, fontWeight: 'bold' }]}>{speed.toFixed(1)}</WhiteText>
+                    <WhiteText style={[{ fontSize: 30, fontWeight: 'bold' }]}>{speed.toFixed(1)}</WhiteText>
                   )}
-                  <CrystalText style={{ lineHeight: 30, fontSize: 15 }}>{speedUnit}</CrystalText>
-                </View>
+                  <CrystalText style={{ lineHeight: 24, fontSize: 16 }}>{speedUnit}</CrystalText>
+                </AvenirText>
               </Pressable>
             </View>
           </View>
 
-          <View style={[styles.contentContainer, { flex: 1, minHeight: 90, justifyContent: 'center' }]}>
+          <View style={[styles.contentContainer, { flex: 1, minHeight: 40, justifyContent: 'center' }]}>
             {distance > 2000 ? (
-              <WhiteText style={[{ fontSize: 40, fontWeight: 'bold' }]}>+ 20 KE</WhiteText>
+              <WhiteText style={[{ lineHeight: 46, fontSize: 40, fontWeight: '700' }]}>+ 20 KE</WhiteText>
             ) : (
-              <WhiteText style={[{ fontSize: 40, fontWeight: 'bold' }]}>+ 0 KE</WhiteText>
+              <WhiteText style={[{ lineHeight: 46, fontSize: 40, fontWeight: '700' }]}>+ 0 KE</WhiteText>
             )}
-            <WhiteText style={{ fontSize: 24, lineHeight: 30, fontWeight: '400' }}>{t('points')}</WhiteText>
+            <WhiteText style={{ fontSize: 16, lineHeight: 18, fontWeight: '400' }}>{t('points')}</WhiteText>
           </View>
 
-          <View style={[styles.colContentContainer, { flex: 8, justifyContent: 'center', marginBottom: 10 }]}>
+          <View style={[styles.colContentContainer, { flex: 5, justifyContent: 'center' }]}>
             <SocialShareButton
               onPress={takeScreenShot}
               text={t('shareOnTwitter')}
