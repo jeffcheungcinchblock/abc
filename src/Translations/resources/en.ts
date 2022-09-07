@@ -38,6 +38,7 @@ export default {
   earnKEWhenReferredFriends: 'Refer friends to download FitEvo App and earn KE points for *yourself and your friends!',
   learnMoreAllCapital: 'LEARN MORE',
   shareOnTwitter: 'Share on Twitter',
+  shareWithFriends: 'Share with Friends',
   saveToPhotos: 'Save to Album',
   saveToAlbum: 'Save to Album',
   saveToPhotosSuccess: 'Saved to your photo album!',

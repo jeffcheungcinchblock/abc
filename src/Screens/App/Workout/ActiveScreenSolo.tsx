@@ -253,7 +253,7 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
       if (temp_state === ActivityType.ENDED) {
         clearInterval(stepIntervalId)
       }
-    }, 10000)
+    }, 5000)
     return () => {
       clearInterval(stepIntervalId)
     }
