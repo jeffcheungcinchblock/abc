@@ -46,7 +46,7 @@ const SocialShareButton = ({ containerStyle, onPress, isLoading, iconName, text 
         ) : (
           <View style={[Layout.rowCenter, { justifyContent: 'center' }]}>
             <AvenirText style={{ fontWeight: '500', lineHeight: 24, fontSize: 16, flex: 1, textAlign: 'center' }}>{text}</AvenirText>
-            <Image source={iconNameMap[iconName]} style={{ marginRight: 20, width: 20, height: 20, resizeMode: 'contain' }} />
+            {/* <Image source={iconNameMap[iconName]} style={{ marginRight: 20, width: 20, height: 20, resizeMode: 'contain' }} /> */}
           </View>
         )}
       </Pressable>
