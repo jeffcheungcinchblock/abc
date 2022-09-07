@@ -199,20 +199,11 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
     dispatch({ type: 'init' })
   }, [])
   useEffect(() => {
-    const dailyLogin = async (jwtToken: string) => {
-      let userDailyLoginRes = await axios.get(config.userDailyLogin, {
-        signal: abortController.signal,
-        headers: {
-          Authorization: jwtToken,
-        },
-      })
-    }
-
     const run = async () => {
       try {
         let user = await Auth.currentAuthenticatedUser()
         let jwtToken = user?.signInUserSession?.idToken?.jwtToken
-        const [authRes, userFitnessInfoRes, topAvgPointRes] = await Promise.all([
+        const [authRes, userFitnessInfoRes, topAvgPointRes, dailyLoginRes] = await Promise.all([
           axios.get(config.userProfile, {
             signal: abortController.signal,
             headers: {
@@ -228,11 +219,15 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
           axios.get(config.userTopAvgPoint, {
             signal: abortController.signal,
           }),
+          axios.get(config.userDailyLogin, {
+            signal: abortController.signal,
+            headers: {
+              Authorization: jwtToken,
+            },
+          }),
         ])
 
         const { dailyMission, loginCount, totalPoint } = userFitnessInfoRes.data
-
-        await dailyLogin(jwtToken)
 
         if (!fetchedReferralInfo) {
           if (loginCount === 0) {

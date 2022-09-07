@@ -38,26 +38,6 @@ const ScreenBackgrounds = ({ uri, screenName, children }: ScreenBackgroundsProps
     ? ScreenImageMap[screenName]
     : {}
 
-  // const [videoPaused, toggleVideoPaused] = useState(false)
-  // const [appActive, setAppActive] = useState(false)
-
-  // const handleAppStateChange = (nextAppState: string) => {
-  //   if (nextAppState === 'active') {
-  //     setAppActive(true)
-  //   } else {
-  //     setAppActive(false)
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   AppState.addEventListener('change', handleAppStateChange)
-  //   return () => AppState.removeEventListener('change', handleAppStateChange)
-  // }, [])
-
-  // useEffect(() => {
-  //   appActive ? toggleVideoPaused(false) : toggleVideoPaused(true)
-  // }, [appActive])
-
   return ScreenImageMap[screenName] === 'video' ? (
     <>
       <Video

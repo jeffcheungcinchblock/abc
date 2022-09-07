@@ -37,7 +37,7 @@ export default {
   shareReferralLink: 'Share your referral code with friends',
   earnKEWhenReferredFriends: 'Refer friends to download FitEvo App and earn KE points for *yourself and your friends!',
   learnMoreAllCapital: 'LEARN MORE',
-  shareOnTwitter: 'Share on Twitter',
+  shareOnTwitter: 'Share to friends',
   saveToPhotos: 'Save to Album',
   saveToPhotosSuccess: 'Saved to your photo album!',
   extra: 'EXTRA!',
