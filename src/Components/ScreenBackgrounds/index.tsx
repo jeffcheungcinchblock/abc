@@ -1,5 +1,5 @@
-import React, { FC, ReactChildren } from 'react'
-import { View, Image, Text, ActivityIndicator, Pressable, ImageBackground, ImageSourcePropType, Dimensions } from 'react-native'
+import React, { FC, ReactChildren, useCallback, useEffect, useState } from 'react'
+import { View, Image, Text, ActivityIndicator, Pressable, ImageBackground, ImageSourcePropType, Dimensions, AppState } from 'react-native'
 import { useTheme } from '@/Hooks'
 import { colors } from '@/Utils/constants'
 import { RouteStacks } from '@/Navigators/routes'
@@ -9,6 +9,7 @@ import bg1 from '@/Assets/Images/backgrounds/bg_01.png'
 import bg2 from '@/Assets/Images/backgrounds/bg_02.png'
 import bg3 from '@/Assets/Images/backgrounds/bg_03.png'
 import congratsImg from '@/Assets/Images/backgrounds/Congrats_img.png'
+import { useFocusEffect } from '@react-navigation/native'
 
 type ScreenBackgroundsProps = {
   // source: ImageSourcePropType
@@ -37,6 +38,26 @@ const ScreenBackgrounds = ({ uri, screenName, children }: ScreenBackgroundsProps
     ? ScreenImageMap[screenName]
     : {}
 
+  // const [videoPaused, toggleVideoPaused] = useState(false)
+  // const [appActive, setAppActive] = useState(false)
+
+  // const handleAppStateChange = (nextAppState: string) => {
+  //   if (nextAppState === 'active') {
+  //     setAppActive(true)
+  //   } else {
+  //     setAppActive(false)
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   AppState.addEventListener('change', handleAppStateChange)
+  //   return () => AppState.removeEventListener('change', handleAppStateChange)
+  // }, [])
+
+  // useEffect(() => {
+  //   appActive ? toggleVideoPaused(false) : toggleVideoPaused(true)
+  // }, [appActive])
+
   return ScreenImageMap[screenName] === 'video' ? (
     <>
       <Video
@@ -49,10 +70,12 @@ const ScreenBackgrounds = ({ uri, screenName, children }: ScreenBackgroundsProps
           bottom: 0,
           right: 0,
         }}
+        paused={false}
         source={require('../../Assets/Videos/sample-5s.mp4')}
         resizeMode='cover'
         rate={1.0}
         muted={true}
+        playWhenInactive={true}
         repeat={true}
         ignoreSilentSwitch='obey'
       />
