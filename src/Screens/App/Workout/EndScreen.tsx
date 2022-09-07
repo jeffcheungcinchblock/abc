@@ -298,8 +298,8 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation
           <View style={[styles.colContentContainer, { flex: 5, justifyContent: 'center' }]}>
             <SocialShareButton
               onPress={takeScreenShot}
-              text={t('shareOnTwitter')}
-              iconName='friends'
+              text={t('shareWithFriends')}
+              iconName='twitter'
               containerStyle={[Layout.rowCenter, Layout.fullWidth]}
             />
             <SaveScreenButton
