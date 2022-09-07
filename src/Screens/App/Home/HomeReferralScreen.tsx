@@ -946,7 +946,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
 
           <HomeInfoGraphics titleTranslationText='inGameToken' contentTranslationText='KEPointsTransfer' index={0} />
           <HomeInfoGraphics titleTranslationText='NFTCompanions' contentTranslationText='NFTMint' index={1} />
-          <HomeInfoGraphics titleTranslationText='exclusiveDrops' contentTranslationText='higherKE' index={2} />
+          <HomeInfoGraphics titleTranslationText='exclusiveDrops' contentTranslationText='unlock' index={2} />
           <HomeInfoGraphics
             titleTranslationText='privilegedAppAccess'
             contentTranslationText={['unlockGameAccess1', 'unlockGameAccess2', 'unlockGameAccess3']}

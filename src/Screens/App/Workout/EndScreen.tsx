@@ -125,6 +125,7 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation
   }
 
   const takeScreenShot = async () => {
+    console.log('share')
     captureScreen({
       format: 'jpg',
       quality: 0.8,
@@ -146,6 +147,7 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation
         type: 'image/jpeg',
       }
       const response = await Share.open(options)
+      // const response = await Share.open(options)
       setResult(JSON.stringify(response, null, 2))
     } catch (err: any) {
       crashlytics().recordError(err)
@@ -296,13 +298,13 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation
           <View style={[styles.colContentContainer, { flex: 5, justifyContent: 'center' }]}>
             <SocialShareButton
               onPress={takeScreenShot}
-              text={t('shareOnTwitter')}
+              text={t('share')}
               iconName='twitter'
               containerStyle={[Layout.rowCenter, Layout.fullWidth]}
             />
             <SaveScreenButton
               onPress={onSaveToPhotosPress}
-              text={t('saveToPhotos')}
+              text={t('saveToAlbum')}
               containerStyle={[Layout.rowCenter, Layout.fullWidth, Gutters.regularVPadding]}
             />
             <CloseButton
