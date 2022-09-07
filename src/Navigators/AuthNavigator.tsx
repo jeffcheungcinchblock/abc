@@ -48,8 +48,6 @@ export type AuthNavigatorParamList = {
 const Stack = createStackNavigator<AuthNavigatorParamList>()
 
 const AuthNavigator: FC = ({}) => {
-  const dispatch = useDispatch()
-
   return (
     <Stack.Navigator
       screenOptions={{

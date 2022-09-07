@@ -25,7 +25,7 @@ const MODAL_TEXT: TextStyle = {
 const InvitationRewardModal = forwardRef((props: InvitationRewardModalProps, ref) => {
   const { onModalClose, style, onActionBtnPress, ke } = props
   const { t } = useTranslation()
-  const { Common, Fonts, Gutters, Layout } = useTheme()
+  const { Layout } = useTheme()
 
   return (
     <ModalBox
@@ -49,7 +49,13 @@ const InvitationRewardModal = forwardRef((props: InvitationRewardModalProps, ref
       }}
     >
       <View style={[Layout.fullWidth, Layout.colCenter, { flex: 4 }]}>
-        <Image source={reward} />
+        <Image
+          source={reward}
+          style={{
+            width: 36,
+            resizeMode: 'contain',
+          }}
+        />
       </View>
       <AvenirText style={[MODAL_TEXT, { paddingHorizontal: 40, fontSize: 18, lineHeight: 20 }]}>{t('modalPrompt.userEarned')}</AvenirText>
       <AvenirText style={[MODAL_TEXT, { paddingHorizontal: 40, fontSize: 30, lineHeight: 45, fontStyle: 'italic', paddingVertical: 16 }]}>

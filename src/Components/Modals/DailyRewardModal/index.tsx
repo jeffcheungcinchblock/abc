@@ -49,7 +49,13 @@ const DailyRewardModal = forwardRef((props: DailyRewardModalProps, ref) => {
       }}
     >
       <View style={[Layout.fullWidth, Layout.colCenter, { flexBasis: 100 }]}>
-        <Image source={present} />
+        <Image
+          source={present}
+          style={{
+            width: 36,
+            resizeMode: 'contain',
+          }}
+        />
       </View>
       <AvenirText style={[MODAL_TEXT, { fontFamily: 'Avenir-Book', fontSize: 18, lineHeight: 20 }]}>
         {t('modalPrompt.dailyReward')}

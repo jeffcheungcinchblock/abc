@@ -121,7 +121,7 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
   }
 
   const onGetReferralCodePress = () => {
-    Linking.openURL('https://discord.gg/fitevo')
+    Linking.openURL('https://discord.com/channels/912274941792092160/1016585922315296808')
   }
 
   return (

@@ -1,6 +1,18 @@
 import React, { useState, useEffect, useCallback, FC } from 'react'
 import { StackScreenProps } from '@react-navigation/stack'
-import { View, ActivityIndicator, Text, TextInput, Pressable, ScrollView, TextStyle, Alert, ViewStyle } from 'react-native'
+import {
+  View,
+  ActivityIndicator,
+  Text,
+  TextInput,
+  Pressable,
+  ScrollView,
+  TextStyle,
+  Alert,
+  ViewStyle,
+  ImageBackground,
+  Dimensions,
+} from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { Brand, Header } from '@/Components'
 import { useTheme } from '@/Hooks'
@@ -27,6 +39,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import * as Keychain from 'react-native-keychain'
 import crashlytics from '@react-native-firebase/crashlytics'
 import AvenirText from '@/Components/FontText/AvenirText'
+import congratsImg from '@/Assets/Images/backgrounds/Congrats_img.png'
 
 const TEXT_INPUT = {
   height: 40,
@@ -51,6 +64,8 @@ const CONTENT_ELEMENT_WRAPPER: ViewStyle = {
 }
 let abortController: AbortController
 
+const windowHeight = Dimensions.get('window').height
+const windowWidth = Dimensions.get('window').width
 const RegistrationCompletedScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.registrationCompleted>> = ({
   navigation,
   route,
@@ -103,7 +118,18 @@ const RegistrationCompletedScreen: FC<StackScreenProps<AuthNavigatorParamList, R
       }}
       edges={['top']}
     >
-      <ScreenBackgrounds screenName={RouteStacks.registrationCompleted}>
+      <ImageBackground
+        source={congratsImg}
+        style={{
+          flex: 1,
+          backgroundColor: colors.darkGunmetal,
+        }}
+        imageStyle={{
+          resizeMode: 'cover',
+          top: 40,
+          justifyContent: 'flex-end',
+        }}
+      >
         <KeyboardAwareScrollView contentContainerStyle={[Layout.fill, Layout.colCenter]}>
           <Header
             // onLeftPress={goBack}
@@ -150,7 +176,7 @@ const RegistrationCompletedScreen: FC<StackScreenProps<AuthNavigatorParamList, R
             />
           </View>
         </KeyboardAwareScrollView>
-      </ScreenBackgrounds>
+      </ImageBackground>
     </SafeAreaView>
   )
 }

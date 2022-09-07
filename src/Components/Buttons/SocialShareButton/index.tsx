@@ -6,6 +6,7 @@ import facebookIcon from '@/Assets/Images/buttons/facebook.png'
 import appleIcon from '@/Assets/Images/buttons/apple.png'
 import googleIcon from '@/Assets/Images/buttons/google.png'
 import twitterIcon from '@/Assets/Images/icons/twitter.png'
+import friendsIcon from '@/Assets/Images/Home/friends.png'
 import AvenirText from '@/Components/FontText/AvenirText'
 
 // import twitterIcon from '@/Assets/Images/icons/twitter2.png'
@@ -16,7 +17,7 @@ type SocialShareButtonProps = {
   textStyle?: object
   onPress: () => void
   isLoading?: boolean
-  iconName: 'google' | 'apple' | 'facebook' | 'twitter'
+  iconName: 'google' | 'apple' | 'facebook' | 'twitter' | 'friends'
   text?: string
 }
 
@@ -33,6 +34,7 @@ const iconNameMap = {
   twitter: twitterIcon,
   apple: appleIcon,
   google: googleIcon,
+  friends: friendsIcon,
 }
 
 const SocialShareButton = ({ containerStyle, onPress, isLoading, iconName, text }: SocialShareButtonProps) => {
@@ -46,7 +48,7 @@ const SocialShareButton = ({ containerStyle, onPress, isLoading, iconName, text 
         ) : (
           <View style={[Layout.rowCenter, { justifyContent: 'center' }]}>
             <AvenirText style={{ fontWeight: '500', lineHeight: 24, fontSize: 16, flex: 1, textAlign: 'center' }}>{text}</AvenirText>
-            {/* <Image source={iconNameMap[iconName]} style={{ marginRight: 20, width: 20, height: 20, resizeMode: 'contain' }} /> */}
+            <Image source={iconNameMap[iconName]} style={{ marginRight: 20, width: 20, height: 20, resizeMode: 'contain' }} />
           </View>
         )}
       </Pressable>

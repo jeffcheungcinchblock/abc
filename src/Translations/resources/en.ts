@@ -37,7 +37,7 @@ export default {
   shareReferralLink: 'Share your referral code with friends',
   earnKEWhenReferredFriends: 'Refer friends to download FitEvo App and earn KE points for *yourself and your friends!',
   learnMoreAllCapital: 'LEARN MORE',
-  shareOnTwitter: 'Share to friends',
+  shareOnTwitter: 'Share with friends',
   saveToPhotos: 'Save to Album',
   saveToAlbum: 'Save to Album',
   saveToPhotosSuccess: 'Saved to your photo album!',
@@ -99,7 +99,7 @@ export default {
   alreadyHaveAnAccount: 'I already have an account.',
   readyForAnotherActiveSection: 'Ready for another active section?',
   shareMsg: 'You are invited to join our FitEvo App Beta, download our app and start earning before anyone else!',
-  logIn: 'Log in',
+  logIn: 'Log In',
   congrats: 'Congrats!',
   registeredSuccess:
     'You have successfully registered to the FitEvo app! You can now log in to your account and start your fitness journey!',
