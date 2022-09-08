@@ -19,6 +19,7 @@ type SocialShareButtonProps = {
   isLoading?: boolean
   iconName: 'google' | 'apple' | 'facebook' | 'twitter' | 'friends'
   text?: string
+  btnStyle?: object
 }
 
 const BUTTON_STYLE: ViewStyle = {
@@ -37,12 +38,12 @@ const iconNameMap = {
   friends: friendsIcon,
 }
 
-const SocialShareButton = ({ containerStyle, onPress, isLoading, iconName, text }: SocialShareButtonProps) => {
+const SocialShareButton = ({ containerStyle, onPress, isLoading, iconName, text, btnStyle }: SocialShareButtonProps) => {
   const { Layout, Images } = useTheme()
 
   return (
     <View style={[containerStyle]}>
-      <Pressable onPress={onPress} style={[BUTTON_STYLE, {}]}>
+      <Pressable onPress={onPress} style={[BUTTON_STYLE, { ...btnStyle }]}>
         {isLoading ? (
           <ActivityIndicator size='small' color={'#fff'} />
         ) : (

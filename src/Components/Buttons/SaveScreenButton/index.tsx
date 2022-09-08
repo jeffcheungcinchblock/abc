@@ -11,6 +11,7 @@ type SaveScreenButtonProps = {
   containerStyle?: object
   style?: object
   textStyle?: object
+  btnStyle?: object
   onPress: () => void
   isLoading?: boolean
   text?: string
@@ -35,12 +36,12 @@ const iconNameMap = {
   google: googleIcon,
 }
 
-const SaveScreenButton = ({ containerStyle, onPress, isLoading, text }: SaveScreenButtonProps) => {
+const SaveScreenButton = ({ containerStyle, onPress, isLoading, text, btnStyle }: SaveScreenButtonProps) => {
   const { Layout } = useTheme()
 
   return (
     <View style={[containerStyle]}>
-      <Pressable onPress={onPress} style={[BUTTON_STYLE, {}]}>
+      <Pressable onPress={onPress} style={[BUTTON_STYLE, { ...btnStyle }]}>
         {isLoading ? (
           <ActivityIndicator size='small' color={'#fff'} />
         ) : (

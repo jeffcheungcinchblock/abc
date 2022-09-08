@@ -127,7 +127,7 @@ export default {
   NFTCompanions: 'NFT Companions - Special NFT pool',
   NFTMint: 'NFTs will be minted by $BPM',
   exclusiveDrops: 'Exclusive Drops - Guaranteed benefits',
-  higherKE: 'Higher KE point ranking to get extra airdrops and resources',
+  higherKE: 'Higher KE point ranking to get extra airdrops and in-app resources',
   unlock: 'Unlock exercise Trial Play with 120 KE points as the first step, and enjoy the full app experience before anyone else!',
   privilegedAppAccess: 'Privileged App Access - Start earning with FitEvo App',
   unlockGameAccess1: 'Unlock exercies Trial Play with ',

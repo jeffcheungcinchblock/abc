@@ -299,13 +299,19 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation
             <SocialShareButton
               onPress={takeScreenShot}
               text={t('shareWithFriends')}
-              iconName='twitter'
+              iconName='friends'
               containerStyle={[Layout.rowCenter, Layout.fullWidth]}
+              btnStyle={{
+                width: 220,
+              }}
             />
             <SaveScreenButton
               onPress={onSaveToPhotosPress}
               text={t('saveToAlbum')}
               containerStyle={[Layout.rowCenter, Layout.fullWidth, Gutters.regularVPadding]}
+              btnStyle={{
+                width: 220,
+              }}
             />
             <CloseButton
               onPress={() => {

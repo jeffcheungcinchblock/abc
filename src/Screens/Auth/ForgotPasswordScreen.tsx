@@ -79,16 +79,18 @@ const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
     value: validationCode,
     setValue: setValidationCode,
   })
+  const [confirmPressed, setConfirmPressed] = useState(false)
 
   const goBack = () => {
     navigation.navigate(RouteStacks.logIn)
   }
 
   const onEmailChange = (text: string) => {
-    setEmail(text)
+    setEmail(text.toLowerCase())
   }
 
   const onConfirmPress = async () => {
+    setConfirmPressed(true)
     try {
       await Auth.forgotPassword(emailUsernameHash(email))
       navigation.navigate(RouteStacks.validationCode, {
@@ -97,7 +99,13 @@ const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
       })
     } catch (err: any) {
       crashlytics().recordError(err)
-      setErrMsg(t('error.invalidEmail'))
+      if (err.message === 'Attempt limit exceeded, please try after some time.') {
+        setErrMsg(err.message)
+      } else {
+        setErrMsg(t('error.invalidEmail'))
+      }
+    } finally {
+      setConfirmPressed(false)
     }
   }
 
@@ -130,7 +138,7 @@ const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
               </AvenirText>
             </View>
 
-            <View style={[CONTENT_ELEMENT_WRAPPER, { flexBasis: 80, justifyContent: 'center' }]}>
+            <View style={[CONTENT_ELEMENT_WRAPPER, { minHeight: 100, justifyContent: 'center' }]}>
               <StandardInput
                 onChangeText={onEmailChange}
                 value={email}
@@ -155,6 +163,7 @@ const ForgotPasswordScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteSta
               containerStyle={{
                 width: '45%',
               }}
+              disabled={confirmPressed}
               isTransparentBackground
               isBoldText
             />

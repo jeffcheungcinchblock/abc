@@ -81,10 +81,6 @@ import communityIcon from '@/Assets/Images/Home/community.png'
 
 import howToEarn from '@/Assets/Images/Home/howToEarn.png'
 import howToEarn2 from '@/Assets/Images/Home/howToEarn2.png'
-import card1 from '@/Assets/Images/Home/card1.png'
-import card2 from '@/Assets/Images/Home/card2.png'
-import card3 from '@/Assets/Images/Home/card3.png'
-import card4 from '@/Assets/Images/Home/card4.png'
 
 import circle from '@/Assets/Images/Home/circle.png'
 import shareBtn from '@/Assets/Images/buttons/shareBtn.png'
@@ -941,7 +937,7 @@ const HomeReferralScreen: FC<HomeReferralScreenNavigationProp> = ({ navigation, 
 
           <HomeInfoGraphics titleTranslationText='inGameToken' contentTranslationText='KEPointsTransfer' index={0} />
           <HomeInfoGraphics titleTranslationText='NFTCompanions' contentTranslationText='NFTMint' index={1} />
-          <HomeInfoGraphics titleTranslationText='exclusiveDrops' contentTranslationText='unlock' index={2} />
+          <HomeInfoGraphics titleTranslationText='exclusiveDrops' contentTranslationText='higherKE' index={2} />
           <HomeInfoGraphics
             titleTranslationText='privilegedAppAccess'
             contentTranslationText={['unlockGameAccess1', 'unlockGameAccess2', 'unlockGameAccess3']}

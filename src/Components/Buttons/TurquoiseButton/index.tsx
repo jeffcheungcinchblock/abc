@@ -15,6 +15,7 @@ type TurquoiseButtonProps = {
   rightIcon?: () => React.ReactNode
   isTransparentBackground?: boolean
   isBoldText?: boolean
+  disabled: boolean
 }
 
 const DEFAULT_TEXT_STYLE: TextStyle = {
@@ -42,6 +43,7 @@ const TurquoiseButton = ({
   rightIcon,
   isTransparentBackground,
   isBoldText,
+  disabled,
 }: TurquoiseButtonProps) => {
   const { Layout, Images } = useTheme()
 
@@ -63,6 +65,7 @@ const TurquoiseButton = ({
             ...style,
           },
         ]}
+        disabled={disabled}
       >
         {isLoading ? (
           <ActivityIndicator size='small' color={colors.white} />
