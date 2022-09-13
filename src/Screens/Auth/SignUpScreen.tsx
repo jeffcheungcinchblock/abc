@@ -74,7 +74,7 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
     setCredential(prevCredential => {
       return {
         ...prevCredential,
-        [field]: text,
+        [field]: field === 'email' ? text.toLowerCase() : text,
       }
     })
   }

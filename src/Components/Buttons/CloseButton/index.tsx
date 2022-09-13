@@ -7,54 +7,44 @@ import closeIcon from '@/Assets/Images/buttons/btn_cross_2.png'
 import { Icon } from 'react-native-vector-icons/Icon'
 
 type CloseButtonProps = {
-    containerStyle?: object
-    style?: object
-    textStyle?: object
-    onPress: () => void
-    isLoading?: boolean
+  containerStyle?: object
+  style?: object
+  textStyle?: object
+  onPress: () => void
+  isLoading?: boolean
 }
 
 let size = 30
 
 const BUTTON_STYLE: ViewStyle = {
-	// backgroundColor: colors.brightTurquoise,
-	height: 50,
-	width: 50,
-	borderRadius: 99,
-	// justifyContent: 'center',
+  // backgroundColor: colors.brightTurquoise,
+  height: 50,
+  width: 50,
+  borderRadius: 99,
+  // justifyContent: 'center',
 }
 
 const iconNameMap = {
-	close: closeIcon,
+  close: closeIcon,
 }
-const CloseButton = ({
-	containerStyle,
-	onPress,
-	isLoading,
-}: CloseButtonProps) => {
-	const { Layout, Images } = useTheme()
+const CloseButton = ({ containerStyle, onPress, isLoading }: CloseButtonProps) => {
+  const { Layout, Images } = useTheme()
 
-	return (
-		<View style={[containerStyle]}>
-			<Pressable
-				onPress={onPress}
-				style={[ BUTTON_STYLE, {
-				} ]}
-			>
-				{
-					isLoading ? <ActivityIndicator
-						size="small" color={'#fff'}
-					/> : <View >
-						<Image source={iconNameMap.close} style={{ width: 50, height: 50  }} />
-					</View>
-				}
-			</Pressable>
-		</View>
-	)
+  return (
+    <View style={[containerStyle]}>
+      <Pressable onPress={onPress} style={[BUTTON_STYLE, {}]}>
+        {isLoading ? (
+          <ActivityIndicator size='small' color={'#fff'} />
+        ) : (
+          <View>
+            <Image source={iconNameMap.close} style={{ width: 46, height: 46 }} />
+          </View>
+        )}
+      </Pressable>
+    </View>
+  )
 }
 
-CloseButton.defaultProps = {
-
-}
+CloseButton.defaultProps = {}
 
 export default CloseButton

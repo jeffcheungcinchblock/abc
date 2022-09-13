@@ -15,7 +15,7 @@ type TurquoiseButtonProps = {
   rightIcon?: () => React.ReactNode
   isTransparentBackground?: boolean
   isBoldText?: boolean
-  disabled: boolean
+  disabled?: boolean
 }
 
 const DEFAULT_TEXT_STYLE: TextStyle = {

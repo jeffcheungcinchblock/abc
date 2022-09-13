@@ -300,7 +300,7 @@ const WelcomeScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.wel
                 <AvenirText
                   style={{
                     color: colors.brightTurquoise,
-                    lineHeight: 16,
+                    // lineHeight: 16,
                     fontSize: 12,
                   }}
                 >
