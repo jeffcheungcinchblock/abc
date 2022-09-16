@@ -86,7 +86,6 @@ const ProvideEmailScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStack
   }
 
   const onConfirmPress = async () => {
-    console.log('@@@@ ', email, validateEmail(email) === null)
     if (validateEmail(email) === null) {
       setErrMsg(t('error.invalidEmail'))
       return

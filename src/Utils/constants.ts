@@ -45,6 +45,7 @@ export const colors = {
   buleCola: '#0174E5',
   lightSlateGray: '#749597',
   silverChalice: '#ABABAB',
+  lightGrayBlue: '#35394E',
 
   green: '#14D13E', //green
   orange: '#D6AE14', //yellow

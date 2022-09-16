@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from 'react'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { HomeScreen, BreedingScreen, MarketplaceScreen, SocialScreen, SettingScreen, WorkoutScreen } from '@/Screens/App'
+import { BottomTabBarProps, createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { HomeScreen, CompanionScreen, MarketplaceScreen, SocialScreen, SettingScreen, WorkoutScreen } from '@/Screens/App'
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import Entypo from 'react-native-vector-icons/Entypo'
@@ -13,10 +13,10 @@ import { RouteStacks, RouteTabs } from './routes'
 import { DrawerItem, DrawerScreenProps } from '@react-navigation/drawer'
 
 import { createDrawerNavigator, DrawerContentComponentProps, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer'
-import { Dimensions, ImageBackground, View } from 'react-native'
+import { Dimensions, ImageBackground, Pressable, TextStyle, View, ViewStyle } from 'react-native'
 import { NavigatorScreenParams } from '@react-navigation/native'
 import { HomeNavigatorParamList } from '@/Screens/App/HomeScreen'
-import { BreedingNavigatorParamList } from '@/Screens/App/BreedingScreen'
+import { CompanionNavigatorParamList } from '@/Screens/App/CompanionScreen'
 import { MarketplaceNavigatorParamList } from '@/Screens/App/MarketplaceScreen'
 import { SocialNavigatorParamList } from '@/Screens/App/SocialScreen'
 import { Auth } from 'aws-amplify'
@@ -27,13 +27,17 @@ import { WelcomeGalleryScreen } from '@/Screens/Auth'
 import { RootState } from '@/Store'
 
 import { WorkoutNavigatorParamList } from '@/Screens/App/WorkoutScreen'
-import WorkoutNavigator from '@/Navigators/WorkoutNavigator'
 import { ApplicationNavigatorParamList } from './Application'
 import AppSplashScreen from '@/Screens/App/AppSplashScreen'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import Foundation from 'react-native-vector-icons/Foundation'
+import AvenirText from '@/Components/FontText/AvenirText'
+import MainCustomTabBar from './MainCustomTabBar'
 
 export type TabNavigatorParamList = {
   [RouteTabs.home]: NavigatorScreenParams<HomeNavigatorParamList>
-  [RouteTabs.breeding]: NavigatorScreenParams<BreedingNavigatorParamList>
+  [RouteTabs.companion]: NavigatorScreenParams<CompanionNavigatorParamList>
   [RouteTabs.marketplace]: NavigatorScreenParams<MarketplaceNavigatorParamList>
   [RouteTabs.social]: NavigatorScreenParams<SocialNavigatorParamList>
   [RouteTabs.workout]: NavigatorScreenParams<WorkoutNavigatorParamList>
@@ -63,8 +67,6 @@ const TabWrapperView: FC<TabWrapperViewProps> = props => {
   return (
     <View
       style={{
-        borderBottomWidth: 4,
-        borderBottomColor: props.focused ? colors.brightTurquoise : colors.black,
         height: 40,
         justifyContent: 'center',
       }}
@@ -83,82 +85,17 @@ const MainTabNavigator: FC<MainTabNavigatorProps> = () => {
         headerShown: false,
         tabBarShowLabel: false,
         tabBarStyle: {
-          backgroundColor: colors.black,
-          display: 'none', // TBD: need to remove later to show tab
+          backgroundColor: colors.lightGrayBlue,
+          height: 120,
         },
       }}
+      tabBar={(bottomTabBarProps: BottomTabBarProps) => <MainCustomTabBar {...bottomTabBarProps} />}
     >
-      <Tab.Screen
-        name={RouteTabs.home}
-        component={HomeScreen}
-        options={{
-          tabBarLabelPosition: 'below-icon',
-          tabBarIcon: ({ focused, color, size }) => {
-            return (
-              <TabWrapperView focused={focused}>
-                <FontAwesome name='home' size={20} color={focused ? colors.brightTurquoise : colors.white} />
-              </TabWrapperView>
-            )
-          },
-        }}
-      />
-      <Tab.Screen
-        name={RouteTabs.breeding}
-        component={BreedingScreen}
-        options={{
-          tabBarLabelPosition: 'below-icon',
-          tabBarIcon: ({ focused, color, size }) => {
-            return (
-              <TabWrapperView focused={focused}>
-                <Entypo name='new' size={20} color={focused ? colors.brightTurquoise : colors.white} />
-              </TabWrapperView>
-            )
-          },
-        }}
-      />
-      <Tab.Screen
-        name={RouteTabs.marketplace}
-        component={MarketplaceScreen}
-        options={{
-          tabBarLabelPosition: 'below-icon',
-          tabBarIcon: ({ focused, color, size }) => {
-            return (
-              <TabWrapperView focused={focused}>
-                <Entypo name='shop' size={20} color={focused ? colors.brightTurquoise : colors.white} />
-              </TabWrapperView>
-            )
-          },
-        }}
-      />
-
-      <Tab.Screen
-        name={RouteTabs.social}
-        component={SocialScreen}
-        options={{
-          tabBarLabelPosition: 'below-icon',
-          tabBarIcon: ({ focused, color, size }) => {
-            return (
-              <TabWrapperView focused={focused}>
-                <Ionicons name='share-social' size={20} color={focused ? colors.brightTurquoise : colors.white} />
-              </TabWrapperView>
-            )
-          },
-        }}
-      />
-      <Tab.Screen
-        name={RouteTabs.workout}
-        component={MarketplaceScreen}
-        options={{
-          tabBarLabelPosition: 'below-icon',
-          tabBarIcon: ({ focused, color, size }) => {
-            return (
-              <TabWrapperView focused={focused}>
-                <Entypo name='shop' size={20} color={focused ? colors.brightTurquoise : colors.white} />
-              </TabWrapperView>
-            )
-          },
-        }}
-      />
+      <Tab.Screen name={RouteTabs.home} component={HomeScreen} />
+      <Tab.Screen name={RouteTabs.social} component={SocialScreen} />
+      <Tab.Screen name={RouteTabs.workout} component={WorkoutScreen} />
+      <Tab.Screen name={RouteTabs.marketplace} component={MarketplaceScreen} />
+      <Tab.Screen name={RouteTabs.companion} component={CompanionScreen} />
     </Tab.Navigator>
   )
 }
@@ -200,7 +137,6 @@ const MainNavigator: FC = () => {
           presentation: 'transparentModal',
         }}
       />
-      <Stack.Screen name={RouteStacks.workout} component={WorkoutNavigator} />
     </Stack.Navigator>
   )
 }

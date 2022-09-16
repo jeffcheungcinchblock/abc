@@ -175,7 +175,6 @@ export default createReducer<State>(initialState, builder => {
     //   title: JSON.stringify({ normamoving: distance }),
     //   body: JSON.stringify({ distance: distance, accuracy: action.payload.accuracy }),
     // })
-    console.log({ distance })
     if ((Platform.OS === 'android' && distance > 25) || (Platform.OS === 'ios' && distance > 25)) {
       state.currentState = ActivityType.OVERSPEED
       state.accuracy = action.payload.accuracy

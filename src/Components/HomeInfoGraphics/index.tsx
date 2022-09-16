@@ -67,7 +67,8 @@ const HomeInfoGraphics = ({ titleTranslationText, contentTranslationText, index 
           <AvenirText style={{ fontWeight: 'bold', fontSize: 18, color: colors.darkGunmetal, lineHeight: 20, paddingBottom: 8 }}>
             {t(titleTranslationText)}
           </AvenirText>
-          {index !== 3 ? (
+          <AvenirText style={{ fontSize: 16, color: colors.darkGunmetal, fontWeight: '500' }}>{t(contentTranslationText)}</AvenirText>
+          {/* {index !== 3 ? (
             <AvenirText style={{ fontSize: 16, color: colors.darkGunmetal, fontWeight: '500' }}>{t(contentTranslationText)}</AvenirText>
           ) : (
             <AvenirText style={{ fontSize: 16, color: colors.darkGunmetal }}>
@@ -82,7 +83,7 @@ const HomeInfoGraphics = ({ titleTranslationText, contentTranslationText, index 
                 )
               })}
             </AvenirText>
-          )}
+          )} */}
         </View>
       </LinearGradient>
     </View>

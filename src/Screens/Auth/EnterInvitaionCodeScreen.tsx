@@ -205,7 +205,7 @@ const EnterInvitaionCodeScreen: FC<StackScreenProps<AuthNavigatorParamList, Rout
                 }}
                 isBoldText
               />
-              <Pressable onPress={onGetReferralCodePress} style={{ paddingBottom: 20 }}>
+              <Pressable onPress={onGetReferralCodePress} style={{ paddingBottom: 30 }}>
                 <AvenirText style={{ textDecorationLine: 'underline', color: colors.white, fontWeight: '400' }}>
                   {t('getReferralCode')}
                 </AvenirText>

@@ -271,7 +271,6 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
       BackgroundGeolocation.onLocation(async location => {
         const temp_currentState = store.getState().map.currentState
         const temp_paths = store.getState().map.paths
-        console.log(ActivityType[temp_currentState])
         if (temp_currentState !== ActivityType.PAUSE && startTime !== null && startTime !== undefined) {
           // const channelId = await notifee.createChannel({
           //   id: 'default',
@@ -295,7 +294,6 @@ const ActiveScreenSolo: FC<WorkoutScreenScreenNavigationProp> = ({ navigation, r
           //   },
           // })
           //save text into storage
-          console.log(location)
           if (location.coords && location.coords.latitude && location.coords.longitude) {
             let speed = location.coords.speed!
             // if (location.mock) {

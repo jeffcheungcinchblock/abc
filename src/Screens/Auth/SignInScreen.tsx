@@ -261,7 +261,6 @@ const SignInScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.logI
       }
     } catch (err: any) {
       loginErrHandler(err)
-      console.log('err', JSON.stringify(err, null, 2))
       dispatch(startLoading(false))
     } finally {
       setIsLoggingIn(false)

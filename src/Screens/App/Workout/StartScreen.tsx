@@ -6,7 +6,6 @@ import { useTheme } from '@/Hooks'
 // @ts-ignore
 import Amplify, { Auth, Hub } from 'aws-amplify'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
-import { WorkoutNavigatorParamList } from '@/Navigators/WorkoutNavigator'
 import { RouteStacks, RouteTabs } from '@/Navigators/routes'
 
 //Map + HealthKit
@@ -20,6 +19,7 @@ import StartButton from '@/Components/Buttons/StartButton'
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import AvenirText from '@/Components/FontText/AvenirText'
+import { WorkoutNavigatorParamList } from '../WorkoutScreen'
 
 export type Region = {
   latitude: number
@@ -44,7 +44,7 @@ const StartScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigati
   useEffect(() => {
     if (enabled === true) {
       dispatch({ type: 'start', payload: { startTime: new Date() } })
-      navigation.replace(RouteStacks.workout)
+      navigation.replace(RouteStacks.startWorkout)
     }
   }, [enabled])
 

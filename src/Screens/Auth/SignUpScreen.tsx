@@ -137,7 +137,6 @@ const SignUpScreen: FC<StackScreenProps<AuthNavigatorParamList, RouteStacks.sign
         action: 'signUp',
       })
     } catch (err: any) {
-      console.log('err ', err)
       switch (err.message) {
         case 'Password did not conform with policy: Password must have uppercase characters':
         case 'Password did not conform with policy: Password not long enough':

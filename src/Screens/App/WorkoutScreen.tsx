@@ -1,15 +1,6 @@
 import React, { useState, useEffect, useCallback, FC } from 'react'
 import { createStackNavigator, StackScreenProps } from '@react-navigation/stack'
-import {
-	View,
-	ActivityIndicator,
-	Text,
-	TextInput,
-	ScrollView,
-	TextStyle,
-	Alert,
-	ViewStyle,
-} from 'react-native'
+import { View, ActivityIndicator, Text, TextInput, ScrollView, TextStyle, Alert, ViewStyle } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { Brand } from '@/Components'
 import { useTheme } from '@/Hooks'
@@ -22,29 +13,39 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { config } from '@/Utils/constants'
 import { TabNavigatorParamList } from '@/Navigators/MainNavigator'
 import { RouteTabs, RouteStacks } from '@/Navigators/routes'
-import { MainScreen } from './Workout'
+import MainScreen from './Workout/MainScreen'
+import ActiveScreenSolo, { Region } from './Workout/ActiveScreenSolo'
+import EndScreen from './Workout/EndScreen'
+import WorkoutSelectScreen from './Workout/WorkoutSelectScreen'
+import WorkoutTypeSelectScreen from './Workout/WorkoutTypeSelectScreen'
 
 const Stack = createStackNavigator()
 
 export type WorkoutNavigatorParamList = {
-    [RouteStacks.workout]: undefined
-	[RouteStacks.endWorkout]: undefined
-	// param?: string
+  [RouteStacks.workoutMain]: undefined | { region: Region }
+  // [RouteStacks.workoutSelect]: undefined
+  [RouteStacks.workoutTypeSelect]: undefined
+  [RouteStacks.startWorkout]: undefined
+  [RouteStacks.endWorkout]: {
+    speed: number | string
+    timer: number | string
+    steps: number | string
+  }
 }
 
-const WorkoutScreen: FC<StackScreenProps<TabNavigatorParamList, RouteTabs.workout>> = (
-	{ navigation, route }
-) => {
-	const { t } = useTranslation()
-	const { Common, Fonts, Gutters, Layout } = useTheme()
-	const dispatch = useDispatch()
-
-	return (
-		<Stack.Navigator screenOptions={{ headerShown: false }}>
-			<Stack.Screen name={RouteStacks.workout} component={MainScreen} />
-		</Stack.Navigator>
-	)
-
+const WorkoutScreen: FC<StackScreenProps<TabNavigatorParamList, RouteTabs.workout>> = ({ navigation, route }) => {
+  return (
+    <Stack.Navigator
+      screenOptions={{ headerShown: false, presentation: 'transparentModal' }}
+      initialRouteName={RouteStacks.workoutTypeSelect}
+    >
+      <Stack.Screen name={RouteStacks.workoutMain} component={MainScreen} />
+      <Stack.Screen name={RouteStacks.startWorkout} component={ActiveScreenSolo} />
+      <Stack.Screen name={RouteStacks.endWorkout} component={EndScreen} />
+      {/* <Stack.Screen name={RouteStacks.workoutSelect} component={WorkoutSelectScreen} /> */}
+      <Stack.Screen name={RouteStacks.workoutTypeSelect} component={WorkoutTypeSelectScreen} />
+    </Stack.Navigator>
+  )
 }
 
 export default WorkoutScreen

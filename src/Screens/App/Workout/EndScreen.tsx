@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next'
 import { useTheme } from '@/Hooks'
 // @ts-ignore
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
-import { WorkoutNavigatorParamList } from '@/Navigators/WorkoutNavigator'
 import { RouteStacks, RouteTabs } from '@/Navigators/routes'
 // @ts-ignore
 // @ts-ignore
@@ -37,8 +36,80 @@ import { metersecond_2_kmhour, metersecond_2_milehour } from './utils'
 import { SpeedUnit } from './ActiveScreenSolo'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import AvenirText from '@/Components/FontText/AvenirText'
+import { WorkoutNavigatorParamList } from '../WorkoutScreen'
+import { CompositeScreenProps, StackActions } from '@react-navigation/native'
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
+import { DrawerNavigatorParamList, TabNavigatorParamList } from '@/Navigators/MainNavigator'
+import { DrawerScreenProps } from '@react-navigation/drawer'
 // import share from '@/Utils/endshare'
-const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation, route }) => {
+
+type EndScreenNavigationProp = CompositeScreenProps<
+  StackScreenProps<WorkoutNavigatorParamList, RouteStacks.endWorkout>,
+  CompositeScreenProps<BottomTabScreenProps<TabNavigatorParamList>, DrawerScreenProps<DrawerNavigatorParamList>>
+>
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    backgroundColor: colors.darkGunmetal,
+    justifyContent: 'center',
+  },
+
+  rowContentContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'center',
+    alignContent: 'center',
+  },
+  // Speed and Time
+  rowContentContainer2: {
+    // display: 'flex',
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-around',
+  },
+
+  speedContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+  },
+  colContentContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+  },
+  contentContainer: {
+    display: 'flex',
+    width: '50%',
+    justifyContent: 'flex-start',
+  },
+  titleTextStyle: {
+    fontSize: 30,
+    fontStyle: 'italic',
+    fontWeight: '700',
+  },
+
+  distanceTextStyle: {
+    fontSize: 100,
+    fontWeight: '700',
+    color: colors.brightTurquoise,
+  },
+  lightTextStyle: {
+    color: colors.crystal,
+  },
+  textStyle: {
+    color: colors.white,
+    fontSize: 25,
+    fontWeight: '700',
+    textAlign: 'center',
+  },
+})
+
+const EndScreen: FC<EndScreenNavigationProp> = ({ navigation, route }) => {
   const { t } = useTranslation()
   const { Common, Fonts, Gutters, Layout } = useTheme()
   const params = route?.params || { username: '' }
@@ -53,68 +124,6 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation
   const speedUnit = useSelector((state: any) => state.unit.speedUnit)
 
   const [result, setResult] = useState<String>()
-
-  const styles = StyleSheet.create({
-    container: {
-      alignItems: 'center',
-      backgroundColor: colors.darkGunmetal,
-      justifyContent: 'center',
-    },
-
-    rowContentContainer: {
-      display: 'flex',
-      flexDirection: 'row',
-      width: '100%',
-      justifyContent: 'center',
-      alignContent: 'center',
-    },
-    // Speed and Time
-    rowContentContainer2: {
-      // display: 'flex',
-      flexDirection: 'row',
-      width: '100%',
-      justifyContent: 'space-around',
-    },
-
-    speedContainer: {
-      flexDirection: 'row',
-      justifyContent: 'center',
-      alignItems: 'flex-end',
-    },
-    colContentContainer: {
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      width: '100%',
-    },
-    contentContainer: {
-      display: 'flex',
-      width: '50%',
-      justifyContent: 'flex-start',
-    },
-    titleTextStyle: {
-      fontSize: 30,
-      fontStyle: 'italic',
-      fontWeight: '700',
-    },
-
-    distanceTextStyle: {
-      fontSize: 100,
-      fontWeight: '700',
-      color: colors.brightTurquoise,
-    },
-    lightTextStyle: {
-      color: colors.crystal,
-    },
-    textStyle: {
-      color: colors.white,
-      fontSize: 25,
-      fontWeight: '700',
-      textAlign: 'center',
-    },
-  })
-
   const [isLoggingIn, setIsLoggingIn] = useState(false)
   const [errMsg, setErrMsg] = useState(' ')
   const returnStart = () => {
@@ -125,7 +134,6 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation
   }
 
   const takeScreenShot = async () => {
-    console.log('share')
     captureScreen({
       format: 'jpg',
       quality: 0.8,
@@ -315,7 +323,11 @@ const EndScreen: FC<StackScreenProps<WorkoutNavigatorParamList>> = ({ navigation
             />
             <CloseButton
               onPress={() => {
-                navigation.replace(RouteStacks.homeReferral)
+                // navigation.navigate(RouteStacks.workoutMain)
+                navigation.dispatch(StackActions.popToTop())
+                navigation.navigate(RouteTabs.home, {
+                  screen: RouteStacks.homeMain,
+                })
               }}
               containerStyle={[Layout.fullWidth, Layout.rowCenter]}
             />

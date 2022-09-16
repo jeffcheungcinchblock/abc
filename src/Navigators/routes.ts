@@ -1,10 +1,8 @@
 export enum RouteTabs {
-  breeding = 'breeding',
+  companion = 'companion',
   home = 'home',
   social = 'social',
   marketplace = 'marketplace',
-  workoutMap = 'workoutMap',
-  litemode = 'litemode',
   workout = 'workout',
 }
 
@@ -33,7 +31,7 @@ export enum RouteStacks {
 
   // logged in app screens
 
-  breedingMain = 'breedingMain',
+  companionMain = 'companionMain',
 
   // logged in app screens
   homeMain = 'homeMain',
@@ -49,7 +47,10 @@ export enum RouteStacks {
   mainTab = 'mainTab',
 
   //start workout
+  workoutMain = 'workoutMain',
   startWorkout = 'startWorkout',
   workout = 'workout',
   endWorkout = 'endWorkout',
+  workoutSelect = 'workoutSelect',
+  workoutTypeSelect = 'workoutTypeSelect',
 }

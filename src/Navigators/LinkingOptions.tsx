@@ -127,10 +127,10 @@ export const privateLinking: LinkingOptions<MainStackNavigatorParamList> = {
                   [RouteStacks.socialMain]: RouteStacks.socialMain,
                 },
               },
-              [RouteTabs.breeding]: {
-                path: RouteTabs.breeding,
+              [RouteTabs.companion]: {
+                path: RouteTabs.companion,
                 screens: {
-                  [RouteStacks.breedingMain]: RouteStacks.breedingMain,
+                  [RouteStacks.companionMain]: RouteStacks.companionMain,
                 },
               },
             },
